@@ -1,0 +1,25 @@
+Last login: Thu Jul 18 15:28:40 on ttys001
+robin@My-Alkaline-Vegan-Journeys-MacBook-Air ~ % >....                          
+    padding: 20px;
+}
+
+.social-media-links a {
+    color: #FFD700; /* Metallic gold */
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.social-media-links a:hover {
+    color: #fff; /* White on hover */
+}
+
+/* Payment page styles */
+#payment {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
