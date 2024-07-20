@@ -1,0 +1,6 @@
+[build]
+base = "."
+command = "npm run build"  # Replace with your actual build command
+publish = "dist"  # Replace with your actual publish directory
+
+
