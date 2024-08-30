@@ -14,6 +14,8 @@
             <p>"presents"</p>
 
             <h2 class="event-title">Journey 2 Enlightenment</h2>
+            <h2 class="event-title">Sea Moss</h2>
+
             <button class="buy-now-btn">Buy Now</button>
         </div>
     </div>
@@ -133,58 +135,44 @@
        
     </section>
     <header>
-        <section id="accommodations">
-            <div class="border-wrapper accommodations-section">
-                <h2 class="accommodations-title">Choose Your Accommodations</h2>
-                <form id="accommodation-form">
-                    <label for="accommodation-type">Select Accommodation Type:</label>
-                    <select id="accommodation-type" name="accommodation-type" onchange="updatePrice()">
-                        <option value="3000">Standard Room - $3000</option>
-                        <option value="3200">Deluxe Room - $3200</option>
-                        <option value="3500">Suite - $3500</option>
-                    </select>
-        
-                    <div id="price-display">
-                        <p>Price: <span id="price">$3000</span></p>
-                    </div>
-        
-                    <!-- Book Now Button -->
-                    <button type="submit" formaction="/checkout.html">Book Now</button>
-                    
-                    <!-- Add to Cart Button -->
-                    <button type="button" onclick="addToCart()">Add to Cart</button>
-                </form>
-                
-                <!-- Optional link to continue shopping -->
-                <p><a href="/shop.html">Continue Shopping</a></p>
+
+    <section id="accommodations">
+        <div class="accommodations-section">
+            <h2 class="accommodations-title">Choose Your Accommodations</h2>
+        </div>
+        <form id="accommodation-form">
+            <label for="accommodation-type">Select Accommodation Type:</label>
+            <select id="accommodation-type" name="accommodation-type" onchange="updatePrice()">
+                <option value="3000">Standard Room - $3000</option>
+                <option value="3200">Deluxe Room - $3200</option>
+                <option value="3500">Suite - $3500</option>
+            </select>
+    
+            <div id="price-display">
+                <p>Price: <span id="price">$3000</span></p>
             </div>
-        </section>
-        
-        <section id="content-boxes-area">
-            <div class="border-wrapper content-boxes-wrapper">
-                <div class="content-box"></div>
-                <div class="content-box"></div>
-                <div class="content-box"></div>
-                <div class="content-box"></div>
-                <div class="content-box"></div>
-                <div class="content-box"></div>
-                <div class="content-box"></div>
-                <div class="content-box"></div>
-                <div class="content-box"></div>
-            </div>
-        </section>
-        
-        <script>
-            function addToCart() {
-                var selectElement = document.getElementById('accommodation-type');
-                var selectedValue = selectElement.options[selectElement.selectedIndex].text;
-                alert(selectedValue + " has been added to your cart!");
-        
-                // Redirect to shopping cart page
-                window.location.href = "/cart.html";
-            }
-        </script>
-        
+    
+            <!-- Book Now Button -->
+            <button type="submit" formaction="/checkout.html">Book Now</button>
+            
+            <!-- Add to Cart Button -->
+            <button type="button" onclick="addToCart()">Add to Cart</button>
+        </form>
+    
+        <!-- Optional link to continue shopping -->
+        <p><a href="/shop.html">Continue Shopping</a></p>
+    </section>
+    <script>
+        function addToCart() {
+            var selectElement = document.getElementById('accommodation-type');
+            var selectedValue = selectElement.options[selectElement.selectedIndex].text;
+            alert(selectedValue + " has been added to your cart!");
+
+            // Redirect to shopping cart page
+            window.location.href = "/cart.html";
+        }
+    </script>
+    <section>
         <div class="content-box">
             <h2>Box 1</h2>
             <p>This is the first content box over the background logo.</p>
