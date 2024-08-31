@@ -398,7 +398,7 @@ footer p {
     padding: 10px 20px;
     background-color: #333;
     color: white;
-    border: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);ne;
+    border: none;
     cursor: pointer;
 }
 
@@ -496,64 +496,17 @@ footer p {
 }
 
 /* Content Boxes Area */
-    #content-boxes-area {
-        background-color: black;
-        padding: 40px 20px;
-        max-width: 100%;
-        box-sizing: border-box;
-        border: 4px solid transparent;
-        background-image: linear-gradient(black, black),
-                          linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-        background-origin: border-box;
-        background-clip: content-box, border-box;
-    }
-    
-
-.content-boxes-wrapper {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.content-box {
-    background-color: black;
-    border: 4px solid transparent;
-    background-image: linear-gradient(black, black),
-                      linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    height: 150px;
-}
-.content-boxes-wrapper {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-content: center; /* Centering the grid */
-    padding: 20px; /* Add some padding inside the multicolored border */
-}
-/* Content Boxes Area */
 #content-boxes-area {
     background-color: black;
     padding: 40px 20px;
-    max-width: 100%;
-    box-sizing: border-box;
-    border: 4px solid transparent;
-    background-image: linear-gradient(black, black),
-                      linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
 }
 
-/* Grid Layout for the Nine Content Boxes */
 .content-boxes-wrapper {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    justify-content: center; /* Centering the grid */
-    padding: 20px; /* Add some padding inside the multicolored border */
 }
 
-/* Individual Content Box Styling */
 .content-box {
     background-color: black;
     border: 4px solid transparent;
@@ -564,33 +517,3 @@ footer p {
     height: 150px;
 }
 
-/* Horizontal Content Boxes Styling (unchanged) */
-.horizontal-content-boxes {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-    background-color: black;
-}
-
-.horizontal-content-box {
-    background-color: black;
-    border: 4px solid transparent;
-    background-image: linear-gradient(black, black),
-                      linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    height: 150px;
-    width: 30%; /* Adjust width as needed */
-}
-
-/* Photo Gallery Section */
-#photo-gallery {
-    border: 4px solid transparent;
-    background-image: linear-gradient(black, black),
-                      linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    padding: 20px;
-    width: 100%; /* Extend to page width */
-    box-sizing: border-box;
-}
