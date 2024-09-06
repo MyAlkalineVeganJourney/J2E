@@ -14,8 +14,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config user.name "Your Name"
-          git config user.email "your.email@example.com"
+          git config user.name "MyAlkalineVeganJourney"
+          git config user.email "MyAlkalineVeganJourney@gmail.com"
           git add .
           git commit -m "Automated commit"
           git push
