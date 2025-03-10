@@ -516,4 +516,22 @@ footer p {
     background-clip: content-box, border-box;
     height: 150px;
 }
+#business-plan {
+    text-align: center;
+    margin: 20px;
+}
+
+#business-plan button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#business-plan button:hover {
+    background-color: #45a049;
+}
 
