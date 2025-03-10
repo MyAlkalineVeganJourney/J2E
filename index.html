@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>J2E</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        window.onload = function() {
+            // Convert all image paths in the document
+            const images = document.querySelectorAll('img');
+            images.forEach(image => {
+                const src = image.getAttribute('src');
+                if (src && src.startsWith('https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/')) {
+                    image.setAttribute('src', src.replace('main/', 'Images/'));
+                }
+            });
+        };
+    </script>
 </head>
 <body>
     <div class="logo-section">
@@ -28,14 +40,6 @@
                 <a href="about-us.html">About Us</a>
                 <a href="locations.html">Locations</a>
                 <a href="business-plan.html">Business Plan</a>
-                <section id="business-plan">
-                    <h2>Business Plan</h2>
-                    <p>Click the link below to download our detailed business plan:</p>
-                    <a href="https://drive.google.com/uc?export=download&id=1CdqT91NB-gYIcNvoZfYFtsaE3hfQ-yEuLfHyo2QgPqQ" download>
-                        <button>Download Business Plan (PDF)</button>
-                    </a>
-                </section>
-                
             </div>
         </li>
         <li class="dropdown">
