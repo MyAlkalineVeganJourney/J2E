@@ -35,7 +35,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Open index.html",
-            "file": "/Users/robin/Journey2E/index.html"
+            "file": "/Users/robin/J2E/index.html"
         }
     ]
 }
