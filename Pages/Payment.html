@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human Frequency: My Alkaline Vegan Journey</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
@@ -92,14 +92,14 @@
             <li class="dropdown">
                 <a href="/Pages/ShoppingCart.html" class="dropbtn">💦Shopping Cart💦</a>
                 <ul class="dropdown-content">
-                    <li><a href="/Pages/ViewCart.html">View Cart</a></li>
+                    <li><a href="/Pages/Cart.html">View Cart</a></li>
                     <li><a href="/Pages/Checkout.html">Checkout</a></li>
                 </ul>
             </li>
     
             <!-- Payment -->
             <li class="dropdown">
-                <a href="/Pages/Payment/Payment.html" class="dropbtn">💦Payment💦</a>
+                <a href="/Pages/Payment.html" class="dropbtn">💦Payment💦</a>
                 <ul class="dropdown-content">
                     <li><a href="/Pages/Checkout.html">Checkout</a></li>
                     <li><a href="/Pages/Cart.html">View Cart</a></li>
@@ -143,7 +143,6 @@
                 <div class="inner-box transportation">
                     <h2>What is MAVJ J2E</h2>
                     <p>A Paradigm Shifting Movement to Transform your HUMAN FREQUENCY.</p>
-                    <p>https://github.com/MyAlkalineVeganJourney/J2E/blob/main/BusPlan%20intro-%20Google%20Docs.pdf</p>
                 </div>
         
                 <div class="inner-box event-pricing">
@@ -169,54 +168,7 @@
         </section>  
  
 </header>
-        <section id="accommodations">
-                <div class="border-wrapper accommodations-section">
-                    <h2 class="accommodations-title">Choose Your Accommodations</h2>
-        <form id="accommodation-form">
-                    <label for="accommodation-type">Select Accommodation Type - St. Lucia 7 Days ALL INCLUSIVE:</label>
-                        <select id="accommodation-type" name="accommodation-type" onchange="updatePrice()">
-                            <option value="3000" data-stripe-link="https://book.stripe.com/cN2eX4gBJ7oPfQY000">Four Man Tent/p - $3000</option>
-                            <option value="3200" data-stripe-link="https://book.stripe.com/dR6eX4gBJ9wXeMU7su">Two Man Tent/p - $3200</option>
-                            <option value="3350" data-stripe-link="https://book.stripe.com/aEU8yG1GP4cD0W4aEH">One Man Tent/p - $3350</option>
-                            <option value="3500" data-stripe-link="https://book.stripe.com/00g6qyadlbF5cEMaEI">Air BnB Style Suite/p - $3500</option>
-                            <option value="3800" data-stripe-link="https://book.stripe.com/9AQaGObhpbF50W4eUZ">Guest Home/p - $3800</option>
-                            <script>
-                                // Function to update price based on accommodation type
-                                function updatePrice() {
-                                    var selectElement = document.getElementById('accommodation-type');
-                                    var selectedOption = selectElement.options[selectElement.selectedIndex];
-                                    var price = selectedOption.value;
-                                    document.getElementById('price').innerText = "$" + price;
-                                }
-                            
-                                // Function to redirect to the correct Stripe checkout page
-                                function redirectToStripe() {
-                                    var selectElement = document.getElementById('accommodation-type');
-                                    var selectedOption = selectElement.options[selectElement.selectedIndex];
-                                    var stripeLink = selectedOption.getAttribute('data-stripe-link');
-                                    window.location.href = stripeLink;
-                                }
-        </script>
-    
-        </select>
-    
-            
-                    <div id="price-display">
-                        <p>Price: <span id="price">$3000</span></p>
-                    </div>
-                    <button type="submit">Book Now</button>
-                
-                    <!-- Book Now Button -->
-                    <button type="submit" formaction="/checkout.html">Book Now</button>
-                    
-                    <!-- Add to Cart Button -->
-                    <button type="button" onclick="addToCart()">Add to Cart</button>
-    
-                    <p><a href="/Pages/MAVJStore.html">Continue Shopping</a></p>
-    
-                </form>
-            </div>
-     </section>
+        
         
         <section id="photo-gallery">
             <h2>Photo Gallery</h2>
