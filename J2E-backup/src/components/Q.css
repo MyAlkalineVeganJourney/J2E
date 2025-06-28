@@ -1,0 +1,66 @@
+/* src/components/Q.css */
+
+.q-chat-container {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    background: #f4f4f4;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .q-chat-box {
+    height: 300px;
+    overflow-y: auto;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .q-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 80%;
+  }
+  
+  .q-message.bot {
+    background-color: #e0f7fa;
+    align-self: flex-start;
+  }
+  
+  .q-message.user {
+    background-color: #c8e6c9;
+    align-self: flex-end;
+    margin-left: auto;
+  }
+  
+  .q-input-form {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .q-input-form input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .q-input-form button {
+    padding: 10px 20px;
+    border: none;
+    background: #4caf50;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .q-input-form button:hover {
+    background: #388e3c;
+  }
+  

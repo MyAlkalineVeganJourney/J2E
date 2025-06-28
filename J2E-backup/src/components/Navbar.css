@@ -1,0 +1,144 @@
+.navbar-container {
+  background-color: black;
+  padding: 10px 0;
+  border: 4px solid;
+  border-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet) 1;
+  text-align: center;
+}
+
+.navbar-logo img {
+  height: 60px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.navbar-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px;
+}
+
+.navbar-link {
+  color: gold;
+  background-color: black;
+  border: 2.5px solid;
+  border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.navbar-link:hover,
+.navbar-link.active-link {
+  background-color: #111;
+  color: white;
+  box-shadow: 0 0 10px gold;
+}
+/* Navbar.css */
+
+.navbar-container {
+  width: 100%;
+  background-color: black;
+  border: 12px solid;
+  border-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-links-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 1600px;
+  padding: 0 10px;
+}
+
+.navbar-link {
+  margin: 6px;
+  padding: 12px 20px;
+  background-color: black;
+  border: 3px solid;
+  border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1;
+  border-radius: 10px;
+  color: gold;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.navbar-link:hover,
+.navbar-link.active {
+  background-color: #111;
+  box-shadow: 0 0 10px gold, 0 0 15px white;
+  color: white;
+}
+/* Reset and full width */
+.navbar-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100vw; /* Full viewport width */
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  border: 10px solid;
+  border-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Ensure body doesn't scroll horizontally */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Single horizontal navbar layout */
+.navbar-row {
+  display: flex;
+  flex-wrap: wrap; /* wrap on small screens */
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  background-color: black;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Link styles */
+.navbar-link {
+  background-color: black;
+  border: 2.5px solid;
+  border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1;
+  color: gold;
+  padding: 12px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  white-space: nowrap;
+  margin: 6px;
+  transition: all 0.3s ease;
+}
+
+.navbar-link:hover,
+.navbar-link.active-link {
+  box-shadow: 0 0 10px gold, 0 0 15px white;
+  background-color: #111;
+  color: white;
+}
