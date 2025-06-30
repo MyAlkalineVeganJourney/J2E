@@ -68,7 +68,7 @@
 
 .logo-section img {
   position: relative;
-  max-width: 300px;
+  max-width: 200px;
   width: 90%;
   height: auto;
   z-index: 1;
@@ -86,6 +86,8 @@
   line-height: 1.6;
   max-width: 900px;
   margin: auto;
+  background-color: black;
+
 }
 
 /* FEATURE CONTENT GRID (6 boxes in 2 rows of 3) */
@@ -143,4 +145,13 @@ nav {
   position: sticky;
   top: 80px;
   z-index: 998;
+}
+.hero-title-section {
+  background-color: black;
+  color: white;
+  padding: 30px 10px; /* reduce vertical padding */
+  text-align: center;
+}
+.hero-title-section {
+  min-height: 120px; /* previously 240px? cut by 50% */
 }

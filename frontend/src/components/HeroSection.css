@@ -27,9 +27,13 @@
   }
   
   .hero-title {
+    position: sticky;
     font-size: 1.8rem;
     font-weight: bold;
     text-align: center;
     margin: 0;
+  }
+  .hero-title-section {
+    min-height: 120px; /* previously 240px? cut by 50% */
   }
   
