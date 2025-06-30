@@ -39,15 +39,15 @@ const HomePage = () => {
       <section className="feature-grid multicolor-border">
         <Link to="/Journey2Enlightenment" className="feature-box glowing-hover">
           <img src="/images/J2EBanner.jpg" alt="Journey to Enlightenment" className="feature-image" />
-          <h3>💫 Journey to Enlightenment</h3>
+          <h3>💫 Journey 2 Enlightenment</h3>
         </Link>
         <Link to="/MAVJSeaMoss" className="feature-box glowing-hover">
           <img src="/images/SeaMossBanner.jpg" alt="Sea Moss" className="feature-image" />
-          <h3>🌊 Sea Moss Collection</h3>
+          <h3>🌊 Volcanic Wild Crafted Sea Moss Collection</h3>
         </Link>
         <Link to="/CastorOil" className="feature-box glowing-hover">
           <img src="/images/CastorOilBanner.jpg" alt="Castor Oil" className="feature-image" />
-          <h3>🪔 Castor Oil Remedies</h3>
+          <h3>🪔 Solar/Lunar Volcanic 🇱🇨 Black Castor Oil</h3>
         </Link>
         <Link to="/VibrationalIntelligence" className="feature-box glowing-hover">
           <img src="/images/VibrationalIntelligenceBanner.jpg" alt="Vibrational Intelligence" className="feature-image" />
@@ -59,7 +59,7 @@ const HomePage = () => {
         </Link>
         <Link to="/AlignWithUs" className="feature-box glowing-hover">
           <img src="/images/AlignWithUsBanner.png" alt="Align With Us" className="feature-image" />
-          <h3>🤝 Align With Us</h3>
+          <h3>🤝 Align With Us - Join the Journey, Sponsor, Donate, Invest</h3>
         </Link>
       </section>
 
