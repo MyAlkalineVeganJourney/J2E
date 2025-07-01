@@ -1,4 +1,11 @@
 # Ignore all environment config files
+# Ignore all MP4s
+*.mp4
+
+# Optional: ignore cache/build stuff
+node_modules/
+build/
+.cache/
 *.env
 .env
 /backend/.env
