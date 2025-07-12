@@ -1,38 +1,33 @@
-# Ignore all environment config files
-# Ignore all MP4s
-*.mp4
+# --- GENERAL ---
 
-# Optional: ignore cache/build stuff
+# Mac system file
+.DS_Store
+
+# Node modules and build files
 node_modules/
 build/
 .cache/
+coverage/
+pnp.js
+.pnp
+
+# Environment configuration
 *.env
-.env
+.env*
 /backend/.env
 /backend/server/.env
 /frontend/.env
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-REACT_APP_STRIPE_KEY=sk_live_your_stripe_key_here
-REACT_APP_BACKEND_URL=https://your-backend-server.com/api
+
+# Media (Prevent pushing large videos)
+*.mp4
+
+# Ignore everything in the root except explicitly tracked files
+*.log
+
+# React & production keys (DO NOT put keys in .gitignore — manage via env vars instead)
+# DO NOT put real keys in .gitignore

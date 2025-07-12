@@ -33,8 +33,10 @@ import PodcastVlog from './Pages/PodcastVlog';
 import AlignWithUs from './Pages/AlignWithUs';
 import MAVJSearch from './Pages/Search';
 import LiveBroadcast from './components/LiveBroadcast';
-import PaymentForm from './components/PaymentForm';
-import ShoppingCart from './components/ShoppingCart';
+//import PaymentForm from './components/PaymentForm';
+//import ShoppingCart from './components/ShoppingCart';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 // Vibrational Intelligence Pages
 import VibrationalIntelligence from './Pages/VibrationalIntelligence/index';
@@ -51,10 +53,13 @@ import PinealGland from './Pages/VibrationalIntelligence/PackagingLabels/PinealG
 import SacredGeometry from './Pages/VibrationalIntelligence/PackagingLabels/SacredGeometry';
 import MasterElements from './Pages/MasterElements';
 
+const stripePromise = loadStripe("pk_test_51Q4w6LA8s1feV7TsMJLPPr3VKj0IlcYkmGCojTDlEXejRTgvsiiI3VSnFUxzbVXwXPRD4xOC30xKq6L13I6JoIXb00GQe5oPCo");
+
 function App() {
   return (
     <CartProvider>
       <Router>
+        <Elements stripe={stripePromise}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/TheJourney" element={<TheJourney />} />
@@ -101,6 +106,7 @@ function App() {
           <Route path="/VibrationalIntelligence/PackagingLabels/SacredGeometry" element={<SacredGeometry />} />
           <Route path="/VibrationalIntelligence/MasterElements" element={<MasterElements />} />
         </Routes>
+        </Elements>
       </Router>
     </CartProvider>
   );
