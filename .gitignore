@@ -1,9 +1,7 @@
-# --- GENERAL ---
-
-# Mac system file
+# --- MAC SYSTEM FILES ---
 .DS_Store
 
-# Node modules and build files
+# --- NODE MODULES & BUILD FILES ---
 node_modules/
 build/
 .cache/
@@ -11,23 +9,47 @@ coverage/
 pnp.js
 .pnp
 
-# Environment configuration
+# --- ENVIRONMENT CONFIGURATION ---
 *.env
 .env*
 /backend/.env
 /backend/server/.env
 /frontend/.env
 
-# Logs
+# --- LOGS ---
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Media (Prevent pushing large videos)
+# --- MEDIA (Prevent pushing large videos) ---
 *.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
 
-# Ignore everything in the root except explicitly tracked files
-*.log
+# --- BACKUP / UNWANTED FOLDERS ---
+J2E-backup/
+frontend-backup/
+old-site/
+.vscode/
 
-# React & production keys (DO NOT put keys in .gitignore — manage via env vars instead)
-# DO NOT put real keys in .gitignore
+# --- SYSTEM/OS FILES ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- REACT & BUILD-ONLY ---
+/frontend/build/
+/frontend/node_modules/
+
+# --- OPTIONAL: GIT SECRETS ---
+*.pem
+*.crt
+*.key
+*.cert
+
+# --- COMMENT ON DEPLOYMENT ---
+# DO NOT IGNORE `.nojekyll` — it is needed for GitHub Pages + React
+# DO NOT IGNORE `index.html` inside the React /build folder
