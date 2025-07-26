@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,18 +15,14 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
@@ -35,14 +30,26 @@ jobs:
         run: npm install
         working-directory: frontend
 
-      - name: Build React app
+      - name: Build project
         run: npm run build
         working-directory: frontend
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3  # ✅ Correct version
+        uses: actions/upload-pages-artifact@v4
         with:
           path: frontend/build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
 
       - name: Deploy to GitHub Pages
         id: deployment
