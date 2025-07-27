@@ -1,3 +1,4 @@
+// src/pages/HomePage.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -10,12 +11,15 @@ const HomePage = () => {
     <div className="homepage-container">
       {/* 🟥 NAVIGATION */}
       <Navbar />
+
       {/* 🟨 LOGO ON VIDEO BACKGROUND */}
       <section className="page-title-section multicolor-border sticky-title">
-        <h1 className="page-title">💦 My Alkaline Vegan <source src="/images/MAVJLogo.jpg" type="video/mp4" />
- Journey HOME 💦</h1>
+        <h1 className="page-title">
+          💦 My Alkaline Vegan <img src="/images/MAVJLogo.jpg" alt="MAVJ Logo" className="inline-logo" /> Journey HOME 💦
+        </h1>
         <h2 className="page-subtitle">Sovereign Health, Vibrational Healing & Ancestral Nutrition</h2>
       </section>
+
       <section className="hero-logo-section multicolor-border">
         <video autoPlay muted loop playsInline className="hero-video">
           <source src="/images/Nubian.mp4" type="video/mp4" />
