@@ -4,76 +4,90 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import PhotoGallery from '../components/PhotoGallery';
-import '../styles/PageLayout.css'; // This should hold most shared styles
+import loadImage from '../utils/imageLoader';
+import '../styles/PageLayout.css';
 
 const HomePage = () => {
   return (
-    <div className="homepage-container">
-      {/* 🟥 NAVIGATION */}
-      <Navbar />
+    <div className="homepage-container page-layout">
+      {/* 🟥 Container 1: NavBar (Frozen) */}
+      <div className="navbar-container multicolor-border">
+        <Navbar />
+      </div>
 
-      {/* 🟨 LOGO ON VIDEO BACKGROUND */}
-      <section className="page-title-section multicolor-border sticky-title">
-        <h1 className="page-title">
-          💦 My Alkaline Vegan <img src="/images/MAVJLogo.jpg" alt="MAVJ Logo" className="inline-logo" /> Journey HOME 💦
-        </h1>
-        <h2 className="page-subtitle">Sovereign Health, Vibrational Healing & Ancestral Nutrition</h2>
-      </section>
+      {/* 🟨 Container 2: Title, Logo, Home Tagline (Frozen) */}
+      <div className="title-container multicolor-border sticky-title">
+        <h1 className="page-title">💦 My Alkaline Vegan Journey 💦</h1>
+        <img src={loadImage('MAVJLogo.jpg')} alt="MAVJ Logo" className="title-logo" />
+        <h2 className="page-home">Home</h2>
+        <p className="page-subtitle">Sovereign Health, Vibrational Healing & Ancestral Nutrition</p>
+      </div>
 
-      <section className="hero-logo-section multicolor-border">
-        <video autoPlay muted loop playsInline className="hero-video">
-          <source src="/images/Nubian.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div className="hero-overlay-logo">
-          <img src="/images/MAVJLogo.jpg" alt="MAVJ Logo" className="logo-img" />
+      {/* 🟩 Container 3: 2 Videos + Centered Logo */}
+      <div className="video-logo-container multicolor-border">
+        <div className="video-box">
+          <video controls className="embedded-video">
+            <source src="/images/Nubian.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
-      </section>
+        <div className="center-logo-box">
+          <img src="/images/MAVJLogo.jpg" alt="MAVJ Logo" className="center-logo" />
+        </div>
+        <div className="video-box">
+          <video controls className="embedded-video">
+            <source src="/images/VideoPostPrep.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
 
-      {/* 🟩 INTRO PARAGRAPH */}
-      <section className="intro-paragraph multicolor-border">
+      {/* 🟦 Container 4: Intro Paragraph */}
+      <div className="intro-container multicolor-border">
         <p>
-          Welcome to <strong>My Alkaline Vegan Journey</strong> — a holistic wellness platform rooted in vibrational healing,
-          ancient nutrition, and conscious sovereignty. Explore our offerings of herbal remedies, cultural intelligence,
-          and lifestyle tools that honor the wisdom of indigenous healing traditions.
+          Welcome to <strong>My Alkaline Vegan Journey</strong> — a portal for <strong>Frequency Shift</strong>,
+          where you can realign your vibrational state through ancient nutrition, vibrational healing, and 
+          sovereign self-awareness. Explore holistic offerings, indigenous remedies, lifestyle alignment tools, 
+          and transformative experiences that honor Earth resonance.
         </p>
-      </section>
+      </div>
 
-      {/* 🟦 6 CONTENT BOXES */}
-      <section className="feature-grid multicolor-border">
-        <Link to="/Journey2Enlightenment" className="feature-box glowing-hover">
-          <img src="/images/J2EBanner.jpg" alt="Journey to Enlightenment" className="feature-image" />
-          <h3>💫 Journey 2 Enlightenment</h3>
-        </Link>
-        <Link to="/MAVJSeaMoss" className="feature-box glowing-hover">
-          <img src="/images/SeaMossBanner.jpg" alt="Sea Moss" className="feature-image" />
-          <h3>🌊 Volcanic Wild Crafted Sea Moss Collection</h3>
-        </Link>
-        <Link to="/CastorOil" className="feature-box glowing-hover">
-          <img src="/images/CastorOilBanner.jpg" alt="Castor Oil" className="feature-image" />
-          <h3>🪔 Solar/Lunar Volcanic 🇱🇨 Black Castor Oil</h3>
-        </Link>
-        <Link to="/VibrationalIntelligence" className="feature-box glowing-hover">
-          <img src="/images/VibrationalIntelligenceBanner.jpg" alt="Vibrational Intelligence" className="feature-image" />
-          <h3>🧠 Vibrational Intelligence</h3>
-        </Link>
-        <Link to="/Recipes" className="feature-box glowing-hover">
-          <img src="/images/RecipesBanner.png" alt="Alkaline Recipes" className="feature-image" />
-          <h3>🥬 Alkaline Vegan Recipes</h3>
-        </Link>
-        <Link to="/AlignWithUs" className="feature-box glowing-hover">
-          <img src="/images/AlignWithUsBanner.png" alt="Align With Us" className="feature-image" />
-          <h3>🤝 Align With Us - Join the Journey, Sponsor, Donate, Invest</h3>
-        </Link>
-      </section>
+      {/* 🟧 Container 5: 6 Content Boxes */}
+      <div className="content-boxes-container multicolor-border">
+        <div className="content-box-grid">
+          <Link to="/Journey2Enlightenment" className="content-box glowing-hover">
+            <img src="/images/J2EBanner.jpg" alt="Journey to Enlightenment" />
+            <h3>💫 Journey 2 Enlightenment</h3>
+          </Link>
+          <Link to="/MAVJSeaMoss" className="content-box glowing-hover">
+            <img src="/images/SeaMossBanner.jpg" alt="Sea Moss" />
+            <h3>🌊 Volcanic Wild Crafted Sea Moss</h3>
+          </Link>
+          <Link to="/CastorOil" className="content-box glowing-hover">
+            <img src="/images/CastorOilBanner.jpg" alt="Castor Oil" />
+            <h3>🪔 Lunar Solar Volcanic Castor Oil</h3>
+          </Link>
+          <Link to="/VibrationalIntelligence" className="content-box glowing-hover">
+            <img src="/images/VibrationalIntelligenceBanner.jpg" alt="Vibrational Intelligence" />
+            <h3>🧠 Vibrational Intelligence</h3>
+          </Link>
+          <Link to="/Recipes" className="content-box glowing-hover">
+            <img src="/images/RecipesBanner.png" alt="Alkaline Recipes" />
+            <h3>🥬 Alkaline Vegan Recipes</h3>
+          </Link>
+          <Link to="/AlignWithUs" className="content-box glowing-hover">
+            <img src="/images/AlignWithUsBanner.png" alt="Align With Us" />
+            <h3>🤝 Align With Us – Sponsor, Donate, Invest</h3>
+          </Link>
+        </div>
+      </div>
 
-      {/* 🟪 PHOTO GALLERY */}
-      <section className="photo-gallery multicolor-border horizontal-photo-gallery">
-        <h2>📸 MAVJ Photo Gallery</h2>
+      {/* 🟪 Container 6: Photo Gallery */}
+      <div className="photo-gallery-container multicolor-border">
         <PhotoGallery />
-      </section>
+      </div>
 
-      {/* ⬛ FOOTER */}
+      {/* ⬛ Container 7: Footer */}
       <Footer />
     </div>
   );
