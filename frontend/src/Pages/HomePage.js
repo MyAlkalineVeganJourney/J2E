@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import PhotoGallery from '../components/PhotoGallery';
 import loadImage from '../utils/imageLoader';
 import '../styles/PageLayout.css';
+import { getPublicImagePath } from '../utils/imageLoader';
 
 const HomePage = () => {
   return (
