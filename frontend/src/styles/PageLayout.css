@@ -1,0 +1,139 @@
+/* styles/PageLayout.css */
+.page-layout {
+  background-color: black;
+  color: gold;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+/* Shared Multicolor Border */
+.multicolor-border {
+  border: 10px solid;
+  border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1;
+  background-color: black;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Sticky Title */
+.sticky-title {
+  position: sticky;
+  top: 60px; /* Below NavBar */
+  z-index: 999;
+}
+
+/* NavBar */
+.navbar-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: black;
+}
+
+/* Title Container */
+.title-container {
+  text-align: center;
+}
+.page-title {
+  font-size: 2.5rem;
+  color: gold;
+  margin: 0;
+}
+.title-logo {
+  width: 240px;
+  margin-top: 10px;
+}
+.page-home {
+  font-size: 1.6rem;
+  margin: 5px 0;
+  color: gold;
+}
+.page-subtitle {
+  font-size: 1.2rem;
+  color: gold;
+}
+
+/* Video + Logo Container */
+.video-logo-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.video-box, .center-logo-box {
+  flex: 1 1 300px;
+  text-align: center;
+}
+.embedded-video {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+}
+.center-logo {
+  width: 250px;
+  max-width: 80%;
+}
+
+/* Intro Paragraph */
+.intro-container p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  color: gold;
+}
+
+/* Content Boxes Grid */
+.content-boxes-container {
+  padding: 10px;
+}
+.content-box-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.content-box {
+  background-color: #111;
+  color: gold;
+  border: 3px solid;
+  border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1;
+  border-radius: 12px;
+  text-align: center;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+.content-box:hover {
+  background-color: gold;
+  color: black;
+  transform: scale(1.02);
+}
+.content-box img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  margin-bottom: 8px;
+  border-radius: 10px;
+}
+
+/* Photo Gallery */
+.photo-gallery-container {
+  text-align: center;
+  padding: 10px;
+}
+.photo-gallery-container img {
+  width: 120px;
+  margin: 5px;
+}
+
+/* Footer */
+footer {
+  background-color: black;
+  color: gold;
+  text-align: center;
+  padding: 20px 0;
+}
