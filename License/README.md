@@ -1,2 +1,0 @@
-# HF
-Human Frequency
