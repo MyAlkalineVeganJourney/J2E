@@ -1,45 +1,74 @@
 // src/pages/HomePage.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import PhotoGallery from '../components/PhotoGallery';
-import loadImage from '../utils/imageLoader';
-import '../styles/PageLayout.css';
-import { getPublicImagePath } from '../utils/imageLoader';
+import '../components/PageLayout.css'; // Correct path for shared styles
 
 const HomePage = () => {
   return (
     <div className="homepage-container page-layout">
-      {/* 🟥 Container 1: NavBar (Frozen) */}
+      {/* 🟥 Container 1: Navbar (Sticky) */}
       <div className="navbar-container multicolor-border">
         <Navbar />
       </div>
 
-      {/* 🟨 Container 2: Title, Logo, Home Tagline (Frozen) */}
+      {/* 🟨 Container 2: Title Section (Sticky) */}
       <div className="title-container multicolor-border sticky-title">
         <h1 className="page-title">💦 My Alkaline Vegan Journey 💦</h1>
-        <img src={loadImage('MAVJLogo.jpg')} alt="MAVJ Logo" className="title-logo" />
+        <img src="/images/MAVJLogo.jpg" alt="MAVJ Logo" className="title-logo" />
         <h2 className="page-home">Home</h2>
         <p className="page-subtitle">Sovereign Health, Vibrational Healing & Ancestral Nutrition</p>
       </div>
 
-      {/* 🟩 Container 3: 2 Videos + Centered Logo */}
-      <div className="video-logo-container multicolor-border">
-        <div className="video-box">
-          <video controls className="embedded-video">
-            <source src="/images/Nubian.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <div className="center-logo-box">
-          <img src="/images/MAVJLogo.jpg" alt="MAVJ Logo" className="center-logo" />
-        </div>
-        <div className="video-box">
-          <video controls className="embedded-video">
-            <source src="/images/VideoPostPrep.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+      {/* 🟩 Container 3: Video Gallery */}
+      <div className="video-container multicolor-border">
+        <h2 className="section-title">Video Gallery</h2>
+        <div className="video-grid">
+          {[
+            {
+              title: 'SleepyScience',
+              img: 'Atom.jpg',
+              src: 'https://drive.google.com/file/d/15vC0Mh0O633c_CW_Hoy9Jo59zhqCrHGt/preview'
+            },
+            {
+              title: 'Faggin - Consciousness',
+              img: 'Consciousness.jpeg',
+              src: 'https://drive.google.com/file/d/15ZbEUGJcdHrlL2Ie9qO44DutBVKCpQ2_/preview'
+            },
+            {
+              title: 'You are God - Faggin',
+              img: 'God.jpeg',
+              src: 'https://drive.google.com/file/d/1Gbh4r-fSDME0nnrv1GiDqgUeuDeFFbWb/preview'
+            },
+            {
+              title: 'Quantum Soul',
+              img: 'Soul.jpeg',
+              src: 'https://drive.google.com/file/d/1P5ySleWI1eJWZXuRhpLnzXPbu8HBfoKB/preview'
+            },
+            {
+              title: 'Quantum Biology',
+              img: 'DNA.jpg',
+              src: 'https://drive.google.com/file/d/1duJqHBAv6GSnITCFgK6F6GZqjlN4ywDH/preview'
+            },
+            {
+              title: 'Consciousness by a Yogi - TedTalk',
+              img: 'Yoga Consciousness.jpeg',
+              src: 'https://drive.google.com/file/d/1g-UYH_cZSZn6CISOUlfTxsAtGz1kUeew/preview'
+            }
+          ].map((video, index) => (
+            <div className="video-box glowing-hover" key={index}>
+              <h3 className="video-title">{video.title}</h3>
+              <img src={`/images/${video.img}`} alt={`${video.title} Thumbnail`} className="video-thumbnail" />
+              <iframe
+                src={video.src}
+                title={video.title}
+                className="embedded-video"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+              ></iframe>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -54,32 +83,21 @@ const HomePage = () => {
       </div>
 
       {/* 🟧 Container 5: 6 Content Boxes */}
-      <div className="content-boxes-container multicolor-border">
+      <div className="content-boxes-container multicolor-border white-bg">
         <div className="content-box-grid">
-          <Link to="/Journey2Enlightenment" className="content-box glowing-hover">
-            <img src="/images/J2EBanner.jpg" alt="Journey to Enlightenment" />
-            <h3>💫 Journey 2 Enlightenment</h3>
-          </Link>
-          <Link to="/MAVJSeaMoss" className="content-box glowing-hover">
-            <img src="/images/SeaMossBanner.jpg" alt="Sea Moss" />
-            <h3>🌊 Volcanic Wild Crafted Sea Moss</h3>
-          </Link>
-          <Link to="/CastorOil" className="content-box glowing-hover">
-            <img src="/images/CastorOilBanner.jpg" alt="Castor Oil" />
-            <h3>🪔 Lunar Solar Volcanic Castor Oil</h3>
-          </Link>
-          <Link to="/VibrationalIntelligence" className="content-box glowing-hover">
-            <img src="/images/VibrationalIntelligenceBanner.jpg" alt="Vibrational Intelligence" />
-            <h3>🧠 Vibrational Intelligence</h3>
-          </Link>
-          <Link to="/Recipes" className="content-box glowing-hover">
-            <img src="/images/RecipesBanner.png" alt="Alkaline Recipes" />
-            <h3>🥬 Alkaline Vegan Recipes</h3>
-          </Link>
-          <Link to="/AlignWithUs" className="content-box glowing-hover">
-            <img src="/images/AlignWithUsBanner.png" alt="Align With Us" />
-            <h3>🤝 Align With Us – Sponsor, Donate, Invest</h3>
-          </Link>
+          {[
+            { to: '/Journey2Enlightenment', img: 'J2EBanner.jpg', text: '💫 Journey 2 Enlightenment' },
+            { to: '/MAVJSeaMoss', img: 'SeaMossBanner.jpg', text: '🌊 Volcanic Wild Crafted Sea Moss' },
+            { to: '/CastorOil', img: 'CastorOilBanner.jpg', text: '🪔 Lunar Solar Volcanic Castor Oil' },
+            { to: '/VibrationalIntelligence', img: 'VibrationalIntelligenceBanner.jpg', text: '🧠 Vibrational Intelligence' },
+            { to: '/Recipes', img: 'RecipesBanner.png', text: '🥬 Alkaline Vegan Recipes' },
+            { to: '/AlignWithUs', img: 'AlignWithUsBanner.png', text: '🤝 Align With Us – Sponsor, Donate, Invest' }
+          ].map((box, idx) => (
+            <a href={box.to} className="content-box glowing-hover" key={idx}>
+              <img src={`/images/${box.img}`} alt={box.text} />
+              <h3>{box.text}</h3>
+            </a>
+          ))}
         </div>
       </div>
 
