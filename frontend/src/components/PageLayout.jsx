@@ -2,50 +2,36 @@
 import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import '../styles/PageLayout.css';
 import PhotoGallery from './PhotoGallery';
-
+import './PageLayout.css'; // Local style path
 
 const PageLayout = ({ title, subtitle, paragraph, children }) => {
   return (
     <div className="page-layout">
-      {/* Container 1: Navbar */}
-      <div className="multicolor-border navbar-container">
+      {/* 🟥 Navbar (Sticky) */}
+      <div className="navbar-container multicolor-border">
         <Navbar />
       </div>
 
-      {/* Container 2: Page Title */}
-      <div className="multicolor-border page-title-container">
-        {title && <h1 className="page-title">{title}</h1>}
-        {subtitle && <p className="page-subtitle">{subtitle}</p>}
+      {/* 🟨 Title Section (Sticky) */}
+      <div className="title-container multicolor-border sticky-title">
+        <h1 className="page-title">{title}</h1>
+        <img src="/images/MAVJLogo.jpg" alt="MAVJ Logo" className="title-logo" />
+        <h2 className="page-subtitle">{subtitle}</h2>
+        {paragraph && <p className="page-paragraph">{paragraph}</p>}
       </div>
 
-      {/* Container 3: Hero Section with logo */}
-      <div className="multicolor-border hero-section">
-        <div className="hero-overlay">
-          <img src="/images/MAVJLogo.jpg" alt="MAVJ Logo" className="hero-logo" />
-        </div>
-      </div>
-
-      {/* Container 4: Intro paragraph */}
-      {paragraph && (
-        <div className="multicolor-border intro-paragraph">
-          <p>{paragraph}</p>
-        </div>
-      )}
-
-      {/* Container 5: Feature content boxes */}
-      <div className="multicolor-border feature-grid">
+      {/* 🟩 Content Area */}
+      <div className="content-area multicolor-border">
         {children}
       </div>
 
-      {/* Container 6: Photo Gallery */}
-      <div className="multicolor-border gallery-container">
-        <h2>📸 MAVJ Photo Gallery</h2>
+      {/* 🟪 Photo Gallery */}
+      <div className="photo-gallery-container multicolor-border">
         <PhotoGallery />
       </div>
 
-      {/* Container 7: Footer */}
+      {/* ⬛ Footer */}
       <Footer />
     </div>
   );
