@@ -3,7 +3,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import PhotoGallery from './PhotoGallery';
-import './PageLayout.css'; // Local style path
+import '../styles/PageLayout.css'; // Local style path
 
 const PageLayout = ({ title, subtitle, paragraph, children }) => {
   return (

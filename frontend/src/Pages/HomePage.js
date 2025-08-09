@@ -3,8 +3,7 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import PhotoGallery from '../components/PhotoGallery';
-import '../components/PageLayout.css'; // Correct path for shared styles
-
+import '../styles/PageLayout.css'; // Correct path for shared styles
 const HomePage = () => {
   return (
     <div className="homepage-container page-layout">
