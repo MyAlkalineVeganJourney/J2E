@@ -133,3 +133,12 @@
   margin: 5px;
   border-radius: 6px;
 }
+/* Assuming Container 2 has a class like .container-2 */
+.container-2 {
+  background-color: black;
+  padding: 20px; /* optional, for spacing */
+  text-align: center; /* centers the logo horizontally */
+}
+.title-container {
+  background-color: black !important;
+}
