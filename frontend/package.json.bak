@@ -15,7 +15,7 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://myalkalineveganjourney.github.io/J2E",
+  "homepage": "https://myalkalineveganjourney.com",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
