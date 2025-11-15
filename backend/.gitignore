@@ -1,0 +1,7 @@
+# Ignore all environment config files
+*.env
+.env
+/backend/.env
+/backend/server/.env
+/frontend/.env
+
