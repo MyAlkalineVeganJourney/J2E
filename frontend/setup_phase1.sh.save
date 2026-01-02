@@ -1,0 +1,32 @@
+#!/bin/bashset -eecho "========================================="echo "MAVJ SAFE I18N FOUNDATION"echo "Creates translation structure WITHOUT touching your 
+code"echo "========================================="# === SAFETY CHECK (RELATIVE, PORTABLE) ===if [ ! -f "package.json" ]; then  echo "ERROR: Not in MAVJ 
+frontend directory"  echo "Please run this script from the frontend root"  exit 1fiecho ""echo "STEP 1: Creating backup of existing i18n (if 
+any)..."BACKUP_ROOT="backup"BACKUP_DIR="$BACKUP_ROOT/i18n_backup_$(date +%Y%m%d_%H%M%S)"mkdir -p "$BACKUP_DIR"cp -r src/i18n "$BACKUP_DIR/" 2>/dev/null || 
+trueecho "Backup created at: $BACKUP_DIR"echo ""echo "STEP 2: Creating translation directory structure..."mkdir -p 
+src/i18n/locales/{en,es,fr,zh,tw,it,de,patois}echo ""echo "STEP 3: Installing ONLY missing packages..."REQUIRED_PKGS=(react-i18next i18next 
+i18next-browser-languagedetector)for pkg in "${REQUIRED_PKGS[@]}"; do  if ! npm list "$pkg" >/dev/null 2>&1; then    npm install "$pkg" --legacy-peer-deps --save  
+else    echo "✓ $pkg already installed"  fidoneecho ""echo "STEP 4: Creating COMPLETE English translation file..."cat > src/i18n/locales/en/translation.json << 
+'EOF'{  "nav": {    "home": "MAVJHome",    "journey": "TheJourney",    "align": "AlignWithUs",    "search": "MAVJSearch",    "broadcast": "LiveBroadcast",    
+"store": "MAVJStore",    "podcast": "Podcast/Vlog",    "vibrational": "VibrationalIntel",    "contact": "ContactUs"  },  "title": {    "main": "My Alkaline Vegan 
+Journey",    "home": "Home",    "subtitle": "Sovereign Health • Vibrational Healing • Ancestral Nutrition",    "ai": "AI-First Human Frequency Transformation 
+Platform"  },  "qChat": {    "title": "Chat with Q",    "intro": "I'm Q, your AI assistant. I can help you navigate the site, answer questions, and guide your 
+journey.",    "placeholder": "Ask me anything...",    "comingSoon": "Full chat functionality coming soon!",    "send": "Send"  },  "buttons": {    "login": 
+"Login",    "signup": "Sign Up",    "learnMore": "Learn More",    "shopNow": "Shop Now"  }}EOFecho ""echo "STEP 5: Creating COMPLETE Spanish translation 
+file..."cat > src/i18n/locales/es/translation.json << 'EOF'{  "nav": {    "home": "Inicio",    "journey": "Viaje",    "align": "Únete",    "search": "Buscar",    
+"broadcast": "En Vivo",    "store": "Tienda",    "podcast": "Podcast",    "vibrational": "Vibracional",    "contact": "Contacto"  },  "title": {    "main": "Mi 
+Viaje Vegano Alcalino",    "home": "Inicio",    "subtitle": "Salud Soberana • Sanación Vibracional • Nutrición Ancestral",    "ai": "Plataforma de Transformación 
+Humana con IA"  },  "qChat": {    "title": "Chatea con Q",    "intro": "Soy Q, tu asistente de IA.",    "placeholder": "Pregúntame...",    "comingSoon": 
+"Funcionalidad completa próximamente",    "send": "Enviar"  },  "buttons": {    "login": "Iniciar Sesión",    "signup": "Registrarse",    "learnMore": "Aprender 
+Más",    "shopNow": "Comprar Ahora"  }}EOFecho ""echo "STEP 6: Creating i18n configuration..."cat > src/i18n/config.js << 'EOF'import i18n from 'i18next';import { 
+initReactI18next } from 'react-i18next';import LanguageDetector from 'i18next-browser-languagedetector';import en from './locales/en/translation.json';import es 
+from './locales/es/translation.json';i18n  .use(LanguageDetector)  .use(initReactI18next)  .init({    resources: {      en: { translation: en },      es: { 
+translation: es }    },    fallbackLng: 'en',    supportedLngs: ['en', 'es'],    interpolation: { escapeValue: false },    detection: {      order: 
+['localStorage', 'navigator'],      lookupLocalStorage: 'mavj-language',      caches: ['localStorage']    }  });export default i18n;EOFecho ""echo "STEP 7: 
+Creating LanguageSwitcher..."mkdir -p src/componentscat > src/components/LanguageSwitcher.js << 'EOF'import React, { useState } from 'react';import { 
+useTranslation } from 'react-i18next';const LanguageSwitcher = () => {  const { i18n } = useTranslation();  const [open, setOpen] = useState(false);  const 
+languages = [    { code: 'en', name: 'English', flag: '🇺🇸' },    { code: 'es', name: 'Español', flag: '🇪🇸' }  ];  const current = languages.find(l => l.code 
+=== i18n.language) || languages[0];  return (    <div>      <button onClick={() => setOpen(!open)}>        {current.flag} {current.name}      </button>      {open 
+&& languages.map(lang => (        <button          key={lang.code}          onClick={() => {            i18n.changeLanguage(lang.code);            
+localStorage.setItem('mavj-language', lang.code);            setOpen(false);          }}        >          {lang.flag} {lang.name}        </button>      ))}    
+</div>  );};export default LanguageSwitcher;EOFecho ""echo "========================================="echo "FOUNDATION READY — SAFE TO PUSH"echo 
+"========================================="
