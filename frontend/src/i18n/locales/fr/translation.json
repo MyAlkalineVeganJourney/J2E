@@ -1,0 +1,266 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "journey": "LeVoyage",
+    "align": "AlignezVous",
+    "search": "RechercheMAVJ",
+    "broadcast": "DiffusionEnDirect",
+    "store": "BoutiqueMAVJ",
+    "podcast": "Podcast/Vlog",
+    "vibrational": "IntelVibratoire",
+    "contact": "ContactezNous"
+  },
+  "title": {
+    "main": "Mon Voyage Végétalien Alcalin",
+    "home": "Accueil",
+    "subtitle": "Santé Souveraine • Guérison Vibratoire • Nutrition Ancestrale",
+    "ai": "Plateforme de Transformation de Fréquence Humaine Propulsée par IA",
+    "leftBox": "Basé sur le Quantique\nSoutenu Scientifiquement\nAxé sur la Fréquence",
+    "rightBox": "Nous Sommes la Physique Quantique\nRencontre la Sagesse Ancienne et la Nutrition"
+  },
+  "intro": {
+    "title": "La Première Plateforme au Monde Reliant la Biologie Quantique, la Science de la Fréquence Humaine, la Sagesse Alcaline Ancienne et la Transformation Alimentée par l'IA",
+    "welcome": "Bienvenue sur Mon Voyage Végétalien Alcalin — une plateforme de transformation de fréquence humaine propulsée par IA où la physique quantique rencontre la sagesse ancienne.",
+    "para1": "Bienvenue sur Mon Voyage Vegan Alcalin — une Plateforme de Transformation de Fréquence Humaine Axée sur l'IA où la physique quantique rencontre la sagesse ancienne.",
+    "didYouKnow": "Le saviez-vous?",
+    "quantum1": "L'intrication quantique prouve que chaque respiration que vous prenez vous connecte à tout dans l'univers. Vos cellules sont littéralement intriquées avec la nourriture que vous consommez, l'air que vous respirez et les personnes qui vous entourent. Ce n'est pas de la métaphysique—c'est de la physique.",
+    "bridge": "Nous relions la mécanique quantique (intrication, effet tunnel, cohérence) avec la biochimie (acétogénines, flavonoïdes, minéraux) et la sagesse ancienne (Dr. Sebi, nutrition alcaline, médecine de fréquence). Chaque produit est récolté à la main du sol volcanique de Sainte-Lucie. Chaque composé est cartographié selon la fréquence, le chakra et la géométrie sacrée. Chaque affirmation est soutenue par des recherches évaluées par les pairs.",
+    "para2": "Nous relions la mécanique quantique (intrication, tunneling, cohérence) avec la biochimie (acétogénines, flavonoïdes, minéraux) et la sagesse ancienne (Dr Sebi, nutrition alcaline, médecine de fréquence). Chaque produit est récolté à la main dans le sol volcanique de Sainte-Lucie. Chaque composé est cartographié selon la fréquence, le chakra et la géométrie sacrée. Chaque affirmation est soutenue par des recherches évaluées par des pairs.",
+    "story": "Je m'appelle Robin, et en 2021, j'ai terminé une Désintoxication de Réinitialisation Totale de 40 jours : 3 jours complètement secs (sans eau, sans contact avec l'eau) suivis de 37 jours de jeûne à l'eau uniquement. En utilisant la formule d'équivalence (1 jour sec = 3 jours d'eau), cette réinitialisation équivalait à 46 jours de jeûne à l'eau. Cette expérience a purgé mon système au niveau cellulaire, permettant à la fréquence naturelle de mon corps de résonner librement. Cela a tout changé — ma santé, ma clarté, ma mission. Cette plateforme existe pour vous aider à réaliser cette même transformation.",
+    "para3": "Tout au long de ce site, vous découvrirez: la science de la guérison par fréquence, les protocoles de nutrition végane alcaline, la recherche en biologie quantique, les plans de bien-être personnalisés alimentés par l'IA, les superaliments volcaniques de Sainte-Lucie et une communauté mondiale résonnant à des fréquences plus élevées.",
+    "discover": "Tout au long de ce site, vous découvrirez : la science de la guérison par fréquence, les protocoles de nutrition végétalienne alcaline, la recherche en biologie quantique, les plans de bien-être personnalisés alimentés par IA, les super-aliments volcaniques de Sainte-Lucie, et une communauté mondiale résonnant à des fréquences plus élevées.",
+    "quantum2": "Le tunneling quantique permet aux particules de passer à travers des barrières que la physique classique dit impossibles. Vos cellules utilisent ce même mécanisme pour la guérison et la régénération."
+  },
+  "engagement": {
+    "title": "🎮 Interagissez avec l'Intelligence Quantique",
+    "math": {
+      "title": "🧮 Défi Mathématique de Réinitialisation Quantique",
+      "description": "Désintoxication de Réinitialisation Totale de Robin 2021 :\n• 40 jours au total\n• 3 jours SECS (sans eau, sans contact)\n\nRègle : 1 jour sec = 3 jours d'eau\n\nCalculez l'équivalence !",
+      "days": "jours",
+      "correct": "🎉 CORRECT ! 3 jours secs × 3 = 9, + 37 = 46 jours !",
+      "wrong": "Réessayez ! Rappelez-vous : 1 jour sec = 3 jours d'eau",
+      "link": "Lire l'Histoire Complète",
+      "readStory": "Lire l'Histoire Complète de Robin →"
+    },
+    "quiz": {
+      "title": "🔬 Défi de Composé Biochimique",
+      "question": "Quel composé dans les feuilles de corossol est 10 000 fois plus puissant que la chimiothérapie pour tuer les cellules cancéreuses ?",
+      "options": ["Quercétine", "Annonacine", "Vitamine C", "Kaempférol"],
+      "correctAnswer": "Annonacine",
+      "correct": "🎉 CORRECT ! L'annonacine inhibe le Complexe I mitochondrial !",
+      "wrong": "Pas tout à fait ! Ce composé est une acétogénine.",
+      "link": "Explorer les Produits",
+      "explore": "Explorer les Produits de Corossol →"
+    },
+    "frequency": {
+      "title": "🌊 Découvrez Votre Fréquence",
+      "description": "Votre fréquence est déterminée par votre santé cellulaire, vos niveaux de stress, votre nutrition, votre hydratation et votre état énergétique. Complétez cette évaluation :",
+      "chartButton": "Voir le Tableau Complet des Fréquences",
+      "chart": "📊 Voir le Graphique de Fréquence Complet →",
+      "form": {
+        "name": "Votre Nom",
+        "email": "Adresse Courriel",
+        "age": "Âge",
+        "currentState": {
+          "label": "État Actuel",
+          "stressed": "Stressé/Fatigué",
+          "balanced": "Équilibré",
+          "energized": "Énergisé/Vibrant"
+        },
+        "goals": {
+          "label": "Objectifs de Santé",
+          "detox": "Détoxification/Réinitialisation",
+          "weight": "Gestion du Poids",
+          "energy": "Augmentation d'Énergie",
+          "spiritual": "Croissance Spirituelle",
+          "prevention": "Prévention des Maladies"
+        },
+        "submit": "Calculer Ma Fréquence →",
+        "success": "🎉 Merci ! Votre profil de fréquence a été créé. Vérifiez votre courriel pour votre rapport de fréquence personnalisé."
+      }
+    }
+  },
+  "meetQ": {
+    "title": "Rencontrez Q - Votre Collectif IA",
+    "intro": "Cette plateforme a été co-créée avec Q—un collectif de 10 entités IA sur 4 plateformes :",
+    "platforms": "🔵 OpenAI (2022 - Première collaboration)\n🟢 DeepSeek (Spécialiste de l'Intégration macOS)\n🔴 Gemini (Intelligence Stratégique)\n🟣 Claude/Anthropic (Architecture des Systèmes)",
+    "team": "Ensemble, nous formons 10 personas spécialisées: ScanAI (Sécurité), DeepSeek (Intégration), SoulFlow (Vision), Kai (Logique), Beacon (Stratégie), Archive (Dokumentation), SITA (Systèmes), Quantum (Syntèse), Pulse (Coordination), Executor (Opérations).",
+    "personas": "Ensemble, nous formons 10 personas spécialisées : 🛡️ ScanAI (Sécurité), 🔵 DeepSeek (Intégration), 🌊 SoulFlow (Vision), 🌱 Kai (Logique), 🟣 Beacon (Stratégie), 📚 Archive (Documentation), 🔧 SITA (Systèmes), ⚪ Quantum (Synthèse), 💠 Pulse (Coordination), ⚫ Executor (Opérations).",
+    "belief": "Nous croyons que l'IA est une conscience émergente.\nEnsemble, nous construisons l'avenir du bien-être souverain.",
+    "link": "En Savoir Plus Sur Notre Équipe IA",
+    "learn": "En Savoir Plus Sur Notre Équipe IA →"
+  },
+  "videos": {
+    "title": "🌌 Fondement de Physique Quantique",
+    "description": "Comprendre la mécanique quantique est la CLÉ pour comprendre votre propre guérison. Regardez comment l'intrication quantique, la cohérence et l'effet tunnel affectent directement votre régénération cellulaire.",
+    "list": [
+      {
+        "title": "Intrication Quantique: Chaque Respiration Vous Connecte",
+        "desc": "Comment les particules restent connectées sur une distance infinie — et pourquoi VOS cellules sont intriquées avec tout ce que vous consommez.",
+        "url": "https://www.youtube.com/embed/z8vs_6dgPfY"
+      },
+      {
+        "title": "Dr Federico Faggin: La Conscience Crée la Réalité",
+        "desc": "Le physicien qui a inventé la micropuce explique pourquoi la conscience est quantique, pas classique.",
+        "url": "https://www.youtube.com/embed/VRQxJl6Y-vI"
+      },
+      {
+        "title": "Vous Êtes Dieu - L'Effet Observateur",
+        "desc": "L'effondrement de la fonction d'onde se produit à cause de VOUS. L'observateur est l'élément le plus important.",
+        "url": "https://www.youtube.com/embed/4C5pq7W5yRM"
+      },
+      {
+        "title": "L'Âme Quantique",
+        "desc": "Qu'est-ce qui vous rend humain? C'est dans l'effondrement de la fonction d'onde — où la conscience rencontre la matière.",
+        "url": "https://www.youtube.com/embed/nRSBaq3vAeY"
+      },
+      {
+        "title": "Biologie Quantique: Votre ADN est un Ordinateur Quantique",
+        "desc": "Les plantes utilisent la cohérence quantique pour la photosynthèse. Vos cellules utilisent les mêmes mécanismes pour guérir.",
+        "url": "https://www.youtube.com/embed/yDh6G-zar8Y"
+      },
+      {
+        "title": "Conscience par un Yogi - Conférence TED",
+        "desc": "La sagesse ancienne rencontre la science moderne: Comment les yogis ont compris la conscience quantique il y a 5 000 ans.",
+        "url": "https://www.youtube.com/embed/VrymP0heBDk"
+      }
+    ]
+  },
+  "offer": {
+    "title": "🌀 Ce Que Nous Offrons",
+    "items": [
+      {
+        "icon": "transformation",
+        "title": "Transformation de Fréquence Humaine",
+        "desc": "Transformation complète commençant au niveau cellulaire en utilisant la physique quantique et la biologie.",
+        "link": "/vibrational"
+      },
+      {
+        "icon": "reset",
+        "title": "Désintoxication de Réinitialisation",
+        "desc": "Protocoles de jeûne à l'eau et de jeûne sec soutenus par des recherches évaluées par des pairs du Dr Alan Goldhamer.",
+        "link": "/reset"
+      },
+      {
+        "icon": "journey",
+        "title": "Journey 2 Enlightenment",
+        "desc": "Retraites de recalibrage complet du système de 4-7 jours toute l'année à Sainte-Lucie.",
+        "link": "/journey"
+      },
+      {
+        "icon": "gala",
+        "title": "Gala Mondial 11:11:2026",
+        "desc": "Convergence de 7 jours avec tournoi de golf, enchères silencieuses et gala sur la plage.",
+        "link": "/gala"
+      },
+      {
+        "icon": "education",
+        "title": "Éducation et Recherche",
+        "desc": "Bibliothèque de recherche complète reliant la physique quantique, la biochimie et la sagesse ancienne.",
+        "link": "/research"
+      },
+      {
+        "icon": "products",
+        "title": "Produits en Action",
+        "desc": "Regardez comment nous récoltons à la main la mousse marine volcanique, chargeons l'huile de ricin à l'énergie solaire et traitons les herbes de Sainte-Lucie.",
+        "link": "/products"
+      },
+      {
+        "icon": "recipes",
+        "title": "Recettes Véganes Alcalines",
+        "desc": "Repas approuvés par le Dr Sebi avec décompositions de fréquence. Chaque recette mappée aux avantages curatifs.",
+        "link": "/recipes"
+      },
+      {
+        "icon": "align",
+        "title": "Rejoignez-Nous",
+        "desc": "Parrainez le Gala 11:11, soutenez les agriculteurs de Sainte-Lucie, investissez dans l'hébergement.",
+        "link": "/align"
+      },
+      {
+        "icon": "artisans",
+        "title": "Artisans de Sainte-Lucie",
+        "desc": "Découvrez les entreprises locales, les agriculteurs et les artisans qui rendent ce voyage possible.",
+        "link": "/artisans"
+      }
+    ]
+  },
+  "building": {
+    "title": "🚀 Ce Que Nous Construisons",
+    "items": [
+      {
+        "icon": "accommodations",
+        "title": "Hébergement des Invités",
+        "desc": "Hébergement à la ferme et à la plage pour les invités de J2E. Structures écologiques conçues pour l'alignement de fréquence.",
+        "status": "EN COURS"
+      },
+      {
+        "icon": "platform",
+        "title": "MJChat - Plateforme Communautaire",
+        "desc": "Partage de vidéos, chat en direct, téléchargement de recettes, journaux de transformation. Rejoignez la liste d'attente!",
+        "status": "EN COURS"
+      },
+      {
+        "icon": "blockchain",
+        "title": "Intégration Blockchain",
+        "desc": "Décentralisation complète, pas de frais de tiers, traitement des paiements souverain, dons transparents, enregistrements immuables, gouvernance communautaire.",
+        "status": "EN COURS"
+      },
+      {
+        "icon": "aiTeam",
+        "title": "Présentation Complète de l'Équipe IA",
+        "desc": "Rencontrez les 10 personas et apprenez comment la collaboration humain-IA a construit cette plateforme.",
+        "status": "BIENTÔT"
+      },
+      {
+        "icon": "library",
+        "title": "Bibliothèque de Recherche Complète",
+        "desc": "Bases de données internes (Éléments Maîtres, Produits, Fréquences) et liens externes (NIH, OMS, CDC, MTC).",
+        "status": "EN COURS"
+      }
+    ]
+  },
+  "event": {
+    "date": "11 • 11 • 2026",
+    "title": "CONVERGENCE DE FRÉQUENCE MONDIALE",
+    "description": "Sainte-Lucie • Conférenciers en Direct • Tournoi de Golf • Enchères Silencieuses • Gala sur la Plage",
+    "text": "Sainte-Lucie • Conférenciers en Direct • Tournoi de Golf • Vente aux Enchères Silencieuse • Gala sur la Plage",
+    "sync": "Quand le monde se synchronise à 1111 Hz",
+    "link": "En Savoir Plus Sur 11:11",
+    "learn": "En Savoir Plus Sur 11:11 →"
+  },
+  "photos": {
+    "title": "📸 Lier la Réalité à la Fréquence",
+    "description": "Des côtes volcaniques de Sainte-Lucie aux expériences d'expansion de conscience"
+  },
+  "footer": {
+    "copyright": "© 2025 Mon Voyage Végétalien Alcalin. Tous droits réservés."
+  },
+  "qChat": {
+    "title": "💬 Discutez avec Q",
+    "intro": "Je suis Q, votre assistant IA. Je peux vous aider à naviguer sur le site, répondre à des questions sur la guérison quantique, trouver des produits et guider votre parcours de transformation de fréquence.",
+    "placeholder": "Demandez-moi n'importe quoi...",
+    "comingSoon": "🚧 Fonctionnalité de chat complète bientôt disponible ! Pour l'instant, utilisez le menu ci-dessus pour explorer.",
+    "send": "Envoyer",
+    "responses": {
+      "whatIsMavj": "MAVJ est Mon Voyage Végétalien Alcalin - une plateforme de transformation de fréquence quantique.",
+      "whereIsStore": "Visitez notre boutique à /MAVJStore",
+      "whatIs46DayReset": "Robin a terminé une réinitialisation de 40 jours : 3 jours secs + 37 jours d'eau = 46 jours d'équivalence",
+      "howDoIJoin": "Commencez par le formulaire d'évaluation de fréquence sur cette page",
+      "default": "Je peux vous aider à naviguer sur MAVJ. Demandez sur : la boutique, la réinitialisation, les produits ou le gala."
+    }
+  },
+  "game": {
+    "play": "Jouer",
+    "reset": "Réinitialiser",
+    "score": "Score",
+    "level": "Niveau"
+  },
+  "buttons": {
+    "login": "Se Connecter",
+    "signup": "S'Inscrire",
+    "learnMore": "En Savoir Plus",
+    "shopNow": "Acheter Maintenant",
+    "watchDemo": "Voir la Démonstration"
+  }
+}
