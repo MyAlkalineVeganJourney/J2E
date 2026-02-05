@@ -2,51 +2,37 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import enCommon from './locales/en/common.json';
-import enHome from './locales/en/home.json';
-
-import esCommon from './locales/es/common.json';
-import esHome from './locales/es/home.json';
-
-import frCommon from './locales/fr/common.json';
-import frHome from './locales/fr/home.json';
-
-import deCommon from './locales/de/common.json';
-import deHome from './locales/de/home.json';
-
-import itCommon from './locales/it/common.json';
-import itHome from './locales/it/home.json';
-
-import zhCommon from './locales/zh/common.json';
-import zhHome from './locales/zh/home.json';
-
-import twCommon from './locales/tw/common.json';
-import twHome from './locales/tw/home.json';
-
-import amCommon from './locales/am/common.json';
-import amHome from './locales/am/home.json';
-
-import arCommon from './locales/ar/common.json';
-import arHome from './locales/ar/home.json';
-
-import swCommon from './locales/sw/common.json';
-import swHome from './locales/sw/home.json';
-
-import kwCommon from './locales/kw/common.json';
-import kwHome from './locales/kw/home.json';
+// Import ALL 14 language files
+import AmharicTranslations from './locales/Amharic/translation.json';
+import ArabicTranslations from './locales/Arabic/translation.json';
+import BAramaicTranslations from './locales/BAramaic/translation.json';
+import GermanTranslations from './locales/German/translation.json';
+import EnglishTranslations from './locales/English/translation.json';
+import SpanishTranslations from './locales/Spanish/translation.json';
+import FrenchTranslations from './locales/French/translation.json';
+import ItalianTranslations from './locales/Italian/translation.json';
+import PatoisTranslations from './locales/Patois/translation.json';
+import NAramaicTranslations from './locales/NAramaic/translation.json';
+import SAramaicTranslations from './locales/SAramaic/translation.json';
+import SwahiliTranslations from './locales/Swahili/translation.json';
+import TaiwaneseTranslations from './locales/Taiwanese/translation.json';
+import ChineseTranslations from './locales/Chinese/translation.json';
 
 const resources = {
-  en: { common: enCommon, home: enHome },
-  es: { common: esCommon, home: esHome },
-  fr: { common: frCommon, home: frHome },
-  de: { common: deCommon, home: deHome },
-  it: { common: itCommon, home: itHome },
-  zh: { common: zhCommon, home: zhHome },
-  tw: { common: twCommon, home: twHome },
-  am: { common: amCommon, home: amHome },
-  ar: { common: arCommon, home: arHome },
-  sw: { common: swCommon, home: swHome },
-  kw: { common: kwCommon, home: kwHome }
+  Amharic: { translation: AmharicTranslations },
+  Arabic: { translation: ArabicTranslations },
+  BAramaic: { translation: BAramaicTranslations },
+  German: { translation: GermanTranslations },
+  English: { translation: EnglishTranslations },
+  Spanish: { translation: SpanishTranslations },
+  French: { translation: FrenchTranslations },
+  Italian: { translation: ItalianTranslations },
+  Patois: { translation: PatoisTranslations },
+  NAramaic: { translation: NAramaicTranslations },
+  SAramaic: { translation: SAramaicTranslations },
+  Swahili: { translation: SwahiliTranslations },
+  Taiwanese: { translation: TaiwaneseTranslations },
+  Chinese: { translation: ChineseTranslations }
 };
 
 i18n
@@ -55,18 +41,8 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
-    defaultNS: 'common',
-    ns: ['common', 'home'],
-    interpolation: {
-      escapeValue: false
-    },
-    detection: {
-      order: ['localStorage', 'navigator'],
-      caches: ['localStorage']
-    },
-    react: {
-      useSuspense: false
-    }
+    supportedLngs: Object.keys(resources),
+    interpolation: { escapeValue: false }
   });
 
 export default i18n;

@@ -1,19 +1,25 @@
+// src/Pages/ProductPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import PageLayout from '../components/PageLayout';
 import products from '../data/products';
 import '../styles/ProductPage.css';
 
 const ProductPage = () => {
   const { productId } = useParams();
-  const product = products.find(p => p.id === productId);
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('overview');
+  
+  // Find product by ID
+  const product = products.find(p => 
+    p.id === productId || 
+    p.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === productId
+  );
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeTab]);
-
-  const getSafeArray = (array) => Array.isArray(array) ? array : [];
 
   if (!product) {
     return (
@@ -29,8 +35,11 @@ const ProductPage = () => {
     );
   }
 
+  const getSafeArray = (array) => Array.isArray(array) ? array : [];
+
   return (
     <PageLayout title={product.name}>
+      {/* SHOCKING CLAIM BANNER */}
       {product.shockingClaim && (
         <div className="shocking-claim-banner multicolor-border">
           <h2>💥 {product.shockingClaim.main}</h2>
@@ -41,6 +50,7 @@ const ProductPage = () => {
         </div>
       )}
 
+      {/* HERO SECTION */}
       <section className="product-hero multicolor-border">
         <div className="product-hero-image">
           <img src={product.image} alt={product.name} />
@@ -50,6 +60,7 @@ const ProductPage = () => {
           <h1>{product.name}</h1>
           <p className="product-price">${product.price.toFixed(2)}</p>
           
+          {/* BOTANICAL INFO */}
           <div className="botanical-info">
             {product.botanicalName && (
               <p><strong>Botanical Name:</strong> <em>{product.botanicalName}</em></p>
@@ -60,8 +71,15 @@ const ProductPage = () => {
             {product.partUsed && (
               <p><strong>Part Used:</strong> {product.partUsed}</p>
             )}
+            {product.chakra && (
+              <p><strong>Chakra:</strong> {product.chakra}</p>
+            )}
+            {product.frequency && (
+              <p><strong>Frequency:</strong> {product.frequency}</p>
+            )}
           </div>
 
+          {/* SAFETY PROTOCOL */}
           {product.safetyProtocol && (
             <div className="critical-warning-box">
               <h4>⚠️ {product.safetyProtocol.title}</h4>
@@ -74,10 +92,13 @@ const ProductPage = () => {
             </div>
           )}
 
+          {/* ACTIONS */}
           <div className="product-actions">
-            <a href={product.url} className="btn-buy-now" target="_blank" rel="noopener noreferrer">
-              💳 Buy Now - ${product.price.toFixed(2)}
-            </a>
+            {product.url && (
+              <a href={product.url} className="btn-buy-now" target="_blank" rel="noopener noreferrer">
+                💳 Buy Now - ${product.price.toFixed(2)}
+              </a>
+            )}
             <button className="btn-add-cart">
               🛒 Add to Cart
             </button>
@@ -85,6 +106,7 @@ const ProductPage = () => {
         </div>
       </section>
 
+      {/* HARVEST STORY */}
       {(product.sourceLocation || product.harvestMethod) && (
         <section className="harvest-story multicolor-border">
           <h2>🌴 Hand-Harvested in St. Lucia</h2>
@@ -92,9 +114,13 @@ const ProductPage = () => {
           {product.harvestMethod && <p><strong>Method:</strong> {product.harvestMethod}</p>}
           {product.lastHarvest && <p><strong>Harvest:</strong> {product.lastHarvest}</p>}
           {product.harvestedBy && <p><strong>By:</strong> {product.harvestedBy}</p>}
+          {product.harvestStory && (
+            <div className="harvest-narrative" dangerouslySetInnerHTML={{ __html: product.harvestStory }} />
+          )}
         </section>
       )}
 
+      {/* TABS */}
       <div className="product-tabs">
         <button 
           className={activeTab === 'overview' ? 'active' : ''}
@@ -108,6 +134,14 @@ const ProductPage = () => {
         >
           🔬 Biochemistry
         </button>
+        {product.quantumMechanics && (
+          <button 
+            className={activeTab === 'quantum' ? 'active' : ''}
+            onClick={() => setActiveTab('quantum')}
+          >
+            ⚛️ Quantum Mechanics
+          </button>
+        )}
         <button 
           className={activeTab === 'usage' ? 'active' : ''}
           onClick={() => setActiveTab('usage')}
@@ -128,7 +162,9 @@ const ProductPage = () => {
         </button>
       </div>
 
+      {/* TAB CONTENT */}
       <div className="tab-content">
+        {/* OVERVIEW TAB */}
         {activeTab === 'overview' && (
           <section id="overview" className="biochemical-section multicolor-border">
             <h2>Quick Benefits Overview</h2>
@@ -147,9 +183,16 @@ const ProductPage = () => {
                 <p>{product.shortDescription}</p>
               </div>
             )}
+            {product.energeticSignature && (
+              <div className="compound-card">
+                <h3>Energetic Signature:</h3>
+                <p>{product.energeticSignature}</p>
+              </div>
+            )}
           </section>
         )}
 
+        {/* BIOCHEMISTRY TAB */}
         {activeTab === 'science' && (
           <section id="biochemistry" className="biochemical-section multicolor-border">
             <h2>Biochemical Compounds</h2>
@@ -159,6 +202,10 @@ const ProductPage = () => {
                 
                 {compound.formula && (
                   <p><strong>Chemical Formula:</strong> {compound.formula}</p>
+                )}
+                
+                {compound.molecularWeight && (
+                  <p><strong>Molecular Weight:</strong> {compound.molecularWeight}</p>
                 )}
                 
                 {compound.structure && (
@@ -189,11 +236,80 @@ const ProductPage = () => {
                 {compound.selectivity && (
                   <p><strong>Selectivity:</strong> {compound.selectivity}</p>
                 )}
+                
+                {compound.concentration && (
+                  <p><strong>Concentration:</strong> {compound.concentration}</p>
+                )}
               </div>
             ))}
+            
+            {/* MINERAL PROFILE */}
+            {product.mineralProfile && (
+              <div className="compound-card">
+                <h3>Complete Mineral Profile</h3>
+                <div className="mineral-grid">
+                  {Object.entries(product.mineralProfile).map(([category, minerals]) => (
+                    <div key={category}>
+                      <h4>{category}:</h4>
+                      <ul>
+                        {minerals.map((mineral, i) => <li key={i}>{mineral}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </section>
         )}
 
+        {/* QUANTUM MECHANICS TAB */}
+        {activeTab === 'quantum' && product.quantumMechanics && (
+          <section id="quantum" className="biochemical-section multicolor-border">
+            <h2>Quantum Mechanics: How This Heals at the Subatomic Level</h2>
+            
+            <div className="compound-card">
+              <p style={{ fontSize: '1.15rem', lineHeight: '1.8' }}>
+                {product.quantumMechanics.introduction}
+              </p>
+            </div>
+
+            {getSafeArray(product.quantumMechanics.principles).map((principle, index) => (
+              <div key={index} className="compound-card">
+                <h3 style={{ color: '#9400D3' }}>{principle.icon} {principle.title}</h3>
+                <p style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
+                  {principle.description}
+                </p>
+                {principle.example && (
+                  <p style={{ fontSize: '1.1rem', lineHeight: '1.8', marginTop: '15px' }}>
+                    {principle.example}
+                  </p>
+                )}
+              </div>
+            ))}
+
+            {product.quantumMechanics.frequencies && (
+              <div className="compound-card">
+                <h3>🌊 Vibrational Frequency Resonance</h3>
+                <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
+                  {product.quantumMechanics.frequencies.map((freq, i) => (
+                    <li key={i}><strong>{freq.name} ({freq.hz}):</strong> {freq.description}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="compound-card">
+              <h3>What This Means for Your Healing</h3>
+              <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
+                {getSafeArray(product.quantumMechanics.healingImplications).map((impl, i) => (
+                  <li key={i}>{impl}</li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* USAGE TAB */}
         {activeTab === 'usage' && (
           <section id="usage" className="biochemical-section multicolor-border">
             <h2>Usage Protocol</h2>
@@ -208,6 +324,13 @@ const ProductPage = () => {
                       <p><strong>Dosage:</strong> {product.preparation.tea.dosage}</p>
                       <p><strong>Timing:</strong> {product.preparation.tea.timing}</p>
                     </>
+                  )}
+                  {product.preparation.steps && (
+                    <ol>
+                      {product.preparation.steps.map((step, i) => (
+                        <li key={i}>{step}</li>
+                      ))}
+                    </ol>
                   )}
                 </div>
 
@@ -224,7 +347,7 @@ const ProductPage = () => {
             )}
 
             {product.warnings && (
-              <div className="compound-card">
+              <div className="compound-card critical-warning-box">
                 <h3>⚠️ Warnings & Contraindications</h3>
                 <ul>
                   {getSafeArray(product.warnings).map((warning, i) => (
@@ -233,9 +356,21 @@ const ProductPage = () => {
                 </ul>
               </div>
             )}
+
+            {product.topicalUse && (
+              <div className="compound-card">
+                <h3>Topical Application</h3>
+                {Object.entries(product.topicalUse).map(([method, instructions]) => (
+                  <div key={method}>
+                    <p><strong>{method}:</strong> {instructions}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
         )}
 
+        {/* COMPARISON TAB */}
         {activeTab === 'comparison' && product.comparison && (
           <section className="comparison-section multicolor-border">
             <h2>Product Comparisons</h2>
@@ -273,6 +408,7 @@ const ProductPage = () => {
           </section>
         )}
 
+        {/* CITATIONS TAB */}
         {activeTab === 'citations' && (
           <section id="research" className="citations-section multicolor-border">
             <h2>📚 Peer-Reviewed Research</h2>
@@ -314,6 +450,7 @@ const ProductPage = () => {
         )}
       </div>
 
+      {/* RELATED PRODUCTS */}
       {product.relatedProducts && product.relatedProducts.length > 0 && (
         <section className="related-products multicolor-border">
           <h2>🔗 Related Products</h2>
@@ -332,6 +469,7 @@ const ProductPage = () => {
         </section>
       )}
 
+      {/* DR SEBI BADGE */}
       {product.drSebiApproved && (
         <section className="dr-sebi-badge multicolor-border">
           <h2>✅ Dr. Sebi Approved</h2>
@@ -358,6 +496,15 @@ const ProductPage = () => {
           </Link>
         </section>
       )}
+
+      {/* Q ASSISTANT INTEGRATION */}
+      <section className="q-assistant-section multicolor-border">
+        <h2>💬 Have Questions About This Product?</h2>
+        <p>Chat with Q, our AI assistant, to learn more about biochemistry, usage protocols, or frequency alignment.</p>
+        <Link to="/Q" className="btn-primary">
+          🤖 Ask Q About {product.name}
+        </Link>
+      </section>
     </PageLayout>
   );
 };

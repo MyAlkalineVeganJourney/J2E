@@ -1,113 +1,259 @@
-/* PaymentForm.css */
+/* src/components/PaymentForm.css */
 
 .payment-form {
-    background-color: #111;
-    color: #fff;
-    padding: 40px 20px;
-    max-width: 1000px;
-    margin: auto;
-    border-radius: 10px;
-    text-align: center;
+  background: rgba(20, 20, 40, 0.9);
+  padding: 2.5rem;
+  border-radius: 20px;
+  max-width: 700px;
+}
+
+.payment-form h2 {
+  color: #FFD700;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.payment-form h3 {
+  color: #FFD700;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: rgba(255, 215, 0, 0.9);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  padding: 1rem;
+  background: rgba(255, 215, 0, 0.05);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 215, 0, 0.4);
+}
+
+/* STRIPE CARD ELEMENT */
+.card-element-wrapper {
+  padding: 1.2rem;
+  background: rgba(255, 215, 0, 0.05);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.card-element-wrapper:focus-within {
+  border-color: #FFD700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+/* PAYMENT SUMMARY */
+.payment-summary {
+  background: rgba(255, 215, 0, 0.05);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.summary-line:last-child {
+  border-bottom: none;
+}
+
+.summary-line.total {
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  border-top: 2px solid #FFD700;
+  color: #FFD700;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* ERROR MESSAGE */
+.payment-error {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 2px solid #ff6b6b;
+  margin: 1.5rem 0;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* SUBMIT BUTTON */
+.btn-submit-payment {
+  width: 100%;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 2rem;
+  box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.btn-submit-payment:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6);
+}
+
+.btn-submit-payment:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* SPINNER */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.3);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  .payment-form h2 {
-    font-size: 36px;
-    color: #FFD700;
-    margin-bottom: 10px;
+}
+
+/* SECURITY INFO */
+.payment-security {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.2);
+  text-align: center;
+}
+
+.payment-security p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+/* SUCCESS STATE */
+.payment-success {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(20, 20, 40, 0.9);
+  border-radius: 20px;
+}
+
+.success-icon {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+  animation: successPulse 1s ease-in-out;
+}
+
+@keyframes successPulse {
+  0%, 100% {
+    transform: scale(1);
   }
-  
-  .payment-form p {
-    font-size: 18px;
-    margin-bottom: 30px;
+  50% {
+    transform: scale(1.2);
   }
-  
-  .product-payment {
-    background-color: #222;
-    border: 4px solid;
-    border-image: linear-gradient(to right, #FFD700, #50C878, #00FFFF) 1;
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 700px;
-    text-align: center;
-    box-shadow: 0px 4px 10px rgba(255, 215, 0, 0.2);
-    transition: transform 0.3s ease;
-  }
-  
-  .product-payment:hover {
-    transform: scale(1.02);
-    background-color: #1b1b1b;
-  }
-  
-  .product-payment h3 {
-    color: #FFD700;
-    margin-bottom: 15px;
-    font-size: 22px;
-  }
-  
-  .product-payment button {
-    background-color: #FFD700;
-    color: #111;
-    font-size: 18px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .product-payment button:hover {
-    background-color: #e6c200;
-  }
+}
+
+.payment-success h2 {
+  color: #00ff00;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+}
+
+.payment-success p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.order-details {
+  background: rgba(255, 215, 0, 0.05);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.order-details p {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.order-details strong {
+  color: #FFD700;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
   .payment-form {
-    background-color: #111;
-    color: #fff;
-    padding: 2rem;
-    border-radius: 12px;
-    max-width: 600px;
-    margin: auto;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    padding: 1.5rem;
   }
-  
-  .payment-form h1 {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 1rem;
-    color: #00ffd0;
+
+  .form-row {
+    grid-template-columns: 1fr;
   }
-  
-  .brand-desc {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-style: italic;
-    color: #ccc;
+
+  .payment-form h2 {
+    font-size: 1.5rem;
   }
-  
-  .card-element-wrapper {
-    background-color: #1e1e1e;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+
+  .btn-submit-payment {
+    padding: 1.2rem;
+    font-size: 1.1rem;
   }
-  
-  .primary-button {
-    background-color: #00ffd0;
-    color: #000;
-    font-weight: bold;
-    padding: 0.75rem 2rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  
-  .primary-button:hover {
-    background-color: #00ccaa;
-  }
-  
-  .status-message {
-    margin-top: 1rem;
-    color: #ff6b6b;
-    text-align: center;
-  }
-  
+}

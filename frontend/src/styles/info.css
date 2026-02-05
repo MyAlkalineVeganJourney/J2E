@@ -29,3 +29,33 @@
     color: #0077cc;
   }
   
+/* Accommodations Grid Styles */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.info-box {
+  padding: 1.5rem;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.info-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.info-box h3 {
+  color: #FFD700;
+  margin-bottom: 1rem;
+}
+
+.info-box p {
+  color: #fff;
+  line-height: 1.6;
+}

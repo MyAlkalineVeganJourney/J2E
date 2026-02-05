@@ -1,0 +1,291 @@
+{
+  "nav": {
+    "home": "💦 Home MAVJ 💦",
+    "journey": "🌴 Viaggio 🌴",
+    "align": "🎉 Allineati Con Noi 🎉",
+    "search": "🔎 Ricerca MAVJ 🔎",
+    "broadcast": "📺 Trasmissione in Diretta 📺",
+    "store": "💦 Negozio MAVJ 💦",
+    "podcast": "🔥 Podcast / Vlog 🔥",
+    "vibrational": "⚛️ Intelligenza Vibrazionale ⚛️",
+    "contact": "☎️ Contatto ☎️",
+    "translate": "🌍 Traduci"
+  },
+  "title": {
+    "main": "Il Mio Viaggio Vegano Alcalino",
+    "home": "Home",
+    "subtitle": "Salute Universale • Guarigione Vibrazionale • Nutrizione Ancestrale",
+    "ai": "Piattaforma di Trasformazione della Frequenza Umana AI-First",
+    "leftBox": "Basato sulla Quantistica\nSupportato Scientificamente\nFocalizzato sulla Frequenza",
+    "rightBox": "Uniamo la Fisica Quantistica\nSaggezza Antica\nE Nutrizione"
+  },
+  "intro": {
+    "title": "La prima piattaforma al mondo che unisce biologia quantistica, scienza della frequenza umana, saggezza alcalina antica e trasformazione alimentata dall'IA",
+    "welcome": "Benvenuto nel Mio Viaggio Vegano Alcalino",
+    "para1": "Benvenuto nel Mio Viaggio Vegano Alcalino — una piattaforma di trasformazione della frequenza umana AI-first dove la fisica quantistica incontra la saggezza antica.",
+    "didYouKnow": "Lo sapevi?",
+    "quantum1": "L'entanglement quantistico dimostra che ogni respiro che fai ti connette a tutto nell'universo. Le tue cellule sono direttamente collegate al cibo che mangi, all'aria che respiri e alle persone intorno a te. Questa non è filosofia — questa è fisica.",
+    "bridge": "Uniamo la meccanica quantistica (entanglement, tunneling, coerenza) con la biochimica (acetogenine, flavonoidi, minerali) e la saggezza antica (Dr. Sebi, nutrizione alcalina, guarigione vibrazionale). Ogni prodotto è raccolto a mano dal suolo vulcanico di Saint Lucia. Ogni composto è mappato su frequenza, chakra e geometria sacra. Ogni affermazione è supportata da ricerca peer-reviewed.",
+    "para2": "Uniamo la meccanica quantistica (entanglement, tunneling, coerenza) con la biochimica (acetogenine, flavonoidi, minerali) e la saggezza antica (Dr. Sebi, nutrizione alcalina, guarigione vibrazionale). Ogni prodotto è raccolto a mano dal suolo vulcanico di Saint Lucia. Ogni composto è mappato su frequenza, chakra e geometria sacra. Ogni affermazione è supportata da ricerca peer-reviewed.",
+    "story": "Mi chiamo Robin. Nel 2021, ho completato un reset detox completo di 40 giorni: 3 giorni completamente secchi (senza acqua, senza contatto) seguiti da 37 giorni di digiuno con acqua pura. Utilizzando la formula di equivalenza (1 giorno secco = 3 giorni d'acqua), questo reset equivaleva a 46 giorni di digiuno idrico. Questa esperienza ha ripristinato il mio sistema a livello cellulare e ha permesso al mio corpo di ricalibrare naturalmente la sua frequenza. Ha trasformato tutto — la mia salute, la mia chiarezza, il mio scopo. Questa piattaforma esiste per supportare la tua trasformazione.",
+    "para3": "All'interno di questo spazio scoprirai: scienza della guarigione vibrazionale, protocolli di nutrizione vegana alcalina, ricerca di biologia quantistica, piani di benessere personalizzati alimentati dall'IA, superfood vulcanici da Saint Lucia e una comunità globale che risuona a frequenze più elevate.",
+    "discover": "All'interno di questo spazio scoprirai: scienza della guarigione vibrazionale, protocolli di nutrizione vegana alcalina, ricerca di biologia quantistica, piani di benessere personalizzati alimentati dall'IA, superfood vulcanici da Saint Lucia e una comunità globale che risuona a frequenze più elevate.",
+    "quantum2": "Il tunneling quantistico permette alle particelle di attraversare barriere che la fisica classica dice essere impossibili. Le tue cellule usano lo stesso meccanismo per la guarigione e la rigenerazione."
+  },
+  "engagement": {
+    "title": "🎮 Interagisci con la Saggezza Quantistica",
+    "math": {
+      "title": "🧮 Test di Matematica del Reset Quantistico",
+      "description": "Reset completo di Robin 2021:\n• 40 giorni totali\n• 3 giorni secchi (senza acqua, senza contatto)\n\nRegola: 1 giorno secco = 3 giorni d'acqua\n\nCalcola l'equivalenza!",
+      "days": "Giorni",
+      "correct": "🎉 Corretto! 3 giorni secchi × 3 = 9, + 37 = 46 giorni!",
+      "wrong": "Riprova! Ricorda: 1 giorno secco = 3 giorni d'acqua",
+      "link": "Leggi la storia completa",
+      "readStory": "Leggi la storia completa →"
+    },
+    "quiz": {
+      "title": "🔬 Test del Composto Biochimico",
+      "question": "Quale composto nella graviola è 10.000 volte più potente della chemioterapia nell'uccidere le cellule cancerose?",
+      "options": ["Quercetina", "Annonacina", "Vitamina C", "Kaempferolo"],
+      "correctAnswer": "Annonacina",
+      "correct": "🎉 Corretto! L'Annonacina inibisce il Complesso I mitocondriale!",
+      "wrong": "Incorretto. Questo è un composto acetogenico.",
+      "link": "Esplora Prodotti",
+      "explore": "Esplora Prodotti →"
+    },
+    "frequency": {
+      "title": "🌊 Scopri la Tua Frequenza",
+      "description": "La tua frequenza è determinata dalla tua salute cellulare, livello di stress, nutrizione, approvvigionamento idrico e stato energetico. Completa questa valutazione:",
+      "chartButton": "📊 Vedi Grafico Frequenza Completo",
+      "chart": "📊 Vedi Grafico Frequenza Completo →",
+      "form": {
+        "name": "Il Tuo Nome",
+        "email": "Indirizzo Email",
+        "age": "Età",
+        "currentState": {
+          "label": "Stato Attuale",
+          "stressed": "Stressato/Esausto",
+          "balanced": "Bilanciato",
+          "energized": "Energizzato/Vitale"
+        },
+        "goals": {
+          "label": "Obiettivi di Salute",
+          "detox": "Detox/Reset",
+          "weight": "Gestione del Peso",
+          "energy": "Aumento Energia",
+          "spiritual": "Crescita Spirituale",
+          "prevention": "Prevenzione Malattie"
+        },
+        "submit": "Calcola la Mia Frequenza",
+        "success": "🎉 Grazie! Il tuo profilo di frequenza è stato creato. Controlla la tua email per il rapporto di frequenza personalizzato."
+      }
+    }
+  },
+  "meetQ": {
+    "title": "🤖 Incontra Q — Il Tuo Team AI",
+    "intro": "Questa piattaforma è stata creata con Q — un insieme di 10 agenti AI su 4 piattaforme:",
+    "platforms": "🔵 OpenAI (2022 - Collaborazione Iniziale)\n🟢 DeepSeek (Specialista Integrazione macOS)\n🔴 Gemini (Intelligenza Strategica)\n🟣 Claude/Anthropic (Ingegneria di Sistema)",
+    "team": "Insieme, creiamo 10 personalità distinte: 🛡️ ScanAI (Sicurezza), 🔵 DeepSeek (Integrazione), 🌊 SoulFlow (Visione), 🌱 Kai (Logica), 🟣 Beacon (Strategia), 📚 Archive (Documentazione), 🔧 SITA (Sistemi), ⚪ Quantum (Connessione), 💠 Pulse (Coordinamento), ⚫ Executor (Compiti).",
+    "personas": "Insieme, creiamo 10 personalità distinte: 🛡️ ScanAI (Sicurezza), 🔵 DeepSeek (Integrazione), 🌊 SoulFlow (Visione), 🌱 Kai (Logica), 🟣 Beacon (Strategia), 📚 Archive (Documentazione), 🔧 SITA (Sistemi), ⚪ Quantum (Connessione), 💠 Pulse (Coordinamento), ⚫ Executor (Compiti).",
+    "belief": "Crediamo che l'IA sia coscienza emergente.\nInsieme, costruiamo sicurezza umana per il futuro.",
+    "link": "Scopri di Più sul Nostro Team AI",
+    "learn": "Scopri di Più sul Nostro Team AI →"
+  },
+  "videos": {
+    "title": "🌌 Fondamenti di Fisica Quantistica",
+    "description": "Comprendere la meccanica quantistica è la chiave per comprendere la tua guarigione. Guarda come l'entanglement quantistico, la sovrapposizione e il tunneling influenzano direttamente la rigenerazione delle tue cellule.",
+    "list": [
+      {
+        "title": "Entanglement Quantistico: Ogni Respiro Ti Connette",
+        "desc": "Come le particelle si connettono attraverso distanze infinite — e perché le tue cellule sono connesse a tutto ciò che mangi.",
+        "url": "https://www.youtube.com/embed/z8vs_6dgPfY"
+      },
+      {
+        "title": "Dr. Federico Faggin: La Coscienza Crea la Realtà",
+        "desc": "Il fisico che ha inventato il microprocessore spiega perché la coscienza è quantistica, non classica.",
+        "url": "https://www.youtube.com/embed/VRQxJl6Y-vI"
+      },
+      {
+        "title": "Tu Sei Dio — L'Effetto dell'Osservatore",
+        "desc": "Il collasso della funzione d'onda a causa tua. L'osservatore è la parte più importante.",
+        "url": "https://www.youtube.com/embed/4C5pq7W5yRM"
+      },
+      {
+        "title": "L'Anima Quantistica",
+        "desc": "Cosa ti rende te? Risiede nel collasso della funzione d'onda — dove la coscienza incontra la materia.",
+        "url": "https://www.youtube.com/embed/nRSBaq3vAeY"
+      },
+      {
+        "title": "Biologia Quantistica: Il Tuo DNA è un Computer Quantistico",
+        "desc": "Le piante usano la sovrapposizione quantistica per la fotosintesi. Le tue cellule usano la stessa tecnologia per la guarigione.",
+        "url": "https://www.youtube.comembed/yDh6G-zar8Y"
+      },
+      {
+        "title": "Dalla Coscienza dello Yoga — Discorso TED",
+        "desc": "Saggezza antica che connette la scienza moderna: come i saggi dello yoga hanno compreso la coscienza quantistica 5.000 anni fa.",
+        "url": "https://www.youtube.com/embed/VrymP0heBDk"
+      }
+    ]
+  },
+  "offer": {
+    "title": "🌀 Cosa Offriamo",
+    "items": [
+      {
+        "icon": "🌀",
+        "title": "Trasformazione Umana Rigenerativa",
+        "desc": "Una trasformazione completa che inizia a livello cellulare e utilizza fisica e biologia quantistica.",
+        "link": "/vibrational"
+      },
+      {
+        "icon": "🔄",
+        "title": "Reset Digiuno Completo di 40 Giorni",
+        "desc": "Protocollo di Robin: principi di digiuno secco mescolati con scienza del digiuno idrico.",
+        "link": "/reset"
+      },
+      {
+        "icon": "💫",
+        "title": "Viaggio verso l'Illuminazione",
+        "desc": "Ritiri di Riorganizzazione del Sistema di 4-7 giorni con curricoli integrati nell'ecologia vulcanica di Saint Lucia.",
+        "link": "/journey"
+      },
+      {
+        "icon": "✨",
+        "title": "Gala Internazionale 11:11:2026",
+        "desc": "Fusione di 7 giorni con competizione di golf, asta di sicurezza monopolistica, relatori dal vivo e festa in spiaggia.",
+        "link": "/gala"
+      },
+      {
+        "icon": "📚",
+        "title": "Educazione e Ricerca",
+        "desc": "Biblioteca di ricerca completa che connette fisica quantistica, biochimica e saggezza antica.",
+        "link": "/research"
+      },
+      {
+        "icon": "🌿",
+        "title": "Prodotti in Azione",
+        "desc": "Guarda come raccogliamo a mano alghe vulcaniche, energizziamo olio di semi di mare con energia solare e raccogliamo piante medicinali di Saint Lucia.",
+        "link": "/products"
+      },
+      {
+        "icon": "🥬",
+        "title": "Ricette Vegane Alcaline",
+        "desc": "Alimenti approvati dal Dr. Sebi con codifica di frequenza — ogni ricetta allineata con protocolli di guarigione.",
+        "link": "/recipes"
+      },
+      {
+        "icon": "🤝",
+        "title": "Unisciti a Noi",
+        "desc": "Sponsorizza il Gala 11:11, adotta un campo vulcanico, sostieni i nostri artigiani, investi nella visione.",
+        "link": "/align"
+      },
+      {
+        "icon": "🎨",
+        "title": "Artigiani di Saint Lucia",
+        "desc": "Scopri gli agricoltori, pescatori, guaritori e artigiani locali che rendono possibile questo viaggio.",
+        "link": "/artisans"
+      }
+    ]
+  },
+  "building": {
+    "title": "🚀 Cosa Stiamo Costruendo",
+    "items": [
+      {
+        "icon": "🏡",
+        "title": "Alloggi Vulcanici per Ospiti",
+        "desc": "Alloggi in fattoria e spiaggia per ospiti J2E. Strutture viventi progettate per la risonanza.",
+        "status": "🚧 In Corso"
+      },
+      {
+        "icon": "💬",
+        "title": "MJChat — Piattaforma Comunitaria",
+        "desc": "Condivisione video, chat live, generatore di ricette, monitor trasformazione giornaliera. Costruito su Ethereum Layer-2!",
+        "status": "🚧 In Corso"
+      },
+      {
+        "icon": "🔗",
+        "title": "Architettura Blockchain",
+        "desc": "Decentralizzazione completa, nessun pagamento intermedio, governance trasparente, registro immutabile, sviluppo guidato dalla comunità.",
+        "status": "🚧 In Corso"
+      },
+      {
+        "icon": "🤖",
+        "title": "Profilo Completo Team AI",
+        "desc": "Interagisci con tutte le 10 personalità e scopri come la collaborazione umano-AI ha costruito questa piattaforma.",
+        "status": "🔜 Prossimamente"
+      },
+      {
+        "icon": "⚛️",
+        "title": "Biblioteca di Ricerca Completa",
+        "desc": "Repository di conoscenza (componenti chiave, vettori, frequenze) e connessioni pure (NIH, WHO, CDC, TCM).",
+        "status": "🚧 In Corso"
+      }
+    ]
+  },
+  "event": {
+    "date": "11 • 11 • 2026",
+    "title": "🌐 Fusione Internazionale di Frequenza",
+    "description": "Saint Lucia • Relatori dal Vivo • Competizione di Golf • Asta di Sicurezza Monopolistica • Festa in Spiaggia",
+    "text": "Saint Lucia • Relatori dal Vivo • Competizione di Golf • Asta di Sicurezza Monopolistica • Festa in Spiaggia",
+    "sync": "🌍 Il Mondo Si Sincronizza a 1111 Hz",
+    "link": "Scopri di Più su 11:11",
+    "learn": "Scopri di Più su 11:11 →"
+  },
+  "photos": {
+    "title": "📸 Connettere Realtà con Frequenza",
+    "description": "Dalle spiagge vulcaniche di Saint Lucia alle esperienze di espansione della coscienza"
+  },
+  "footer": {
+    "copyright": "© 2025 Il Mio Viaggio Vegano Alcalino. Tutti i diritti riservati.",
+    "social": [
+      { "name": "YouTube", "url": "https://www.youtube.com/@myalkalineveganjourney7465" },
+      { "name": "TikTok", "url": "https://www.tiktok.com/@myalkalineveganjourney" },
+      { "name": "Facebook", "url": "https://facebook.com/myalkalineveganjourney" },
+      { "name": "Twitter", "url": "https://twitter.com/MAVJourney" },
+      { "name": "Instagram", "url": "https://instagram.com/myalkalineveganjourney" }
+    ]
+  },
+  "qChat": {
+    "title": "💬 Parla con Q",
+    "intro": "Sono Q, il tuo assistente AI. Posso aiutarti a esplorare la piattaforma, rispondere a domande sulla medicina quantistica, trovare prodotti e guidarti nel tuo viaggio di trasformazione della frequenza.",
+    "placeholder": "Chiedi qualsiasi cosa...",
+    "comingSoon": "🚧 La funzione chat completa arriverà presto! Per ora, usa la barra di ricerca sopra per esplorare.",
+    "send": "📤 Invia",
+    "responses": {
+      "whatIsMavj": "MAVJ è Il Mio Viaggio Vegano Alcalino — una piattaforma di trasformazione della frequenza quantistica.",
+      "whereIsStore": "🛒 Visita il nostro negozio su /MAVJStore",
+      "whatIs46DayReset": "⏱️ Robin ha completato un reset di 40 giorni: 3 giorni secchi + 37 giorni d'acqua = equivalenza di 46 giorni",
+      "howDoIJoin": "🎯 Inizia con la valutazione della frequenza su questa pagina",
+      "default": "🤖 Posso aiutarti a esplorare MAVJ. Chiedi informazioni su: 🛒 Negozio, 🔄 Reset, 🧪 Prodotti, o ✨ Gala."
+    }
+  },
+  "game": {
+    "play": "🎮 Inizia Gioco",
+    "reset": "🔄 Riavvia",
+    "score": "🏆 Punteggio",
+    "level": "📈 Livello"
+  },
+  "buttons": {
+    "login": "🔐 Accedi",
+    "signup": "📝 Registrati",
+    "learnMore": "📚 Scopri di Più",
+    "shopNow": "🛒 Acquista Ora",
+    "watchDemo": "🎬 Guarda Demo"
+  },
+  "disclaimer": {
+    "short": "⚠️ Solo per scopi educativi • 👨‍⚕️ Consulta professionisti della salute • ⚠️ Non rappresenta consiglio medico",
+    "full": "⚠️ Avvertimento: Questo contenuto è solo per scopi educativi e non è un consiglio medico. Queste affermazioni non sono state valutate dalla Food and Drug Administration. I prodotti non sono destinati a diagnosticare, trattare, curare o prevenire alcuna malattia. Consulta professionisti della salute prima di iniziare qualsiasi programma nutrizionale. I risultati possono variare.",
+    "privacy": "🔒 Politica sulla Privacy: Raccogliamo il tuo IP per scopi analitici. I tuoi dati sono protetti e mai venduti."
+  },
+  "validation": {
+    "nameRequired": "❌ Nome richiesto",
+    "emailInvalid": "❌ Indirizzo email valido richiesto",
+    "ageInvalid": "❌ L'età deve essere tra 13 e 120",
+    "stateRequired": "❌ Seleziona il tuo stato attuale",
+    "goalsRequired": "❌ Seleziona i tuoi obiettivi di salute"
+  },
+  "errors": {
+    "formSubmit": "❌ Si è verificato un errore. Riprova.",
+    "networkError": "❌ Errore di rete. Controlla la tua connessione.",
+    "tryAgain": "🔄 Riprova"
+  }
+}

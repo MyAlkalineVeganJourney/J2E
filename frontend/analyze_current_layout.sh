@@ -1,0 +1,16 @@
+#!/bin/bash
+echo "=== ANALYZING CURRENT LAYOUT STRUCTURE ==="
+echo ""
+echo "1. Current titleSection JSX (lines around 2440-2480):"
+sed -n '2440,2480p' src/Pages/HomePage.js
+echo ""
+echo "2. Current layout is:"
+echo "   [TOP] Company Name"
+echo "   [MIDDLE] Logo (centered)"
+echo "   [BOTTOM] Page Title"
+echo ""
+echo "3. You want:"
+echo "   [LEFT] Text Box → Logo → Company Name → Logo → Text Box [RIGHT]"
+echo "   [BELOW] Page Title (on container border)"
+echo ""
+echo "4. Need to move logo from center to sides of company name"

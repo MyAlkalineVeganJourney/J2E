@@ -1,0 +1,545 @@
+/* accommodations.css - Frequency Container Styling */
+/* Complements info.css with J2E-specific accommodations styling */
+
+/* TITLE SECTION - SACRED SPACE ANNOUNCEMENT */
+.title-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  border-radius: 20px;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.main-title {
+  font-size: 3.5rem;
+  color: #FFD700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  margin-bottom: 2rem;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+  to { text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6); }
+}
+
+.title-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto 2rem;
+}
+
+.side-box {
+  flex: 1;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.side-box div {
+  color: #FFD700;
+  margin: 0.8rem 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.logo-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, rgba(255,215,0,0) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2rem;
+  border: 3px solid #FFD700;
+}
+
+.logo-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  color: #4CAF50;
+  margin: 2rem 0;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.subtitle-bar {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 2rem auto;
+  max-width: 800px;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: white;
+  font-weight: bold;
+}
+
+.ai-declaration-bar {
+  background: linear-gradient(90deg, #4CAF50, #2196F3, #9C27B0, #FF9800);
+  padding: 1.2rem;
+  border-radius: 15px;
+  margin-top: 2rem;
+  animation: rainbow 3s linear infinite;
+  background-size: 400% 400%;
+}
+
+@keyframes rainbow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.ai-declaration {
+  color: white;
+  font-weight: 900;
+  font-size: 1.3rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* SECTION STYLING - TRANSFORMATIONAL CONTAINERS */
+.accommodations-section {
+  padding: 4rem 2rem;
+  margin: 3rem 0;
+  border-radius: 25px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 3px solid;
+  border-image: linear-gradient(45deg, #4CAF50, #2196F3, #9C27B0, #FF9800) 1;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  color: #FFD700;
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #4CAF50, #2196F3, #9C27B0);
+  border-radius: 2px;
+}
+
+/* ACCOMMODATIONS GRID - ABUNDANT SELECTIONS */
+.accommodations-intro {
+  max-width: 900px;
+  margin: 0 auto 4rem;
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 1.9;
+  color: white;
+  background: rgba(255, 215, 0, 0.1);
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 6px solid #FFD700;
+}
+
+.disclaimer {
+  font-size: 1rem;
+  color: #4CAF50;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.accommodations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 40px;
+  margin: 4rem 0;
+}
+
+.accommodation-card {
+  background: linear-gradient(145deg, rgba(0,0,0,0.8), rgba(0,0,0,0.9));
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.accommodation-card:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  border-color: #FFD700;
+}
+
+.accommodation-card.selected {
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+  transform: translateY(-10px);
+  border-color: #FFD700;
+}
+
+.pod-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 900;
+  z-index: 10;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.pod-image {
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pod-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.accommodation-card:hover .pod-image img {
+  transform: scale(1.1);
+}
+
+.pod-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.95));
+  padding: 25px;
+}
+
+.pod-overlay h3 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #FFD700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.pod-price {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #FFD700;
+  margin: 10px 0 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.pod-details {
+  padding: 30px;
+}
+
+.pod-details h4 {
+  color: #FFD700;
+  margin: 0 0 20px;
+  font-size: 1.6rem;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+  padding-bottom: 10px;
+}
+
+.pod-description {
+  color: #ffffff;
+  margin-bottom: 25px;
+  line-height: 1.7;
+  font-size: 1.1rem;
+}
+
+.pod-features {
+  margin: 25px 0;
+  display: grid;
+  gap: 12px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.feature-check {
+  color: #4CAF50;
+  margin-right: 12px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.pod-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.select-pod-btn, .book-now-btn {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.select-pod-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+}
+
+.select-pod-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.book-now-btn {
+  color: #000;
+  font-weight: 900;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.book-now-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* SELECTED POD SUMMARY - CONFIRMATION OF ABUNDANCE */
+.selected-summary {
+  background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(20,20,20,0.95));
+  border: 4px solid;
+  border-radius: 25px;
+  padding: 40px;
+  margin: 5rem 0;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid rgba(255, 215, 0, 0.4);
+}
+
+.summary-header h3 {
+  color: #FFD700;
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.summary-price {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #FFD700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.summary-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+
+.summary-left h4, .summary-right h4 {
+  color: #4CAF50;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  border-left: 5px solid #4CAF50;
+  padding-left: 15px;
+}
+
+.summary-left ul {
+  list-style: none;
+  padding: 0;
+}
+
+.summary-left li {
+  padding: 12px 0;
+  color: #ffffff;
+  position: relative;
+  padding-left: 35px;
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.summary-left li::before {
+  content: "✨";
+  position: absolute;
+  left: 0;
+  color: #FFD700;
+  font-size: 1.2rem;
+}
+
+.payment-options {
+  margin: 25px 0;
+  display: grid;
+  gap: 15px;
+}
+
+.payment-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  color: #ffffff;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+  background: rgba(255, 215, 0, 0.1);
+  transform: translateX(10px);
+}
+
+.payment-option span:first-child {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.payment-option span:last-child {
+  color: #FFD700;
+  font-weight: 900;
+  font-size: 1.3rem;
+}
+
+.final-book-btn {
+  width: 100%;
+  padding: 22px;
+  border: none;
+  border-radius: 15px;
+  color: #000;
+  font-size: 1.4rem;
+  font-weight: 900;
+  cursor: pointer;
+  margin: 30px 0;
+  transition: all 0.4s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.final-book-btn:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+.secure-note {
+  text-align: center;
+  color: #4CAF50;
+  font-size: 1rem;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* RESPONSIVE ABUNDANCE */
+@media (max-width: 1024px) {
+  .accommodations-grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+  
+  .title-grid {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .logo-circle {
+    margin: 2rem 0;
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-title {
+    font-size: 2.5rem;
+  }
+  
+  .accommodations-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .summary-details {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .summary-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .pod-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-section, .accommodations-section {
+    padding: 2rem 1rem;
+  }
+  
+  .main-title {
+    font-size: 2rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+/* FREQUENCY ENHANCEMENTS */
+.pod-badge {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.final-book-btn {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}

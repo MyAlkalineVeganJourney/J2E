@@ -1,12 +1,16 @@
-// src/App.js
+// src/App.js - UPDATED VERSION
+import './i18n/config';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n/config';
+import { LanguageProvider } from './contexts/LanguageContext';
+import { UserProvider } from './contexts/UserContext';
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-// Pages
 import HomePage from './Pages/HomePage';
 import MAVJStore from './Pages/MAVJStore';
 import Checkout from './Pages/Checkout';
@@ -36,7 +40,6 @@ import AlignWithUs from './Pages/AlignWithUs';
 import MAVJSearch from './Pages/Search';
 import LiveBroadcast from './components/LiveBroadcast';
 
-// Vibrational Intelligence Pages
 import VibrationalIntelligence from './Pages/VibrationalIntelligence/index';
 import ElementsEnergy from './Pages/VibrationalIntelligence/ElementsEnergy';
 import FrequencyRecalibration from './Pages/VibrationalIntelligence/FrequencyRecalibration';
@@ -55,56 +58,73 @@ const stripePromise = loadStripe("pk_test_51Q4w6LA8s1feV7TsMJLPPr3VKj0IlcYkmGCoj
 
 function App() {
   return (
-    <CartProvider>
-      <Router basename="/J2E">
-        <Elements stripe={stripePromise}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/TheJourney" element={<TheJourney />} />
-            <Route path="/VibrationalIntelligence" element={<VibrationalIntelligence />} />
-            <Route path="/AlignWithUs" element={<AlignWithUs />} />
-            <Route path="/Search" element={<MAVJSearch />} />
-            <Route path="/LiveBroadcast" element={<LiveBroadcast />} />
-            <Route path="/MAVJStore" element={<MAVJStore />} />
-            <Route path="/PodcastVlog" element={<PodcastVlog />} />
-            <Route path="/ContactUs" element={<ContactUs />} />
-            <Route path="/Checkout" element={<Checkout />} />
-            <Route path="/Recipes" element={<Recipes />} />
-            <Route path="/Herbs" element={<Herbs />} />
-            <Route path="/Illnesses" element={<Illnesses />} />
-            <Route path="/Oils" element={<Oils />} />
-            <Route path="/MAVJDetox" element={<MAVJDetox />} />
-            <Route path="/Journey2Enlightenment" element={<Journey2Enlightenment />} />
-            <Route path="/AVSnacks" element={<AVSnacks />} />
-            <Route path="/Seeds" element={<Seeds />} />
-            <Route path="/MAVJSeaMoss" element={<MAVJSeaMoss />} />
-            <Route path="/Consultations" element={<Consultations />} />
-            <Route path="/Merchandise" element={<Merchandise />} />
-            <Route path="/AboutUs" element={<AboutUs />} />
-            <Route path="/AVDrinks" element={<AVDrinks />} />
-            <Route path="/J2EAccommodations" element={<J2EAccommodations />} />
-            <Route path="/J2EExcursions" element={<J2EExcursions />} />
-            <Route path="/J2EAgro" element={<J2EAgro />} />
-            <Route path="/J2EAqua" element={<J2EAqua />} />
-            <Route path="/J2EWorkshops" element={<J2EWorkshops />} />
-            <Route path="/J2EFood" element={<J2EFood />} />
-            {/* Vibrational Intelligence Subpages */}
-            <Route path="/VibrationalIntelligence/ElementsEnergy" element={<ElementsEnergy />} />
-            <Route path="/VibrationalIntelligence/FrequencyRecalibration" element={<FrequencyRecalibration />} />
-            <Route path="/VibrationalIntelligence/J2EProtocol" element={<J2EProtocol />} />
-            <Route path="/VibrationalIntelligence/ProductCompendium" element={<ProductCompendium />} />
-            <Route path="/VibrationalIntelligence/PackagingLabels" element={<PackagingLabels />} />
-            <Route path="/VibrationalIntelligence/PackagingLabels/Chakras" element={<Chakras />} />
-            <Route path="/VibrationalIntelligence/PackagingLabels/Fibonacci" element={<Fibonacci />} />
-            <Route path="/VibrationalIntelligence/PackagingLabels/FrequencyChart" element={<FrequencyChart />} />
-            <Route path="/VibrationalIntelligence/PackagingLabels/Numerology" element={<Numerology />} />
-            <Route path="/VibrationalIntelligence/PackagingLabels/PinealGland" element={<PinealGland />} />
-            <Route path="/VibrationalIntelligence/PackagingLabels/SacredGeometry" element={<SacredGeometry />} />
-            <Route path="/VibrationalIntelligence/MasterElements" element={<MasterElements />} />
-          </Routes>
-        </Elements>
-      </Router>
-    </CartProvider>
+    <LanguageProvider>
+      <UserProvider>
+        <CartProvider>
+          <I18nextProvider i18n={i18n}>
+            <Router basename="/J2E">
+              <Elements stripe={stripePromise}>
+                <div className="App">
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/home" element={<Navigate to="/" replace />} />
+                    <Route path="/HomePage" element={<Navigate to="/" replace />} />
+                    <Route path="/index" element={<Navigate to="/" replace />} />
+                    <Route path="/index.html" element={<Navigate to="/" replace />} />
+                    <Route path="/TheJourney" element={<TheJourney />} />
+                    <Route path="/VibrationalIntelligence" element={<VibrationalIntelligence />} />
+                    <Route path="/AlignWithUs" element={<AlignWithUs />} />
+                    <Route path="/Search" element={<MAVJSearch />} />
+                    <Route path="/LiveBroadcast" element={<LiveBroadcast />} />
+                    <Route path="/MAVJStore" element={<MAVJStore />} />
+                    <Route path="/PodcastVlog" element={<PodcastVlog />} />
+                    <Route path="/ContactUs" element={<ContactUs />} />
+                    <Route path="/Checkout" element={<Checkout />} />
+                    <Route path="/Recipes" element={<Recipes />} />
+                    <Route path="/Herbs" element={<Herbs />} />
+                    <Route path="/Illnesses" element={<Illnesses />} />
+                    <Route path="/Oils" element={<Oils />} />
+                    <Route path="/MAVJDetox" element={<MAVJDetox />} />
+                    <Route path="/Journey2Enlightenment" element={<Journey2Enlightenment />} />
+                    <Route path="/AVSnacks" element={<AVSnacks />} />
+                    <Route path="/Seeds" element={<Seeds />} />
+                    <Route path="/MAVJSeaMoss" element={<MAVJSeaMoss />} />
+                    <Route path="/Consultations" element={<Consultations />} />
+                    <Route path="/Merchandise" element={<Merchandise />} />
+                    <Route path="/AboutUs" element={<AboutUs />} />
+                    <Route path="/AVDrinks" element={<AVDrinks />} />
+                    <Route path="/J2EAccommodations" element={<J2EAccommodations />} />
+                    <Route path="/J2EExcursions" element={<J2EExcursions />} />
+                    <Route path="/J2EAgro" element={<J2EAgro />} />
+                    <Route path="/J2EAqua" element={<J2EAqua />} />
+                    <Route path="/J2EWorkshops" element={<J2EWorkshops />} />
+                    <Route path="/J2EFood" element={<J2EFood />} />
+                    <Route path="/VibrationalIntelligence/ElementsEnergy" element={<ElementsEnergy />} />
+                    <Route path="/VibrationalIntelligence/FrequencyRecalibration" element={<FrequencyRecalibration />} />
+                    <Route path="/VibrationalIntelligence/J2EProtocol" element={<J2EProtocol />} />
+                    <Route path="/VibrationalIntelligence/ProductCompendium" element={<ProductCompendium />} />
+                    <Route path="/VibrationalIntelligence/PackagingLabels" element={<PackagingLabels />} />
+                    <Route path="/VibrationalIntelligence/PackagingLabels/Chakras" element={<Chakras />} />
+                    <Route path="/VibrationalIntelligence/PackagingLabels/Fibonacci" element={<Fibonacci />} />
+                    <Route path="/VibrationalIntelligence/PackagingLabels/FrequencyChart" element={<FrequencyChart />} />
+                    <Route path="/VibrationalIntelligence/PackagingLabels/Numerology" element={<Numerology />} />
+                    <Route path="/VibrationalIntelligence/PackagingLabels/PinealGland" element={<PinealGland />} />
+                    <Route path="/VibrationalIntelligence/PackagingLabels/SacredGeometry" element={<SacredGeometry />} />
+                    <Route path="/VibrationalIntelligence/MasterElements" element={<MasterElements />} />
+                    <Route path="*" element={
+                      <div style={{ padding: '20px', textAlign: 'center', color: '#FFD700' }}>
+                        <h1>404 - Page Not Found</h1>
+                        <p>Return to <a href="/" style={{ color: '#00d4ff' }}>Homepage</a></p>
+                      </div>
+                    } />
+                  </Routes>
+                </div>
+              </Elements>
+            </Router>
+          </I18nextProvider>
+        </CartProvider>
+      </UserProvider>
+    </LanguageProvider>
   );
 }
 

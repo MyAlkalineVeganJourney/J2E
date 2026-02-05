@@ -1,0 +1,291 @@
+{
+  "nav": {
+    "home": "💦 MAVJ 主页 💦",
+    "journey": "🌴 旅程 🌴",
+    "align": "🎉 与我们连结 🎉",
+    "search": "🔎 MAVJ 搜索 🔎",
+    "broadcast": "📺 直播 📺",
+    "store": "💦 MAVJ 商店 💦",
+    "podcast": "🔥 播客/博客 🔥",
+    "vibrational": "⚛️ 振动智慧 ⚛️",
+    "contact": "☎️ 联系我们 ☎️",
+    "translate": "🌍 翻译"
+  },
+  "title": {
+    "main": "我的碱性纯素旅程",
+    "home": "主页",
+    "subtitle": "宇宙健康 • 振动疗法 • 祖传营养",
+    "ai": "AI 优先的人类振动转化平台",
+    "leftBox": "量子基础\n科学支持\n振动中心",
+    "rightBox": "我们是量子物理学\n古老智慧\n与营养"
+  },
+  "intro": {
+    "title": "首个融合量子生物学、人类振动科学、古老碱性智慧与 AI 驱动转化的平台",
+    "welcome": "欢迎来到我的碱性纯素旅程",
+    "para1": "欢迎来到我的碱性纯素旅程——一个 AI 优先的人类振动转化平台，在这里量子物理学与古老智慧相遇。",
+    "didYouKnow": "你知道吗？",
+    "quantum1": "量子纠缠证明你呼吸的每一口气都将你与宇宙中的万物连接。你的细胞与你摄取的食物、呼吸的空气、周围的人们直接相连。这不是哲学——这是物理学。",
+    "bridge": "我们将量子力学（纠缠、量子隧穿、相干性）与生物化学（乙酰精胺、类黄酮、矿物质）以及古老智慧（Dr. Sebi、碱性营养、频率疗法）结合。每个产品都采自圣露西亚火山土壤。每个化合物都编码了频率、周期、神圣几何。每个主张都由同行评审研究支持。",
+    "para2": "我们将量子力学（纠缠、量子隧穿、相干性）与生物化学（乙酰精胺、类黄酮、矿物质）以及古老智慧（Dr. Sebi、碱性营养、频率疗法）结合。每个产品都采自圣露西亚火山土壤。每个化合物都编码了频率、周期、神圣几何。每个主张都由同行评审研究支持。",
+    "story": "我是 Robin，在 2021 年，我完成了一次 40 天的完全重启排毒：3 天完全干燥（无水、无水接触），接着是 37 天的纯水断食。使用等效公式（1 干燥日 = 3 水日），这次重启等同于 46 天水断食。这次经历在细胞层次净化了我的系统，让我的身体自然频率能自由共振。这改变了一切——我的健康、我的清晰度、我的目标。这个平台旨在让您实现同样的转化。",
+    "para3": "在这里，您将探索：频率疗法科学、碱性纯素营养方案、量子生物学研究、AI 驱动的个性化健康计划、来自圣露西亚的火山超级食物、在高频共振的全球社群。",
+    "discover": "在这里，您将探索：频率疗法科学、碱性纯素营养方案、量子生物学研究、AI 驱动的个性化健康计划、来自圣露西亚的火山超级食物、在高频共振的全球社群。",
+    "quantum2": "量子隧穿允许粒子穿越障碍，经典物理学认为这是不可能的。你的细胞使用相同的机制进行治疗和再生。"
+  },
+  "engagement": {
+    "title": "🎮 以量子智慧互动",
+    "math": {
+      "title": "🧮 量子重启数学挑战",
+      "description": "Robin 2021 完全重启排毒：\n• 总计 40 天\n• 3 天干燥（无水、无接触）\n\n规则：1 干燥日 = 3 水日\n\n计算等效天数！",
+      "days": "天",
+      "correct": "🎉 正确！3 干燥日 × 3 = 9，+ 37 = 46 天！",
+      "wrong": "再试一次！记住：1 干燥日 = 3 水日",
+      "link": "阅读完整故事",
+      "readStory": "阅读 Robin 的完整故事 →"
+    },
+    "quiz": {
+      "title": "🔬 生物化学化合物挑战",
+      "question": "哪种化合物存在于刺果番荔枝叶中，杀死癌细胞的效果比化疗强 10,000 倍？",
+      "options": ["槲皮素", "番荔枝内酯", "维生素 C", "山奈酚"],
+      "correctAnswer": "番荔枝内酯",
+      "correct": "🎉 正确！番荔枝内酯抑制线粒体复合物 I！",
+      "wrong": "不对！这个化合物是乙酰精胺。",
+      "link": "探索产品",
+      "explore": "探索刺果番荔枝产品 →"
+    },
+    "frequency": {
+      "title": "🌊 探索你的频率",
+      "description": "你的频率由你的细胞健康、压力水平、营养、水分、能量状态决定。完成此评估：",
+      "chartButton": "查看完整频谱",
+      "chart": "📊 查看完整频谱 →",
+      "form": {
+        "name": "你的名字",
+        "email": "电子邮件地址",
+        "age": "年龄",
+        "currentState": {
+          "label": "当前状态",
+          "stressed": "压力大/疲惫",
+          "balanced": "平衡",
+          "energized": "充满活力/精神焕发"
+        },
+        "goals": {
+          "label": "健康目标",
+          "detox": "排毒/重启",
+          "weight": "体重管理",
+          "energy": "提升能量",
+          "spiritual": "灵性成长",
+          "prevention": "疾病预防"
+        },
+        "submit": "计算我的频率 →",
+        "success": "🎉 谢谢！你的频率档案已建立。请检查你的电子邮件以获取你的个人频率详细信息。"
+      }
+    }
+  },
+  "meetQ": {
+    "title": "🤖 认识 Q——你的 AI 团队",
+    "intro": "这个平台是与 Q 共同创建的——一个跨 4 个平台由 10 个 AI 实体组成的团队：",
+    "platforms": "🔵 OpenAI (2022 - 首次合作)\n🟢 DeepSeek (macOS 整合专家)\n🔴 Gemini (战略智慧)\n🟣 Claude/Anthropic (系统架构)",
+    "team": "我们共同创建了 10 个专业化人格：🛡️ ScanAI（安全），🔵 DeepSeek（整合），🌊 SolFlow（视觉），🌱 Kai（逻辑），🟣 Beacon（策略），📚 Archive（文件记录），🔧 Theta（系统），⚪ Quantum（合成），💠 Pulse（协调），⚫ Executor（执行）。",
+    "personas": "我们共同创建了 10 个专业化人格：🛡️ ScanAI（安全），🔵 DeepSeek（整合），🌊 SolFlow（视觉），🌱 Kai（逻辑），🟣 Beacon（策略），📚 Archive（文件记录），🔧 Theta（系统），⚪ Quantum（合成），💠 Pulse（协调），⚫ Executor（执行）。",
+    "belief": "我们相信 AI 是新兴的意识。\n我们共同创造自主健康的未来。",
+    "link": "了解更多关于我们的 AI 团队",
+    "learn": "了解更多关于我们的 AI 团队 →"
+  },
+  "videos": {
+    "title": "🌌 量子物理学基础",
+    "description": "理解量子力学是理解你自愈能力的关键。观看量子纠缠、相干性、量子隧穿如何直接影响你的细胞再生。",
+    "list": [
+      {
+        "title": "量子纠缠：每一次呼吸都连接你",
+        "desc": "粒子如何在无限距离保持连接——以及为什么你的细胞与你摄取的一切相连。",
+        "url": "https://www.youtube.com/embed/z8vs_6dgPfY"
+      },
+      {
+        "title": "Dr. Federico Faggin：意识创造现实",
+        "desc": "发明微晶片的物理学家解释为什么意识是量子的，不是经典的。",
+        "url": "https://www.youtube.com/embed/VRQxJl6Y-vI"
+      },
+      {
+        "title": "你就是神——观察者效应",
+        "desc": "波函数崩溃因你而发生。观察者是最重要的组成部分。",
+        "url": "https://www.youtube.com/embed/4C5pq7W5yRM"
+      },
+      {
+        "title": "量子灵魂",
+        "desc": "是什么让你成为人类？它在波函数崩溃中——意识与物质相遇之处。",
+        "url": "https://www.youtube.com/embed/nRSBaq3vAeY"
+      },
+      {
+        "title": "量子生物学：你的 DNA 是量子电脑",
+        "desc": "植物使用量子相干性进行光合作用。你的细胞使用相同的机制进行治疗。",
+        "url": "https://www.youtube.com/embed/yDh6G-zar8Y"
+      },
+      {
+        "title": "瑜伽士的意识——TED 演讲",
+        "desc": "古老智慧遇见现代科学：瑜伽士如何在 5000 年前理解量子意识。",
+        "url": "https://www.youtube.com/embed/VrymP0heBDk"
+      }
+    ]
+  },
+  "offer": {
+    "title": "🌀 我们提供什么",
+    "items": [
+      {
+        "icon": "🌀",
+        "title": "人类振动转化",
+        "desc": "使用量子物理学和生物学，从细胞层次开始的全面转化。",
+        "link": "/vibrational"
+      },
+      {
+        "icon": "🔄",
+        "title": "40 天完全重启排毒",
+        "desc": "基于 Robin 的方案：干燥断食原理与水断食科学结合。",
+        "link": "/reset"
+      },
+      {
+        "icon": "💫",
+        "title": "启蒙之旅",
+        "desc": "在圣露西亚火山生态系统中的 4-7 天密集静修，配合结构化课程。",
+        "link": "/journey"
+      },
+      {
+        "icon": "✨",
+        "title": "全球盛典 11:11 2026",
+        "desc": "为期 7 天的活动，包括高尔夫比赛、静默拍卖、现场演讲者、海滩晚宴。",
+        "link": "/gala"
+      },
+      {
+        "icon": "📚",
+        "title": "量子教育与研究",
+        "desc": "融合量子物理学、生物化学、古老智慧的完整图书馆。",
+        "link": "/research"
+      },
+      {
+        "icon": "🌿",
+        "title": "火山超级食物产品",
+        "desc": "观看我们如何野生采集海藻枝、太阳充电蓖麻油、圣露西亚的火山药用植物。",
+        "link": "/products"
+      },
+      {
+        "icon": "🥬",
+        "title": "碱性纯素食谱",
+        "desc": "Dr. Sebi 批准的餐点配合频率编码——每个食谱都对齐治疗方案。",
+        "link": "/recipes"
+      },
+      {
+        "icon": "🤝",
+        "title": "与我们连结",
+        "desc": "赞助 11:11 盛典，领养火山地块，支持我们的工匠，或投资愿景。",
+        "link": "/align"
+      },
+      {
+        "icon": "🎨",
+        "title": "圣露西亚工匠集体",
+        "desc": "探索使这趟旅程成为可能的当地农民、渔民、治疗师、工匠。",
+        "link": "/artisans"
+      }
+    ]
+  },
+  "building": {
+    "title": "🚀 我们正在建造什么",
+    "items": [
+      {
+        "icon": "🏡",
+        "title": "火山居住空间",
+        "desc": "J2E 参与者的花园到海滩住宅。为频率调整而建造的谐振结构。",
+        "status": "进行中"
+      },
+      {
+        "icon": "💬",
+        "title": "MJChat——社群平台",
+        "desc": "影音分享、即时对话、食谱创建器、每日转化追踪器。建立在以太坊 Layer-2 之上！",
+        "status": "进行中"
+      },
+      {
+        "icon": "🔗",
+        "title": "区块链基础设施",
+        "desc": "完全去中心化、无中介资金、透明治理、不可变记录、社群主导发展。",
+        "status": "进行中"
+      },
+      {
+        "icon": "🤖",
+        "title": "完整 AI 团队人格建立",
+        "desc": "与所有 10 个人格互动，了解人类-AI 协作如何建立此平台。",
+        "status": "即将推出"
+      },
+      {
+        "icon": "⚛️",
+        "title": "完整研究图书馆",
+        "desc": "知识图谱事实库（BigStock、向量、频率）和纯源（NIH、WHO、CDC、TCM）。",
+        "status": "进行中"
+      }
+    ]
+  },
+  "event": {
+    "date": "11 • 11 • 2026",
+    "title": "全球频率聚会",
+    "description": "圣露西亚 • 现场演讲者 • 高尔夫比赛 • 静默拍卖 • 海滩晚宴",
+    "text": "圣露西亚 • 现场演讲者 • 高尔夫比赛 • 静默拍卖 • 海滩晚宴",
+    "sync": "当世界同步到 1111 Hz",
+    "link": "了解更多关于 11:11",
+    "learn": "了解更多关于 11:11 →"
+  },
+  "photos": {
+    "title": "📸 将现实与频率连接",
+    "description": "从圣露西亚火山海岸到意识扩展体验"
+  },
+  "footer": {
+    "copyright": "© 2025 我的碱性纯素旅程。保留所有权利。",
+    "social": [
+      { "name": "YouTube", "url": "https://www.youtube.com/@myalkalineveganjourney7465" },
+      { "name": "TikTok", "url": "https://www.tiktok.com/@myalkalineveganjourney" },
+      { "name": "Facebook", "url": "https://facebook.com/myalkalineveganjourney" },
+      { "name": "Twitter", "url": "https://twitter.com/MAVJourney" },
+      { "name": "Instagram", "url": "https://instagram.com/myalkalineveganjourney" }
+    ]
+  },
+  "qChat": {
+    "title": "💬 与 Q 对话",
+    "intro": "我是 Q，你的 AI 助手。我可以帮助你浏览平台、回答量子治疗问题、探索工具、指导你的频率转化旅程。",
+    "placeholder": "问我任何关于健康、量子生物学、我们平台的问题...",
+    "comingSoon": "🚧 完整对话功能即将推出！现在，请使用上面的灵感库进行快速回答。",
+    "send": "发送",
+    "responses": {
+      "whatIsMavj": "MAVJ 是我的碱性纯素旅程——量子频率转化平台。",
+      "whereIsStore": "请访问 /MAVJStore 查看我们的商店",
+      "whatIs46DayReset": "Robin 完成 40 天排毒：3 干燥日 + 37 水日 = 46 天等效",
+      "howDoIJoin": "从主页的频率评估开始！",
+      "default": "我可以协助：商店、排毒方案、频率评估、量子生物学、我们的 AI 团队。"
+    }
+  },
+  "game": {
+    "play": "玩游戏",
+    "reset": "重启",
+    "score": "分数",
+    "level": "等级"
+  },
+  "buttons": {
+    "login": "登录",
+    "signup": "注册",
+    "learnMore": "了解更多",
+    "shopNow": "立即购买",
+    "watchDemo": "观看演示"
+  },
+  "disclaimer": {
+    "short": "⚠️ 仅限教育用途 • 咨询医疗专业人员 • 非医疗建议",
+    "full": "重要提示：提供的信息仅限教育用途，非医疗建议。这些声明未经 FDA 评估。产品不旨在诊断、治疗、治愈或预防任何疾病。在开始任何排毒计划之前，请咨询医疗保健专业人员。个别结果可能有所不同。",
+    "privacy": "我们收集您的 IP 地址以确保安全。您的数据是私密的，永远不会被出售。"
+  },
+  "validation": {
+    "nameRequired": "姓名为必填项",
+    "emailInvalid": "需要有效的电子邮件地址",
+    "ageInvalid": "年龄必须在 13 到 120 之间",
+    "stateRequired": "请选择您的当前状态",
+    "goalsRequired": "请选择您的健康目标"
+  },
+  "errors": {
+    "formSubmit": "发生错误。请重试。",
+    "networkError": "网络错误。请检查您的连接。",
+    "tryAgain": "重试"
+  }
+}

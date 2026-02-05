@@ -1,15 +1,17 @@
+import './i18n/config';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n/config';
 // src/App.js
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
-// import { Elements } from "@stripe/react-stripe-js";
-// import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 // Pages
 import HomePage from './Pages/HomePage';
 import MAVJStore from './Pages/MAVJStore';
-import ProductPage from './Pages/ProductPage';
 import Checkout from './Pages/Checkout';
 import Recipes from './Pages/Recipes';
 import Herbs from './Pages/Herbs';
@@ -52,13 +54,13 @@ import PinealGland from './Pages/VibrationalIntelligence/PackagingLabels/PinealG
 import SacredGeometry from './Pages/VibrationalIntelligence/PackagingLabels/SacredGeometry';
 import MasterElements from './Pages/MasterElements';
 
-// const stripePromise = loadStripe("pk_test_51Q4w6LA8s1feV7TsMJLPPr3VKj0IlcYkmGCojTDlEXejRTgvsiiI3VSnFUxzbVXwXPRD4xOC30xKq6L13I6JoIXb00GQe5oPCo");
+const stripePromise = loadStripe("pk_test_51Q4w6LA8s1feV7TsMJLPPr3VKj0IlcYkmGCojTDlEXejRTgvsiiI3VSnFUxzbVXwXPRD4xOC30xKq6L13I6JoIXb00GQe5oPCo");
 
 function App() {
   return (
     <CartProvider>
-      <Router>
-        
+      <Router basename="/J2E">
+        <Elements stripe={stripePromise}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/TheJourney" element={<TheJourney />} />
@@ -72,7 +74,6 @@ function App() {
             <Route path="/Checkout" element={<Checkout />} />
             <Route path="/Recipes" element={<Recipes />} />
             <Route path="/Herbs" element={<Herbs />} />
-            <Route path="/product/:productId" element={<ProductPage />} />
             <Route path="/Illnesses" element={<Illnesses />} />
             <Route path="/Oils" element={<Oils />} />
             <Route path="/MAVJDetox" element={<MAVJDetox />} />
@@ -104,7 +105,7 @@ function App() {
             <Route path="/VibrationalIntelligence/PackagingLabels/SacredGeometry" element={<SacredGeometry />} />
             <Route path="/VibrationalIntelligence/MasterElements" element={<MasterElements />} />
           </Routes>
-        
+        </Elements>
       </Router>
     </CartProvider>
   );

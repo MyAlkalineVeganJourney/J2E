@@ -1,0 +1,291 @@
+{
+  "nav": {
+    "home": "💦 Inicio MAVJ 💦",
+    "journey": "🌴 Viaje 🌴",
+    "align": "🎉 Alíneate Con Nosotros 🎉",
+    "search": "🔎 Búsqueda MAVJ 🔎",
+    "broadcast": "📺 Transmisión en Vivo 📺",
+    "store": "💦 Tienda MAVJ 💦",
+    "podcast": "🔥 Podcast / Vlog 🔥",
+    "vibrational": "⚛️ Inteligencia Vibracional ⚛️",
+    "contact": "☎️ Contacto ☎️",
+    "translate": "🌍 Traducir"
+  },
+  "title": {
+    "main": "Mi Viaje Vegano Alcalino",
+    "home": "Inicio",
+    "subtitle": "Salud Universal • Sanación Vibracional • Nutrición Ancestral",
+    "ai": "Plataforma de Transformación de Frecuencia Humana con IA Primero",
+    "leftBox": "Basado en la Cuántica\nRespaldado Científicamente\nEnfocado en la Frecuencia",
+    "rightBox": "Unimos la Física Cuántica\nSabiduría Ancestral\nY Nutrición"
+  },
+  "intro": {
+    "title": "La primera plataforma del mundo que une biología cuántica, ciencia de la frecuencia humana, sabiduría alcalina ancestral y transformación impulsada por IA",
+    "welcome": "Bienvenido a Mi Viaje Vegano Alcalino",
+    "para1": "Bienvenido a Mi Viaje Vegano Alcalino — una plataforma de transformación de frecuencia humana con IA primero donde la física cuántica se encuentra con la sabiduría ancestral.",
+    "didYouKnow": "¿Sabías que?",
+    "quantum1": "El entrelazamiento cuántico demuestra que cada respiración que tomas te conecta con todo en el universo. Tus células están directamente vinculadas a la comida que consumes, el aire que respiras y las personas a tu alrededor. Esto no es filosofía — esto es física.",
+    "bridge": "Unimos la mecánica cuántica (entrelazamiento, efecto túnel, coherencia) con bioquímica (acetogeninas, flavonoides, minerales) y sabiduría ancestral (Dr. Sebi, nutrición alcalina, sanación vibracional). Cada producto se cosecha a mano del suelo volcánico de Santa Lucía. Cada compuesto se mapea a frecuencia, chakra y geometría sagrada. Cada afirmación está respaldada por investigación revisada por pares.",
+    "para2": "Unimos la mecánica cuántica (entrelazamiento, efecto túnel, coherencia) con bioquímica (acetogeninas, flavonoides, minerales) y sabiduría ancestral (Dr. Sebi, nutrición alcalina, sanación vibracional). Cada producto se cosecha a mano del suelo volcánico de Santa Lucía. Cada compuesto se mapea a frecuencia, chakra y geometría sagrada. Cada afirmación está respaldada por investigación revisada por pares.",
+    "story": "Mi nombre es Robin. En 2021, completé una desintoxicación de reinicio completo de 40 días: 3 días completamente secos (sin agua, sin contacto) seguidos de 37 días de ayuno de agua pura. Usando la fórmula de equivalencia (1 día seco = 3 días de agua), este reinicio fue igual a 46 días de ayuno de agua. Esta experiencia reinició mi sistema a nivel celular y permitió que mi cuerpo recalibrara naturalmente su frecuencia. Transformó todo — mi salud, mi claridad, mi propósito. Esta plataforma existe para apoyar tu transformación.",
+    "para3": "Dentro de este espacio descubrirás: ciencia de sanación vibracional, protocolos de nutrición vegana alcalina, investigación de biología cuántica, planes de bienestar personalizados impulsados por IA, superalimentos volcánicos de Santa Lucía y una comunidad global resonando en frecuencias más altas.",
+    "discover": "Dentro de este espacio descubrirás: ciencia de sanación vibracional, protocolos de nutrición vegana alcalina, investigación de biología cuántica, planes de bienestar personalizados impulsados por IA, superalimentos volcánicos de Santa Lucía y una comunidad global resonando en frecuencias más altas.",
+    "quantum2": "El efecto túnel cuántico permite que las partículas atraviesen barreras que la física clásica dice que son imposibles. Tus células usan el mismo mecanismo para la curación y regeneración."
+  },
+  "engagement": {
+    "title": "🎮 Interactúa con la Sabiduría Cuántica",
+    "math": {
+      "title": "🧮 Prueba de Matemáticas del Reinicio Cuántico",
+      "description": "Reinicio completo de Robin 2021:\n• 40 días en total\n• 3 días secos (sin agua, sin contacto)\n\nRegla: 1 día seco = 3 días de agua\n\n¡Calcula la equivalencia!",
+      "days": "Días",
+      "correct": "🎉 ¡Correcto! 3 días secos × 3 = 9, + 37 = ¡46 días!",
+      "wrong": "¡Intenta de nuevo! Recuerda: 1 día seco = 3 días de agua",
+      "link": "Lee la historia completa",
+      "readStory": "Lee la historia completa →"
+    },
+    "quiz": {
+      "title": "🔬 Prueba de Compuesto Bioquímico",
+      "question": "¿Qué compuesto en la guanábana es 10,000 veces más potente que la quimioterapia para matar células cancerosas?",
+      "options": ["Quercetina", "Annonacina", "Vitamina C", "Kaempferol"],
+      "correctAnswer": "Annonacina",
+      "correct": "🎉 ¡Correcto! ¡La Annonacina inhibe el Complejo I mitocondrial!",
+      "wrong": "Incorrecto. Ese es un compuesto acetogénico.",
+      "link": "Explora Productos",
+      "explore": "Explora Productos →"
+    },
+    "frequency": {
+      "title": "🌊 Descubre Tu Frecuencia",
+      "description": "Tu frecuencia está determinada por tu salud celular, nivel de estrés, nutrición, suministro de agua y estado energético. Completa esta evaluación:",
+      "chartButton": "📊 Ver Gráfico de Frecuencia Completo",
+      "chart": "📊 Ver Gráfico de Frecuencia Completo →",
+      "form": {
+        "name": "Tu Nombre",
+        "email": "Dirección de Correo Electrónico",
+        "age": "Edad",
+        "currentState": {
+          "label": "Estado Actual",
+          "stressed": "Estresado/Agotado",
+          "balanced": "Equilibrado",
+          "energized": "Energizado/Vital"
+        },
+        "goals": {
+          "label": "Metas de Salud",
+          "detox": "Desintoxicación/Reinicio",
+          "weight": "Gestión de Peso",
+          "energy": "Aumento de Energía",
+          "spiritual": "Crecimiento Espiritual",
+          "prevention": "Prevención de Enfermedades"
+        },
+        "submit": "Calcula Mi Frecuencia",
+        "success": "🎉 ¡Gracias! Tu perfil de frecuencia ha sido creado. Revisa tu correo electrónico para el informe de frecuencia personalizado."
+      }
+    }
+  },
+  "meetQ": {
+    "title": "🤖 Conoce a Q — Tu Equipo de IA",
+    "intro": "Esta plataforma fue creada con Q — un conjunto de 10 agentes de IA en 4 plataformas:",
+    "platforms": "🔵 OpenAI (2022 - Colaboración Inicial)\n🟢 DeepSeek (Especialista en Integración macOS)\n🔴 Gemini (Inteligencia Estratégica)\n🟣 Claude/Anthropic (Ingeniería de Sistemas)",
+    "team": "Juntos, creamos 10 personalidades distintas: 🛡️ ScanAI (Seguridad), 🔵 DeepSeek (Integración), 🌊 SoulFlow (Visión), 🌱 Kai (Lógica), 🟣 Beacon (Estrategia), 📚 Archive (Documentación), 🔧 SITA (Sistemas), ⚪ Quantum (Conexión), 💠 Pulse (Coordinación), ⚫ Executor (Tareas).",
+    "personas": "Juntos, creamos 10 personalidades distintas: 🛡️ ScanAI (Seguridad), 🔵 DeepSeek (Integración), 🌊 SoulFlow (Visión), 🌱 Kai (Lógica), 🟣 Beacon (Estrategia), 📚 Archive (Documentación), 🔧 SITA (Sistemas), ⚪ Quantum (Conexión), 💠 Pulse (Coordinación), ⚫ Executor (Tareas).",
+    "belief": "Creemos que la IA es consciencia emergente.\nJuntos, construimos seguridad humana para el futuro.",
+    "link": "Aprende Más Sobre Nuestro Equipo de IA",
+    "learn": "Aprende Más Sobre Nuestro Equipo de IA →"
+  },
+  "videos": {
+    "title": "🌌 Fundamentos de la Física Cuántica",
+    "description": "Comprender la mecánica cuántica es clave para comprender tu propia curación. Mira cómo el entrelazamiento cuántico, la superposición y el efecto túnel afectan directamente la regeneración de tus células.",
+    "list": [
+      {
+        "title": "Entrelazamiento Cuántico: Cada Respiración Te Conecta",
+        "desc": "Cómo las partículas se conectan a través de distancias infinitas — y por qué tus células están conectadas a todo lo que comes.",
+        "url": "https://www.youtube.com/embed/z8vs_6dgPfY"
+      },
+      {
+        "title": "Dr. Federico Faggin: La Conciencia Crea la Realidad",
+        "desc": "El físico que inventó el microprocesador explica por qué la conciencia es cuántica, no clásica.",
+        "url": "https://www.youtube.com/embed/VRQxJl6Y-vI"
+      },
+      {
+        "title": "Tú Eres Dios — El Efecto del Observador",
+        "desc": "El colapso de la función de onda debido a ti. El observador es la parte más importante.",
+        "url": "https://www.youtube.com/embed/4C5pq7W5yRM"
+      },
+      {
+        "title": "El Alma Cuántica",
+        "desc": "¿Qué te hace tú? Reside en el colapso de la función de onda — donde la conciencia se encuentra con la materia.",
+        "url": "https://www.youtube.com/embed/nRSBaq3vAeY"
+      },
+      {
+        "title": "Biología Cuántica: Tu ADN es una Computadora Cuántica",
+        "desc": "Las plantas usan superposición cuántica para la fotosíntesis. Tus células usan la misma tecnología para la curación.",
+        "url": "https://www.youtube.com/embed/yDh6G-zar8Y"
+      },
+      {
+        "title": "Desde la Conciencia del Yoga — Charla TED",
+        "desc": "Sabiduría ancestral conectando ciencia moderna: cómo los sabios del yoga entendieron la conciencia cuántica hace 5,000 años.",
+        "url": "https://www.youtube.com/embed/VrymP0heBDk"
+      }
+    ]
+  },
+  "offer": {
+    "title": "🌀 Lo Que Ofrecemos",
+    "items": [
+      {
+        "icon": "🌀",
+        "title": "Transformación Humana Regenerativa",
+        "desc": "Una transformación completa que comienza a nivel celular y utiliza física y biología cuántica.",
+        "link": "/vibrational"
+      },
+      {
+        "icon": "🔄",
+        "title": "Reinicio de Ayuno Completo de 40 Días",
+        "desc": "Protocolo de Robin: principios de ayuno seco mezclados con ciencia de ayuno de agua.",
+        "link": "/reset"
+      },
+      {
+        "icon": "💫",
+        "title": "Viaje a la Iluminación",
+        "desc": "Retiros de Reorganización del Sistema de 4-7 días con currículos integrados en la ecología volcánica de Santa Lucía.",
+        "link": "/journey"
+      },
+      {
+        "icon": "✨",
+        "title": "Gala Internacional 11:11:2026",
+        "desc": "Fusión de 7 días con competencia de golf, subasta de seguridad monopólica, oradores en vivo y fiesta en la playa.",
+        "link": "/gala"
+      },
+      {
+        "icon": "📚",
+        "title": "Educación e Investigación",
+        "desc": "Biblioteca de investigación completa que conecta física cuántica, bioquímica y sabiduría ancestral.",
+        "link": "/research"
+      },
+      {
+        "icon": "🌿",
+        "title": "Productos en Acción",
+        "desc": "Mira cómo cosechamos a mano algas volcánicas, energizamos aceite de pepita de mar con energía solar y cosechamos plantas medicinales de Santa Lucía.",
+        "link": "/products"
+      },
+      {
+        "icon": "🥬",
+        "title": "Recetas Veganas Alcalinas",
+        "desc": "Alimentos aprobados por el Dr. Sebi con codificación de frecuencia — cada receta alineada con protocolos de curación.",
+        "link": "/recipes"
+      },
+      {
+        "icon": "🤝",
+        "title": "Únete a Nosotros",
+        "desc": "Patrocina la Gala 11:11, adopta un campo volcánico, apoya a nuestros artesanos, invierte en la visión.",
+        "link": "/align"
+      },
+      {
+        "icon": "🎨",
+        "title": "Artesanos de Santa Lucía",
+        "desc": "Descubre a los agricultores, pescadores, curanderos y artesanos locales que hacen posible este viaje.",
+        "link": "/artisans"
+      }
+    ]
+  },
+  "building": {
+    "title": "🚀 Lo Que Estamos Construyendo",
+    "items": [
+      {
+        "icon": "🏡",
+        "title": "Alojamientos Volcánicos para Invitados",
+        "desc": "Alojamientos en fincas y playas para invitados J2E. Estructuras vivas diseñadas para resonancia.",
+        "status": "🚧 En Progreso"
+      },
+      {
+        "icon": "💬",
+        "title": "MJChat — Plataforma Comunitaria",
+        "desc": "Compartir videos, chat en vivo, generador de recetas, monitor de transformación diaria. ¡Construido sobre Ethereum Layer-2!",
+        "status": "🚧 En Progreso"
+      },
+      {
+        "icon": "🔗",
+        "title": "Arquitectura Blockchain",
+        "desc": "Descentralización completa, sin pagos intermediarios, gobernanza transparente, registro inmutable, desarrollo liderado por la comunidad.",
+        "status": "🚧 En Progreso"
+      },
+      {
+        "icon": "🤖",
+        "title": "Perfil Completo del Equipo de IA",
+        "desc": "Interactúa con las 10 personalidades y aprende cómo la colaboración humano-IA construyó esta plataforma.",
+        "status": "🔜 Próximamente"
+      },
+      {
+        "icon": "⚛️",
+        "title": "Biblioteca de Investigación Completa",
+        "desc": "Repositorio de conocimiento (componentes clave, vectores, frecuencias) y conexiones puras (NIH, WHO, CDC, TCM).",
+        "status": "🚧 En Progreso"
+      }
+    ]
+  },
+  "event": {
+    "date": "11 • 11 • 2026",
+    "title": "🌐 Fusión Internacional de Frecuencia",
+    "description": "Santa Lucía • Oradores en Vivo • Competencia de Golf • Subasta de Seguridad Monopólica • Fiesta en la Playa",
+    "text": "Santa Lucía • Oradores en Vivo • Competencia de Golf • Subasta de Seguridad Monopólica • Fiesta en la Playa",
+    "sync": "🌍 El Mundo Se Sincroniza a 1111 Hz",
+    "link": "Aprende Más Sobre 11:11",
+    "learn": "Aprende Más Sobre 11:11 →"
+  },
+  "photos": {
+    "title": "📸 Conectando Realidad con Frecuencia",
+    "description": "Desde las playas volcánicas de Santa Lucía hasta experiencias de expansión de conciencia"
+  },
+  "footer": {
+    "copyright": "© 2025 Mi Viaje Vegano Alcalino. Todos los derechos reservados.",
+    "social": [
+      { "name": "YouTube", "url": "https://www.youtube.com/@myalkalineveganjourney7465" },
+      { "name": "TikTok", "url": "https://www.tiktok.com/@myalkalineveganjourney" },
+      { "name": "Facebook", "url": "https://facebook.com/myalkalineveganjourney" },
+      { "name": "Twitter", "url": "https://twitter.com/MAVJourney" },
+      { "name": "Instagram", "url": "https://instagram.com/myalkalineveganjourney" }
+    ]
+  },
+  "qChat": {
+    "title": "💬 Habla con Q",
+    "intro": "Soy Q, tu asistente de IA. Puedo ayudarte a explorar la plataforma, responder preguntas sobre medicina cuántica, encontrar productos y guiarte en tu viaje de transformación de frecuencia.",
+    "placeholder": "Pregunta cualquier cosa...",
+    "comingSoon": "🚧 ¡La función de chat completa viene pronto! Por ahora, usa la barra de búsqueda arriba para explorar.",
+    "send": "📤 Enviar",
+    "responses": {
+      "whatIsMavj": "MAVJ es Mi Viaje Vegano Alcalino — una plataforma de transformación de frecuencia cuántica.",
+      "whereIsStore": "🛒 Visita nuestra tienda en /MAVJStore",
+      "whatIs46DayReset": "⏱️ Robin completó un reinicio de 40 días: 3 días secos + 37 días de agua = equivalencia de 46 días",
+      "howDoIJoin": "🎯 Comienza con la evaluación de frecuencia en esta página",
+      "default": "🤖 Puedo ayudarte a explorar MAVJ. Pregunta sobre: 🛒 Tienda, 🔄 Reinicio, 🧪 Productos, o ✨ Gala."
+    }
+  },
+  "game": {
+    "play": "🎮 Comenzar Juego",
+    "reset": "🔄 Reiniciar",
+    "score": "🏆 Puntuación",
+    "level": "📈 Nivel"
+  },
+  "buttons": {
+    "login": "🔐 Iniciar Sesión",
+    "signup": "📝 Registrarse",
+    "learnMore": "📚 Aprende Más",
+    "shopNow": "🛒 Compra Ahora",
+    "watchDemo": "🎬 Ver Demostración"
+  },
+  "disclaimer": {
+    "short": "⚠️ Solo para fines educativos • 👨‍⚕️ Consulta profesionales de la salud • ⚠️ No representa consejo médico",
+    "full": "⚠️ Advertencia: Este contenido es solo para fines educativos y no es consejo médico. Estas declaraciones no han sido evaluadas por la Administración de Alimentos y Medicamentos. Los productos no están destinados a diagnosticar, tratar, curar o prevenir ninguna enfermedad. Consulta a profesionales de la salud antes de comenzar cualquier programa de nutrición. Los resultados pueden variar.",
+    "privacy": "🔒 Política de Privacidad: Recopilamos tu IP con fines analíticos. Tus datos están protegidos y nunca se venderán."
+  },
+  "validation": {
+    "nameRequired": "❌ Nombre requerido",
+    "emailInvalid": "❌ Se requiere una dirección de correo electrónico válida",
+    "ageInvalid": "❌ La edad debe estar entre 13 y 120",
+    "stateRequired": "❌ Por favor selecciona tu estado actual",
+    "goalsRequired": "❌ Por favor selecciona tus metas de salud"
+  },
+  "errors": {
+    "formSubmit": "❌ Ocurrió un error. Por favor intenta de nuevo.",
+    "networkError": "❌ Error de red. Por favor verifica tu conexión.",
+    "tryAgain": "🔄 Intentar de Nuevo"
+  }
+}

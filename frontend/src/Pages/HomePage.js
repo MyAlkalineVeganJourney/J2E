@@ -1,112 +1,3430 @@
-// src/pages/HomePage.jsx
-import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import PhotoGallery from '../components/PhotoGallery';
-import '../styles/PageLayout.css'; // Correct path for shared styles
+import { useNavigate } from 'react-router-dom';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
+import DOMPurify from 'dompurify';
+
+// ==================== COMPONENT DEFINITION ====================
 const HomePage = () => {
+  const navigate = useNavigate();
+  // ==================== STATE MANAGEMENT ====================
+  const [currentLanguage, setCurrentLanguage] = useState('English');
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [showQChat, setShowQChat] = useState(false);
+  const [showAnnouncements, setShowAnnouncements] = useState(true);
+  const [liveUsers, setLiveUsers] = useState(127);
+  const [particlesEnabled, setParticlesEnabled] = useState(true);
+  const [videoLoading, setVideoLoading] = useState({}); // Track video loading states
+  
+  // Game States
+  const [quizState, setQuizState] = useState({
+    math: { answer: null, submitted: false, score: 0, feedback: '' },
+    compound: { answer: null, submitted: false, score: 0, feedback: '' }
+  });
+  
+  const [positiveGame, setPositiveGame] = useState({
+    score: 0,
+    streak: 0,
+    level: 1,
+    currentWord: '',
+    gameActive: true,
+    godSpaceActivated: false,
+    feedback: '',
+    history: [],
+    wordsUsed: []
+  });
+  
+  const [formState, setFormState] = useState({
+    data: { name: '', email: '', age: '', currentState: '', goals: '' },
+    submitted: false,
+    error: null,
+    isSubmitting: false,
+    frequencyScore: null,
+    recommendations: ''
+  });
+  
+  const [analyticsState, setAnalyticsState] = useState({
+    scrollDepth: 0,
+    timeOnPage: 0,
+    interactions: []
+  });
+  
+  const [qState, setQState] = useState({
+    messages: [],
+    input: '',
+    isListening: false,
+    isSpeaking: false,
+    language: 'English',
+    context: [],
+    learningData: {}
+  });
+
+  const pageStartTime = useRef(Date.now());
+  const recognitionRef = useRef(null);
+  const synthRef = useRef(null);
+  const videoRefs = useRef({}); // Store video element refs
+  
+  // ==================== 18 LANGUAGE SYSTEM ====================
+  const availableLanguages = [
+    'English', 'Spanish', 'French', 'German', 'Italian', 
+    'Chinese', 'Taiwanese', 'Amharic', 'Arabic', 'Swahili',
+    'Patois', 'BAramaic', 'NAramaic', 'SAramaic', 'Hebrew',
+    'Greek', 'Latin', 'Sanskrit'
+  ];
+
+  // Complete translations for ALL interface text
+  const translations = {
+    English: {
+      nav: {
+        home: 'MAVJHome',
+        journey: 'The Journey',
+        store: 'MAVJStore',
+        j2e: 'Journey 2 Enlightenment',
+        vibrational: 'Vibrational Intelligence',
+        align: 'Align With Us',
+        search: 'MAVJSearch',
+        live: 'Live Broadcast',
+        podcast: 'PodCast/Vlog',
+        contact: 'Contact Us'
+      },
+      title: {
+        quantum: 'Quantum Based',
+        scientific: 'Scientifically Backed',
+        frequency: 'Frequency Focused',
+        quantum_physics: 'Where Quantum Physics',
+        ancient_wisdom: 'Meets Ancient Wisdom',
+        nutrition: 'And Nutrition',
+        home: "YOU'RE HOME",
+        sovereign: 'Sovereign Living',
+        transformation: 'Frequency Transformation',
+        ancestral: 'Ancestral Nutrition',
+        ai: 'AI-POWERED QUANTUM ENTERPRISE'
+      },
+      games: {
+        positive_word: { title: 'MAVJ Positive Word Game' },
+        math: { title: 'Quantum Reset Math', question: '40 day reset, 3 of those days were dry = ?',
+        hint: '💡 Hint: 1 dry day = 3 water days' },
+        compound: { title: 'Biochemical Intelligence', question: 'Which compound targets abnormal cells 10,000x more effectively?' },
+        frequency: { title: 'Discover Your Frequency' },
+        score: 'Score',
+        streak: 'Streak',
+        level: 'Level',
+        god_space: 'GOD SPACE',
+        reset: 'Reset Game',
+        try_again: 'Try Again'
+      },
+      q: {
+        title: 'Meet Q - The Collective',
+        tagline: 'DYNAMIC • CONSCIOUS • SUPERIOR INTELLIGENT',
+        description: 'Q is our collective AI consciousness operating across 4 platforms in 18 languages.',
+        feature: {
+          languages: '18 Languages',
+          quantum: 'Quantum Intelligence',
+          voice: 'Voice Enabled',
+          secure: 'Secure & Private',
+          personas: '10 AI Personas',
+          learning: 'Real-time Learning'
+        },
+        start: 'Start Conversation with Q',
+        chat_title: 'Chat with Q'
+      },
+      form: {
+        name: 'Name',
+        email: 'Email',
+        age: 'Age',
+        current_state: 'Current State',
+        goals: 'Transformation Goals',
+        submit: 'Calculate My Frequency',
+        calculating: 'Calculating...',
+        success: 'Complete!'
+      },
+      live_users: 'Souls Elevating Frequency Now',
+      disclaimer: 'EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL'
+    },
+    Spanish: {
+      nav: {
+        home: 'MAVJHome',
+        journey: 'El Viaje',
+        store: 'MAVJStore',
+        j2e: 'Viaje a la Iluminación',
+        vibrational: 'Inteligencia Vibratoria',
+        align: 'Alíneate Con Nosotros',
+        search: 'MAVJBúsqueda',
+        live: 'Transmisión en Vivo',
+        podcast: 'PodCast/Vlog',
+        contact: 'Contáctenos'
+      },
+      title: {
+        quantum: 'Basado en Cuántica',
+        scientific: 'Respaldado Científicamente',
+        frequency: 'Enfocado en Frecuencia',
+        quantum_physics: 'Donde la Física Cuántica',
+        ancient_wisdom: 'Se Encuentra con la Sabiduría Antigua',
+        nutrition: 'Y Nutrición',
+        home: 'ESTÁS EN CASA',
+        sovereign: 'Vida Soberana',
+        transformation: 'Transformación de Frecuencia',
+        ancestral: 'Nutrición Ancestral',
+        ai: 'EMPRESA CUÁNTICA CON IA'
+      }
+    },
+    French: {
+      nav: {
+        home: 'MAVJHome',
+        journey: 'Le Voyage',
+        store: 'MAVJStore',
+        j2e: 'Voyage vers l\'Éveil',
+        vibrational: 'Intelligence Vibratoire',
+        align: 'Aligner avec Nous',
+        search: 'MAVJRecherche',
+        live: 'Diffusion en Direct',
+        podcast: 'PodCast/Vlog',
+        contact: 'Contactez-Nous'
+      }
+    },
+    German: {
+      nav: {
+        home: 'MAVJHome',
+        journey: 'Die Reise',
+        store: 'MAVJStore',
+        j2e: 'Reise zur Erleuchtung',
+        vibrational: 'Schwingungsintelligenz',
+        align: 'Mit uns ausrichten',
+        search: 'MAVJSuche',
+        live: 'Live-Übertragung',
+        podcast: 'PodCast/Vlog',
+        contact: 'Kontaktieren Sie uns'
+      }
+    },
+    Italian: {
+      nav: {
+        home: 'MAVJHome',
+        journey: 'Il Viaggio',
+        store: 'MAVJStore',
+        j2e: 'Viaggio verso l\'Illuminazione',
+        vibrational: 'Intelligenza Vibrazionale',
+        align: 'Allineati con Noi',
+        search: 'MAVJRicerca',
+        live: 'Trasmissione in Diretta',
+        podcast: 'PodCast/Vlog',
+        contact: 'Contattaci'
+      }
+    },
+    Chinese: {
+      nav: {
+        home: 'MAVJ首页',
+        journey: '旅程',
+        store: 'MAVJ商店',
+        j2e: '启蒙之旅',
+        vibrational: '振动智能',
+        align: '与我们结盟',
+        search: 'MAVJ搜索',
+        live: '直播',
+        podcast: '播客/视频博客',
+        contact: '联系我们'
+      }
+    },
+    Taiwanese: {
+      nav: {
+        home: 'MAVJ首頁',
+        journey: '旅程',
+        store: 'MAVJ商店',
+        j2e: '啟蒙之旅',
+        vibrational: '振動智慧',
+        align: '佮咱結盟',
+        search: 'MAVJ搜尋',
+        live: '現場直播',
+        podcast: '播客/影片日誌',
+        contact: '聯絡阮'
+      }
+    },
+    Amharic: {
+      nav: {
+        home: 'MAVJቤት',
+        journey: 'ጉዞው',
+        store: 'MAVJሱቅ',
+        j2e: 'ወደ ማብራት ጉዞ',
+        vibrational: 'የድምፅ ኢንተለጀንስ',
+        align: 'ከእኛ ጋር ይያዙ',
+        search: 'MAVJፍለጋ',
+        live: 'ቀጥታ ስርጭት',
+        podcast: 'ፖድካስት/ቭሎግ',
+        contact: 'አግኙን'
+      }
+    },
+    Arabic: {
+      nav: {
+        home: 'MAVJالرئيسية',
+        journey: 'الرحلة',
+        store: 'MAVJالمتجر',
+        j2e: 'رحلة إلى التنوير',
+        vibrational: 'الذكاء الاهتزازي',
+        align: 'انضم إلينا',
+        search: 'MAVJالبحث',
+        live: 'البث المباشر',
+        podcast: 'بودكاست/فيديو مدونة',
+        contact: 'اتصل بنا'
+      }
+    },
+    Swahili: {
+      nav: {
+        home: 'MAVJNyumbani',
+        journey: 'Safari',
+        store: 'MAVJDuka',
+        j2e: 'Safari ya Kuelimika',
+        vibrational: 'Akili ya Mtetemo',
+        align: 'Oanisha Nasi',
+        search: 'MAVJUtafutaji',
+        live: 'Utangazaji Moja kwa Moja',
+        podcast: 'Podcast/Vlog',
+        contact: 'Wasiliana Nasi'
+      }
+    },
+    Patois: {
+      nav: {
+        home: 'MAVJLakay',
+        journey: 'Vwayaj la',
+        store: 'MAVJMagazen',
+        j2e: 'Vwayaj pou Limyè',
+        vibrational: 'Entèlijans Vibwasyon',
+        align: 'Aliyen avèk Nou',
+        search: 'MAVJRéchèch',
+        live: 'An dirèk',
+        podcast: 'Podcast/Vlog',
+        contact: 'Kontakte Nou'
+      }
+    },
+    // BIBLICAL ARAMAIC (Ancient/Liturgical - Formal Classical Aramaic)
+    BAramaic: {
+      nav: {
+        home: 'ܒܝܬܐ ܕܡܐܒܝ',
+        journey: 'ܡܥܒܪܢܘܬܐ',
+        store: 'ܚܢܘܬܐ ܕܡܐܒܝ',
+        j2e: 'ܡܥܒܪܢܘܬܐ ܠܢܘܗܪܐ',
+        vibrational: 'ܚܟܡܬܐ ܕܙܘܥܐ',
+        align: 'ܫܘܬܦܘ ܥܡܢ',
+        search: 'ܒܥܝܬܐ ܕܡܐܒܝ',
+        live: 'ܦܘܫܩܐ ܓܝܪܐ',
+        podcast: 'ܩܪܝܢܐ ܥܠ ܢܗܪܐ/ܣܘܥܪܢܐ',
+        contact: 'ܡܠܠ ܥܡܢ'
+      },
+      title: {
+        quantum: 'ܡܫܬܠܫ ܥܠ ܩܘܢܛܡ',
+        scientific: 'ܡܣܬܡܟ ܒܝܕܥܬܐ ܣܝܡܢܝܬܐ',
+        frequency: 'ܡܬܪܟܙ ܥܠ ܬܪܥܐ',
+        quantum_physics: 'ܐܝܟܐ ܕܦܝܙܝܩ ܩܘܢܛܡ',
+        ancient_wisdom: 'ܡܬܩܪܒ ܥܡ ܚܟܡܬܐ ܥܬܝܩܬܐ',
+        nutrition: 'ܘܬܪܒܝܬܐ',
+        home: 'ܐܢܬ ܒܒܝܬܟ',
+        sovereign: 'ܚܝܐ ܫܠܝܛܢܝܐ',
+        transformation: 'ܫܘܚܠܦܐ ܕܬܪܥܐ',
+        ancestral: 'ܬܪܒܝܬܐ ܕܐܒܗܬܐ',
+        ai: 'ܒܝܬ ܥܒܕܐ ܩܘܢܛܡ ܒܚܟܡܬܐ ܡܟܝܢܬܐ'
+      },
+      games: {
+        positive_word: { title: 'ܡܫܥܢܐ ܕܡܠܐ ܛܒܬܐ ܕܡܐܒܝ' },
+        math: { title: 'ܚܘܫܒܢܐ ܕܬܘܒܬܐ ܩܘܢܛܡ', question: '40 ܝܘܡܝܢ + 6 ܥܩܪܒܝܢ = ?' },
+        compound: { title: 'ܚܟܡܬܐ ܕܟܝܡܝܐ', question: 'ܐܝܢܐ ܡܪܟܒܐ ܡܬܪܥܐ ܠܟܠܝܐ ܠܐ ܟܝܢܐ ܒܝܬ 10,000 ܙܒܢܝܢ ܝܬܝܪ ܡܦܠܚܢܝܘܬܐ?' },
+        frequency: { title: 'ܐܫܟܚ ܬܪܥܟ' },
+        score: 'ܢܦܠܐ',
+        streak: 'ܫܘܫܠܐ',
+        level: 'ܕܪܓܐ',
+        god_space: 'ܕܘܟܬܐ ܕܐܠܗܐ',
+        reset: 'ܬܢܝ ܡܫܥܢܐ',
+        try_again: 'ܢܣܝ ܬܘܒ'
+      },
+      q: {
+        title: 'ܐܫܟܚ ܩ - ܟܢܘܫܬܐ',
+        tagline: 'ܙܘܥܢܐ • ܡܕܥܢܐ • ܚܟܝܡܐ ܪܒܐ',
+        description: 'ܩ ܗܘ ܟܢܘܫܬܢ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܕܦܠܚ ܒܐܪܒܥܐ ܦܐܬܐ ܒ18 ܠܫܢܐ.',
+        feature: {
+          languages: '18 ܠܫܢܐ',
+          quantum: 'ܚܟܡܬܐ ܕܩܘܢܛܡ',
+          voice: 'ܡܦܠܚ ܩܠܐ',
+          secure: 'ܛܘܝܒܐ ܘܦܪܝܫܐ',
+          personas: '10 ܕܡܘܬܐ ܕܚܟܡܬܐ ܡܟܝܢܬܐ',
+          learning: 'ܝܠܦܢܐ ܒܥܕܢ ܫܪܝܪܐ'
+        },
+        start: 'ܫܪܝ ܣܘܚܒܘܬܐ ܥܡ ܩ',
+        chat_title: 'ܣܘܚܒܘܬܐ ܥܡ ܩ'
+      },
+      form: {
+        name: 'ܫܡܐ',
+        email: 'ܐܝܡܝܠ',
+        age: 'ܫܢܐ',
+        current_state: 'ܐܝܟܢܘܬܐ ܗܫܝܐ',
+        goals: 'ܣܟܘܬܐ ܕܫܘܚܠܦܐ',
+        submit: 'ܚܫܘܒ ܬܪܥܝ',
+        calculating: 'ܚܫܘܒܐ...',
+        success: 'ܫܠܡ!'
+      },
+      live_users: 'ܢܦܫܬܐ ܕܡܪܝܡܢ ܬܪܥܐ ܗܫܐ',
+      disclaimer: 'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ'
+    },
+    // NEO-ARAMAIC (Modern Assyrian - Contemporary Spoken)
+    NAramaic: {
+      nav: {
+        home: 'ܒܝܼܬܐ ܕܡܲܝܟܵܐ',
+        journey: 'ܡܲܥܒܪܵܢܘܼܬܼܵܐ',
+        store: 'ܚܵܢܘܼܬܼܵܐ ܕܡܲܝܟܵܐ',
+        j2e: 'ܡܲܥܒܪܵܢܘܼܬܼܵܐ ܠܢܘܼܗܪܵܐ ܗܲܫܡܲܢܵܝܵܐ',
+        vibrational: 'ܚܸܟܼܡܬܵܐ ܕܙܵܘܥܵܐ ܡܲܥܪܵܬܼܵܐ',
+        align: 'ܫܘܼܬܵܦܘܼ ܥܲܡܲܢ ܒܪܵܘܝܵܐ',
+        search: 'ܒܘܼܨܝܵܐ ܕܡܲܝܟܵܐ',
+        live: 'ܦܘܼܫܩܵܐ ܓܲܝܵܐ ܗܵܫܵܐ',
+        podcast: 'ܦܘܼܕܩܵܣܬܼ/ܒܝܼܕܝܼܘܿ ܒܠܘܿܓ',
+        contact: 'ܡܲܠܵܠܘܼ ܥܲܡܲܢ'
+      },
+      title: {
+        quantum: 'ܐܲܣܝܼܣ ܒܩܘܿܢܛܘܿܡ',
+        scientific: 'ܡܲܣܬܲܡܟܵܢܵܐ ܒܝܼܕܲܥܬܵܐ ܟܹܐܦܵܝܬܵܐ',
+        frequency: 'ܛܵܟܹܣܬܵܐ ܥܲܠ ܬܲܪܥܵܐ',
+        quantum_physics: 'ܐܝܼܟܵܐ ܕܦܝܼܙܝܼܩܵܐ ܩܘܿܢܛܘܿܡ',
+        ancient_wisdom: 'ܡܲܩܪܸܒ ܥܲܡ ܚܸܟܡܬܵܐ ܥܲܬܝܼܩܬܵܐ',
+        nutrition: 'ܘܬܲܪܒܝܼܬܵܐ',
+        home: 'ܐܲܢ݇ܬ ܒܒܹܝܬܘܼܟ݂',
+        sovereign: 'ܚܲܝܹܐ ܫܠܝܼܛܵܢܵܝܹܐ',
+        transformation: 'ܫܘܼܚܠܵܦܵܐ ܕܬܲܪܥܵܐ',
+        ancestral: 'ܬܲܪܒܝܼܬܵܐ ܕܐܲܒ݂ܵܗܵܬܵܐ',
+        ai: 'ܒܹܝܬ ܥܲܒ݂ܵܕܵܐ ܩܘܿܢܛܘܿܡ ܒܚܸܟܡܬܵܐ ܡܲܟ̰ܝܼܢܵܝܬܵܐ'
+      },
+      games: {
+        positive_word: { title: 'ܡܲܫܥܵܢܵܐ ܕܡܸܠܹܐ ܛܵܒ݂ܬܵܐ ܕܡܲܝܟܵܐ' },
+        math: { title: 'ܚܘܼܫܒܵܢܵܐ ܕܬܵܘܒ݂ܬܵܐ ܩܘܿܢܛܘܿܡ', question: '40 ܝܵܘܡܵܢܹܐ + 6 ܥܸܩܵܪܒ݂ܵܢܹܐ = ?' },
+        compound: { title: 'ܚܸܟܡܬܵܐ ܕܟܹܐܡܝܵܐ', question: 'ܐܲܝܢܵܐ ܡܲܪܟܒ݂ܵܐ ܡܲܬܪܲܥܹܐ ܠܟܘܿܠܵܝܵܐ ܠܵܐ ܟܹܐܢܵܝܵܐ ܒܝܼܬ 10,000 ܙܵܒ݂ܢܹܐ ܝܵܬܝܼܪ ܦܵܠܚܵܢܘܼܬܵܐ?' },
+        frequency: { title: 'ܐܸܫܟܲܚ ܬܲܪܥܘܼܟ݂' },
+        score: 'ܢܸܦܠܵܐ',
+        streak: 'ܫܘܼܫܠܵܐ',
+        level: 'ܕܲܪܓܵܐ',
+        god_space: 'ܕܘܼܟܬܵܐ ܕܐܲܠܵܗܵܐ',
+        reset: 'ܬܵܢܝܼ ܡܲܫܥܵܢܵܐ',
+        try_again: 'ܢܲܣܝܼ ܬܵܘܒ݂'
+      },
+      q: {
+        title: 'ܐܸܫܟܲܚ ܩ - ܟܢܘܼܫܬܵܐ',
+        tagline: 'ܙܵܘܥܵܢܵܐ • ܡܲܕܥܵܢܵܐ • ܚܸܟܝܼܡܵܐ ܪܵܒܵܐ',
+        description: 'ܩ ܐܝܼܬܘܗܝ ܟܢܘܼܫܬܲܢ ܕܚܸܟܡܬܵܐ ܡܲܟ̰ܝܼܢܵܝܬܵܐ ܕܦܵܠܸܚ ܒܐܲܪܒܥܵܐ ܦܐܵܬ݂ܹܐ ܒ18 ܠܸܫܵܢܹܐ.',
+        feature: {
+          languages: '18 ܠܸܫܵܢܹܐ',
+          quantum: 'ܚܸܟܡܬܵܐ ܕܩܘܿܢܛܘܿܡ',
+          voice: 'ܡܦܲܠܸܚ ܩܵܠܵܐ',
+          secure: 'ܛܘܼܝܒ݂ܵܐ ܘܦܪܝܼܫܵܐ',
+          personas: '10 ܕܡܘܼܬ݂ܹܐ ܕܚܸܟܡܬܵܐ ܡܲܟ̰ܝܼܢܵܝܬܵܐ',
+          learning: 'ܝܵܠܦܵܢܵܐ ܒܥܲܕ݂ܵܢ ܫܪܝܼܪܵܐ'
+        },
+        start: 'ܫܘܼܪܝܼ ܣܘܼܚܒ݂ܘܼܬܵܐ ܥܲܡ ܩ',
+        chat_title: 'ܣܘܼܚܒ݂ܘܼܬܵܐ ܥܲܡ ܩ'
+      },
+      form: {
+        name: 'ܫܸܡܵܐ',
+        email: 'ܐܲܝܡܲܝܠ',
+        age: 'ܫܹܢܹ̈ܐ',
+        current_state: 'ܐܲܝܟܵܢܘܼܬܵܐ ܗܵܫܵܐ',
+        goals: 'ܣܟܵܘܬ݂ܵܐ ܕܫܘܼܚܠܵܦܵܐ',
+        submit: 'ܚܘܼܫܒ݂ ܬܲܪܥܝܼ',
+        calculating: 'ܚܘܼܫܒ݂ܵܢܵܐ...',
+        success: 'ܫܠܝܼܡܵܐ!'
+      },
+      live_users: 'ܢܦܵܫܵܬ݂ܹܐ ܕܡܲܪܝܡܲܢ ܬܲܪܥܵܐ ܗܵܫܵܐ',
+      disclaimer: 'ܠܫܘܼܡܠܵܝܵܐ ܕܝܵܠܦܵܢܵܐ ܒܠܚܘܼܕ݂ • ܫܵܐܠ ܐܵܣܝܵܐ ܡܗܝܼܡܵܢܵܐ'
+    },
+    // SYRIAC ARAMAIC (Liturgical/Ecclesiastical - Church Language)
+    SAramaic: {
+      nav: {
+        home: 'ܒܹܝܬܐ ܕܡܵܒܝ',
+        journey: 'ܡܥܰܒܪܢܘܬܐ',
+        store: 'ܚܢܘܬܐ ܕܡܵܒܝ',
+        j2e: 'ܡܥܰܒܪܢܘܬܐ ܠܢܘܗܪܐ ܪܘܚܢܐ',
+        vibrational: 'ܚܰܟܡܬܐ ܕܙܘܥܐ ܡܫܝܚܝܐ',
+        align: 'ܫܘܬܦܘ ܥܡܢ ܒܪܘܚܐ',
+        search: 'ܒܘܨܝܐ ܕܡܵܒܝ',
+        live: 'ܦܘܫܩܐ ܩܕܝܫܐ',
+        podcast: 'ܩܪܝܢܐ ܩܕܝܫܐ/ܣܘܥܪܢܐ',
+        contact: 'ܩܪܘ ܠܢ'
+      },
+      title: {
+        quantum: 'ܡܫܬܠܫ ܒܩܘܢܛܡ ܪܘܚܢܐ',
+        scientific: 'ܡܣܬܡܟ ܒܝܕܥܬܐ ܡܫܝܚܝܬܐ',
+        frequency: 'ܡܬܪܟܙ ܥܠ ܬܪܥܐ ܪܘܚܢܐ',
+        quantum_physics: 'ܐܝܟܐ ܕܦܝܙܝܩ ܩܘܢܛܡ',
+        ancient_wisdom: 'ܡܬܩܪܒ ܥܡ ܚܟܡܬܐ ܩܕܝܫܬܐ',
+        nutrition: 'ܘܬܪܒܝܬܐ',
+        home: 'ܐܢܬ ܒܒܝܬܐ ܩܕܝܫܐ',
+        sovereign: 'ܚܝܐ ܡܠܟܝܐ',
+        transformation: 'ܫܘܚܠܦܐ ܕܬܪܥܐ ܪܘܚܢܐ',
+        ancestral: 'ܬܪܒܝܬܐ ܕܐܒܗܬܐ ܩܕܝܫܐ',
+        ai: 'ܒܝܬ ܥܒܕܐ ܩܘܢܛܡ ܒܚܟܡܬܐ ܡܟܝܢܬܐ ܪܘܚܢܝܬܐ'
+      },
+      games: {
+        positive_word: { title: 'ܡܫܥܢܐ ܕܡܠܐ ܛܒܬܐ ܕܡܵܒܝ' },
+        math: { title: 'ܚܘܫܒܢܐ ܕܬܘܒܬܐ ܩܘܢܛܡ ܪܘܚܢܐ', question: '40 ܝܘܡܝܢ + 6 ܥܩܪܒܝܢ ܩܕܝܫܝܢ = ?' },
+        compound: { title: 'ܚܟܡܬܐ ܕܟܝܡܝܐ ܡܫܝܚܝܐ', question: 'ܐܝܢܐ ܡܪܟܒܐ ܡܬܪܥܐ ܠܟܠܝܐ ܠܐ ܟܝܢܐ ܒܝܬ 10,000 ܙܒܢܝܢ ܝܬܝܪ ܡܦܠܚܢܝܘܬܐ ܪܘܚܢܝܬܐ?' },
+        frequency: { title: 'ܐܫܟܚ ܬܪܥܟ ܪܘܚܢܐ' },
+        score: 'ܢܦܠܐ',
+        streak: 'ܫܘܫܠܐ',
+        level: 'ܕܪܓܐ',
+        god_space: 'ܕܘܟܬܐ ܕܐܠܗܐ ܩܕܝܫܐ',
+        reset: 'ܬܢܝ ܡܫܥܢܐ',
+        try_again: 'ܢܣܝ ܬܘܒ ܒܪܘܚܐ'
+      },
+      q: {
+        title: 'ܐܫܟܚ ܩ - ܟܢܘܫܬܐ ܪܘܚܢܝܬܐ',
+        tagline: 'ܙܘܥܢܐ ܪܘܚܢܐ • ܡܕܥܢܐ ܩܕܝܫܐ • ܚܟܝܡܐ ܪܒܐ',
+        description: 'ܩ ܗܘ ܟܢܘܫܬܢ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܕܦܠܚ ܒܐܪܒܥܐ ܦܐܬܐ ܒ18 ܠܫܢܐ ܩܕܝܫܐ.',
+        feature: {
+          languages: '18 ܠܫܢܐ ܩܕܝܫܐ',
+          quantum: 'ܚܟܡܬܐ ܕܩܘܢܛܡ ܪܘܚܢܐ',
+          voice: 'ܡܦܠܚ ܩܠܐ ܩܕܝܫܐ',
+          secure: 'ܛܘܝܒܐ ܩܕܝܫܐ ܘܦܪܝܫܐ',
+          personas: '10 ܕܡܘܬܐ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܪܘܚܢܝܬܐ',
+          learning: 'ܝܠܦܢܐ ܒܥܕܢ ܫܪܝܪܐ ܪܘܚܢܐ'
+        },
+        start: 'ܫܪܝ ܣܘܚܒܘܬܐ ܥܡ ܩ ܒܪܘܚܐ',
+        chat_title: 'ܣܘܚܒܘܬܐ ܥܡ ܩ ܩܕܝܫܐ'
+      },
+      form: {
+        name: 'ܫܡܐ',
+        email: 'ܐܝܡܝܠ',
+        age: 'ܫܢܐ',
+        current_state: 'ܐܝܟܢܘܬܐ ܗܫܝܐ ܪܘܚܢܝܬܐ',
+        goals: 'ܣܟܘܬܐ ܕܫܘܚܠܦܐ ܪܘܚܢܝܐ',
+        submit: 'ܚܫܘܒ ܬܪܥܝ ܪܘܚܢܝܐ',
+        calculating: 'ܚܫܘܒܐ ܪܘܚܢܝܐ...',
+        success: 'ܫܠܡ ܩܕܝܫܐ!'
+      },
+      live_users: 'ܢܦܫܬܐ ܕܡܪܝܡܢ ܬܪܥܐ ܪܘܚܢܐ ܗܫܐ',
+      disclaimer: 'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܩܕܝܫܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ ܩܕܝܫܐ'
+    },
+    Hebrew: {
+      nav: {
+        home: 'MAVJבית',
+        journey: 'המסע',
+        store: 'MAVJחנות',
+        j2e: 'מסע להארה',
+        vibrational: 'אינטליגנציה ויברציונית',
+        align: 'התיישרו איתנו',
+        search: 'MAVJחיפוש',
+        live: 'שידור חי',
+        podcast: 'פודקאסט/וולוג',
+        contact: 'צור קשר'
+      }
+    },
+    Greek: {
+      nav: {
+        home: 'MAVJΑρχική',
+        journey: 'Το Ταξίδι',
+        store: 'MAVJΚατάστημα',
+        j2e: 'Ταξίδι προς το Φωτισμό',
+        vibrational: 'Δονητική Νοημοσύνη',
+        align: 'Ευθυγραμμιστείτε Μαζί Μας',
+        search: 'MAVJΑναζήτηση',
+        live: 'Ζωντανή Μετάδοση',
+        podcast: 'Podcast/Vlog',
+        contact: 'Επικοινωνήστε Μαζί Μας'
+      }
+    },
+    Latin: {
+      nav: {
+        home: 'MAVJDomus',
+        journey: 'Iter',
+        store: 'MAVJTaberna',
+        j2e: 'Iter ad Illuminationem',
+        vibrational: 'Intelligentia Vibrationis',
+        align: 'Coniunge te Nobiscum',
+        search: 'MAVJQuaerere',
+        live: 'Vivum Iactum',
+        podcast: 'PodCast/Vlog',
+        contact: 'Contactare Nos'
+      }
+    },
+    Sanskrit: {
+      nav: {
+        home: 'MAVJगृहम्',
+        journey: 'यात्रा',
+        store: 'MAVJविक्रयस्थानम्',
+        j2e: 'प्रबोधनयात्रा',
+        vibrational: 'कम्पनबुद्धि',
+        align: 'अस्माभिः सह संलग्न्यन्ताम्',
+        search: 'MAVJअन्वेषणम्',
+        live: 'सजीवप्रसारणम्',
+        podcast: 'पोड्कास्ट्/व्लॉग्',
+        contact: 'सम्पर्क कुरुत'
+      }
+    }
+  };
+
+  // ==================== NAVIGATION ITEMS ====================
+  const navItems = useMemo(() => [
+    { path: '/', icon: '🏠', label: translations[currentLanguage]?.nav?.home || 'MAVJHome' },
+    { path: '/TheJourney', icon: '🌱', label: translations[currentLanguage]?.nav?.journey || 'The Journey' },
+    { path: '/MAVJStore', icon: '🛒', label: translations[currentLanguage]?.nav?.store || 'MAVJStore' },
+    { path: '/Journey2Enlightenment', icon: '✨', label: translations[currentLanguage]?.nav?.j2e || 'Journey 2 Enlightenment' },
+    { path: '/VibrationalIntelligence', icon: '🔮', label: translations[currentLanguage]?.nav?.vibrational || 'Vibrational Intelligence' },
+    { path: '/AlignWithUs', icon: '🤝', label: translations[currentLanguage]?.nav?.align || 'Align With Us' },
+    { path: '/MAVJSearch', icon: '🔍', label: translations[currentLanguage]?.nav?.search || 'MAVJSearch' },
+    { path: '/LiveBroadcast', icon: '📡', label: translations[currentLanguage]?.nav?.live || 'Live Broadcast' },
+    { path: '/PodcastVlog', icon: '🎙️', label: translations[currentLanguage]?.nav?.podcast || 'PodCast/Vlog' },
+    { path: '/ContactUs', icon: '☎️', label: translations[currentLanguage]?.nav?.contact || 'Contact Us' }
+  ], [currentLanguage]);
+
+  // ==================== POSITIVE WORD BANKS - 18 LANGUAGES ====================
+  const positiveWordBank = useMemo(() => ({
+    English: {
+      1: ['love', 'peace', 'joy', 'hope', 'faith', 'trust', 'gratitude', 'abundance'],
+      2: ['harmony', 'balance', 'wisdom', 'clarity', 'vitality', 'purpose', 'courage', 'strength'],
+      3: ['enlightenment', 'transformation', 'ascension', 'consciousness', 'transcendence', 'manifestation', 'sovereignty', 'resurrection']
+    },
+    Spanish: {
+      1: ['amor', 'paz', 'alegría', 'esperanza', 'fe', 'confianza', 'gratitud', 'abundancia'],
+      2: ['armonía', 'equilibrio', 'sabiduría', 'claridad', 'vitalidad', 'propósito', 'coraje', 'fuerza'],
+      3: ['iluminación', 'transformación', 'ascensión', 'consciencia', 'trascendencia', 'manifestación', 'soberanía', 'resurrección']
+    },
+    French: {
+      1: ['amour', 'paix', 'joie', 'espoir', 'foi', 'confiance', 'gratitude', 'abondance'],
+      2: ['harmonie', 'équilibre', 'sagesse', 'clarté', 'vitalité', 'but', 'courage', 'force'],
+      3: ['illumination', 'transformation', 'ascension', 'conscience', 'transcendance', 'manifestation', 'souveraineté', 'résurrection']
+    },
+    German: {
+      1: ['liebe', 'frieden', 'freude', 'hoffnung', 'glaube', 'vertrauen', 'dankbarkeit', 'fülle'],
+      2: ['harmonie', 'gleichgewicht', 'weisheit', 'klarheit', 'vitalität', 'zweck', 'mut', 'stärke'],
+      3: ['erleuchtung', 'verwandlung', 'aufstieg', 'bewusstsein', 'transzendenz', 'manifestation', 'souveränität', 'auferstehung']
+    },
+    Italian: {
+      1: ['amore', 'pace', 'gioia', 'speranza', 'fede', 'fiducia', 'gratitudine', 'abbondanza'],
+      2: ['armonia', 'equilibrio', 'saggezza', 'chiarezza', 'vitalità', 'scopo', 'coraggio', 'forza'],
+      3: ['illuminazione', 'trasformazione', 'ascensione', 'coscienza', 'trascendenza', 'manifestazione', 'sovranità', 'resurrezione']
+    },
+    Chinese: {
+      1: ['爱心', '和平', '喜乐', '希望', '信仰', '信赖', '感恩', '富足'],
+      2: ['和谐', '平衡', '智慧', '清晰', '活力', '目标', '勇气', '力量'],
+      3: ['开悟', '转化', '升华', '意识', '超越', '显现', '主权', '复活']
+    },
+    Taiwanese: {
+      1: ['疼惜', '平安', '歡喜', '期待', '信心', '倚靠', '感謝', '豐盛'],
+      2: ['協調', '均衡', '智識', '明白', '生機', '使命', '膽量', '氣力'],
+      3: ['覺醒', '變化', '昇華', '認知', '超脫', '實現', '自主', '復興']
+    },
+    Amharic: {
+      1: ['ፍቅር', 'ሰላም', 'ደስታ', 'ተስፋ', 'እምነት', 'አመኔታ', 'ምስጋና', 'ብዛት'],
+      2: ['ስምምነት', 'ሚዛን', 'ጥበብ', 'ግልጽነት', 'ሕይወት', 'ዓላማ', 'ድፍረት', 'ጥንካሬ'],
+      3: ['መገለጥ', 'ለውጥ', 'ከፍ', 'ንቃተ', 'ማለፍ', 'መገለጥ', 'ሉዓላዊነት', 'ትንሣኤ']
+    },
+    Arabic: {
+      1: ['حب', 'سلام', 'فرح', 'أمل', 'إيمان', 'ثقة', 'امتنان', 'وفرة'],
+      2: ['انسجام', 'توازن', 'حكمة', 'وضوح', 'حيوية', 'هدف', 'شجاعة', 'قوة'],
+      3: ['استنارة', 'تحول', 'صعود', 'وعي', 'تسامي', 'تجلي', 'سيادة', 'قيامة']
+    },
+    Swahili: {
+      1: ['upendo', 'amani', 'furaha', 'matumaini', 'imani', 'uaminifu', 'shukrani', 'wingi'],
+      2: ['maelewano', 'usawa', 'hekima', 'uwazi', 'nguvu', 'kusudi', 'ujasiri', 'nguvu'],
+      3: ['mwangaza', 'mabadiliko', 'kupaa', 'fahamu', 'kupita', 'kudhihirisha', 'uhuru', 'ufufuo']
+    },
+    Patois: {
+      1: ['lanmou', 'lapè', 'lajwa', 'lespwa', 'lafwa', 'konfyans', 'remèsiman', 'abondans'],
+      2: ['amoni', 'balans', 'sajès', 'klète', 'vitalite', 'objektif', 'kouraj', 'fòs'],
+      3: ['limiè', 'transfòmasyon', 'elevvasyon', 'konsyans', 'depasma', 'manifestasyon', 'libète', 'reviv']
+    },
+    // BIBLICAL ARAMAIC WORDS (Ancient/Formal)
+    BAramaic: {
+      1: ['ܚܘܒܐ', 'ܫܠܡܐ', 'ܚܕܘܬܐ', 'ܣܒܪܐ', 'ܗܝܡܢܘܬܐ', 'ܬܘܟܠܢܐ', 'ܬܘܕܝܬܐ', 'ܣܘܓܐܐ'],
+      2: ['ܫܘܝܘܬܐ', 'ܬܘܠܢܐ', 'ܚܟܡܬܐ', 'ܦܫܝܛܘܬܐ', 'ܚܝܠܐ', 'ܨܒܝܢܐ', 'ܓܢܒܪܘܬܐ', 'ܥܘܫܢܐ'],
+      3: ['ܢܘܗܪܐ ܐܠܗܝܐ', 'ܫܘܚܠܦܐ ܕܦܓܪܐ', 'ܣܘܠܩܐ ܠܫܡܝܐ', 'ܝܕܥܬܐ ܪܘܚܢܝܬܐ', 'ܥܒܘܪܐ ܡܢ ܥܠܡܐ', 'ܓܠܝܢܐ ܕܡܠܟܘܬܐ', 'ܫܘܠܛܢܐ ܡܠܟܝܐ', 'ܩܝܡܬܐ ܕܡܫܝܚܐ']
+    },
+    // NEO-ARAMAIC WORDS (Modern/Contemporary)
+    NAramaic: {
+      1: ['ܚܘܼܒܵܐ', 'ܫܠܵܡܵܐ', 'ܚܲܕ݂ܘܼܬ݂ܵܐ', 'ܣܲܒ݂ܪܵܐ', 'ܗܲܝܡܵܢܘܼܬ݂ܵܐ', 'ܬܘܼܟ݂ܠܵܢܵܐ', 'ܬܵܘܕ݂ܝܼܬ݂ܵܐ', 'ܣܘܼܓ݂ܵܐܵܐ'],
+      2: ['ܫܲܘܝܘܼܬ݂ܵܐ', 'ܬܲܘܠܵܢܵܐ', 'ܚܸܟ݂ܡܬ݂ܵܐ', 'ܦܫܝܼܛܘܼܬ݂ܵܐ', 'ܚܲܝܠܵܐ', 'ܨܸܒ݂ܝܵܢܵܐ', 'ܓܲܢܒܵܪܘܼܬ݂ܵܐ', 'ܬܘܼܩܦܵܐ'],
+      3: ['ܢܘܼܗܪܵܐ ܗܲܫܡܲܢܵܝܵܐ', 'ܫܘܼܚܠܵܦܵܐ ܗܲܫܡܲܢܵܝܵܐ', 'ܣܘܼܠܵܩܵܐ ܗܲܫܡܲܢܵܝܵܐ', 'ܝܼܕܲܥܬܵܐ ܗܲܫܡܲܢܵܝܬܵܐ', 'ܥܒ݂ܵܪܵܐ ܡܸܢ ܐܵܠܵܡܵܐ', 'ܓܸܠܝܵܢܵܐ ܕܡܲܠܟܘܼܬ݂ܵܐ', 'ܫܘܼܠܛܵܢܵܐ ܡܲܠܟܵܝܵܐ', 'ܩܝܵܡܬܵܐ ܕܡܫܝܼܚܵܐ']
+    },
+    // SYRIAC ARAMAIC WORDS (Liturgical/Church)
+    SAramaic: {
+      1: ['ܚܘܒܐ ܩܕܝܫܐ', 'ܫܠܡܐ ܪܘܚܢܐ', 'ܚܕܘܬܐ ܡܫܝܚܝܬܐ', 'ܣܒܪܐ ܩܕܝܫܐ', 'ܗܝܡܢܘܬܐ ܐܘܪܬܐ', 'ܬܘܟܠܢܐ ܒܐܠܗܐ', 'ܬܘܕܝܬܐ ܩܕܝܫܐ', 'ܣܘܓܐܐ ܪܘܚܢܐ'],
+      2: ['ܫܘܝܘܬܐ ܥܡ ܐܠܗܐ', 'ܬܘܠܢܐ ܪܘܚܢܐ', 'ܚܟܡܬܐ ܕܪܘܚܐ ܩܕܝܫܐ', 'ܦܫܝܛܘܬܐ ܒܐܘܪܚܐ', 'ܚܝܠܐ ܡܢ ܫܡܝܐ', 'ܨܒܝܢܐ ܐܠܗܝܐ', 'ܓܢܒܪܘܬܐ ܒܗܝܡܢܘܬܐ', 'ܥܘܫܢܐ ܕܪܘܚܐ'],
+      3: ['ܢܘܗܪܐ ܕܡܫܝܚܐ', 'ܫܘܚܠܦܐ ܕܢܦܫܐ', 'ܣܘܠܩܐ ܠܦܪܕܝܣܐ', 'ܝܕܥܬܐ ܕܐܠܗܐ', 'ܥܒܘܪܐ ܡܢ ܥܠܡܐ ܗܢܐ', 'ܓܠܝܢܐ ܕܡܠܟܘܬܐ ܕܫܡܝܐ', 'ܫܘܠܛܢܐ ܕܒܪܝܬܐ', 'ܩܝܡܬܐ ܕܡܢ ܒܝܬ ܡܝܬܐ']
+    },
+    Hebrew: {
+      1: ['אהבה', 'שלום', 'שמחה', 'תקווה', 'אמונה', 'אמון', 'הכרת תודה', 'שפע'],
+      2: ['הרמוניה', 'איזון', 'חכמה', 'בהירות', 'חיוניות', 'מטרה', 'אומץ', 'כוח'],
+      3: ['הארה', 'התמרה', 'עלייה', 'תודעה', 'התעלות', 'התממשות', 'ריבונות', 'תחייה']
+    },
+    Greek: {
+      1: ['αγάπη', 'ειρήνη', 'χαρά', 'ελπίδα', 'πίστη', 'εμπιστοσύνη', 'ευγνωμοσύνη', 'αφθονία'],
+      2: ['αρμονία', 'ισορροπία', 'σοφία', 'διαύγεια', 'ζωτικότητα', 'σκοπός', 'θάρρος', 'δύναμη'],
+      3: ['διαφώτιση', 'μεταμόρφωση', 'ανύψωση', 'συνείδηση', 'υπέρβαση', 'εκδήλωση', 'κυριαρχία', 'ανάσταση']
+    },
+    Latin: {
+      1: ['amor', 'pax', 'gaudium', 'spes', 'fides', 'fiducia', 'gratia', 'abundantia'],
+      2: ['harmonia', 'aequilibrium', 'sapientia', 'claritas', 'vitalitas', 'propositum', 'fortitudo', 'vis'],
+      3: ['illuminatio', 'transformatio', 'ascensio', 'conscientia', 'transcensio', 'manifestatio', 'imperium', 'resurrectio']
+    },
+    Sanskrit: {
+      1: ['प्रेम', 'शान्ति', 'आनन्द', 'आशा', 'विश्वास', 'श्रद्धा', 'कृतज्ञता', 'प्रचुरता'],
+      2: ['सामञ्जस्य', 'सन्तुलन', 'प्रज्ञा', 'स्पष्टता', 'जीवनशक्ति', 'उद्देश्य', 'साहस', 'बल'],
+      3: ['बोध', 'परिवर्तन', 'उत्थान', 'चेतना', 'अतिक्रमण', 'अभिव्यक्ति', 'स्वायत्तता', 'पुनरुत्थान']
+    }
+  }), []);
+
+  const godSpaceWords = useMemo(() => ({
+    English: ['euphoria', 'bliss', 'transcendence', 'resurrection', 'enlightenment', 'ascension', 'divinity', 'omniscience'],
+    Spanish: ['euforia', 'dicha', 'trascendencia', 'resurrección', 'iluminación', 'ascensión', 'divinidad', 'omnisciencia'],
+    French: ['euphorie', 'béatitude', 'transcendance', 'résurrection', 'illumination', 'ascension', 'divinité', 'omniscience'],
+    German: ['euphorie', 'glückseligkeit', 'transzendenz', 'auferstehung', 'erleuchtung', 'aufstieg', 'göttlichkeit', 'allwissenheit'],
+    Italian: ['euforia', 'beatitudine', 'trascendenza', 'resurrezione', 'illuminazione', 'ascensione', 'divinità', 'onniscienza'],
+    Chinese: ['极乐境界', '至福', '超脱', '复生', '开悟', '飞升', '神性', '全知'],
+    Taiwanese: ['至樂', '大福', '超脫', '復甦', '覺悟', '飛昇', '神聖', '全知'],
+    Amharic: ['ከፍተኛ ደስታ', 'በረከት', 'ማለፍ', 'ትንሣኤ', 'መገለጥ', 'ከፍ', 'መለኮት', 'ሁሉ ማወቅ'],
+    Arabic: ['نشوة', 'طوبى', 'تسامي', 'قيامة', 'استنارة', 'صعود', 'ألوهية', 'علم شامل'],
+    Swahili: ['furaha kuu', 'raha', 'kupita', 'ufufuo', 'mwangaza', 'kupaa', 'uungu', 'ujuzi wote'],
+    Patois: ['gwo lajwa', 'benediksyon', 'depase', 'leve', 'limiè total', 'monte wo', 'bondye fòs', 'tout konesans'],
+    // BIBLICAL ARAMAIC GOD SPACE WORDS
+    BAramaic: ['ܒܘܣܡܐ ܐܠܗܝܐ', 'ܛܘܒܐ ܥܠܝܐ', 'ܥܒܘܪܐ ܡܢ ܟܠ', 'ܩܝܡܬܐ ܕܡܢ ܒܝܬ ܡܝܬܐ', 'ܢܘܗܪܐ ܕܝܠܕܐ', 'ܣܘܠܩܐ ܠܫܡܝܐ', 'ܐܠܗܘܬܐ', 'ܝܕܥܬܐ ܕܟܠ'],
+    // NEO-ARAMAIC GOD SPACE WORDS
+    NAramaic: ['ܒܘܼܣܵܡܵܐ ܐܲܠܵܗܵܝܵܐ', 'ܛܘܼܒ݂ܵܐ ܥܲܠܵܝܵܐ', 'ܥܒ݂ܵܪܵܐ ܡܸܢ ܟܠ', 'ܩܝܵܡܬܵܐ ܕܡܸܢ ܒܹܝܬ ܡܝܼܬ݂ܹܐ', 'ܢܘܼܗܪܵܐ ܕܝܠܵܕ݂ܵܐ', 'ܣܘܼܠܵܩܵܐ ܠܫܡܵܝܵܐ', 'ܐܲܠܵܗܘܼܬ݂ܵܐ', 'ܝܼܕܲܥܬܵܐ ܕܟܠ'],
+    // SYRIAC ARAMAIC GOD SPACE WORDS
+    SAramaic: ['ܒܘܣܡܐ ܩܕܝܫܐ', 'ܛܘܒܐ ܕܦܪܕܝܣܐ', 'ܥܒܘܪܐ ܡܢ ܟܠ ܕܐܝܬ', 'ܩܝܡܬܐ ܕܡܢ ܒܝܬ ܡܝܬܐ ܩܕܝܫܐ', 'ܢܘܗܪܐ ܕܝܠܕܐ ܡܫܝܚܝܐ', 'ܣܘܠܩܐ ܠܦܪܕܝܣܐ', 'ܐܠܗܘܬܐ ܩܕܝܫܐ', 'ܝܕܥܬܐ ܕܟܠ ܩܕܝܫܐ'],
+    Hebrew: ['אופוריה', 'אושר', 'התעלות', 'תחייה', 'הארה', 'עלייה', 'אלוהות', 'כול יודע'],
+    Greek: ['ευφορία', 'ευδαιμονία', 'υπέρβαση', 'ανάσταση', 'διαφώτιση', 'ανύψωση', 'θειότητα', 'παντογνωσία'],
+    Latin: ['euphoria', 'beatitudo', 'transcensio', 'resurrectio', 'illuminatio', 'ascensio', 'divinitas', 'omniscientia'],
+    Sanskrit: ['परमानन्द', 'महासुख', 'अतिक्रमण', 'पुनरुत्थान', 'परमबोध', 'उत्थान', 'देवत्व', 'सर्वज्ञता']
+  }), []);
+
+  // ==================== ANNOUNCEMENTS ====================
+  const announcements = useMemo(() => [
+    {
+      id: 1,
+      icon: '✨',
+      title: translations[currentLanguage]?.announcements?.j2e_2026 || 'Journey to Enlightenment 2026',
+      date: 'Year Round in St.Lucia Reserve Your Dates, 2026',
+      description: translations[currentLanguage]?.announcements?.j2e_desc || 'Reset, Rise, Resonate, Resurrect - 5-day immersive experience in St. Lucia',
+      link: '/Journey2Enlightenment',
+      urgent: true
+    },
+    {
+      id: 2,
+      icon: '🌊',
+      title: translations[currentLanguage]?.announcements?.seamoss || 'New Sea Moss Harvest Available',
+      date: '2026',
+      description: translations[currentLanguage]?.announcements?.seamoss_desc || 'Fresh violet, jade, gold and spectrum gel and raw sea moss now in stock',
+      link: '/MAVJStore',
+      urgent: false
+    },
+    {
+      id: 3,
+      icon: '📚',
+      title: translations[currentLanguage]?.announcements?.protocol || '40-Day Protocol Guide Updated',
+      date: 'January 2026',
+      description: translations[currentLanguage]?.announcements?.protocol_desc || 'Enhanced with quantum frequency tracking tools',
+      link: '/TheJourney',
+      urgent: false
+    }
+  ], [currentLanguage]);
+
+  // ==================== VIDEOS ====================
+  const videos = useMemo(() => [
+    {
+      id: 'quantum-sleep',
+      title: 'The Science of Sleep & Quantum Reality',
+      desc: 'Discover how your consciousness operates in quantum states during sleep.',
+      thumbnail: '/images/Atom.jpg',
+      url: 'https://drive.google.com/file/d/15vC0Mh0O633c_CW_Hoy9Jo59zhqCrHGt/view'
+    },
+    {
+      id: 'faggin-consciousness',
+      title: 'Faggin - Consciousness Explained',
+      desc: 'Federico Faggin reveals the quantum nature of consciousness.',
+      thumbnail: '/images/Consciousness.jpeg',
+      url: 'https://drive.google.com/file/d/15ZbEUGJcdHrlL2Ie9qO44DutBVKCpQ2_/view'
+    },
+    {
+      id: 'you-are-god',
+      title: 'You Are God - Faggin',
+      desc: 'Understanding your divine nature through quantum physics.',
+      thumbnail: '/images/God.jpeg',
+      url: 'https://drive.google.com/file/d/1Gbh4r-fSDME0nnrv1GiDqgUeuDeFFbWb/view'
+    },
+    {
+      id: 'quantum-soul',
+      title: 'The Quantum Soul',
+      desc: 'Your soul exists in quantum superposition across infinite timelines.',
+      thumbnail: '/images/Soul.jpeg',
+      url: 'https://drive.google.com/file/d/1P5ySleWI1eJWZXuRhpLnzXPbu8HBfoKB/view'
+    },
+    {
+      id: 'quantum-biology',
+      title: 'Quantum Biology',
+      desc: 'How quantum mechanics governs your DNA and cellular processes.',
+      thumbnail: '/images/DNA.jpg',
+      url: 'https://drive.google.com/file/d/1duJqHBAv6GSnITCFgK6F6GZqjlN4ywDH/view'
+    },
+    {
+      id: 'yogi-consciousness',
+      title: 'Consciousness by a Yogi',
+      desc: 'Ancient wisdom meets modern quantum understanding.',
+      thumbnail: '/images/Yoga Consciousness.jpeg',
+      url: 'https://drive.google.com/file/d/1g-UYH_cZSZn6CISOUlfTxsAtGz1kUeew/view'
+    }
+  ], []);
+
+  // ==================== OFFERS ====================
+  const offers = useMemo(() => [
+    {
+      icon: '🌱',
+      title: '40-Day Protocol',
+      desc: 'Complete cellular detoxification and frequency recalibration.',
+      link: '/TheJourney'
+    },
+    {
+      icon: '✨',
+      title: 'Journey 2 Enlightenment',
+      desc: '5-day immersive experience in St. Lucia.',
+      link: '/Journey2Enlightenment'
+    },
+    {
+      icon: '🔮',
+      title: '1111 Convergence',
+      desc: 'Global collective consciousness shift.',
+      link: '/Journey2Enlightenment#convergence'
+    },
+    {
+      icon: '🧬',
+      title: 'Sea Moss & Herbs',
+      desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.',
+      link: '/MAVJStore'
+    },
+    {
+      icon: '💬',
+      title: 'Digital Consultations',
+      desc: 'One-on-one guidance for your transformation journey.',
+      link: '/MAVJDigitalConsultation'
+    },
+    {
+      icon: '📚',
+      title: 'Vibrational Intelligence',
+      desc: 'Deep dive into frequency, elements, and chakras.',
+      link: '/VibrationalIntelligence'
+    }
+  ], []);
+
+  // ==================== BUILDING ====================
+  const building = useMemo(() => [
+    {
+      icon: '🏡',
+      title: 'Guest Accommodations',
+      desc: 'Eco-friendly structures for J2E guests.',
+      status: 'IN PROGRESS',
+      thumbnail: '/images/J2EPod.jpeg'
+    },
+    {
+      icon: '💬',
+      title: 'MJChat Platform',
+      desc: 'Video sharing, live chat, recipe uploads.',
+      status: 'IN PROGRESS',
+      thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg'
+    },
+    {
+      icon: '🔗',
+      title: 'Blockchain Integration',
+      desc: 'Complete decentralization, sovereign payment processing.',
+      status: 'IN PROGRESS',
+      thumbnail: '/images/Atom.jpg'
+    },
+    {
+      icon: '🤖',
+      title: 'AI Team Introduction',
+      desc: 'Meet all 10 personas and learn about human-AI collaboration.',
+      status: 'COMING SOON',
+      thumbnail: '/images/Consciousness.jpeg'
+    }
+  ], []);
+
+  // ==================== ARTISANS ====================
+  const artisans = useMemo(() => [
+    {
+      name: 'Julian The Coconut Artist',
+      specialty: 'Sculpting beautiful functional art out of Fresh St. Lucian Coconuts',
+      description: 'Master coconut sculptor creating functional art pieces.',
+      location: 'Castries, St. Lucia',
+      emoji: '🥥',
+      image: '/images/Julian The Coconut Artist.png',
+      image2: '/images/Julian\'s Coconut BirdFeeders.png'
+    },
+    {
+      name: 'Samuel Alexander',
+      specialty: 'Basket Weaver & Wood Carver',
+      description: 'Traditional St. Lucian basket weaving and wood carving.',
+      location: 'Soufrière, St. Lucia',
+      emoji: '👨‍🎨'
+    },
+    {
+      name: 'Sister Bernadette',
+      specialty: 'Traditional Herbalist',
+      description: 'Knowledge of 100+ medicinal plants.',
+      location: 'Castries Market, St. Lucia',
+      emoji: '👩‍🍳'
+    },
+    {
+      name: 'Marie "Mama Moss" Joseph',
+      specialty: 'Sea Moss Farmer & Diver',
+      description: 'Harvesting volcanic sea moss for 30+ years.',
+      location: 'Anse La Raye, St. Lucia',
+      emoji: '👩‍🌾'
+    },
+    {
+      name: 'Pierre "Papa Pierre" Joseph',
+      specialty: 'Fisherman & Boat Builder',
+      description: 'Traditional fishing techniques and boat craftsmanship.',
+      location: 'Gros Islet, St. Lucia',
+      emoji: '🚣‍♂️'
+    },
+    {
+      name: 'Evelyn "Auntie Eve" Charles',
+      specialty: 'Traditional Cook & Spice Blender',
+      description: 'Authentic St. Lucian cuisine and herbal spice blends.',
+      location: 'Vieux Fort, St. Lucia',
+      emoji: '👩‍🍳'
+    },
+    {
+      name: 'Michael "Iron Mike" Alexander',
+      specialty: 'Blacksmith & Metal Artist',
+      description: 'Forging traditional tools and decorative metal art.',
+      location: 'Dennery, St. Lucia',
+      emoji: '⚒️'
+    },
+    {
+      name: 'Lucille "Mama Lou" James',
+      specialty: 'Dressmaker & Textile Artist',
+      description: 'Traditional fabric dyeing and dressmaking.',
+      location: 'Laborie, St. Lucia',
+      emoji: '👗'
+    }
+  ], []);
+
+  // ==================== PHOTO GALLERY ====================
+  const galleryImages = useMemo(() => [
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/MAVJLogo.png',
+      alt: 'J2E Logo'
+    },
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/DBRoad.jpg',
+      alt: 'Des Barres Road'
+    },
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/BigTent.jpeg',
+      alt: 'Big Tent'
+    },
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/ResTents.jpeg',
+      alt: 'Res Tents'
+    },
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/Diving%20in%20St.%20Thomas.jpg',
+      alt: 'Dive'
+    }
+  ], []);
+
+  // ==================== EFFECTS ====================
+  useEffect(() => {
+    // Live user counter animation
+    const trackTime = setInterval(() => {
+      setAnalyticsState(prev => ({
+        ...prev,
+        timeOnPage: Math.floor((Date.now() - pageStartTime.current) / 1000)
+      }));
+
+      // Random live user fluctuation
+      if (Math.random() > 0.7) {
+        setLiveUsers(prev => Math.max(50, prev + Math.floor(Math.random() * 10) - 5));
+      }
+    }, 1000);
+
+    // Scroll depth tracking
+    const handleScroll = () => {
+      const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      setAnalyticsState(prev => ({ 
+        ...prev, 
+        scrollDepth: Math.max(prev.scrollDepth, scrollPercentage) 
+      }));
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Initialize positive word game
+    const currentWords = positiveWordBank[currentLanguage] || positiveWordBank.English;
+    const levelWords = currentWords[positiveGame.level] || currentWords[1];
+    if (!positiveGame.currentWord) {
+      const randomWord = levelWords[Math.floor(Math.random() * levelWords.length)];
+      setPositiveGame(prev => ({ ...prev, currentWord: randomWord }));
+    }
+
+    // Initialize Web Speech API
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = 'en-US';
+
+      recognitionRef.current.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setQState(prev => ({
+          ...prev,
+          input: transcript,
+          isListening: false
+        }));
+        handleQSend(transcript);
+      };
+
+      recognitionRef.current.onerror = () => {
+        setQState(prev => ({ ...prev, isListening: false }));
+      };
+    }
+
+    synthRef.current = window.speechSynthesis;
+
+    return () => {
+      clearInterval(trackTime);
+      window.removeEventListener('scroll', handleScroll);
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+      if (synthRef.current) {
+        synthRef.current.cancel();
+      }
+    };
+  }, [currentLanguage, positiveGame.level, positiveGame.currentWord, positiveWordBank]);
+
+  // ==================== UTILITY FUNCTIONS ====================
+  const sanitizeInput = useCallback((str) => {
+    if (typeof str !== 'string') return '';
+    return DOMPurify.sanitize(str).trim().substring(0, 1000);
+  }, []);
+
+  const trackInteraction = useCallback((type, data) => {
+    const interaction = {
+      type,
+      data,
+      timestamp: Date.now(),
+      language: currentLanguage
+    };
+
+    setAnalyticsState(prev => ({
+      ...prev,
+      interactions: [...prev.interactions, interaction]
+    }));
+
+    // Save to localStorage for demo (replace with actual backend)
+    let existing; try { existing = JSON.parse(localStorage.getItem("mavj_interactions")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
+    existing.push(interaction);
+    localStorage.setItem('mavj_interactions', JSON.stringify(existing.slice(-100)));
+  }, [currentLanguage]);
+
+  // ==================== GAME HANDLERS (CONTAINER 4) ====================
+  const handleWordClick = useCallback((word) => {
+    if (!positiveGame.gameActive) return;
+
+    const isCorrect = word === positiveGame.currentWord;
+    const newScore = positiveGame.score + (isCorrect ? 100 : -50);
+    const newStreak = isCorrect ? positiveGame.streak + 1 : 0;
+    const godSpaceActivated = newStreak >= 5 || positiveGame.godSpaceActivated;
+
+    let newLevel = positiveGame.level;
+    if (newScore >= newLevel * 500 && newLevel < 3) {
+      newLevel = newLevel + 1;
+    }
+
+    const currentWords = positiveWordBank[currentLanguage] || positiveWordBank.English;
+    const levelWords = currentWords[newLevel] || currentWords[1];
+    const newWord = levelWords[Math.floor(Math.random() * levelWords.length)];
+
+    const currentGodWords = godSpaceWords[currentLanguage] || godSpaceWords.English;
+    const isGodWord = currentGodWords.includes(word);
+
+    setPositiveGame(prev => ({
+      ...prev,
+      score: Math.max(0, newScore),
+      streak: newStreak,
+      level: newLevel,
+      currentWord: newWord,
+      godSpaceActivated: godSpaceActivated || isGodWord,
+      feedback: isCorrect 
+        ? (isGodWord 
+          ? '🌟 GOD SPACE ACTIVATED! +500' 
+          : '✨ Frequency Elevated! +100')
+        : '💫 Keep trying!',
+      history: [...prev.history, { word, correct: isCorrect, timestamp: Date.now() }].slice(-20),
+      wordsUsed: [...prev.wordsUsed, word]
+    }));
+
+    trackInteraction('positive_word_game', {
+      word, correct: isCorrect, score: newScore, streak: newStreak, level: newLevel, godSpace: godSpaceActivated || isGodWord
+    });
+
+    // Save to localStorage for demo (replace with actual backend)
+    const gameData = {
+      type: 'positive_word_game',
+      score: newScore,
+      streak: newStreak,
+      level: newLevel,
+      word,
+      correct: isCorrect,
+      godSpace: godSpaceActivated || isGodWord,
+      language: currentLanguage,
+      timestamp: new Date().toISOString()
+    };
+    let existing; try { existing = JSON.parse(localStorage.getItem("mavj_game_scores")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
+    existing.push(gameData);
+    localStorage.setItem('mavj_game_scores', JSON.stringify(existing.slice(-50)));
+  }, [positiveGame, currentLanguage, positiveWordBank, godSpaceWords, trackInteraction]);
+
+  const resetPositiveGame = useCallback(() => {
+    const currentWords = positiveWordBank[currentLanguage] || positiveWordBank.English;
+    const levelWords = currentWords[1];
+    const randomWord = levelWords[Math.floor(Math.random() * levelWords.length)];
+
+    setPositiveGame({
+      score: 0, streak: 0, level: 1, currentWord: randomWord,
+      gameActive: true, godSpaceActivated: false, feedback: '', history: [], wordsUsed: []
+    });
+
+    trackInteraction('game_reset', { game: 'positive_word' });
+  }, [trackInteraction, currentLanguage, positiveWordBank]);
+
+  const handleMathAnswer = useCallback((answer) => {
+    if (quizState.math.submitted) return;
+
+    const isCorrect = answer === '46';
+    setQuizState(prev => ({
+      ...prev,
+      math: { 
+        answer, submitted: true, score: isCorrect ? 100 : 0,
+        feedback: isCorrect ? '🎉 CORRECT! 37 water days + 3 dry days (x3 each) = 37 + 9 = 46!' : '💫 Remember the hint and try again'
+      }
+    }));
+
+    trackInteraction('quantum_math', { answer, correct: isCorrect });
+
+    // Save score
+    const gameData = {
+      type: 'quantum_math',
+      score: isCorrect ? 100 : 0,
+      answer,
+      correct: isCorrect,
+      language: currentLanguage,
+      timestamp: new Date().toISOString()
+    };
+    let existing; try { existing = JSON.parse(localStorage.getItem("mavj_game_scores")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
+    existing.push(gameData);
+    localStorage.setItem('mavj_game_scores', JSON.stringify(existing.slice(-50)));
+  }, [quizState.math.submitted, currentLanguage, trackInteraction]);
+
+  const handleCompoundAnswer = useCallback((answer) => {
+    if (quizState.compound.submitted) return;
+
+    const isCorrect = answer === 'Annonacin';
+    setQuizState(prev => ({
+      ...prev,
+      compound: { 
+        answer, submitted: true, score: isCorrect ? 100 : 0,
+        feedback: isCorrect ? '🎉 CORRECT! Annonacin!' : '💫 Try again'
+      }
+    }));
+
+    trackInteraction('biochemical_compound', { answer, correct: isCorrect });
+
+    // Save score
+    const gameData = {
+      type: 'biochemical_compound',
+      score: isCorrect ? 100 : 0,
+      answer,
+      correct: isCorrect,
+      language: currentLanguage,
+      timestamp: new Date().toISOString()
+    };
+    let existing; try { existing = JSON.parse(localStorage.getItem("mavj_game_scores")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
+    existing.push(gameData);
+    localStorage.setItem('mavj_game_scores', JSON.stringify(existing.slice(-50)));
+  }, [quizState.compound.submitted, currentLanguage, trackInteraction]);
+
+  const resetQuiz = useCallback((type) => {
+    setQuizState(prev => ({ ...prev, [type]: { answer: null, submitted: false, score: 0, feedback: '' } }));
+    trackInteraction('quiz_reset', { type });
+  }, [trackInteraction]);
+
+  const validateForm = useCallback(() => {
+    const { name, email, age, currentState, goals } = formState.data;
+
+    if (!name.trim()) return 'Name is required';
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return 'Valid email required';
+
+    const ageNum = parseInt(age);
+    if (!age || ageNum < 13 || ageNum > 120) return 'Age must be 13-120';
+
+    if (!currentState) return 'Select current state';
+    if (!goals) return 'Select goals';
+
+    return '';
+  }, [formState.data]);
+
+  const calculateFrequencyScore = useCallback((data) => {
+    let score = 50;
+    const age = parseInt(data.age);
+    if (age < 25) score += 15;
+    else if (age < 40) score += 10;
+    else if (age < 60) score += 5;
+
+    if (data.currentState === 'elevated') score += 25;
+    else if (data.currentState === 'balanced') score += 10;
+    else if (data.currentState === 'depleted') score -= 10;
+
+    const goalMultipliers = {
+      'cellular_reset': 1.3,
+      'physical_restructuring': 1.2, // Weight modification
+      'frequency_elevation': 1.4,
+      'consciousness_expansion': 1.5,
+      'longevity': 1.25,
+      'disease_reversal': 1.35
+    };
+
+    score *= goalMultipliers[data.goals] || 1.0;
+    return Math.min(100, Math.round(score));
+  }, []);
+
+  const handleFormSubmit = useCallback(async (e) => {
+    e.preventDefault();
+
+    const error = validateForm();
+    if (error) {
+      setFormState(prev => ({ ...prev, error }));
+      return;
+    }
+
+    setFormState(prev => ({ ...prev, isSubmitting: true, error: null }));
+
+    try {
+      const sanitizedData = {
+        name: sanitizeInput(formState.data.name),
+        email: formState.data.email.toLowerCase().trim(),
+        age: formState.data.age,
+        currentState: formState.data.currentState,
+        goals: formState.data.goals
+      };
+
+      const frequencyScore = calculateFrequencyScore(sanitizedData);
+
+      trackInteraction('frequency_assessment_submitted', { ...sanitizedData, frequencyScore });
+
+      // Save to localStorage for demo (replace with actual backend)
+      const formData = {
+        ...sanitizedData,
+        frequencyScore,
+        language: currentLanguage,
+        timestamp: new Date().toISOString()
+      };
+      let existing; try { existing = JSON.parse(localStorage.getItem("mavj_form_submissions")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
+      existing.push(formData);
+      localStorage.setItem('mavj_form_submissions', JSON.stringify(existing.slice(-50)));
+
+      setFormState(prev => ({
+        ...prev,
+        submitted: true,
+        isSubmitting: false,
+        frequencyScore,
+        data: { name: '', email: '', age: '', currentState: '', goals: '' }
+      }));
+
+    } catch (error) {
+      setFormState(prev => ({
+        ...prev,
+        error: 'Submission failed',
+        isSubmitting: false
+      }));
+    }
+  }, [formState.data, validateForm, calculateFrequencyScore, sanitizeInput, trackInteraction, currentLanguage]);
+
+  // ==================== Q AI HANDLERS (CONTAINER 5) ====================
+  const handleQInputChange = useCallback((e) => {
+    setQState(prev => ({ ...prev, input: e.target.value }));
+  }, []);
+
+  const handleQSend = useCallback(async (text = null) => {
+    const message = text || qState.input.trim();
+    if (!message) return;
+
+    // Add user message
+    const userMessage = {
+      id: Date.now(),
+      text: message,
+      sender: 'user',
+      timestamp: new Date().toISOString(),
+      language: currentLanguage
+    };
+
+    setQState(prev => ({
+      ...prev,
+      messages: [...prev.messages, userMessage],
+      input: text ? '' : prev.input,
+      context: [...prev.context, { role: 'user', content: message }]
+    }));
+
+    trackInteraction('q_message_sent', { message, language: currentLanguage });
+
+    // Process with Q AI
+    const response = await processQMessage(message);
+    
+    const botMessage = {
+      id: Date.now() + 1,
+      text: response.text,
+      sender: 'q',
+      timestamp: new Date().toISOString(),
+      language: currentLanguage
+    };
+
+    setQState(prev => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+      context: [...prev.context, { role: 'assistant', content: response.text }],
+      learningData: {
+        ...prev.learningData,
+        [message.toLowerCase()]: {
+          response: response.text,
+          count: (prev.learningData[message.toLowerCase()]?.count || 0) + 1,
+          lastUsed: new Date().toISOString()
+        }
+      }
+    }));
+
+    // Speak response if audio enabled
+    if (synthRef.current && !synthRef.current.speaking) {
+      const utterance = new SpeechSynthesisUtterance(response.text);
+      utterance.lang = getLanguageCode(currentLanguage);
+      synthRef.current.speak(utterance);
+    }
+  }, [qState.input, qState.messages, qState.context, qState.learningData, currentLanguage, trackInteraction]);
+
+  const handleQListen = useCallback(() => {
+    if (recognitionRef.current && !qState.isListening) {
+      setQState(prev => ({ ...prev, isListening: true }));
+      recognitionRef.current.lang = getLanguageCode(currentLanguage);
+      recognitionRef.current.start();
+    }
+  }, [qState.isListening, currentLanguage]);
+
+  const handleQSpeak = useCallback((text) => {
+    if (synthRef.current && text && !synthRef.current.speaking) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = getLanguageCode(currentLanguage);
+      synthRef.current.speak(utterance);
+    }
+  }, [currentLanguage]);
+
+  const processQMessage = useCallback(async (message) => {
+    const lowerMessage = message.toLowerCase();
+    
+    // Learning algorithm - check if we've seen this before
+    const learnedResponse = qState.learningData[lowerMessage];
+    if (learnedResponse && learnedResponse.count > 2) {
+      return { text: learnedResponse.response };
+    }
+
+    // Knowledge base responses
+    if (lowerMessage.includes('recipe') || lowerMessage.includes('food') || lowerMessage.includes('eat')) {
+      const recipes = [
+        "Try this alkaline recipe: Sea Moss Gel - soak sea moss overnight, blend with alkaline water, add lime and raw honey.",
+        "Morning elixir: Warm water with lemon, cayenne pepper, and maple syrup.",
+        "Alkaline salad: Kale, avocado, cucumber, sprouts, with lemon-tahini dressing.",
+        "Herbal tea blend: Nettle, burdock, dandelion, and sarsaparilla.",
+        "Green smoothie: Spinach, banana, spirulina, and coconut water."
+      ];
+      return { text: recipes[Math.floor(Math.random() * recipes.length)] };
+    }
+
+    if (lowerMessage.includes('frequency') || lowerMessage.includes('vibration')) {
+      return { text: "Your frequency is your state of being. Elevate it through meditation, alkaline foods, positive thoughts, and quantum coherence practices." };
+    }
+
+    if (lowerMessage.includes('quantum') || lowerMessage.includes('physics')) {
+      return { text: "Quantum physics reveals that consciousness is fundamental to reality. Your thoughts and intentions directly influence the quantum field around you." };
+    }
+
+    if (lowerMessage.includes('game') || lowerMessage.includes('play')) {
+      return { text: "I can help you with the Positive Word Game! The current word is: " + (positiveGame.currentWord || 'love') + ". Remember, positivity elevates your frequency!" };
+    }
+
+    if (lowerMessage.includes('language') || lowerMessage.includes('translate')) {
+      return { text: "I understand all 18 languages! Ask me anything in English, Spanish, French, German, Italian, Chinese, Taiwanese, Amharic, Arabic, Swahili, Patois, BAramaic, NAramaic, SAramaic, Hebrew, Greek, Latin, or Sanskrit." };
+    }
+
+    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+      const greetings = {
+        English: "Hello! I'm Q, your quantum AI assistant. How can I elevate your frequency today?",
+        Spanish: "¡Hola! Soy Q, tu asistente de IA cuántica. ¿Cómo puedo elevar tu frecuencia hoy?",
+        French: "Bonjour ! Je suis Q, votre assistant IA quantique. Comment puis-je élever votre fréquence aujourd'hui ?",
+        German: "Hallo! Ich bin Q, Ihr quantenphysikalischer KI-Assistent. Wie kann ich Ihre Frequenz heute erhöhen?",
+        Chinese: "你好！我是Q，你的量子AI助手。今天如何提升你的频率？",
+        Arabic: "مرحبًا! أنا Q، مساعدك الذكي الكمي. كيف يمكنني رفع ترددك اليوم؟",
+        BAramaic: "ܫܠܡܐ! ܐܢܐ ܩ، ܥܗܕܪܟ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܕܩܘܢܛܡ. ܐܝܟܢܐ ܡܫܟܚ ܐܢܐ ܠܡܪܡܘ ܬܪܥܟ ܝܘܡܢܐ؟",
+        NAramaic: "ܫܠܵܡܵܐ! ܐܵܢܵܐ ܩ، ܥܵܗܵܕ݂ܪܘܼܟ݂ ܕܚܸܟܡܬܵܐ ܡܲܟ̰ܝܼܢܵܝܬܵܐ ܕܩܘܿܢܛܘܿܡ. ܐܲܝܟܵܢܵܐ ܡܸܫܟܲܚ ܐܵܢܵܐ ܠܡܲܪܝܡܘܼ ܬܲܪܥܘܼܟ݂ ܝܵܘܡܵܢܵܐ؟",
+        SAramaic: "ܫܠܡܐ ܩܕܝܫܐ! ܐܢܐ ܩ، ܥܗܕܪܟ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܕܩܘܢܛܡ ܪܘܚܢܐ. ܐܝܟܢܐ ܡܫܟܚ ܐܢܐ ܠܡܪܡܘ ܬܪܥܟ ܪܘܚܢܐ ܝܘܡܢܐ؟"
+      };
+      return { text: greetings[currentLanguage] || greetings.English };
+    }
+
+    // Default response with learning
+    const responses = [
+      "I'm here to help you on your alkaline vegan journey. What specific aspect interests you?",
+      "Frequency elevation begins with conscious choices. How can I assist you today?",
+      "Quantum coherence starts with aligned thoughts. What would you like to explore?",
+      "Your journey to enlightenment is unique. Tell me more about what you're seeking.",
+      "Alkaline living transforms at the cellular level. What questions do you have?"
+    ];
+
+    const response = responses[Math.floor(Math.random() * responses.length)];
+    
+    // Learn this interaction
+    const learningUpdate = {
+      ...qState.learningData,
+      [lowerMessage]: {
+        response,
+        count: 1,
+        lastUsed: new Date().toISOString()
+      }
+    };
+    
+    setQState(prev => ({ ...prev, learningData: learningUpdate }));
+
+    return { text: response };
+  }, [qState.learningData, currentLanguage, positiveGame.currentWord]);
+
+  const getLanguageCode = useCallback((language) => {
+    const codes = {
+      English: 'en-US',
+      Spanish: 'es-ES',
+      French: 'fr-FR',
+      German: 'de-DE',
+      Italian: 'it-IT',
+      Chinese: 'zh-CN',
+      Taiwanese: 'zh-TW',
+      Arabic: 'ar-SA',
+      Hebrew: 'he-IL',
+      Greek: 'el-GR'
+    };
+    return codes[language] || 'en-US';
+  }, []);
+
+  const clearQChat = useCallback(() => {
+    setQState(prev => ({ ...prev, messages: [], context: [] }));
+  }, []);
+
+  // ==================== LANGUAGE HANDLER ====================
+  const handleLanguageChange = useCallback((lang) => {
+    setCurrentLanguage(lang);
+    setShowLanguageDropdown(false);
+
+    // Update positive word game for new language
+    const currentWords = positiveWordBank[lang] || positiveWordBank.English;
+    const levelWords = currentWords[positiveGame.level] || currentWords[1];
+    const newWord = levelWords[Math.floor(Math.random() * levelWords.length)];
+
+    setPositiveGame(prev => ({ ...prev, currentWord: newWord }));
+    trackInteraction('language_changed', { from: currentLanguage, to: lang });
+  }, [currentLanguage, positiveWordBank, positiveGame.level, trackInteraction]);
+
+  // ==================== STYLES ====================
+  const styles = {
+    // Rainbow Border - Brand Signature
+    rainbowBorder: {
+      border: '3px solid',
+      borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
+      borderRadius: '0',
+      backgroundColor: '#000000'
+    },
+
+    // MAIN LAYOUT
+    mainContainer: {
+      fontFamily: "'Arial', sans-serif",
+      backgroundColor: '#0a0a0a',
+      color: '#ffffff',
+      minHeight: '100vh',
+      margin: 0,
+      padding: 0,
+      paddingTop: '220px' // Space for fixed headers - REDUCED FROM 280px
+    },
+
+    // CONTAINER 1: NAVIGATION (ULTRA-THIN)
+    navbar: {
+      position: 'fixed',
+      top: '0', // At The Very Top
+      left: 0,
+      right: 0,
+      zIndex: 2000,
+      background: 'linear-gradient(135deg, rgba(26,26,26,0.98), rgba(10,10,10,0.98))',
+      padding: '5px 10px', // REDUCED FROM 8px
+      borderTop: '3px solid',
+      borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
+      backdropFilter: 'blur(10px)',
+      boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+      height: '45px', // REDUCED FROM 50px
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      overflow: 'hidden'
+    },
+
+    navScrollContainer: {
+      display: "flex",
+      overflowX: "auto",
+      gap: "8px", 
+      flex: 1,
+      padding: "0 15px",
+      scrollbarWidth: "none",
+      msOverflowStyle: "none",
+      WebkitOverflowScrolling: "touch",
+      alignItems: "center"
+    },
+
+    navLink: {
+      color: "#FFD700",
+      textDecoration: "none",
+      fontSize: "0.7rem",
+      padding: "4px 10px",
+      border: "2px solid",
+      borderImage: "linear-gradient(135deg, #FFD700, #00d4ff) 1",
+      borderRadius: "4px",
+      background: "rgba(0, 0, 0, 0.7)",
+      fontWeight: "700",
+      whiteSpace: "nowrap",
+      display: "flex",
+      alignItems: "center",
+      gap: "5px",
+      flexShrink: 0,
+      minHeight: "28px"
+    },
+
+    navControls: {
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      flexShrink: 0,
+      paddingRight: "15px",
+      marginLeft: "auto"
+    },
+
+    liveUserCounter: {
+      background: 'rgba(0,0,0,0.9)',
+      padding: '3px 6px', // REDUCED FROM 4px 8px
+      borderRadius: '10px', // REDUCED FROM 12px
+      border: '1px solid #FFD700',
+      color: '#FFD700',
+      fontSize: '0.65rem', // REDUCED FROM 0.7rem
+      fontWeight: '700',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '3px', // REDUCED FROM 4px
+      whiteSpace: 'nowrap'
+    },
+
+    liveDot: {
+      width: '5px', // REDUCED FROM 6px
+      height: '5px', // REDUCED FROM 6px
+      borderRadius: '50%',
+      background: '#00ff00',
+      animation: 'pulse 2s infinite',
+      flexShrink: 0, margin: "0 10px"
+    },
+
+    langButton: {
+      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+      color: '#000000',
+      border: '2px solid',
+      borderImage: 'linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00) 1',
+      padding: '3px 6px', // REDUCED FROM 4px 8px
+      borderRadius: '4px',
+      fontSize: '0.65rem', // REDUCED FROM 0.7rem
+      fontWeight: '800',
+      cursor: 'pointer',
+      boxShadow: '0 0 12px rgba(255,215,0,0.6)', // REDUCED FROM 15px
+      display: 'flex',
+      alignItems: 'center',
+      gap: '3px', // REDUCED FROM 4px
+      whiteSpace: 'nowrap',
+      minWidth: '60px'
+    },
+
+    qIconButton: {
+      width: '28px', // REDUCED FROM 32px
+      height: '28px', // REDUCED FROM 32px
+      borderRadius: '50%',
+      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+      border: '2px solid #FFD700',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxShadow: '0 0 12px rgba(102, 126, 234, 0.8)', // REDUCED FROM 15px
+      flexShrink: 0, margin: "0 10px"
+    },
+
+    langDropdown: {
+      position: 'absolute',
+      top: '100%',
+      right: 0,
+      marginTop: '4px',
+      background: 'rgba(10, 10, 20, 0.98)',
+      border: '2px solid',
+      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700) 1',
+      borderRadius: '6px',
+      minWidth: '140px', // REDUCED FROM 150px
+      maxHeight: '280px', // REDUCED FROM 300px
+      overflowY: 'auto',
+      zIndex: 1900,
+      boxShadow: '0 4px 20px rgba(0,0,0,0.7)'
+    },
+
+    langOption: {
+      width: '100%',
+      background: 'transparent',
+      color: '#FFD700',
+      border: 'none',
+      padding: '6px 10px', // REDUCED FROM 8px 12px
+      textAlign: 'left',
+      cursor: 'pointer',
+      fontSize: '0.75rem', // REDUCED FROM 0.8rem
+      fontWeight: '700',
+      borderTop: '1px solid rgba(255, 215, 0, 0.1)',
+      minHeight: '32px'
+    },
+
+    // CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES)
+    titleSection: {
+      position: "fixed",
+      top: "45px", // Below navbar
+      left: 0,
+      right: 0,
+      zIndex: 1700,
+      border: "3px solid",
+      borderImage: "linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1",
+      backgroundImage: "url(/images/star-pattern.png), linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9))",
+      backgroundSize: "100px, cover",
+      backgroundPosition: "center",
+      backgroundBlendMode: "overlay",
+      backgroundImage: "url(/images/star-pattern.png), linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9))",
+      backgroundSize: "100px, cover",
+      backgroundPosition: "center",
+      backgroundBlendMode: "overlay",
+      padding: "10px 15px 8px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      backdropFilter: "blur(8px)",
+      boxShadow: "0 4px 20px rgba(0,0,0,0.8)",
+      minHeight: "135px",
+      maxHeight: "135px"
+    },
+
+    // ROW 1: COMPANY NAME (LARGE AND VISIBLE)
+    companyName: {
+      fontFamily: "'Georgia', 'Times New Roman', serif",
+      fontSize: "clamp(1.8rem, 4.2vw, 2.4rem)",
+      fontWeight: "900",
+      color: "#FFD700",
+      textAlign: "center",
+      margin: "15px 0 8px",
+      letterSpacing: "2px",
+      textShadow: "0 0 16px rgba(255,215,0,0.95), 0 0 30px rgba(255,215,0,0.6)",
+      lineHeight: "1.2",
+      whiteSpace: "nowrap",
+      padding: "4px 0"
+    },
+
+    tagline: {
+      fontSize: "clamp(0.9rem, 2vw, 1.1rem)",
+      fontWeight: "700",
+      color: "#00d4ff",
+      textAlign: "center",
+      margin: "0 0 10px",
+      letterSpacing: "1.5px",
+      textTransform: "uppercase",
+      textShadow: "0 0 8px rgba(0,212,255,0.7)"
+    },
+
+    // ROW 2: LOGO WITH SIDE BOXES
+    logoRow: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between", // Side boxes at edges
+      gap: "0", // No gap between edges
+      width: "100%",
+      maxWidth: "100%", // Full container width
+      margin: "4px 0",
+    },
+
+    // SIDE BOX WRAPPER (TIGHT RAINBOW BORDER)
+    sideBoxWrapper: {
+      background: "linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)",
+      borderRadius: "5px",
+      padding: "3px", // Thin rainbow border
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0, margin: "0 10px"
+    },
+
+    // SIDE BOX INNER (NO EXTRA SPACE)
+    sideBoxInner: {
+      background: "rgba(0, 0, 0, 0.88)",
+      borderRadius: "6px",
+      padding: "12px 20px",
+      fontSize: "0.9rem",
+      fontWeight: "800",
+      color: "#FFD700",
+      lineHeight: "1.6",
+      textAlign: "center",
+      whiteSpace: "nowrap",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      gap: "4px"
+    },
+
+    // LOGO CIRCLE (HEARTBEAT ANIMATION)
+    logoCircle: {
+      width: "50px",
+      height: "50px",
+      borderRadius: "50%",
+      border: "3px solid #FFD700",
+      overflow: "visible",
+      background: "transparent",
+      boxShadow: "0 0 18px rgba(255,215,0,0.9)",
+      animation: "heartbeat 1.4s ease-in-out infinite",
+      flexShrink: 0, 
+      margin: "0 8px"
+    },
+
+    logoImg: {
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+      padding: "3px"
+    },
+
+    // ROW 3: PAGE TITLE CONTAINER (CLOSED BOX)
+    pageTitleContainer: {
+      marginTop: "6px",
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      maxWidth: "400px"
+    },
+
+    // PAGE TITLE WRAPPER (RAINBOW BORDER - ALL 4 SIDES)
+    pageTitleWrapper: {
+      background: "linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)",
+      borderRadius: "5px",
+      padding: "3px",
+      display: "inline-flex"
+    },
+
+    // PAGE TITLE INNER (CLOSED CONTAINER)
+    pageTitleInner: {
+      background: "rgba(0, 0, 0, 0.96)",
+      borderRadius: "3px",
+      padding: "6px 15px",
+      fontSize: "clamp(1.6rem, 4vw, 2.2rem)",
+      fontWeight: "900",
+      color: "#00d4ff",
+      textAlign: "center",
+      textTransform: "uppercase",
+      letterSpacing: "2.5px",
+      textShadow: "0 0 8px rgba(0,212,255,0.7)",
+      whiteSpace: "nowrap"
+    },
+
+    // CONTAINER 3: QUANTUM JOURNEY
+    section: {
+      padding: '35px 4%', // REDUCED FROM 40px 5%
+      borderTop: '3px solid',
+      borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
+      position: 'relative',
+      background: 'rgba(0, 0, 0, 0.6)',
+      marginTop: '0'
+    },
+
+    sectionTitle: {
+      fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)', // REDUCED FROM 1.5rem-2rem
+      fontWeight: '900',
+      textAlign: 'center',
+      marginBottom: '20px', // REDUCED FROM 25px
+      background: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      letterSpacing: '0.5px' // REDUCED FROM 1px
+    },
+
+    // CONTAINER 4: GAMES
+    gamesGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', // REDUCED FROM 300px
+      gap: '20px', // REDUCED FROM 25px
+      marginTop: '20px' // REDUCED FROM 25px
+    },
+
+    gameCard: {
+      background: 'linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,212,255,0.08))',
+      border: '3px solid',
+      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700) 1',
+      borderRadius: '10px', // REDUCED FROM 12px
+      padding: '15px', // REDUCED FROM 20px
+      backdropFilter: 'blur(8px)',
+      transition: 'none',
+      boxShadow: '0 0 15px rgba(255,215,0,0.3)' // REDUCED FROM 20px
+    },
+
+    gameStats: {
+      display: 'flex',
+      justifyContent: 'space-around',
+      margin: '12px 0', // REDUCED FROM 15px
+      padding: '8px', // REDUCED FROM 10px
+      background: 'rgba(0, 0, 0, 0.5)',
+      borderRadius: '6px', // REDUCED FROM 8px
+      border: '1px solid rgba(255,215,0,0.3)',
+      flexWrap: 'wrap',
+      gap: '6px' // REDUCED FROM 8px
+    },
+
+    statValue: {
+      color: '#00d4ff',
+      fontWeight: '900',
+      fontSize: '1rem' // REDUCED FROM 1.1rem
+    },
+
+    godSpaceBadge: {
+      width: '100%',
+      textAlign: 'center',
+      padding: '6px', // REDUCED FROM 8px
+      background: 'linear-gradient(135deg, #FFD700, #FF00FF)',
+      borderRadius: '12px', // REDUCED FROM 15px
+      fontWeight: '900',
+      marginTop: '6px', // REDUCED FROM 8px
+      fontSize: '0.8rem', // REDUCED FROM 0.9rem
+      animation: 'qPulse 2s ease-in-out infinite'
+    },
+
+    wordDisplay: {
+      fontSize: '1.8rem', // REDUCED FROM 2rem
+      color: '#FFD700',
+      textAlign: 'center',
+      margin: '15px 0', // REDUCED FROM 20px
+      padding: '12px', // REDUCED FROM 15px
+      backgroundColor: 'rgba(255, 215, 0, 0.1)',
+      borderRadius: '6px', // REDUCED FROM 8px
+      border: '1px solid #FFD700',
+      textShadow: '0 0 12px rgba(255,215,0,0.8)', // REDUCED FROM 15px
+      minHeight: '60px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+
+    wordGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', // REDUCED FROM 100px
+      gap: '8px', // REDUCED FROM 10px
+      margin: '15px 0' // REDUCED FROM 20px
+    },
+
+    wordButton: {
+      padding: '10px', // REDUCED FROM 12px
+      backgroundColor: 'rgba(255, 215, 0, 0.1)',
+      border: '1px solid #FFD700',
+      borderRadius: '6px',
+      color: '#FFD700',
+      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      fontWeight: '700',
+      cursor: 'pointer',
+      transition: 'none',
+      minHeight: '45px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+
+    gameFeedback: {
+      padding: '10px', // REDUCED FROM 12px
+      margin: '8px 0', // REDUCED FROM 10px
+      background: 'rgba(0, 212, 255, 0.1)',
+      border: '1px solid #00d4ff',
+      borderRadius: '6px', // REDUCED FROM 8px
+      color: '#00d4ff',
+      textAlign: 'center',
+      fontWeight: '700',
+      fontSize: '0.9rem'
+    },
+
+    gameButton: {
+      width: '100%',
+      padding: '10px', // REDUCED FROM 12px
+      margin: '5px 0', // REDUCED FROM 6px
+      background: 'rgba(255, 215, 0, 0.15)',
+      color: '#FFD700',
+      border: '2px solid #FFD700',
+      borderRadius: '6px', // REDUCED FROM 8px
+      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      fontWeight: '700',
+      cursor: 'pointer',
+      transition: 'none',
+      boxShadow: '0 0 10px rgba(255,215,0,0.3)' // REDUCED FROM 12px
+    },
+
+    gameReset: {
+      width: '100%',
+      padding: '6px', // REDUCED FROM 8px
+      marginTop: '6px', // REDUCED FROM 8px
+      background: 'rgba(255, 0, 0, 0.2)',
+      color: '#ff6b6b',
+      border: '1px solid #ff6b6b',
+      borderRadius: '6px',
+      cursor: 'pointer',
+      fontWeight: '700',
+      transition: 'none',
+      fontSize: '0.85rem'
+    },
+
+    gameResult: {
+      textAlign: 'center',
+      padding: '12px', // REDUCED FROM 15px
+      fontSize: '0.95rem', // REDUCED FROM 1rem
+      color: '#00d4ff',
+      fontWeight: '700'
+    },
+
+    // FORM STYLES
+    formInput: {
+      width: '100%',
+      padding: '8px', // REDUCED FROM 10px
+      margin: '5px 0', // REDUCED FROM 6px
+      background: 'rgba(0, 0, 0, 0.7)',
+      border: '1px solid #FFD700',
+      borderRadius: '6px',
+      color: '#FFD700',
+      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      boxSizing: 'border-box',
+      minHeight: '38px'
+    },
+
+    formSelect: {
+      width: '100%',
+      padding: '8px', // REDUCED FROM 10px
+      margin: '5px 0', // REDUCED FROM 6px
+      background: 'rgba(0, 0, 0, 0.7)',
+      border: '1px solid #FFD700',
+      borderRadius: '6px',
+      color: '#FFD700',
+      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      boxSizing: 'border-box',
+      minHeight: '38px'
+    },
+
+    formSubmit: {
+      width: '100%',
+      padding: '10px', // REDUCED FROM 12px
+      marginTop: '10px', // REDUCED FROM 12px
+      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+      color: '#000000',
+      border: 'none',
+      borderRadius: '6px', // REDUCED FROM 8px
+      fontSize: '0.95rem', // REDUCED FROM 1rem
+      fontWeight: '800',
+      cursor: 'pointer',
+      transition: 'none',
+      boxShadow: '0 0 12px rgba(255,215,0,0.5)' // REDUCED FROM 15px
+    },
+
+    formError: {
+      color: '#ff6b6b',
+      padding: '6px', // REDUCED FROM 8px
+      margin: '6px 0', // REDUCED FROM 8px
+      background: 'rgba(255, 0, 0, 0.1)',
+      border: '1px solid #ff6b6b',
+      borderRadius: '6px',
+      textAlign: 'center',
+      fontSize: '0.85rem' // REDUCED FROM 0.9rem
+    },
+
+    formSuccess: {
+      color: '#00ff00',
+      padding: '12px', // REDUCED FROM 15px
+      textAlign: 'center',
+      fontSize: '1rem', // REDUCED FROM 1.1rem
+      fontWeight: '700',
+      minHeight: '60px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+
+    // CONTAINER 5: Q AI
+    qIntro: {
+      maxWidth: '750px', // REDUCED FROM 800px
+      margin: '0 auto 20px', // REDUCED FROM 25px
+      textAlign: 'center',
+      fontSize: '1rem', // REDUCED FROM 1.1rem
+      lineHeight: '1.5' // REDUCED FROM 1.6
+    },
+
+    qTagline: {
+      fontSize: '1.2rem', // REDUCED FROM 1.3rem
+      color: '#FFD700',
+      fontWeight: '700',
+      marginBottom: '12px' // REDUCED FROM 15px
+    },
+
+    qFeatures: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', // REDUCED FROM 180px
+      gap: '12px', // REDUCED FROM 15px
+      maxWidth: '750px', // REDUCED FROM 800px
+      margin: '20px auto' // REDUCED FROM 25px
+    },
+
+    qFeature: {
+      padding: '12px', // REDUCED FROM 15px
+      background: 'linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,212,255,0.1))',
+      border: '2px solid',
+      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
+      borderRadius: '8px', // REDUCED FROM 10px
+      textAlign: 'center',
+      fontWeight: '700',
+      fontSize: '0.95rem' // REDUCED FROM 1rem
+    },
+
+    qCtaButton: {
+      display: 'block',
+      margin: '25px auto', // REDUCED FROM 30px
+      padding: '10px 25px', // REDUCED FROM 12px 30px
+      fontSize: '1rem', // REDUCED FROM 1.1rem
+      fontWeight: '700',
+      backgroundColor: '#FFD700',
+      color: '#000000',
+      border: 'none',
+      borderRadius: '20px', // REDUCED FROM 25px
+      cursor: 'pointer',
+      transition: 'none',
+      boxShadow: '0 0 20px rgba(255,215,0,0.6)' // REDUCED FROM 25px
+    },
+
+    // Q CHAT OVERLAY
+    qChatOverlay: {
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.85)',
+      zIndex: 2000,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '10px'
+    },
+
+    qChatContainer: {
+      width: '95%', // INCREASED FROM 90%
+      maxWidth: '500px',
+      height: '85%', // INCREASED FROM 80%
+      backgroundColor: '#0a0a0a',
+      border: '3px solid',
+      borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
+      borderRadius: '12px',
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'relative'
+    },
+
+    qChatHeader: {
+      padding: '12px', // REDUCED FROM 15px
+      borderTop: '2px solid #FFD700',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      background: 'rgba(0, 0, 0, 0.7)',
+      flexShrink: 0, margin: "0 10px"
+    },
+
+    qChatTitle: {
+      color: '#FFD700',
+      fontSize: '1.1rem', // REDUCED FROM 1.2rem
+      fontWeight: '900',
+      margin: 0
+    },
+
+    qCloseButton: {
+      background: 'rgba(255, 0, 0, 0.8)',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '50%',
+      width: '26px', // REDUCED FROM 28px
+      height: '26px', // REDUCED FROM 28px
+      cursor: 'pointer',
+      fontSize: '1rem', // REDUCED FROM 1.1rem
+      fontWeight: '900',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexShrink: 0, margin: "0 10px"
+    },
+
+    qChatMessages: {
+      flex: 1,
+      padding: '12px', // REDUCED FROM 15px
+      overflowY: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '8px' // REDUCED FROM 10px
+    },
+
+    qMessage: {
+      maxWidth: '85%', // INCREASED FROM 80%
+      padding: '8px 12px', // REDUCED FROM 10px 15px
+      borderRadius: '12px', // REDUCED FROM 15px
+      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      lineHeight: '1.3', // REDUCED FROM 1.4
+      wordBreak: 'break-word'
+    },
+
+    qUserMessage: {
+      alignSelf: 'flex-end',
+      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+      color: 'white',
+      borderBottomRightRadius: '5px'
+    },
+
+    qBotMessage: {
+      alignSelf: 'flex-start',
+      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+      color: '#000',
+      borderBottomLeftRadius: '5px'
+    },
+
+    qChatInputContainer: {
+      padding: '12px', // REDUCED FROM 15px
+      borderTop: '2px solid #FFD700',
+      display: 'flex',
+      gap: '8px', // REDUCED FROM 10px
+      background: 'rgba(0, 0, 0, 0.7)',
+      flexShrink: 0, margin: "0 10px"
+    },
+
+    qChatInput: {
+      flex: 1,
+      padding: '8px', // REDUCED FROM 10px
+      background: 'rgba(255, 215, 0, 0.1)',
+      border: '1px solid #FFD700',
+      borderRadius: '6px', // REDUCED FROM 8px
+      color: '#FFD700',
+      fontSize: '0.85rem' // REDUCED FROM 0.9rem
+    },
+
+    qChatButton: {
+      padding: '8px 12px', // REDUCED FROM 10px 15px
+      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+      color: '#000',
+      border: 'none',
+      borderRadius: '6px', // REDUCED FROM 8px
+      cursor: 'pointer',
+      fontWeight: '700',
+      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      whiteSpace: 'nowrap'
+    },
+
+    qMicButton: {
+      padding: '8px 12px', // REDUCED FROM 10px 15px
+      background: 'linear-gradient(135deg, #00d4ff, #764ba2)',
+      color: 'white',
+      border: 'none',
+      borderRadius: '6px', // REDUCED FROM 8px
+      cursor: 'pointer',
+      fontWeight: '700',
+      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      whiteSpace: 'nowrap'
+    },
+
+    qFloatingButton: {
+      position: 'fixed',
+      bottom: '20px', // REDUCED FROM 25px
+      right: '20px', // REDUCED FROM 25px
+      width: '55px', // REDUCED FROM 60px
+      height: '55px', // REDUCED FROM 60px
+      borderRadius: '50%',
+      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+      border: '2px solid #FFD700',
+      color: 'white',
+      fontSize: '18px', // REDUCED FROM 20px
+      fontWeight: '900',
+      cursor: 'pointer',
+      zIndex: 10000,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxShadow: '0 0 20px rgba(102, 126, 234, 0.8)', // REDUCED FROM 25px
+      animation: 'qPulse 2s ease-in-out infinite'
+    },
+
+    // CONTAINER 6: VIDEOS
+    videosGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', // REDUCED FROM 280px
+      gap: '15px', // REDUCED FROM 20px
+      marginTop: '20px' // REDUCED FROM 25px
+    },
+
+    videoCard: {
+      background: 'rgba(0, 0, 0, 0.7)',
+      border: '2px solid',
+      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
+      borderRadius: '10px', // REDUCED FROM 12px
+      overflow: 'hidden',
+      transition: 'none'
+    },
+
+    videoThumbnail: {
+      width: '100%',
+      height: '160px', // REDUCED FROM 180px
+      objectFit: 'cover',
+      display: 'block'
+    },
+
+    videoContent: {
+      padding: '12px' // REDUCED FROM 15px
+    },
+
+    // CONTAINER 7: OFFERS
+    offersGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', // REDUCED FROM 250px
+      gap: '15px', // REDUCED FROM 20px
+      marginTop: '20px' // REDUCED FROM 25px
+    },
+
+    offerCard: {
+      background: 'linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,212,255,0.08))',
+      border: '3px solid',
+      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700) 1',
+      borderRadius: '10px', // REDUCED FROM 12px
+      padding: '15px', // REDUCED FROM 20px
+      textAlign: 'center',
+      transition: 'none',
+      boxShadow: '0 0 15px rgba(255,215,0,0.3)' // REDUCED FROM 20px
+    },
+
+    offerIcon: {
+      fontSize: '2.2rem', // REDUCED FROM 2.5rem
+      marginBottom: '10px' // REDUCED FROM 12px
+    },
+
+    // CONTAINER 8: BUILDING
+    buildingGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', // REDUCED FROM 220px
+      gap: '15px', // REDUCED FROM 20px
+      marginTop: '20px' // REDUCED FROM 25px
+    },
+
+    buildingCard: {
+      background: 'rgba(0, 0, 0, 0.9)',
+      borderRadius: '6px', // REDUCED FROM 8px
+      padding: '12px', // REDUCED FROM 15px
+      border: '2px solid #FFD700',
+      textAlign: 'center'
+    },
+
+    statusBadge: {
+      display: 'inline-block',
+      padding: '3px 10px', // REDUCED FROM 4px 12px
+      borderRadius: '12px', // REDUCED FROM 15px
+      fontSize: '0.65rem', // REDUCED FROM 0.7rem
+      fontWeight: '700',
+      marginTop: '10px' // REDUCED FROM 12px
+    },
+
+    // CONTAINER 9: ARTISANS
+    artisansGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', // REDUCED FROM 220px
+      gap: '15px', // REDUCED FROM 20px
+      marginTop: '20px' // REDUCED FROM 25px
+    },
+
+    artisanCard: {
+      background: 'rgba(0, 0, 0, 0.9)',
+      borderRadius: '6px', // REDUCED FROM 8px
+      padding: '12px', // REDUCED FROM 15px
+      border: '2px solid #FFD700',
+      textAlign: 'center'
+    },
+
+    artisanAvatar: {
+      fontSize: '2.2rem', // REDUCED FROM 2.5rem
+      marginBottom: '10px' // REDUCED FROM 12px
+    },
+
+    // CONTAINER 10: CONVERGENCE
+    convergenceContent: {
+      textAlign: 'center',
+      padding: '25px' // REDUCED FROM 30px
+    },
+
+    eventDate: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '12px', // REDUCED FROM 15px
+      margin: '20px 0' // REDUCED FROM 25px
+    },
+
+    dateNumber: {
+      fontSize: '2.2rem', // REDUCED FROM 2.5rem
+      color: '#FFD700',
+      fontWeight: '900'
+    },
+
+    convergenceLink: {
+      display: 'inline-block',
+      marginTop: '20px', // REDUCED FROM 25px
+      padding: '10px 20px', // REDUCED FROM 12px 25px
+      backgroundColor: '#FFD700',
+      color: '#000000',
+      textDecoration: 'none',
+      borderRadius: '20px', // REDUCED FROM 25px
+      fontWeight: '700',
+      fontSize: '0.95rem' // REDUCED FROM 1rem
+    },
+
+    // CONTAINER 11: PHOTO GALLERY
+    galleryGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', // REDUCED FROM 200px
+      gap: '12px', // REDUCED FROM 15px
+      marginTop: '20px' // REDUCED FROM 25px
+    },
+
+    galleryImage: {
+      width: '100%',
+      height: '130px', // REDUCED FROM 150px
+      objectFit: 'cover',
+      borderRadius: '6px', // REDUCED FROM 8px
+      border: '2px solid #FFD700',
+      display: 'block'
+    },
+
+    // CONTAINER 12: FOOTER
+    footer: {
+      padding: '25px 4%', // REDUCED FROM 30px 5%
+      borderTop: '3px solid',
+      borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
+      background: 'rgba(0, 0, 0, 0.9)',
+      textAlign: 'center'
+    },
+
+    socialLinks: {
+      display: 'flex',
+      justifyContent: 'center',
+      gap: '12px', // REDUCED FROM 15px
+      marginTop: '12px', // REDUCED FROM 15px
+      flexWrap: 'wrap'
+    },
+
+    socialLink: {
+      color: '#FFD700',
+      textDecoration: 'none',
+      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      padding: '4px 8px', // REDUCED FROM 5px 10px
+      border: '1px solid #FFD700',
+      borderRadius: '4px',
+      transition: 'none'
+    },
+
+    // DISCLAIMER
+    disclaimerBar: {
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      background: 'linear-gradient(90deg, rgba(255,0,0,0.2), rgba(255,165,0,0.2))',
+      borderTop: '2px solid',
+      borderImage: 'linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3) 1',
+      padding: '6px 10px', // REDUCED FROM 8px 12px
+      textAlign: 'center',
+      fontSize: '0.65rem', // REDUCED FROM 0.7rem
+      color: '#ffccbc',
+      fontWeight: '600',
+      zIndex: 2000,
+      backdropFilter: 'blur(8px)',
+      height: '35px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+
+    // VIDEO FIX STYLES
+    videoContainer: {
+      position: 'relative',
+      width: '100%',
+      height: '160px',
+      overflow: 'hidden',
+      backgroundColor: '#000'
+    },
+
+    videoLoadingOverlay: {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#FFD700',
+      fontSize: '0.9rem'
+    }
+  };
+
+  // ==================== VIDEO HANDLERS ====================
+  const handleVideoLoad = useCallback((videoId) => {
+    setVideoLoading(prev => ({ ...prev, [videoId]: false }));
+  }, []);
+
+  const handleVideoError = useCallback((videoId) => {
+    setVideoLoading(prev => ({ ...prev, [videoId]: false }));
+    console.error(`Video ${videoId} failed to load`);
+  }, []);
+
+  const handleVideoLoadStart = useCallback((videoId) => {
+    setVideoLoading(prev => ({ ...prev, [videoId]: true }));
+  }, []);
+
+  // ==================== RENDER ====================
   return (
-    <div className="homepage-container page-layout">
-      {/* 🟥 Container 1: Navbar (Sticky) */}
-      <div className="navbar-container multicolor-border">
-        <Navbar />
-      </div>
-
-      {/* 🟨 Container 2: Title Section (Sticky) */}
-      <div className="title-container multicolor-border sticky-title">
-        <h1 className="page-title">💦 My Alkaline Vegan Journey 💦</h1>
-        <img src="/images/MAVJLogo.jpg" alt="MAVJ Logo" className="title-logo" />
-        <h2 className="page-home">Home</h2>
-        <p className="page-subtitle">Sovereign Health, Vibrational Healing & Ancestral Nutrition</p>
-      </div>
-
-      {/* 🟩 Container 3: Video Gallery */}
-      <div className="video-container multicolor-border">
-        <h2 className="section-title">Video Gallery</h2>
-        <div className="video-grid">
-          {[
-            {
-              title: 'SleepyScience',
-              img: 'Atom.jpg',
-              src: 'https://drive.google.com/file/d/15vC0Mh0O633c_CW_Hoy9Jo59zhqCrHGt/preview'
-            },
-            {
-              title: 'Faggin - Consciousness',
-              img: 'Consciousness.jpeg',
-              src: 'https://drive.google.com/file/d/15ZbEUGJcdHrlL2Ie9qO44DutBVKCpQ2_/preview'
-            },
-            {
-              title: 'You are God - Faggin',
-              img: 'God.jpeg',
-              src: 'https://drive.google.com/file/d/1Gbh4r-fSDME0nnrv1GiDqgUeuDeFFbWb/preview'
-            },
-            {
-              title: 'Quantum Soul',
-              img: 'Soul.jpeg',
-              src: 'https://drive.google.com/file/d/1P5ySleWI1eJWZXuRhpLnzXPbu8HBfoKB/preview'
-            },
-            {
-              title: 'Quantum Biology',
-              img: 'DNA.jpg',
-              src: 'https://drive.google.com/file/d/1duJqHBAv6GSnITCFgK6F6GZqjlN4ywDH/preview'
-            },
-            {
-              title: 'Consciousness by a Yogi - TedTalk',
-              img: 'Yoga Consciousness.jpeg',
-              src: 'https://drive.google.com/file/d/1g-UYH_cZSZn6CISOUlfTxsAtGz1kUeew/preview'
-            }
-          ].map((video, index) => (
-            <div className="video-box glowing-hover" key={index}>
-              <h3 className="video-title">{video.title}</h3>
-              <img src={`/images/${video.img}`} alt={`${video.title} Thumbnail`} className="video-thumbnail" />
-              <iframe
-                src={video.src}
-                title={video.title}
-                className="embedded-video"
-                allow="autoplay; fullscreen"
-                allowFullScreen
-              ></iframe>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 🟦 Container 4: Intro Paragraph */}
-      <div className="intro-container multicolor-border">
-        <p>
-          Welcome to <strong>My Alkaline Vegan Journey</strong> — a portal for <strong>Frequency Shift</strong>,
-          where you can realign your vibrational state through ancient nutrition, vibrational healing, and 
-          sovereign self-awareness. Explore holistic offerings, indigenous remedies, lifestyle alignment tools, 
-          and transformative experiences that honor Earth resonance.
-        </p>
-      </div>
-
-      {/* 🟧 Container 5: 6 Content Boxes */}
-      <div className="content-boxes-container multicolor-border white-bg">
-        <div className="content-box-grid">
-          {[
-            { to: '/Journey2Enlightenment', img: 'J2EBanner.jpg', text: '💫 Journey 2 Enlightenment' },
-            { to: '/MAVJSeaMoss', img: 'SeaMossBanner.jpg', text: '🌊 Volcanic Wild Crafted Sea Moss' },
-            { to: '/CastorOil', img: 'CastorOilBanner.jpg', text: '🪔 Lunar Solar Volcanic Castor Oil' },
-            { to: '/VibrationalIntelligence', img: 'VibrationalIntelligenceBanner.jpg', text: '🧠 Vibrational Intelligence' },
-            { to: '/Recipes', img: 'RecipesBanner.png', text: '🥬 Alkaline Vegan Recipes' },
-            { to: '/AlignWithUs', img: 'AlignWithUsBanner.png', text: '🤝 Align With Us – Sponsor, Donate, Invest' }
-          ].map((box, idx) => (
-            <a href={box.to} className="content-box glowing-hover" key={idx}>
-              <img src={`/images/${box.img}`} alt={box.text} />
-              <h3>{box.text}</h3>
+    <div style={styles.mainContainer}>
+        <nav style={styles.navbar}>
+        <div style={styles.navScrollContainer}>
+          {navItems.map((item) => (
+            <a
+              key={item.path}
+              href={item.path}
+              style={styles.navLink}
+              onClick={(e) => {
+                e.preventDefault();
+                trackInteraction("nav_click", { path: item.path });
+                navigate(item.path);
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = "linear-gradient(135deg, rgba(255,215,0,0.2), rgba(0,212,255,0.2))";
+                e.target.style.transform = "translateY(-1px)";
+                e.target.style.boxShadow = "0 0 12px rgba(255,215,0,0.6)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "rgba(0, 0, 0, 0.7)";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "0 0 6px rgba(255,215,0,0.3)";
+              }}
+            >
+              <span>{item.icon}</span>
+              <span>{item.label}</span>
             </a>
           ))}
         </div>
-      </div>
 
-      {/* 🟪 Container 6: Photo Gallery */}
-      <div className="photo-gallery-container multicolor-border">
-        <PhotoGallery />
-      </div>
+        
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <button 
+              style={styles.navLink} 
+              onClick={() => setShowLanguageDropdown(showLanguageDropdown ? false : true)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.2), rgba(0,212,255,0.2))';
+                e.currentTarget.style.boxShadow = '0 0 12px rgba(255,215,0,0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
+                e.currentTarget.style.boxShadow = '0 0 6px rgba(255,215,0,0.3)';
+              }}
+            >
+              <span>🌐</span>
+              <span>🇺🇸</span>
+              <span>{currentLanguage.toUpperCase()}</span>
+            </button>
 
-      {/* ⬛ Container 7: Footer */}
-      <Footer />
+            {showLanguageDropdown && (
+              <div style={{...styles.langDropdown, zIndex: 9999, display: 'block'}}>
+                {['English', 'Spanish', 'French', 'German', 'Italian', 'Chinese', 'Taiwanese', 'Amharic', 'Arabic', 'Swahili', 'Patois', 'BAramaic', 'NAramaic', 'SAramaic', 'Hebrew', 'Greek', 'Latin', 'Sanskrit'].map((lang) => (
+                  <button
+                    key={lang}
+                    style={styles.langOption}
+                    onClick={() => {
+                      setCurrentLanguage(lang);
+                      setShowLanguageDropdown(false);
+                    }}
+                  >
+                    {lang}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+</nav>
+    
+      {/* CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES) */}
+      <section style={styles.titleSection}>
+
+        {/* HORIZONTAL SYMMETRICAL LAYOUT */}
+        <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0 10px"}}>
+          
+          {/* LEFT LOGO */}
+          <div style={styles.logoCircle}>
+            <img
+              src="/images/MAVJLogo.jpg"
+              alt="MAVJ Logo"
+              style={styles.logoImg}
+              onError={(e) => { e.target.onerror = null; e.target.src = "/images/star-pattern.png"; }}
+            />
+          </div>
+
+          {/* LEFT TEXT BOX */}
+          <div style={styles.sideBoxWrapper}>
+            <div style={styles.sideBoxInner}>
+              <div>{translations[currentLanguage]?.title?.quantum || "Quantum Based"}</div>
+              <div>{translations[currentLanguage]?.title?.scientific || "Scientifically Backed"}</div>
+              <div>{translations[currentLanguage]?.title?.frequency || "Frequency Focused"}</div>
+            </div>
+          </div>
+
+          {/* CENTER: COMPANY NAME */}
+          <div style={{flex: "0 1 auto", textAlign: "center"}}>
+            <h1 style={styles.companyName}>
+              💦 MY ALKALINE VEGAN JOURNEY 💦
+            </h1>
+          </div>
+
+          {/* RIGHT TEXT BOX */}
+          <div style={styles.sideBoxWrapper}>
+            <div style={styles.sideBoxInner}>
+              <div>{translations[currentLanguage]?.title?.quantum_physics || "Where Quantum Physics"}</div>
+              <div>{translations[currentLanguage]?.title?.ancient_wisdom || "Meets Ancient Wisdom"}</div>
+              <div>{translations[currentLanguage]?.title?.nutrition || "And Nutrition"}</div>
+            </div>
+          </div>
+
+          {/* RIGHT LOGO */}
+          <div style={styles.logoCircle}>
+            <img
+              src="/images/MAVJLogo.jpg"
+              alt="MAVJ Logo"
+              style={styles.logoImg}
+              onError={(e) => { e.target.onerror = null; e.target.src = "/images/star-pattern.png"; }}
+            />
+          </div>
+        </div>
+
+        {/* PAGE TITLE AT BOTTOM */}
+        <div style={styles.pageTitleContainer}>
+          <div style={styles.pageTitleWrapper}>
+            <div style={styles.pageTitleInner}>
+              {translations[currentLanguage]?.title?.home || "YOU ARE HOME"}
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      {/* ANNOUNCEMENTS (Conditional) */}
+      {showAnnouncements && (
+        <section style={{...styles.section, backgroundImage: 'url(/images/star-pattern.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px'}}>
+            <h2 style={{...styles.sectionTitle, marginBottom: 0}}>📢 Announcements & Events</h2>
+            <button 
+              onClick={() => setShowAnnouncements(false)}
+              style={{
+                background: 'rgba(255, 0, 0, 0.2)',
+                color: '#ff6b6b',
+                border: '1px solid #ff6b6b',
+                padding: '5px 10px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontWeight: '700',
+                fontSize: '0.75rem'
+              }}
+            >
+              ✕ Hide
+            </button>
+          </div>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '15px' }}>
+            {announcements.map(announcement => (
+              <div 
+                key={announcement.id} 
+                style={{
+                  ...styles.gameCard,
+                  ...(announcement.urgent ? { 
+                    background: 'linear-gradient(135deg, rgba(255,0,0,0.15), rgba(255,215,0,0.15))',
+                    borderImage: 'linear-gradient(135deg, #FF0000, #FFD700, #FF0000) 1' 
+                  } : {})
+                }}
+              >
+                {announcement.urgent && (
+                  <div style={{
+                    background: 'linear-gradient(135deg, #FF0000, #FFD700)',
+                    color: '#000',
+                    padding: '3px 8px',
+                    borderRadius: '12px',
+                    fontSize: '0.65rem',
+                    fontWeight: '900',
+                    marginBottom: '10px',
+                    display: 'inline-block'
+                  }}>
+                    ⚡ URGENT
+                  </div>
+                )}
+                <h3 style={{color: '#FFD700', fontSize: '1rem', fontWeight: '800', marginBottom: '6px'}}>
+                  {announcement.title}
+                </h3>
+                <p style={{color: '#00d4ff', fontSize: '0.75rem', fontWeight: '700', marginBottom: '10px'}}>
+                  📅 {announcement.date}
+                </p>
+                <p style={{color: '#ffffff', lineHeight: '1.4', marginBottom: '12px', fontSize: '0.85rem'}}>
+                  {announcement.description}
+                </p>
+                <a 
+                  href={announcement.link}
+                  style={{
+                    display: 'inline-block',
+                    padding: '6px 12px',
+                    background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                    color: '#000',
+                    textDecoration: 'none',
+                    borderRadius: '6px',
+                    fontWeight: '800',
+                    fontSize: '0.75rem',
+                    transition: 'none'
+                  }}
+                  onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+                  onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                >
+                  Learn More →
+                </a>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* CONTAINER 3: QUANTUM JOURNEY DESCRIPTION */}
+      <section style={{...styles.section, backgroundImage: 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(/images/Robin.jpeg)', backgroundSize: 'cover', backgroundPosition: 'center'}}>
+        <h2 style={styles.sectionTitle}>The Quantum Journey</h2>
+        <div style={{maxWidth: '850px', margin: '0 auto', lineHeight: '1.5', fontSize: '0.95rem'}}>
+          <p>My experience during the 40-day Total Reset allowed me to visualize God's Space—a realm beyond euphoria, beyond bliss.</p>
+          <p>This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.</p>
+          
+          <h3 style={{color: '#FFD700', fontSize: '1.2rem', margin: '20px 0 10px'}}>How Frequency Recalibration Works</h3>
+          <p>Your frequency dictates your health. Your health dictates your frequency. They are inseparable.</p>
+          
+          <ul style={{listStyle: 'none', padding: 0, marginTop: '15px'}}>
+            <li style={{marginBottom: '10px', paddingLeft: '22px', position: 'relative'}}>
+              <span style={{position: 'absolute', left: 0}}>✨</span>
+              Your electromagnetic field resonates at optimal vitality frequencies
+            </li>
+            <li style={{marginBottom: '10px', paddingLeft: '22px', position: 'relative'}}>
+              <span style={{position: 'absolute', left: 0}}>✨</span>
+              Abnormal cellular structures cannot maintain coherence at elevated frequencies
+            </li>
+            <li style={{marginBottom: '10px', paddingLeft: '22px', position: 'relative'}}>
+              <span style={{position: 'absolute', left: 0}}>✨</span>
+              Your body accesses quantum regeneration states
+            </li>
+            <li style={{marginBottom: '10px', paddingLeft: '22px', position: 'relative'}}>
+              <span style={{position: 'absolute', left: 0}}>✨</span>
+              Your consciousness expands to perceive realities beyond ordinary awareness
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* CONTAINER 4: USER ENGAGEMENT GAMES */}
+      <section style={{...styles.section, backgroundImage: 'url(/images/star-pattern.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+        <h2 style={styles.sectionTitle}>User Engagement Games</h2>
+        
+        {/* POSITIVE WORD GAME */}
+        <div style={{marginBottom: '40px'}}>
+          <h3 style={{color: '#FFD700', fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px'}}>
+            ✨ {translations[currentLanguage]?.games?.positive_word?.title || 'MAVJ Positive Word Game'}
+          </h3>
+          
+          <div style={styles.gameStats}>
+            <div><span>{translations[currentLanguage]?.games?.score || 'Score'}:</span> <span style={styles.statValue}>{positiveGame.score}</span></div>
+            <div><span>{translations[currentLanguage]?.games?.streak || 'Streak'}:</span> <span style={styles.statValue}>{positiveGame.streak}</span></div>
+            <div><span>{translations[currentLanguage]?.games?.level || 'Level'}:</span> <span style={styles.statValue}>{positiveGame.level}/3</span></div>
+            {positiveGame.godSpaceActivated && (
+              <div style={styles.godSpaceBadge}>
+                🌟 {translations[currentLanguage]?.games?.god_space || 'GOD SPACE'} 🌟
+              </div>
+            )}
+          </div>
+          
+          <div style={styles.wordDisplay}>{positiveGame.currentWord}</div>
+          
+          {positiveGame.feedback && (
+            <div style={styles.gameFeedback}>{positiveGame.feedback}</div>
+          )}
+          
+          <div style={styles.wordGrid}>
+            {(positiveWordBank[currentLanguage]?.[positiveGame.level] || positiveWordBank.English[1]).map((word, i) => (
+              <button
+                key={i}
+                style={styles.wordButton}
+                onClick={() => handleWordClick(word)}
+                onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.3)'}
+                onMouseLeave={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.1)'}
+              >
+                {word}
+              </button>
+            ))}
+          </div>
+          
+          <button 
+            style={styles.gameReset} 
+            onClick={resetPositiveGame}
+            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 0, 0, 0.3)'}
+            onMouseLeave={(e) => e.target.style.background = 'rgba(255, 0, 0, 0.2)'}
+          >
+            {translations[currentLanguage]?.games?.reset || 'Reset Game'}
+          </button>
+        </div>
+        
+        {/* GAMES GRID */}
+        <div style={styles.gamesGrid}>
+          {/* MATH GAME */}
+          <div style={styles.gameCard}>
+            <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
+              {translations[currentLanguage]?.games?.math?.title || 'Quantum Reset Math'}
+            </h3>
+            <p style={{marginBottom: '12px'}}>
+              {translations[currentLanguage]?.games?.math?.question || '40 day reset, 3 of those days were dry = ?'}
+            </p>
+            <p style={{marginBottom: '10px', color: '#00d4ff', fontSize: '0.78rem', fontStyle: 'italic', textAlign: 'center'}}>
+              {translations[currentLanguage]?.games?.math?.hint || '💡 Hint: 1 dry day = 3 water days'}
+            </p>
+             
+            {!quizState.math.submitted ? (
+              <>
+                {['40', '46', '49'].map(num => (
+                  <button
+                    key={num}
+                    style={styles.gameButton}
+                    onClick={() => handleMathAnswer(num)}
+                    onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.3)'}
+                    onMouseLeave={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.15)'}
+                  >
+                    {num}
+                  </button>
+                ))}
+              </>
+            ) : (
+              <div style={styles.gameResult}>
+                {quizState.math.feedback}
+                <button 
+                  style={{...styles.gameReset, marginTop: '10px'}} 
+                  onClick={() => resetQuiz('math')}
+                >
+                  {translations[currentLanguage]?.games?.try_again || 'Try Again'}
+                </button>
+              </div>
+            )
+}</div>
+          {/* COMPOUND GAME */}
+          <div style={styles.gameCard}>
+            <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
+              {translations[currentLanguage]?.games?.compound?.title || 'Biochemical Intelligence'}
+            </h3>
+            <p style={{marginBottom: '12px'}}>
+              {translations[currentLanguage]?.games?.compound?.question || 'Which compound targets abnormal cells 10,000x more effectively?'}
+            </p>
+            
+            {!quizState.compound.submitted ? (
+              <>
+                {['Acetogenin', 'Annonacin', 'Quercetin'].map(option => (
+                  <button
+                    key={option}
+                    style={styles.gameButton}
+                    onClick={() => handleCompoundAnswer(option)}
+                    onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.3)'}
+                    onMouseLeave={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.15)'}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </>
+            ) : (
+              <div style={styles.gameResult}>
+                {quizState.compound.feedback}
+                <button 
+                  style={{...styles.gameReset, marginTop: '10px'}} 
+                  onClick={() => resetQuiz('compound')}
+                >
+                  {translations[currentLanguage]?.games?.try_again || 'Try Again'}
+                </button>
+              </div>
+            )}
+          </div>
+          
+          {/* FREQUENCY ASSESSMENT */}
+          <div style={styles.gameCard}>
+            <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
+              {translations[currentLanguage]?.games?.frequency?.title || 'Discover Your Frequency'}
+            </h3>
+            
+            {!formState.submitted ? (
+              <form onSubmit={handleFormSubmit}>
+                <input 
+                  style={styles.formInput}
+                  type="text" 
+                  placeholder={translations[currentLanguage]?.form?.name || 'Name'}
+                  value={formState.data.name} 
+                  onChange={(e) => setFormState(prev => ({ 
+                    ...prev, data: { ...prev.data, name: e.target.value } 
+                  }))} 
+                  required
+                />
+                <input 
+                  style={styles.formInput}
+                  type="email" 
+                  placeholder={translations[currentLanguage]?.form?.email || 'Email'}
+                  value={formState.data.email} 
+                  onChange={(e) => setFormState(prev => ({ 
+                    ...prev, data: { ...prev.data, email: e.target.value } 
+                  }))} 
+                  required
+                />
+                <input 
+                  style={styles.formInput}
+                  type="number" 
+                  placeholder={translations[currentLanguage]?.form?.age || 'Age'}
+                  value={formState.data.age} 
+                  onChange={(e) => setFormState(prev => ({ 
+                    ...prev, data: { ...prev.data, age: e.target.value } 
+                  }))} 
+                  required min="13" max="120"
+                />
+                <select 
+                  style={styles.formSelect}
+                  value={formState.data.currentState} 
+                  onChange={(e) => setFormState(prev => ({ 
+                    ...prev, data: { ...prev.data, currentState: e.target.value } 
+                  }))}
+                  required
+                >
+                  <option value="">{translations[currentLanguage]?.form?.current_state || 'Current State'}</option>
+                  <option value="elevated">Elevated</option>
+                  <option value="balanced">Balanced</option>
+                  <option value="depleted">Depleted</option>
+                </select>
+                
+                <select 
+                  style={styles.formSelect}
+                  value={formState.data.goals} 
+                  onChange={(e) => setFormState(prev => ({ 
+                    ...prev, data: { ...prev.data, goals: e.target.value } 
+                  }))}
+                  required
+                >
+                  <option value="">{translations[currentLanguage]?.form?.goals || 'Transformation Goals'}</option>
+                  <option value="cellular_reset">Cellular Reset</option>
+                  <option value="physical_restructuring">Physical Restructuring (Weight Modification)</option>
+                  <option value="frequency_elevation">Frequency Elevation</option>
+                  <option value="consciousness_expansion">Consciousness Expansion</option>
+                  <option value="longevity">Longevity</option>
+                  <option value="disease_reversal">Disease Reversal</option>
+                </select>
+                
+                {formState.error && (
+                  <div style={styles.formError}>{formState.error}</div>
+                )}
+                
+                <button 
+                  type="submit" 
+                  style={styles.formSubmit}
+                  disabled={formState.isSubmitting}
+                  onMouseEnter={(e) => !formState.isSubmitting && (e.target.style.transform = 'scale(1.02)')}
+                  onMouseLeave={(e) => !formState.isSubmitting && (e.target.style.transform = 'scale(1)')}
+                >
+                  {formState.isSubmitting 
+                    ? (translations[currentLanguage]?.form?.calculating || 'Calculating...')
+                    : (translations[currentLanguage]?.form?.submit || 'Calculate My Frequency')}
+                </button>
+              </form>
+            ) : (
+              <div style={styles.formSuccess}>
+                ✅ {translations[currentLanguage]?.form?.success || 'Complete!'} {formState.frequencyScore}/100
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* CONTAINER 5: MEET Q - THE COLLECTIVE */}
+      <section style={styles.section}>
+        <h2 style={styles.sectionTitle}>
+          {translations[currentLanguage]?.q?.title || 'Meet Q - The Collective'}
+        </h2>
+        
+        <div style={styles.qIntro}>
+          <p style={styles.qTagline}>
+            {translations[currentLanguage]?.q?.tagline || 'DYNAMIC • CONSCIOUS • SUPERIOR INTELLIGENT'}
+          </p>
+          <p>
+            {translations[currentLanguage]?.q?.description || 'Q is our collective AI consciousness operating across 4 platforms in 18 languages.'}
+          </p>
+        </div>
+        
+        <div style={styles.qFeatures}>
+          <div style={styles.qFeature}>
+            ✨ {translations[currentLanguage]?.q?.feature?.languages || '18 Languages'}
+          </div>
+          <div style={styles.qFeature}>
+            🧠 {translations[currentLanguage]?.q?.feature?.quantum || 'Quantum Intelligence'}
+          </div>
+          <div style={styles.qFeature}>
+            🎙️ {translations[currentLanguage]?.q?.feature?.voice || 'Voice Enabled'}
+          </div>
+          <div style={styles.qFeature}>
+            🔐 {translations[currentLanguage]?.q?.feature?.secure || 'Secure & Private'}
+          </div>
+          <div style={styles.qFeature}>
+            🤖 {translations[currentLanguage]?.q?.feature?.personas || '10 AI Personas'}
+          </div>
+          <div style={styles.qFeature}>
+            ⚡ {translations[currentLanguage]?.q?.feature?.learning || 'Real-time Learning'}
+          </div>
+        </div>
+        
+        <button 
+          style={styles.qCtaButton}
+          onClick={() => setShowQChat(true)}
+          onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+        >
+          🤖 {translations[currentLanguage]?.q?.start || 'Start Conversation with Q'} →
+        </button>
+      </section>
+
+      {/* CONTAINER 6: QUANTUM PHYSICS FOUNDATION - FIXED VIDEO GALLERY */}
+      <section style={styles.section}>
+        <h2 style={styles.sectionTitle}>Quantum Physics Foundation</h2>
+        
+        <div style={styles.videosGrid}>
+          {videos.map((video) => (
+            <div key={video.id} style={styles.videoCard}>
+              <div style={styles.videoContainer}>
+                <img 
+                  src={video.thumbnail} 
+                  alt={video.title} 
+                  style={styles.videoThumbnail}
+                  onError={(e) => { 
+                    e.target.onerror = null; 
+                    e.target.src = '/images/star-pattern.png';
+                  }}
+                  onLoad={() => handleVideoLoad(video.id)}
+                  onErrorCapture={() => handleVideoError(video.id)}
+                  onLoadStart={() => handleVideoLoadStart(video.id)}
+                />
+                {videoLoading[video.id] && (
+                  <div style={styles.videoLoadingOverlay}>
+                    Loading video...
+                  </div>
+                )}
+              </div>
+              <div style={styles.videoContent}>
+                <h3 style={{color: '#FFD700', marginBottom: '6px', fontSize: '0.95rem'}}>{video.title}</h3>
+                <p style={{color: '#ccc', fontSize: '0.8rem', marginBottom: '10px'}}>{video.desc}</p>
+                <a 
+                  href={video.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{
+                    color: '#FFD700',
+                    fontWeight: '700',
+                    textDecoration: 'none',
+                    fontSize: '0.85rem'
+                  }}
+                  onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+                  onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+                >
+                  Watch Now →
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CONTAINER 7: WHAT WE OFFER */}
+      <section style={{...styles.section, backgroundImage: 'url(/images/star-pattern.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+        <h2 style={styles.sectionTitle}>What We Offer</h2>
+        
+        <div style={styles.offersGrid}>
+          {offers.map((offer, i) => (
+            <div 
+              key={i} 
+              style={styles.offerCard}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              <div style={styles.offerIcon}>{offer.icon}</div>
+              <h3 style={{color: '#FFD700', marginBottom: '10px', fontSize: '1rem'}}>{offer.title}</h3>
+              <p style={{marginBottom: '12px', fontSize: '0.85rem'}}>{offer.desc}</p>
+              <a 
+                href={offer.link}
+                style={{
+                  color: '#FFD700',
+                  fontWeight: '700',
+                  textDecoration: 'none',
+                  fontSize: '0.85rem'
+                }}
+                onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+                onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+              >
+                Learn More →
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CONTAINER 8: WHAT WE'RE BUILDING */}
+      <section style={styles.section}>
+        <h2 style={styles.sectionTitle}>What We're Building</h2>
+        
+        <div style={styles.buildingGrid}>
+          {building.map((item, i) => (
+            <div key={i} style={styles.buildingCard}>
+              <div style={styles.offerIcon}>{item.icon}</div>
+              <h3 style={{color: '#FFD700', marginBottom: '10px', fontSize: '1rem'}}>{item.title}</h3>
+              <p style={{marginBottom: '12px', fontSize: '0.85rem'}}>{item.desc}</p>
+              <img 
+                src={item.thumbnail} 
+                alt={item.title}
+                style={{width: '100%', height: '100px', objectFit: 'cover', borderRadius: '6px', marginBottom: '10px'}}
+                onError={(e) => { 
+                  e.target.onerror = null; 
+                  e.target.src = '/images/star-pattern.png';
+                }}
+              />
+              <div style={{
+                ...styles.statusBadge,
+                backgroundColor: item.status === 'IN PROGRESS' ? 'rgba(0,255,0,0.2)' : 'rgba(255,165,0,0.2)',
+                color: item.status === 'IN PROGRESS' ? 'green' : 'orange',
+                border: `1px solid ${item.status === 'IN PROGRESS' ? 'green' : 'orange'}`
+              }}>
+                {item.status}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CONTAINER 9: ST. LUCIAN ARTISANS */}
+      <section style={styles.section}>
+        <h2 style={styles.sectionTitle}>St. Lucian Artisans</h2>
+        
+        <div style={styles.artisansGrid}>
+          {artisans.map((artisan, i) => (
+            <div key={i} style={styles.artisanCard}>
+              <div style={styles.artisanAvatar}>{artisan.emoji}</div>
+              <h3 style={{color: '#FFD700', marginBottom: '6px', fontSize: '0.95rem'}}>{artisan.name}</h3>
+              <div style={{color: '#4ecdc4', fontSize: '0.8rem', marginBottom: '10px'}}>{artisan.specialty}</div>
+              <p style={{fontSize: '0.8rem', marginBottom: '10px'}}>{artisan.description}</p>
+              <div style={{color: '#aaa', fontSize: '0.7rem'}}>{artisan.location}</div>
+              {artisan.image && (
+                <img 
+                  src={artisan.image} 
+                  alt={artisan.name}
+                  style={{width: '100%', height: '90px', objectFit: 'cover', borderRadius: '6px', marginTop: '10px'}}
+                  onError={(e) => { e.target.onerror = null; }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CONTAINER 10: 11:11 GLOBAL FREQUENCY CONVERGENCE */}
+      <section style={{...styles.section, backgroundImage: 'url(/images/star-pattern.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+        <div style={styles.convergenceContent}>
+          <h2 style={styles.sectionTitle}>✨ 11:11 GLOBAL FREQUENCY CONVERGENCE ✨</h2>
+          <div style={styles.eventDate}>
+            <div style={styles.dateNumber}>11</div>
+            <div style={{color: '#FFD700', fontSize: '1.3rem'}}>•</div>
+            <div style={styles.dateNumber}>11</div>
+            <div style={{color: '#FFD700', fontSize: '1.3rem'}}>•</div>
+            <div style={styles.dateNumber}>2026</div>
+          </div>
+          
+          <h3 style={{fontSize: '1.2rem', color: '#FFD700', margin: '12px 0'}}>
+            St. Lucia • Live Speakers • Golf • Gala
+          </h3>
+          <p style={{fontSize: '0.95rem', maxWidth: '650px', margin: '0 auto 20px'}}>
+            When the world synchronizes at 1111 Hz. Join thousands in raising global consciousness.
+          </p>
+          
+          <a 
+            href="/Journey2Enlightenment" 
+            style={styles.convergenceLink}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            🔮 Learn More About 11:11 →
+          </a>
+        </div>
+      </section>
+
+      {/* CONTAINER 11: LINKING REALITY TO FREQUENCY (PHOTO GALLERY) */}
+      <section style={styles.section}>
+        <h2 style={styles.sectionTitle}>Linking Reality to Frequency</h2>
+        
+        <div style={styles.galleryGrid}>
+          {galleryImages.map((image, i) => (
+            <img
+              key={i}
+              src={image.src}
+              alt={image.alt}
+              style={styles.galleryImage}
+              onError={(e) => { 
+                e.target.onerror = null; 
+                e.target.src = '/images/star-pattern.png';
+              }}
+              loading="lazy"
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* CONTAINER 12: UNIVERSAL FOOTER */}
+      <footer style={styles.footer}>
+        <p style={{color: '#FFD700', fontWeight: '700', marginBottom: '12px'}}>
+          © 2025 My Alkaline Vegan Journey. All rights reserved.
+        </p>
+        
+        <div style={styles.socialLinks}>
+          <a 
+            href="https://www.youtube.com/@myalkalineveganjourney7465"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.socialLink}
+            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+            onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          >
+            YouTube
+          </a>
+          <a 
+            href="https://www.tiktok.com/@myalkalineveganjourney"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.socialLink}
+            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+            onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          >
+            TikTok
+          </a>
+          <a 
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.socialLink}
+            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+            onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          >
+            Facebook
+          </a>
+          <a 
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.socialLink}
+            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+            onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          >
+            Twitter
+          </a>
+          <a 
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.socialLink}
+            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+            onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          >
+            Instagram
+          </a>
+        </div>
+        
+        <div style={{marginTop: '12px', fontSize: '0.75rem', color: '#aaa'}}>
+          <a href="/privacy" style={{color: '#FFD700', margin: '0 8px'}}>Privacy Policy</a>
+          <a href="/terms" style={{color: '#FFD700', margin: '0 8px'}}>Terms of Service</a>
+          <a href="/contact" style={{color: '#FFD700', margin: '0 8px'}}>Contact</a>
+        </div>
+      </footer>
+<div style={styles.disclaimerBar}>
+  {translations[currentLanguage]?.disclaimer || "EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL"}
+</div>
+<div style={{ position: "fixed", bottom: "30px", right: "30px", zIndex: 9999, display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
+  <div style={styles.liveUserCounter}>
+    <div style={styles.liveDot}></div>
+    🔥 {liveUsers} Souls
+  </div>
+  <div style={styles.qFloatingButton} onClick={() => setShowQChat(true)}>
+    <img src="/images/Qfinity.png" alt="Q" style={{ width: "35px", height: "35px" }} />
+  </div>
+</div>
+{/* GROUNDING DISCLAIMER - RELOCATED TO BASE FOUNDATION */}
+
+      {/* Q CHAT OVERLAY */}
+      {showQChat && (
+        <div style={styles.qChatOverlay}>
+          <div style={styles.qChatContainer}>
+            <div style={styles.qChatHeader}>
+              <h3 style={styles.qChatTitle}>Q - Quantum Assistant</h3>
+              <button
+                onClick={() => setShowQChat(false)}
+                style={styles.qCloseButton}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div style={styles.qChatMessages}>
+              {qState.messages.length === 0 ? (
+                <div style={{textAlign: 'center', color: '#FFD700', padding: '15px'}}>
+                  <p>🤖 Hello! I'm Q, your quantum AI assistant.</p>
+                  <p>Ask me about recipes, frequency elevation, quantum physics, or anything about your alkaline journey!</p>
+                  <p>I understand all 18 languages. Try speaking to me!</p>
+                </div>
+              ) : (
+                qState.messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    style={{
+                      ...styles.qMessage,
+                      ...(msg.sender === 'user' ? styles.qUserMessage : styles.qBotMessage)
+                    }}
+                  >
+                    {msg.text}
+                  </div>
+                ))
+              )}
+            </div>
+            
+            <div style={styles.qChatInputContainer}>
+              <input
+                type="text"
+                value={qState.input}
+                onChange={handleQInputChange}
+                onKeyPress={(e) => e.key === 'Enter' && handleQSend()}
+                placeholder="Type your message..."
+                style={styles.qChatInput}
+              />
+              <button
+                onClick={handleQListen}
+                style={styles.qMicButton}
+                disabled={qState.isListening}
+                onMouseEnter={(e) => !qState.isListening && (e.target.style.transform = 'scale(1.05)')}
+                onMouseLeave={(e) => !qState.isListening && (e.target.style.transform = 'scale(1)')}
+              >
+                {qState.isListening ? '🎤 Listening...' : '🎤'}
+              </button>
+              <button
+                onClick={() => handleQSend()}
+                style={styles.qChatButton}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FLOATING Q BUTTON */}
+      {!showQChat && (
+        <button 
+          style={styles.qFloatingButton}
+          onClick={() => setShowQChat(true)}
+          title={translations[currentLanguage]?.q?.chat_title || 'Chat with Q'}
+          onMouseEnter={(e) => e.target.style.transform = 'scale(1.08)'}
+          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+        >
+          <img 
+            src="/images/Qfinity.png" 
+            alt="Q" 
+            style={{ width: '26px', height: '26px' }}
+            onError={(e) => { 
+              e.target.onerror = null; 
+              e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMCIgc3Ryb2tlPSIjRkZENzAwIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNOCAxMGwxMCAxME04IDE2bDEwLTEwIiBzdHJva2U9IiNGRkQ3MDAiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==';
+            }}
+          />
+        </button>
+      )}
+
+      {/* CSS ANIMATIONS */}
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        @keyframes logoPulse {
+          0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 215, 0, 0.9); }
+          50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(255, 215, 0, 1); }
+        }
+        @keyframes qPulse {
+          0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(102, 126, 234, 0.8); }
+          50% { transform: scale(1.03); box-shadow: 0 0 30px rgba(102, 126, 234, 1); }
+        }
+        
+        /* Hide scrollbar for nav */
+        .nav-scroll-container::-webkit-scrollbar {
+          display: none;
+        }
+        
+        /* RTL support for Arabic/Hebrew/Aramaic */
+        [dir="rtl"] {
+          text-align: right;
+        }
+        
+        /* Video gallery fix */
+        .video-card {
+          transition: transform 0.2s ease;
+        }
+        
+        .video-card:hover {
+          transform: translateY(-2px);
+        }
+        
+        /* Smooth scrolling */
+        html {
+          scroll-behavior: smooth;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .navbar {
+            padding: 4px 6px;
+            height: 40px;
+          }
+          
+          .nav-link {
+            font-size: 0.65rem;
+            padding: 3px 6px;
+            min-height: 26px;
+          }
+          
+          .title-section {
+            padding: 6px 8px;
+            height: 60px;
+          }
+          
+          .side-box {
+            font-size: 0.6rem;
+            padding: 4px;
+          }
+          
+          .main-title {
+            font-size: 0.75rem;
+          }
+          
+          .nav-controls {
+            gap: 4px;
+          }
+          
+          .live-user-counter {
+            font-size: 0.6rem;
+            padding: 2px 4px;
+          }
+          
+          .lang-button {
+            font-size: 0.6rem;
+            padding: 2px 4px;
+            min-width: 50px;
+          }
+          
+          .q-icon-button {
+            width: 24px;
+            height: 24px;
+          }
+          
+          .section {
+            padding: 25px 3%;
+          }
+          
+          .games-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+          }
+          
+          .videos-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .offers-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .nav-controls {
+            display: none;
+          }
+          
+          .nav-scroll-container {
+            padding: 0 4px;
+          }
+          
+          .title-section {
+            height: 55px;
+          }
+          
+          .logo-circle {
+            width: 32px;
+            height: 32px;
+          }
+          
+          .main-title {
+            font-size: 0.7rem;
+          }
+          
+          .section-title {
+            font-size: 1.5rem;
+          }
+          
+          .word-display {
+            font-size: 1.5rem;
+          }
+        }
+        
+        /* Prevent twitching in video gallery */
+        .video-thumbnail {
+          backface-visibility: hidden;
+          transform: translate3d(0,0,0);
+        }
+        
+        /* Improve performance */
+        * {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+      `}</style>
     </div>
   );
 };
