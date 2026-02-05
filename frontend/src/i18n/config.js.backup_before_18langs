@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+// Import ALL 14 language files
 import AmharicTranslations from './locales/Amharic/translation.json';
 import ArabicTranslations from './locales/Arabic/translation.json';
 import BAramaicTranslations from './locales/BAramaic/translation.json';
@@ -16,10 +17,6 @@ import SAramaicTranslations from './locales/SAramaic/translation.json';
 import SwahiliTranslations from './locales/Swahili/translation.json';
 import TaiwaneseTranslations from './locales/Taiwanese/translation.json';
 import ChineseTranslations from './locales/Chinese/translation.json';
-import HebrewTranslations from './locales/Hebrew/translation.json';
-import GreekTranslations from './locales/Greek/translation.json';
-import LatinTranslations from './locales/Latin/translation.json';
-import SanskritTranslations from './locales/Sanskrit/translation.json';
 
 const resources = {
   Amharic: { translation: AmharicTranslations },
@@ -35,11 +32,7 @@ const resources = {
   SAramaic: { translation: SAramaicTranslations },
   Swahili: { translation: SwahiliTranslations },
   Taiwanese: { translation: TaiwaneseTranslations },
-  Chinese: { translation: ChineseTranslations },
-  Hebrew: { translation: HebrewTranslations },
-  Greek: { translation: GreekTranslations },
-  Latin: { translation: LatinTranslations },
-  Sanskrit: { translation: SanskritTranslations }
+  Chinese: { translation: ChineseTranslations }
 };
 
 i18n
@@ -47,7 +40,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'English',
+    fallbackLng: 'en',
     supportedLngs: Object.keys(resources),
     interpolation: { escapeValue: false }
   });
