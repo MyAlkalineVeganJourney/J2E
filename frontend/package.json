@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": "https://myalkalineveganjourney.github.io/J2E/",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@stripe/react-stripe-js": "^3.7.0",
