@@ -470,3 +470,20 @@ body {
   margin: 0 auto;
   padding: 20px;
 }
+
+/* MAVJ Vetted Menu Elevation */
+.nav-menu, .navbar, .header-container {
+    z-index: 9999 !important; 
+    position: relative;
+    box-shadow: none !important;
+}
+
+/* Dissolving the Red Cloud overlay */
+.top-shadow-overlay, .red-cloud, [class*="shadow"] {
+    box-shadow: none !important;
+    background: transparent !important;
+    pointer-events: none !important;
+}
+
+/* Force clear top frequency */
+.nav-menu, nav { top: 0 !important; }

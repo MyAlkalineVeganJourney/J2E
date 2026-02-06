@@ -57,12 +57,13 @@ import MasterElements from './Pages/MasterElements';
 const stripePromise = loadStripe("pk_test_51Q4w6LA8s1feV7TsMJLPPr3VKj0IlcYkmGCojTDlEXejRTgvsiiI3VSnFUxzbVXwXPRD4xOC30xKq6L13I6JoIXb00GQe5oPCo");
 
 function App() {
+  if (!i18n) return <div style={{background:"black", color:"#FFD700", textAlign:"center", padding:"50px", fontFamily:"sans-serif"}}>Elevating High Frequency Vibration...</div>;
   return (
     <LanguageProvider>
       <UserProvider>
         <CartProvider>
           <I18nextProvider i18n={i18n}>
-            <Router basename="/J2E">
+            <Router basename={window.location.pathname.startsWith("/J2E") ? "/J2E" : ""}>
               <Elements stripe={stripePromise}>
                 <div className="App">
                   <Routes>

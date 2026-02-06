@@ -10,8 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DOMPurify from 'dompurify';
 import PageLayout from '../components/PageLayout';
-import FrequencyElevator from '../components/quantum/FrequencyElevator';
-import QuantumGlow from '../components/quantum/QuantumGlow';
+import FrequencyElevator from '../components/Quantum/FrequencyElevator';
+import QuantumGlow from '../components/Quantum/QuantumGlow';
 import '../styles/MAVJSearch.css';
 
 /* ======================

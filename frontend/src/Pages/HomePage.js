@@ -1606,11 +1606,10 @@ const HomePage = () => {
       zIndex: 1700,
       border: "3px solid",
       borderImage: "linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1",
-       linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9))",
+      backgroundImage: "url(/images/star-pattern.png), linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9))",
+      backgroundSize: "100px, cover",
       backgroundPosition: "center",
       backgroundBlendMode: "overlay",
-       cover",
-      backgroundPosition: "center",
       backgroundBlendMode: "overlay",
       padding: "10px 15px 8px",
       display: "flex",
@@ -1663,7 +1662,7 @@ const HomePage = () => {
     sideBoxWrapper: {
       background: "linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)",
       borderRadius: "5px",
-      padding: "3px", // Thin rainbow border
+      padding: "2px", // Thin rainbow border
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
@@ -1693,8 +1692,8 @@ const HomePage = () => {
       height: "50px",
       borderRadius: "50%",
       border: "3px solid #FFD700",
-      overflow: "visible",
-      background: "transparent",
+      overflow: "hidden",
+      background: "#fff",
       boxShadow: "0 0 18px rgba(255,215,0,0.9)",
       animation: "heartbeat 1.4s ease-in-out infinite",
       flexShrink: 0, 
@@ -1721,7 +1720,7 @@ const HomePage = () => {
     pageTitleWrapper: {
       background: "linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)",
       borderRadius: "5px",
-      padding: "3px",
+      padding: "2px",
       display: "inline-flex"
     },
 
@@ -2016,7 +2015,7 @@ const HomePage = () => {
     // Q CHAT OVERLAY
     qChatOverlay: {
       position: 'fixed',
-      
+      bottom: 0,
       left: 0,
       width: '100%',
       height: '100%',
@@ -2151,7 +2150,7 @@ const HomePage = () => {
 
     qFloatingButton: {
       position: 'fixed',
-       // REDUCED FROM 25px
+      bottom: '20px', // REDUCED FROM 25px
       right: '20px', // REDUCED FROM 25px
       width: '55px', // REDUCED FROM 60px
       height: '55px', // REDUCED FROM 60px
@@ -2347,7 +2346,7 @@ const HomePage = () => {
     // DISCLAIMER
     disclaimerBar: {
       position: 'fixed',
-      
+      bottom: 0,
       left: 0,
       right: 0,
       background: 'linear-gradient(90deg, rgba(255,0,0,0.2), rgba(255,165,0,0.2))',
@@ -2377,10 +2376,10 @@ const HomePage = () => {
 
     videoLoadingOverlay: {
       position: 'absolute',
-      
+      bottom: 0,
       left: 0,
       right: 0,
-      
+      bottom: 0,
       backgroundColor: 'rgba(0,0,0,0.7)',
       display: 'flex',
       alignItems: 'center',
@@ -2539,7 +2538,7 @@ const HomePage = () => {
 
       {/* ANNOUNCEMENTS (Conditional) */}
       {showAnnouncements && (
-        <section style={{...styles.section,   backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+        <section style={{...styles.section, backgroundImage: 'url(/images/star-pattern.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px'}}>
             <h2 style={{...styles.sectionTitle, marginBottom: 0}}>📢 Announcements & Events</h2>
             <button 
@@ -2619,7 +2618,7 @@ const HomePage = () => {
       )}
 
       {/* CONTAINER 3: QUANTUM JOURNEY DESCRIPTION */}
-      <section style={{...styles.section, 0,0,0.7), rgba(0,0,0,0.7)), url(/images/Robin.jpeg)',  backgroundPosition: 'center'}}>
+      <section style={{...styles.section, backgroundImage: 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(/images/Robin.jpeg)', backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <h2 style={styles.sectionTitle}>The Quantum Journey</h2>
         <div style={{maxWidth: '850px', margin: '0 auto', lineHeight: '1.5', fontSize: '0.95rem'}}>
           <p>My experience during the 40-day Total Reset allowed me to visualize God's Space—a realm beyond euphoria, beyond bliss.</p>
@@ -2650,13 +2649,13 @@ const HomePage = () => {
       </section>
 
       {/* CONTAINER 4: USER ENGAGEMENT GAMES */}
-      <section style={{...styles.section,   backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+      <section style={{...styles.section, backgroundImage: 'url(/images/star-pattern.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
         <h2 style={styles.sectionTitle}>User Engagement Games</h2>
         
         {/* POSITIVE WORD GAME */}
         <div style={{marginBottom: '40px'}}>
           <h3 style={{color: '#FFD700', fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px'}}>
-            ✨ {translations[currentLanguage]?.games?.positive_word?.title || 'MAVJ Positive Word Game'}
+            ✨ {(translations && translations[currentLanguage]?.games?.positive_word?.title) || 'MAVJ Positive Word Game'}
           </h3>
           
           <div style={styles.gameStats}>
@@ -2967,7 +2966,7 @@ const HomePage = () => {
       </section>
 
       {/* CONTAINER 7: WHAT WE OFFER */}
-      <section style={{...styles.section,   backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+      <section style={{...styles.section, backgroundImage: 'url(/images/star-pattern.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
         <h2 style={styles.sectionTitle}>What We Offer</h2>
         
         <div style={styles.offersGrid}>
