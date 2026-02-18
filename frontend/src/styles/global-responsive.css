@@ -1,0 +1,40 @@
+
+/* ===== VETTED RESPONSIVE CSS ===== */
+@media screen and (max-width: 767px) {
+  .banner-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .banner-logo {
+    width: 80px;
+    height: 80px;
+  }
+  .words-grid,
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+  .quick-nav,
+  .category-filters {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .footer-links {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .words-grid,
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .words-grid,
+  .results-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
