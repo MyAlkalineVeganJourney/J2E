@@ -37,7 +37,7 @@ import J2EFood from './Pages/J2EFood';
 import TheJourney from './Pages/TheJourney';
 import PodcastVlog from './Pages/PodcastVlog';
 import AlignWithUs from './Pages/AlignWithUs';
-import MAVJSearch from './Pages/Search';
+import MAVJSearch from './Pages/MAVJSearch';
 import LiveBroadcast from './components/LiveBroadcast';
 
 import VibrationalIntelligence from './Pages/VibrationalIntelligence/index';
@@ -75,7 +75,7 @@ function App() {
                     <Route path="/TheJourney" element={<TheJourney />} />
                     <Route path="/VibrationalIntelligence" element={<VibrationalIntelligence />} />
                     <Route path="/AlignWithUs" element={<AlignWithUs />} />
-                    <Route path="/Search" element={<MAVJSearch />} />
+                    <Route path="/MAVJSearch" element={<MAVJSearch />} />
                     <Route path="/LiveBroadcast" element={<LiveBroadcast />} />
                     <Route path="/MAVJStore" element={<MAVJStore />} />
                     <Route path="/PodcastVlog" element={<PodcastVlog />} />

@@ -1,0 +1,42 @@
+#!/bin/bash
+mkdir -p src/locales/English
+cat > src/locales/English/words.json << 'END'
+{
+  "LOVE": "love", "PEACE": "peace", "JOY": "joy", "HOPE": "hope",
+  "FAITH": "faith", "TRUST": "trust", "GRATITUDE": "gratitude", "ABUNDANCE": "abundance",
+  "HARMONY": "harmony", "BALANCE": "balance", "WISDOM": "wisdom", "CLARITY": "clarity",
+  "VITALITY": "vitality", "PURPOSE": "purpose", "COURAGE": "courage", "STRENGTH": "strength",
+  "ENLIGHTENMENT": "enlightenment", "TRANSFORMATION": "transformation", "ASCENSION": "ascension",
+  "CONSCIOUSNESS": "consciousness", "TRANSCENDENCE": "transcendence", "MANIFESTATION": "manifestation",
+  "SOVEREIGNTY": "sovereignty", "RESURRECTION": "resurrection",
+  "ACCEPTANCE": "acceptance", "ACKNOWLEDGE": "acknowledge", "ADAPT": "adapt",
+  "ALIGNMENT": "alignment", "ALLOW": "allow", "APPRECIATION": "appreciation",
+  "AWAKEN": "awaken", "AWARENESS": "awareness", "BECOME": "become", "BEGIN": "begin",
+  "BELIEVE": "believe", "BREATHE": "breathe", "CALM": "calm", "CAPABLE": "capable",
+  "CERTAINTY": "certainty", "CHOOSE": "choose", "COHERENCE": "coherence",
+  "COMPASSION": "compassion", "CONFIDENCE": "confidence", "CONNECT": "connect",
+  "CONSCIOUS": "conscious", "CREATE": "create", "DESERVE": "deserve",
+  "DETERMINATION": "determination", "DEVOTION": "devotion", "DIGNITY": "dignity",
+  "DISCIPLINE": "discipline", "DISCOVER": "discover", "EASE": "ease", "ELEVATE": "elevate",
+  "EMBODY": "embody", "EMPOWER": "empower", "ENERGY": "energy", "ENLIGHTEN": "enlighten",
+  "EVOLVE": "evolve", "EXPAND": "expand", "FLOW": "flow", "FOCUS": "focus",
+  "FORGIVE": "forgive", "FREEDOM": "freedom", "FULFILLMENT": "fulfillment",
+  "GROWTH": "growth", "HEAL": "heal", "HONOR": "honor",
+  "SHOULD": "should", "BUT": "but", "CHRONIC": "chronic", "TOXIC": "toxic",
+  "FEAR": "fear", "DISEASE": "disease", "DEFICIENCY": "deficiency", "STRESS": "stress",
+  "TRAUMA": "trauma", "ADDICTION": "addiction", "INFLAMMATION": "inflammation",
+  "DEPLETION": "depletion", "STRUGGLE": "struggle", "PROBLEM": "problem",
+  "FAILURE": "failure", "DIFFICULT": "difficult", "CRISIS": "crisis",
+  "OBSTACLE": "obstacle", "SETBACK": "setback", "BURDEN": "burden",
+  "CONFLICT": "conflict", "DOUBT": "doubt", "SOON": "soon", "HARD": "hard",
+  "WISH": "wish", "FORGET": "forget", "TIRED": "tired", "SPEND": "spend",
+  "ONLY": "only", "IF": "if", "LUCK": "luck", "CHALLENGE": "challenge",
+  "RESISTANCE": "resistance", "BREAKDOWN": "breakdown", "PRESSURE": "pressure",
+  "LOSS": "loss", "VULNERABILITY": "vulnerability", "CONSTRAINT": "constraint",
+  "DISCOMFORT": "discomfort", "INTERRUPTION": "interruption", "ENDING": "ending",
+  "FREQUENCY": "frequency", "RESET": "reset", "ALKALINE": "alkaline",
+  "QUANTUM": "quantum", "SOVEREIGN": "sovereign", "CELLULAR": "cellular",
+  "VEGAN": "vegan", "ANCESTRAL": "ancestral",
+  "EUPHORIA": "euphoria", "BLISS": "bliss", "DIVINITY": "divinity", "OMNISCIENCE": "omniscience"
+}
+END

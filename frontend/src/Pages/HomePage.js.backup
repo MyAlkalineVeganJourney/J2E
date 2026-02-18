@@ -102,7 +102,8 @@ const HomePage = () => {
       },
       games: {
         positive_word: { title: 'MAVJ Positive Word Game' },
-        math: { title: 'Quantum Reset Math', question: '40 days + 6 herbs = ?' },
+        math: { title: 'Quantum Reset Math', question: '40 day reset, 3 of those days were dry = ?',
+        hint: '💡 Hint: 1 dry day = 3 water days' },
         compound: { title: 'Biochemical Intelligence', question: 'Which compound targets abnormal cells 10,000x more effectively?' },
         frequency: { title: 'Discover Your Frequency' },
         score: 'Score',
@@ -693,7 +694,7 @@ const HomePage = () => {
       id: 1,
       icon: '✨',
       title: translations[currentLanguage]?.announcements?.j2e_2026 || 'Journey to Enlightenment 2026',
-      date: 'August 8-12, 2026',
+      date: 'Year Round in St.Lucia Reserve Your Dates, 2026',
       description: translations[currentLanguage]?.announcements?.j2e_desc || 'Reset, Rise, Resonate, Resurrect - 5-day immersive experience in St. Lucia',
       link: '/Journey2Enlightenment',
       urgent: true
@@ -702,8 +703,8 @@ const HomePage = () => {
       id: 2,
       icon: '🌊',
       title: translations[currentLanguage]?.announcements?.seamoss || 'New Sea Moss Harvest Available',
-      date: 'January 2026',
-      description: translations[currentLanguage]?.announcements?.seamoss_desc || 'Fresh violet and gold spectrum sea moss now in stock',
+      date: '2026',
+      description: translations[currentLanguage]?.announcements?.seamoss_desc || 'Fresh violet, jade, gold and spectrum gel and raw sea moss now in stock',
       link: '/MAVJStore',
       urgent: false
     },
@@ -1097,7 +1098,7 @@ const HomePage = () => {
       ...prev,
       math: { 
         answer, submitted: true, score: isCorrect ? 100 : 0,
-        feedback: isCorrect ? '🎉 CORRECT! 40 + 6 = 46' : '💫 Try again'
+        feedback: isCorrect ? '🎉 CORRECT! 37 water days + 3 dry days (x3 each) = 37 + 9 = 46!' : '💫 Remember the hint and try again'
       }
     }));
 
@@ -1455,13 +1456,13 @@ const HomePage = () => {
     // CONTAINER 1: NAVIGATION (ULTRA-THIN)
     navbar: {
       position: 'fixed',
-      top: '43px', // Below disclaimer
+      top: '0', // At The Very Top
       left: 0,
       right: 0,
-      zIndex: 1800,
+      zIndex: 2000,
       background: 'linear-gradient(135deg, rgba(26,26,26,0.98), rgba(10,10,10,0.98))',
       padding: '5px 10px', // REDUCED FROM 8px
-      borderBottom: '3px solid',
+      borderTop: '3px solid',
       borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
       backdropFilter: 'blur(10px)',
       boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
@@ -1473,42 +1474,42 @@ const HomePage = () => {
     },
 
     navScrollContainer: {
-      display: 'flex',
-      overflowX: 'auto',
-      gap: '4px', // REDUCED FROM 6px
+      display: "flex",
+      overflowX: "auto",
+      gap: "8px", 
       flex: 1,
-      padding: '0 8px', // REDUCED FROM 10px
-      scrollbarWidth: 'none',
-      msOverflowStyle: 'none',
-      WebkitOverflowScrolling: 'touch'
+      padding: "0 15px",
+      scrollbarWidth: "none",
+      msOverflowStyle: "none",
+      WebkitOverflowScrolling: "touch",
+      alignItems: "center"
     },
 
     navLink: {
-      color: '#FFD700',
-      textDecoration: 'none',
-      fontSize: '0.7rem', // REDUCED FROM 0.75rem
-      padding: '4px 8px', // REDUCED FROM 6px 10px
-      border: '2px solid',
-      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-      borderRadius: '4px',
-      background: 'rgba(0, 0, 0, 0.7)',
-      fontWeight: '700',
-      whiteSpace: 'nowrap',
-      transition: 'none',
-      boxShadow: '0 0 6px rgba(255,215,0,0.3)', // REDUCED FROM 8px
-      display: 'flex',
-      alignItems: 'center',
-      gap: '3px', // REDUCED FROM 4px
+      color: "#FFD700",
+      textDecoration: "none",
+      fontSize: "0.7rem",
+      padding: "4px 10px",
+      border: "2px solid",
+      borderImage: "linear-gradient(135deg, #FFD700, #00d4ff) 1",
+      borderRadius: "4px",
+      background: "rgba(0, 0, 0, 0.7)",
+      fontWeight: "700",
+      whiteSpace: "nowrap",
+      display: "flex",
+      alignItems: "center",
+      gap: "5px",
       flexShrink: 0,
-      minHeight: '28px' // ADDED FOR CONSISTENCY
+      minHeight: "28px"
     },
 
     navControls: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '6px', // REDUCED FROM 8px
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
       flexShrink: 0,
-      marginLeft: '8px'
+      paddingRight: "15px",
+      marginLeft: "auto"
     },
 
     liveUserCounter: {
@@ -1531,7 +1532,7 @@ const HomePage = () => {
       borderRadius: '50%',
       background: '#00ff00',
       animation: 'pulse 2s infinite',
-      flexShrink: 0
+      flexShrink: 0, margin: "0 10px"
     },
 
     langButton: {
@@ -1563,7 +1564,7 @@ const HomePage = () => {
       alignItems: 'center',
       justifyContent: 'center',
       boxShadow: '0 0 12px rgba(102, 126, 234, 0.8)', // REDUCED FROM 15px
-      flexShrink: 0
+      flexShrink: 0, margin: "0 10px"
     },
 
     langDropdown: {
@@ -1592,122 +1593,159 @@ const HomePage = () => {
       cursor: 'pointer',
       fontSize: '0.75rem', // REDUCED FROM 0.8rem
       fontWeight: '700',
-      borderBottom: '1px solid rgba(255, 215, 0, 0.1)',
+      borderTop: '1px solid rgba(255, 215, 0, 0.1)',
       minHeight: '32px'
     },
 
-    // CONTAINER 2: TITLE SECTION (ULTRA-THIN)
+    // CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES)
     titleSection: {
-      position: 'fixed',
-      top: '96px', // Below navbar (43px + 45px + 8px spacing) - ADJUSTED
+      position: "fixed",
+      top: "45px", // Below navbar
       left: 0,
       right: 0,
       zIndex: 1700,
-      padding: '8px 12px', // REDUCED FROM 10px 15px
-      backgroundImage: 'url(/images/star-pattern.png)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      borderBottom: '3px solid',
-      borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      height: '65px', // REDUCED FROM 70px
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      overflow: 'hidden'
+      border: "3px solid",
+      borderImage: "linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1",
+      backgroundImage: "url(/images/star-pattern.png), linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9))",
+      backgroundSize: "100px, cover",
+      backgroundPosition: "center",
+      backgroundBlendMode: "overlay",
+      backgroundImage: "url(/images/star-pattern.png), linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9))",
+      backgroundSize: "100px, cover",
+      backgroundPosition: "center",
+      backgroundBlendMode: "overlay",
+      padding: "10px 15px 8px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      backdropFilter: "blur(8px)",
+      boxShadow: "0 4px 20px rgba(0,0,0,0.8)",
+      minHeight: "135px",
+      maxHeight: "135px"
     },
 
-    titleRow: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: '8px', // REDUCED FROM 10px
-      marginBottom: '4px', // REDUCED FROM 5px
-      flexWrap: 'nowrap'
+    // ROW 1: COMPANY NAME (LARGE AND VISIBLE)
+    companyName: {
+      fontFamily: "'Georgia', 'Times New Roman', serif",
+      fontSize: "clamp(1.8rem, 4.2vw, 2.4rem)",
+      fontWeight: "900",
+      color: "#FFD700",
+      textAlign: "center",
+      margin: "15px 0 8px",
+      letterSpacing: "2px",
+      textShadow: "0 0 16px rgba(255,215,0,0.95), 0 0 30px rgba(255,215,0,0.6)",
+      lineHeight: "1.2",
+      whiteSpace: "nowrap",
+      padding: "4px 0"
     },
 
-    sideBox: {
-      flex: 1,
-      background: 'rgba(0, 0, 0, 0.7)',
-      border: '2px solid',
-      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700) 1',
-      borderRadius: '6px',
-      padding: '6px', // REDUCED FROM 8px
-      fontSize: '0.65rem', // REDUCED FROM 0.7rem
-      fontWeight: '700',
-      color: '#FFD700',
-      lineHeight: '1.1', // REDUCED FROM 1.2
-      backdropFilter: 'blur(5px)',
-      minWidth: '0', // ADDED FOR FLEXIBILITY
-      overflow: 'hidden'
+    tagline: {
+      fontSize: "clamp(0.9rem, 2vw, 1.1rem)",
+      fontWeight: "700",
+      color: "#00d4ff",
+      textAlign: "center",
+      margin: "0 0 10px",
+      letterSpacing: "1.5px",
+      textTransform: "uppercase",
+      textShadow: "0 0 8px rgba(0,212,255,0.7)"
     },
 
+    // ROW 2: LOGO WITH SIDE BOXES
+    logoRow: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between", // Side boxes at edges
+      gap: "0", // No gap between edges
+      width: "100%",
+      maxWidth: "100%", // Full container width
+      margin: "4px 0",
+    },
+
+    // SIDE BOX WRAPPER (TIGHT RAINBOW BORDER)
+    sideBoxWrapper: {
+      background: "linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)",
+      borderRadius: "5px",
+      padding: "2px", // Thin rainbow border
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0, margin: "0 10px"
+    },
+
+    // SIDE BOX INNER (NO EXTRA SPACE)
+    sideBoxInner: {
+      background: "rgba(0, 0, 0, 0.88)",
+      borderRadius: "6px",
+      padding: "12px 20px",
+      fontSize: "0.9rem",
+      fontWeight: "800",
+      color: "#FFD700",
+      lineHeight: "1.6",
+      textAlign: "center",
+      whiteSpace: "nowrap",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      gap: "4px"
+    },
+
+    // LOGO CIRCLE (HEARTBEAT ANIMATION)
     logoCircle: {
-      width: '36px', // REDUCED FROM 40px
-      height: '36px', // REDUCED FROM 40px
-      borderRadius: '50%',
-      border: '2px solid #FFD700',
-      overflow: 'hidden',
-      background: '#ffffff',
-      boxShadow: '0 0 15px rgba(255, 215, 0, 0.9)', // REDUCED FROM 20px
-      animation: 'logoPulse 3s ease-in-out infinite',
-      flexShrink: 0
+      width: "50px",
+      height: "50px",
+      borderRadius: "50%",
+      border: "3px solid #FFD700",
+      overflow: "hidden",
+      background: "#fff",
+      boxShadow: "0 0 18px rgba(255,215,0,0.9)",
+      animation: "heartbeat 1.4s ease-in-out infinite",
+      flexShrink: 0, 
+      margin: "0 8px"
     },
 
     logoImg: {
-      width: '100%',
-      height: '100%',
-      objectFit: 'contain',
-      padding: '3px' // REDUCED FROM 4px
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+      padding: "3px"
     },
 
-    mainTitle: {
-      fontSize: '0.8rem', // REDUCED FROM 0.9rem
-      color: '#FFD700',
-      textAlign: 'center',
-      margin: 0,
-      textShadow: '0 0 8px rgba(255, 215, 0, 0.8)', // REDUCED FROM 10px
-      fontWeight: '900',
-      letterSpacing: '0.5px', // REDUCED FROM 1px
-      lineHeight: '1.2',
-      padding: '0 2px'
+    // ROW 3: PAGE TITLE CONTAINER (CLOSED BOX)
+    pageTitleContainer: {
+      marginTop: "6px",
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      maxWidth: "400px"
     },
 
-    titleWater: {
-      animation: 'pulse 2s infinite',
-      fontSize: '0.7rem' // REDUCED FROM 0.8rem
+    // PAGE TITLE WRAPPER (RAINBOW BORDER - ALL 4 SIDES)
+    pageTitleWrapper: {
+      background: "linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)",
+      borderRadius: "5px",
+      padding: "2px",
+      display: "inline-flex"
     },
 
-    subtitleRow: {
-      display: 'flex',
-      justifyContent: 'center',
-      gap: '6px', // REDUCED FROM 10px
-      fontSize: '0.55rem', // REDUCED FROM 0.6rem
-      fontWeight: '700',
-      flexWrap: 'wrap',
-      marginTop: '2px'
-    },
-
-    subtitlePart: {
-      padding: '1px 4px', // REDUCED FROM 2px 6px
-      borderRadius: '3px',
-      whiteSpace: 'nowrap'
-    },
-
-    aiDeclaration: {
-      textAlign: 'center',
-      fontSize: '0.55rem', // REDUCED FROM 0.6rem
-      color: '#FFD700',
-      fontWeight: '800',
-      margin: '1px 0 0 0', // REDUCED FROM 2px
-      textShadow: '0 0 6px rgba(255,215,0,0.6)', // REDUCED FROM 8px
-      lineHeight: '1.1'
+    // PAGE TITLE INNER (CLOSED CONTAINER)
+    pageTitleInner: {
+      background: "rgba(0, 0, 0, 0.96)",
+      borderRadius: "3px",
+      padding: "6px 15px",
+      fontSize: "clamp(1.6rem, 4vw, 2.2rem)",
+      fontWeight: "900",
+      color: "#00d4ff",
+      textAlign: "center",
+      textTransform: "uppercase",
+      letterSpacing: "2.5px",
+      textShadow: "0 0 8px rgba(0,212,255,0.7)",
+      whiteSpace: "nowrap"
     },
 
     // CONTAINER 3: QUANTUM JOURNEY
     section: {
       padding: '35px 4%', // REDUCED FROM 40px 5%
-      borderBottom: '3px solid',
+      borderTop: '3px solid',
       borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
       position: 'relative',
       background: 'rgba(0, 0, 0, 0.6)',
@@ -1980,7 +2018,7 @@ const HomePage = () => {
     // Q CHAT OVERLAY
     qChatOverlay: {
       position: 'fixed',
-      top: 0,
+      bottom: 0,
       left: 0,
       width: '100%',
       height: '100%',
@@ -2007,12 +2045,12 @@ const HomePage = () => {
 
     qChatHeader: {
       padding: '12px', // REDUCED FROM 15px
-      borderBottom: '2px solid #FFD700',
+      borderTop: '2px solid #FFD700',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       background: 'rgba(0, 0, 0, 0.7)',
-      flexShrink: 0
+      flexShrink: 0, margin: "0 10px"
     },
 
     qChatTitle: {
@@ -2035,7 +2073,7 @@ const HomePage = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      flexShrink: 0
+      flexShrink: 0, margin: "0 10px"
     },
 
     qChatMessages: {
@@ -2076,7 +2114,7 @@ const HomePage = () => {
       display: 'flex',
       gap: '8px', // REDUCED FROM 10px
       background: 'rgba(0, 0, 0, 0.7)',
-      flexShrink: 0
+      flexShrink: 0, margin: "0 10px"
     },
 
     qChatInput: {
@@ -2311,11 +2349,11 @@ const HomePage = () => {
     // DISCLAIMER
     disclaimerBar: {
       position: 'fixed',
-      top: 0,
+      bottom: 0,
       left: 0,
       right: 0,
       background: 'linear-gradient(90deg, rgba(255,0,0,0.2), rgba(255,165,0,0.2))',
-      borderBottom: '2px solid',
+      borderTop: '2px solid',
       borderImage: 'linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3) 1',
       padding: '6px 10px', // REDUCED FROM 8px 12px
       textAlign: 'center',
@@ -2341,7 +2379,7 @@ const HomePage = () => {
 
     videoLoadingOverlay: {
       position: 'absolute',
-      top: 0,
+      bottom: 0,
       left: 0,
       right: 0,
       bottom: 0,
@@ -2371,13 +2409,7 @@ const HomePage = () => {
   // ==================== RENDER ====================
   return (
     <div style={styles.mainContainer}>
-      {/* DISCLAIMER BAR */}
-      <div style={styles.disclaimerBar}>
-        {translations[currentLanguage]?.disclaimer || 'EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL'}
-      </div>
-
-      {/* CONTAINER 1: NAVIGATION (ULTRA-THIN) */}
-      <nav style={styles.navbar}>
+        <nav style={styles.navbar}>
         <div style={styles.navScrollContainer}>
           {navItems.map((item) => (
             <a
@@ -2386,18 +2418,18 @@ const HomePage = () => {
               style={styles.navLink}
               onClick={(e) => {
                 e.preventDefault();
-                trackInteraction('nav_click', { path: item.path });
+                trackInteraction("nav_click", { path: item.path });
                 navigate(item.path);
               }}
               onMouseEnter={(e) => {
-                e.target.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.2), rgba(0,212,255,0.2))';
-                e.target.style.transform = 'translateY(-1px)';
-                e.target.style.boxShadow = '0 0 12px rgba(255,215,0,0.6)';
+                e.target.style.background = "linear-gradient(135deg, rgba(255,215,0,0.2), rgba(0,212,255,0.2))";
+                e.target.style.transform = "translateY(-1px)";
+                e.target.style.boxShadow = "0 0 12px rgba(255,215,0,0.6)";
               }}
               onMouseLeave={(e) => {
-                e.target.style.background = 'rgba(0, 0, 0, 0.7)';
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 0 6px rgba(255,215,0,0.3)';
+                e.target.style.background = "rgba(0, 0, 0, 0.7)";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "0 0 6px rgba(255,215,0,0.3)";
               }}
             >
               <span>{item.icon}</span>
@@ -2406,46 +2438,34 @@ const HomePage = () => {
           ))}
         </div>
 
-        <div style={styles.navControls}>
-          {/* Live User Counter */}
-          <div style={styles.liveUserCounter}>
-            <div style={styles.liveDot}></div>
-            🔥 {liveUsers} {translations[currentLanguage]?.live_users || 'Souls Elevating Frequency Now'}
-          </div>
-
-          {/* Language Selector */}
-          <div style={{ position: 'relative' }}>
+        
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <button 
-              style={styles.langButton}
-              onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
-              onMouseEnter={(e) => e.target.style.transform = 'scale(1.02)'}
-              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              style={styles.navLink} 
+              onClick={() => setShowLanguageDropdown(showLanguageDropdown ? false : true)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.2), rgba(0,212,255,0.2))';
+                e.currentTarget.style.boxShadow = '0 0 12px rgba(255,215,0,0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
+                e.currentTarget.style.boxShadow = '0 0 6px rgba(255,215,0,0.3)';
+              }}
             >
-              🌐 {currentLanguage.substring(0, 3)} {showLanguageDropdown ? '▲' : '▼'}
+              <span>🌐</span>
+              <span>🇺🇸</span>
+              <span>{currentLanguage.toUpperCase()}</span>
             </button>
-            
+
             {showLanguageDropdown && (
-              <div style={styles.langDropdown}>
-                {availableLanguages.map((lang) => (
+              <div style={{...styles.langDropdown, zIndex: 9999, display: 'block'}}>
+                {['English', 'Spanish', 'French', 'German', 'Italian', 'Chinese', 'Taiwanese', 'Amharic', 'Arabic', 'Swahili', 'Patois', 'BAramaic', 'NAramaic', 'SAramaic', 'Hebrew', 'Greek', 'Latin', 'Sanskrit'].map((lang) => (
                   <button
                     key={lang}
-                    style={{
-                      ...styles.langOption,
-                      ...(currentLanguage === lang ? { 
-                        background: 'linear-gradient(90deg, rgba(255,215,0,0.3), rgba(0,212,255,0.3))',
-                        fontWeight: '900' 
-                      } : {})
-                    }}
-                    onClick={() => handleLanguageChange(lang)}
-                    onMouseEnter={(e) => {
-                      if (currentLanguage !== lang) {
-                        e.target.style.background = 'linear-gradient(90deg, rgba(255,215,0,0.2), rgba(0,212,255,0.2))';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (currentLanguage !== lang) {
-                        e.target.style.background = 'transparent';
-                      }
+                    style={styles.langOption}
+                    onClick={() => {
+                      setCurrentLanguage(lang);
+                      setShowLanguageDropdown(false);
                     }}
                   >
                     {lang}
@@ -2454,77 +2474,69 @@ const HomePage = () => {
               </div>
             )}
           </div>
-
-          {/* Q Icon */}
-          <div 
-            style={styles.qIconButton}
-            onClick={() => setShowQChat(true)}
-            title={translations[currentLanguage]?.q?.chat_title || 'Chat with Q'}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <img 
-              src="/images/Qfinity.png" 
-              alt="Q" 
-              style={{ width: '18px', height: '18px' }}
-              onError={(e) => { 
-                e.target.onerror = null; 
-                e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI5IiBjeT0iOSIgcj0iNyIgc3Ryb2tlPSIjRkZENzAwIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNSA3bDggOE01IDEzbDgtOCIgc3Ryb2tlPSIjRkZENzAwIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=';
-              }}
-            />
-          </div>
-        </div>
-      </nav>
-
-      {/* CONTAINER 2: TITLE SECTION (ULTRA-THIN) */}
+</nav>
+    
+      {/* CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES) */}
       <section style={styles.titleSection}>
-        <div style={styles.titleRow}>
-          <div style={styles.sideBox}>
-            <div style={{ margin: '1px 0' }}>{translations[currentLanguage]?.title?.quantum || 'Quantum Based'}</div>
-            <div style={{ margin: '1px 0' }}>{translations[currentLanguage]?.title?.scientific || 'Scientifically Backed'}</div>
-            <div style={{ margin: '1px 0' }}>{translations[currentLanguage]?.title?.frequency || 'Frequency Focused'}</div>
-          </div>
+
+        {/* HORIZONTAL SYMMETRICAL LAYOUT */}
+        <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0 10px"}}>
           
+          {/* LEFT LOGO */}
           <div style={styles.logoCircle}>
-            <img 
-              src="/images/MAVJLogo.jpg" 
-              alt="MAVJ Logo" 
+            <img
+              src="/images/MAVJLogo.jpg"
+              alt="MAVJ Logo"
               style={styles.logoImg}
-              onError={(e) => { 
-                e.target.onerror = null; 
-                e.target.src = '/images/star-pattern.png';
-              }}
+              onError={(e) => { e.target.onerror = null; e.target.src = "/images/star-pattern.png"; }}
             />
           </div>
-          
-          <div style={styles.sideBox}>
-            <div style={{ margin: '1px 0' }}>{translations[currentLanguage]?.title?.quantum_physics || 'Where Quantum Physics'}</div>
-            <div style={{ margin: '1px 0' }}>{translations[currentLanguage]?.title?.ancient_wisdom || 'Meets Ancient Wisdom'}</div>
-            <div style={{ margin: '1px 0' }}>{translations[currentLanguage]?.title?.nutrition || 'And Nutrition'}</div>
+
+          {/* LEFT TEXT BOX */}
+          <div style={styles.sideBoxWrapper}>
+            <div style={styles.sideBoxInner}>
+              <div>{translations[currentLanguage]?.title?.quantum || "Quantum Based"}</div>
+              <div>{translations[currentLanguage]?.title?.scientific || "Scientifically Backed"}</div>
+              <div>{translations[currentLanguage]?.title?.frequency || "Frequency Focused"}</div>
+            </div>
+          </div>
+
+          {/* CENTER: COMPANY NAME */}
+          <div style={{flex: "0 1 auto", textAlign: "center"}}>
+            <h1 style={styles.companyName}>
+              💦 MY ALKALINE VEGAN JOURNEY 💦
+            </h1>
+          </div>
+
+          {/* RIGHT TEXT BOX */}
+          <div style={styles.sideBoxWrapper}>
+            <div style={styles.sideBoxInner}>
+              <div>{translations[currentLanguage]?.title?.quantum_physics || "Where Quantum Physics"}</div>
+              <div>{translations[currentLanguage]?.title?.ancient_wisdom || "Meets Ancient Wisdom"}</div>
+              <div>{translations[currentLanguage]?.title?.nutrition || "And Nutrition"}</div>
+            </div>
+          </div>
+
+          {/* RIGHT LOGO */}
+          <div style={styles.logoCircle}>
+            <img
+              src="/images/MAVJLogo.jpg"
+              alt="MAVJ Logo"
+              style={styles.logoImg}
+              onError={(e) => { e.target.onerror = null; e.target.src = "/images/star-pattern.png"; }}
+            />
           </div>
         </div>
 
-        <h1 style={styles.mainTitle}>
-          <span style={styles.titleWater}>💦</span>
-          {' '}MY ALKALINE VEGAN JOURNEY{' '}
-          <span style={styles.titleWater}>💦</span>
-        </h1>
-
-        <div style={styles.subtitleRow}>
-          <span style={{ ...styles.subtitlePart, color: '#FF0000' }}>
-            {translations[currentLanguage]?.title?.sovereign || 'Sovereign Living'}
-          </span>
-          <span style={{ ...styles.subtitlePart, color: '#00FF00' }}>
-            {translations[currentLanguage]?.title?.transformation || 'Frequency Transformation'}
-          </span>
-          <span style={{ ...styles.subtitlePart, color: '#0000FF' }}>
-            {translations[currentLanguage]?.title?.ancestral || 'Ancestral Nutrition'}
-          </span>
+        {/* PAGE TITLE AT BOTTOM */}
+        <div style={styles.pageTitleContainer}>
+          <div style={styles.pageTitleWrapper}>
+            <div style={styles.pageTitleInner}>
+              {translations[currentLanguage]?.title?.home || "YOU ARE HOME"}
+            </div>
+          </div>
         </div>
 
-        <p style={styles.aiDeclaration}>
-          🤖 {translations[currentLanguage]?.title?.ai || 'AI-POWERED QUANTUM ENTERPRISE'} 🤖
-        </p>
       </section>
 
       {/* ANNOUNCEMENTS (Conditional) */}
@@ -2698,12 +2710,15 @@ const HomePage = () => {
               {translations[currentLanguage]?.games?.math?.title || 'Quantum Reset Math'}
             </h3>
             <p style={{marginBottom: '12px'}}>
-              {translations[currentLanguage]?.games?.math?.question || '40 days + 6 herbs = ?'}
+              {translations[currentLanguage]?.games?.math?.question || '40 day reset, 3 of those days were dry = ?'}
             </p>
-            
+            <p style={{marginBottom: '10px', color: '#00d4ff', fontSize: '0.78rem', fontStyle: 'italic', textAlign: 'center'}}>
+              {translations[currentLanguage]?.games?.math?.hint || '💡 Hint: 1 dry day = 3 water days'}
+            </p>
+             
             {!quizState.math.submitted ? (
               <>
-                {['40', '46', '34'].map(num => (
+                {['40', '46', '49'].map(num => (
                   <button
                     key={num}
                     style={styles.gameButton}
@@ -2725,9 +2740,8 @@ const HomePage = () => {
                   {translations[currentLanguage]?.games?.try_again || 'Try Again'}
                 </button>
               </div>
-            )}
-          </div>
-          
+            )
+}</div>
           {/* COMPOUND GAME */}
           <div style={styles.gameCard}>
             <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
@@ -3160,6 +3174,19 @@ const HomePage = () => {
           <a href="/contact" style={{color: '#FFD700', margin: '0 8px'}}>Contact</a>
         </div>
       </footer>
+<div style={styles.disclaimerBar}>
+  {translations[currentLanguage]?.disclaimer || "EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL"}
+</div>
+<div style={{ position: "fixed", bottom: "30px", right: "30px", zIndex: 9999, display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
+  <div style={styles.liveUserCounter}>
+    <div style={styles.liveDot}></div>
+    🔥 {liveUsers} Souls
+  </div>
+  <div style={styles.qFloatingButton} onClick={() => setShowQChat(true)}>
+    <img src="/images/Qfinity.png" alt="Q" style={{ width: "35px", height: "35px" }} />
+  </div>
+</div>
+{/* GROUNDING DISCLAIMER - RELOCATED TO BASE FOUNDATION */}
 
       {/* Q CHAT OVERLAY */}
       {showQChat && (

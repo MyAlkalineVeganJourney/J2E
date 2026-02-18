@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './CymaticsLab.css';
 
+
 const CymaticsLab = () => {
   const [activeExperiment, setActiveExperiment] = useState('emoto');
   const [soundFrequency, setSoundFrequency] = useState(440);

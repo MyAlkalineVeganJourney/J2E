@@ -555,17 +555,18 @@ const HomePage = () => {
 
   // ==================== NAVIGATION ITEMS ====================
   const navItems = useMemo(() => [
-    { path: '/', icon: '🏠', label: translations[currentLanguage]?.nav?.home || 'MAVJHome' },
-    { path: '/TheJourney', icon: '🌱', label: translations[currentLanguage]?.nav?.journey || 'The Journey' },
-    { path: '/MAVJStore', icon: '🛒', label: translations[currentLanguage]?.nav?.store || 'MAVJStore' },
-    { path: '/Journey2Enlightenment', icon: '✨', label: translations[currentLanguage]?.nav?.j2e || 'Journey 2 Enlightenment' },
-    { path: '/VibrationalIntelligence', icon: '🔮', label: translations[currentLanguage]?.nav?.vibrational || 'Vibrational Intelligence' },
-    { path: '/AlignWithUs', icon: '🤝', label: translations[currentLanguage]?.nav?.align || 'Align With Us' },
-    { path: '/MAVJSearch', icon: '🔍', label: translations[currentLanguage]?.nav?.search || 'MAVJSearch' },
-    { path: '/LiveBroadcast', icon: '📡', label: translations[currentLanguage]?.nav?.live || 'Live Broadcast' },
-    { path: '/PodcastVlog', icon: '🎙️', label: translations[currentLanguage]?.nav?.podcast || 'PodCast/Vlog' },
-    { path: '/ContactUs', icon: '☎️', label: translations[currentLanguage]?.nav?.contact || 'Contact Us' }
-  ], [currentLanguage]);
+    { path: '/', icon: '🏠', label: 'MAVJHome', type: 'nav' },
+    { path: '/TheJourney', icon: '🌱', label: 'The Journey', type: 'nav' },
+    { path: '/MAVJStore', icon: '🛒', label: 'MAVJStore', type: 'nav' },
+    { path: '/Journey2Enlightenment', icon: '✨', label: 'Journey 2 Enlightenment', type: 'nav' },
+    { path: '/VibrationalIntelligence', icon: '🔮', label: 'Vibrational Intelligence', type: 'nav' },
+    { path: '/AlignWithUs', icon: '🤝', label: 'Align With Us', type: 'nav' },
+    { path: '/MAVJSearch', icon: '🔍', label: 'MAVJSearch', type: 'nav' },
+    { path: '/LiveBroadcast', icon: '📡', label: 'Live Broadcast', type: 'nav' },
+    { path: '/PodcastVlog', icon: '🎙️', label: 'PodCast/Vlog', type: 'nav' },
+    { path: '/ContactUs', icon: '☎️', label: 'Contact Us', type: 'nav' },
+    { icon: '🌐', label: 'Language', type: 'dropdown' }
+  ], []);
 
   // ==================== POSITIVE WORD BANKS - 18 LANGUAGES ====================
   const positiveWordBank = useMemo(() => ({
@@ -1606,10 +1607,21 @@ const HomePage = () => {
       zIndex: 1700,
       border: "3px solid",
       borderImage: "linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1",
-      backgroundImage: "url(/images/star-pattern.png), linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9))",
+      backgroundImage: "url(/images/star-pattern.png)",
+      backgroundSize: "100px",
+      backgroundPosition: "center",
+      backgroundRepeat: "repeat",
+      backgroundBlendMode: "overlay",
       backgroundSize: "100px, cover",
       backgroundPosition: "center",
       backgroundBlendMode: "overlay",
+      backgroundImage: "url(/images/star-pattern.png)",
+      backgroundSize: "100px",
+      backgroundPosition: "center",
+      backgroundRepeat: "repeat",
+      backgroundBlendMode: "overlay",
+      backgroundSize: "100px, cover",
+      backgroundPosition: "center",
       backgroundBlendMode: "overlay",
       padding: "10px 15px 8px",
       display: "flex",
@@ -2407,133 +2419,323 @@ const HomePage = () => {
   return (
     <div style={styles.mainContainer}>
         <nav style={styles.navbar}>
+        <span style={{ color: '#FFD700', fontSize: '0.75rem', flexShrink: 0, opacity: 0.6, userSelect: 'none', pointerEvents: 'none' }}>◀</span>
+
         <div style={styles.navScrollContainer}>
-          {navItems.map((item) => (
-            <a
-              key={item.path}
-              href={item.path}
-              style={styles.navLink}
-              onClick={(e) => {
-                e.preventDefault();
-                trackInteraction("nav_click", { path: item.path });
-                navigate(item.path);
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = "linear-gradient(135deg, rgba(255,215,0,0.2), rgba(0,212,255,0.2))";
-                e.target.style.transform = "translateY(-1px)";
-                e.target.style.boxShadow = "0 0 12px rgba(255,215,0,0.6)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = "rgba(0, 0, 0, 0.7)";
-                e.target.style.transform = "translateY(0)";
-                e.target.style.boxShadow = "0 0 6px rgba(255,215,0,0.3)";
-              }}
-            >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </a>
-          ))}
-        </div>
-
-        
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <button 
-              style={styles.navLink} 
-              onClick={() => setShowLanguageDropdown(showLanguageDropdown ? false : true)}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.2), rgba(0,212,255,0.2))';
-                e.currentTarget.style.boxShadow = '0 0 12px rgba(255,215,0,0.6)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
-                e.currentTarget.style.boxShadow = '0 0 6px rgba(255,215,0,0.3)';
-              }}
-            >
-              <span>🌐</span>
-              <span>🇺🇸</span>
-              <span>{currentLanguage.toUpperCase()}</span>
-            </button>
-
-            {showLanguageDropdown && (
-              <div style={{...styles.langDropdown, zIndex: 9999, display: 'block'}}>
-                {['English', 'Spanish', 'French', 'German', 'Italian', 'Chinese', 'Taiwanese', 'Amharic', 'Arabic', 'Swahili', 'Patois', 'BAramaic', 'NAramaic', 'SAramaic', 'Hebrew', 'Greek', 'Latin', 'Sanskrit'].map((lang) => (
-                  <button
-                    key={lang}
-                    style={styles.langOption}
-                    onClick={() => {
-                      setCurrentLanguage(lang);
-                      setShowLanguageDropdown(false);
+          {navItems.map((item) => {
+            if (item.type === 'dropdown') {
+              return (
+                <div key="lang-dropdown-btn" style={{ position: 'relative', flexShrink: 0 }}>
+                  <div
+                    style={{
+                      ...styles.navLink,
+                      minWidth: '115px',
+                      justifyContent: 'space-between',
+                      gap: '4px',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => setShowLanguageDropdown(prev => !prev)}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.5), rgba(0,212,255,0.5))';
+                      e.currentTarget.style.boxShadow = '0 0 15px rgba(255,215,0,1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
+                      e.currentTarget.style.boxShadow = '0 0 6px rgba(255,215,0,0.3)';
                     }}
                   >
-                    {lang}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-</nav>
+                    <span>🌐 🇺🇸</span>
+                    <span style={{ flex: 1, textAlign: 'center' }}>{currentLanguage}</span>
+                    <span style={{ fontSize: '0.5rem' }}>{showLanguageDropdown ? '▲' : '▼'}</span>
+                  </div>
+
+                  {showLanguageDropdown && (
+                    <div style={{
+                      position: 'fixed',
+                      top: '46px',
+                      right: '8px',
+                      background: 'rgba(5,5,15,0.99)',
+                      border: '2px solid',
+                      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700) 1',
+                      borderRadius: '6px',
+                      minWidth: '175px',
+                      maxHeight: '440px',
+                      overflowY: 'auto',
+                      zIndex: 99999,
+                      boxShadow: '0 10px 40px rgba(0,0,0,0.99)'
+                    }}>
+                      <div style={{
+                        padding: '8px 14px',
+                        borderBottom: '1px solid rgba(255,215,0,0.4)',
+                        color: '#FFD700',
+                        fontSize: '0.65rem',
+                        fontWeight: '900',
+                        textTransform: 'uppercase',
+                        letterSpacing: '1.2px',
+                        background: 'rgba(255,215,0,0.08)'
+                      }}>
+                        🌐 Select Language
+                      </div>
+                      {availableLanguages.map((lang) => (
+                        <div
+                          key={lang}
+                          style={{
+                            background: lang === currentLanguage ? 'rgba(255,215,0,0.22)' : 'transparent',
+                            color: '#FFD700',
+                            borderBottom: '1px solid rgba(255,215,0,0.08)',
+                            padding: '9px 14px',
+                            cursor: 'pointer',
+                            fontSize: '0.75rem',
+                            fontWeight: '700',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            transition: 'background 0.15s ease'
+                          }}
+                          onClick={() => handleLanguageChange(lang)}
+                          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,215,0,0.38)'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.background = lang === currentLanguage ? 'rgba(255,215,0,0.22)' : 'transparent'; }}
+                        >
+                          <span style={{ fontSize: '1.15rem' }}>
+                            {lang === 'English' ? '🇺🇸' : lang === 'Spanish' ? '🇪🇸' : lang === 'French' ? '🇫🇷' : lang === 'German' ? '🇩🇪' : lang === 'Italian' ? '🇮🇹' : lang === 'Chinese' ? '🇨🇳' : lang === 'Taiwanese' ? '🇹🇼' : lang === 'Amharic' ? '🇪🇹' : lang === 'Arabic' ? '🇸🇦' : lang === 'Swahili' ? '🇰🇪' : lang === 'Patois' ? '🇱🇨' : lang === 'BAramaic' ? '📜' : lang === 'NAramaic' ? '📜' : lang === 'SAramaic' ? '✝️' : lang === 'Hebrew' ? '🇮🇱' : lang === 'Greek' ? '🇬🇷' : lang === 'Latin' ? '🏛️' : '🕉️'}
+                          </span>
+                          <span style={{ flex: 1 }}>{lang}</span>
+                          {lang === currentLanguage && <span style={{ fontSize: '0.8rem', color: '#00ff88' }}>✓</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={item.path}
+                href={item.path}
+                style={styles.navLink}
+                onClick={(e) => {
+                  e.preventDefault();
+                  trackInteraction("nav_click", { path: item.path });
+                  navigate(item.path);
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = "linear-gradient(135deg, rgba(255,215,0,0.5), rgba(0,212,255,0.5))";
+                  e.target.style.boxShadow = "0 0 15px rgba(255,215,0,1)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = "rgba(0, 0, 0, 0.7)";
+                  e.target.style.boxShadow = "0 0 6px rgba(255,215,0,0.3)";
+                }}
+              >
+                <span>{item.icon}</span>
+                <span>{item.label}</span>
+              </a>
+            );
+          })}
+        </div>
+
+        <span style={{ color: '#FFD700', fontSize: '0.75rem', flexShrink: 0, opacity: 0.6, userSelect: 'none', pointerEvents: 'none' }}>▶</span>
+      </nav>
     
       {/* CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES) */}
       <section style={styles.titleSection}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          width: '100%',
+          padding: '8px 18px 4px',
+          gap: '12px',
+          flex: 1
+        }}>
 
-        {/* HORIZONTAL SYMMETRICAL LAYOUT */}
-        <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0 10px"}}>
-          
-          {/* LEFT LOGO */}
-          <div style={styles.logoCircle}>
-            <img
-              src="/images/MAVJLogo.jpg"
-              alt="MAVJ Logo"
-              style={styles.logoImg}
-              onError={(e) => { e.target.onerror = null; e.target.src = "/images/star-pattern.png"; }}
-            />
-          </div>
-
-          {/* LEFT TEXT BOX */}
-          <div style={styles.sideBoxWrapper}>
-            <div style={styles.sideBoxInner}>
-              <div>{translations[currentLanguage]?.title?.quantum || "Quantum Based"}</div>
-              <div>{translations[currentLanguage]?.title?.scientific || "Scientifically Backed"}</div>
-              <div>{translations[currentLanguage]?.title?.frequency || "Frequency Focused"}</div>
+          {/* LEFT TEXT BOX — hangs below container border */}
+          <div style={{
+            background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
+            borderRadius: '4px',
+            padding: '2px',
+            flexShrink: 0,
+            alignSelf: 'flex-end',
+            position: 'relative',
+            bottom: '-10px'
+          }}>
+            <div style={{
+              background: 'rgba(0, 0, 0, 0.95)',
+              borderRadius: '3px',
+              padding: '10px 14px',
+              fontSize: '0.72rem',
+              fontWeight: '800',
+              color: '#FFD700',
+              lineHeight: '1.6',
+              textAlign: 'center',
+              whiteSpace: 'nowrap'
+            }}>
+              {translations[currentLanguage]?.title?.quantum || "QUANTUM BASED"}<br />
+              {translations[currentLanguage]?.title?.scientific || "SCIENTIFICALLY BACKED"}<br />
+              {translations[currentLanguage]?.title?.frequency || "FREQUENCY FOCUSED"}
             </div>
           </div>
 
-          {/* CENTER: COMPANY NAME */}
-          <div style={{flex: "0 1 auto", textAlign: "center"}}>
-            <h1 style={styles.companyName}>
+          {/* LEFT LOGO — middle height, close to company name */}
+          <div style={{
+            width: '110px',
+            height: '110px',
+            borderRadius: '50%',
+            border: '3px solid #FFD700',
+            overflow: 'hidden',
+            background: 'transparent',
+            boxShadow: '0 0 24px rgba(255,215,0,0.95)',
+            animation: 'heartbeat 1.4s ease-in-out infinite',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            alignSelf: 'center'
+          }}>
+            <img
+              src="/images/MAVJLogo.jpg"
+              alt="MAVJ Logo"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '50%'
+              }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/images/star-pattern.png';
+              }}
+            />
+          </div>
+
+          {/* CENTER — Company name (anchor) + tagline directly beneath */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            flex: 1,
+            alignSelf: 'flex-start',
+            paddingTop: '6px',
+            gap: '6px'
+          }}>
+            <h1 style={{
+              fontFamily: "'Georgia','Times New Roman',serif",
+              fontSize: 'clamp(1.5rem,3vw,2.2rem)',
+              fontWeight: '900',
+              color: '#FFD700',
+              textAlign: 'center',
+              margin: 0,
+              letterSpacing: '1.5px',
+              textShadow: '0 0 18px rgba(255,215,0,0.95)',
+              lineHeight: '1.1',
+              whiteSpace: 'nowrap'
+            }}>
               💦 MY ALKALINE VEGAN JOURNEY 💦
             </h1>
-          </div>
-
-          {/* RIGHT TEXT BOX */}
-          <div style={styles.sideBoxWrapper}>
-            <div style={styles.sideBoxInner}>
-              <div>{translations[currentLanguage]?.title?.quantum_physics || "Where Quantum Physics"}</div>
-              <div>{translations[currentLanguage]?.title?.ancient_wisdom || "Meets Ancient Wisdom"}</div>
-              <div>{translations[currentLanguage]?.title?.nutrition || "And Nutrition"}</div>
+            <div style={{
+              color: '#00d4ff',
+              fontSize: 'clamp(0.65rem,1.3vw,0.85rem)',
+              fontWeight: '800',
+              letterSpacing: '0.7px',
+              textTransform: 'uppercase',
+              textAlign: 'center',
+              textShadow: '0 0 10px rgba(0,212,255,0.85)',
+              whiteSpace: 'nowrap'
+            }}>
+              SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION
             </div>
           </div>
 
-          {/* RIGHT LOGO */}
-          <div style={styles.logoCircle}>
+          {/* RIGHT LOGO — mirrors left logo */}
+          <div style={{
+            width: '110px',
+            height: '110px',
+            borderRadius: '50%',
+            border: '3px solid #FFD700',
+            overflow: 'hidden',
+            background: 'transparent',
+            boxShadow: '0 0 24px rgba(255,215,0,0.95)',
+            animation: 'heartbeat 1.4s ease-in-out infinite',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            alignSelf: 'center'
+          }}>
             <img
               src="/images/MAVJLogo.jpg"
               alt="MAVJ Logo"
-              style={styles.logoImg}
-              onError={(e) => { e.target.onerror = null; e.target.src = "/images/star-pattern.png"; }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '50%'
+              }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/images/star-pattern.png';
+              }}
             />
           </div>
-        </div>
 
-        {/* PAGE TITLE AT BOTTOM */}
-        <div style={styles.pageTitleContainer}>
-          <div style={styles.pageTitleWrapper}>
-            <div style={styles.pageTitleInner}>
-              {translations[currentLanguage]?.title?.home || "YOU ARE HOME"}
+          {/* RIGHT TEXT BOX — mirrors left text box */}
+          <div style={{
+            background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
+            borderRadius: '4px',
+            padding: '2px',
+            flexShrink: 0,
+            alignSelf: 'flex-end',
+            position: 'relative',
+            bottom: '-10px'
+          }}>
+            <div style={{
+              background: 'rgba(0, 0, 0, 0.95)',
+              borderRadius: '3px',
+              padding: '10px 14px',
+              fontSize: '0.72rem',
+              fontWeight: '800',
+              color: '#FFD700',
+              lineHeight: '1.6',
+              textAlign: 'center',
+              whiteSpace: 'nowrap'
+            }}>
+              {translations[currentLanguage]?.title?.quantum_physics || "WHERE QUANTUM PHYSICS"}<br />
+              {translations[currentLanguage]?.title?.ancient_wisdom || "MEETS ANCIENT WISDOM"}<br />
+              {translations[currentLanguage]?.title?.nutrition || "AND NUTRITION"}
             </div>
           </div>
         </div>
 
+        {/* PAGE TITLE — sits on bottom border, enlarged */}
+        <div style={{
+          background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
+          borderRadius: '5px',
+          padding: '2px',
+          display: 'inline-flex',
+          position: 'absolute',
+          bottom: '-20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1901,
+          whiteSpace: 'nowrap'
+        }}>
+          <div style={{
+            background: 'rgba(0, 0, 0, 0.97)',
+            borderRadius: '4px',
+            padding: '6px 28px',
+            fontSize: '1.15rem',
+            fontWeight: '900',
+            color: '#00d4ff',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            letterSpacing: '2.5px',
+            textShadow: '0 0 14px rgba(0,212,255,0.9)'
+          }}>
+            {translations[currentLanguage]?.title?.home || "YOU ARE HOME"}
+          </div>
+        </div>
       </section>
 
       {/* ANNOUNCEMENTS (Conditional) */}
@@ -2655,7 +2857,7 @@ const HomePage = () => {
         {/* POSITIVE WORD GAME */}
         <div style={{marginBottom: '40px'}}>
           <h3 style={{color: '#FFD700', fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px'}}>
-            ✨ {(translations && translations[currentLanguage]?.games?.positive_word?.title) || 'MAVJ Positive Word Game'}
+            ✨ {translations[currentLanguage]?.games?.positive_word?.title || 'MAVJ Positive Word Game'}
           </h3>
           
           <div style={styles.gameStats}>
@@ -3277,6 +3479,14 @@ const HomePage = () => {
 
       {/* CSS ANIMATIONS */}
       <style>{`
+        @keyframes heartbeat {
+          0%,100% { transform:scale(1); }
+          14%     { transform:scale(1.1); }
+          28%     { transform:scale(1); }
+          42%     { transform:scale(1.1); }
+          56%     { transform:scale(1); }
+        }
+
         @keyframes pulse {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.8; transform: scale(1.05); }
@@ -3425,5 +3635,5 @@ const HomePage = () => {
     </div>
   );
 };
-
 export default HomePage;
+

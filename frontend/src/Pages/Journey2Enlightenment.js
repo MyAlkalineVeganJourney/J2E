@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/info.css';
 import { useNavigate } from 'react-router-dom';
+import PageLayout from '../components/PageLayout';
 
 const Journey2Enlightenment = () => {
   const navigate = useNavigate();
