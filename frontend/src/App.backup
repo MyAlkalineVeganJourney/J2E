@@ -1,9 +1,0 @@
-import React from 'react';
-import HomePageWrapper from './components/HomePageWrapper';
-import './i18n/config';
-
-function App() {
-  return <HomePageWrapper />;
-}
-
-export default App;
