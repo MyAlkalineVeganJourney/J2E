@@ -1471,7 +1471,7 @@ const HomePage = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      overflow: 'hidden'
+      overflow: 'visible'
     },
 
     navScrollContainer: {
