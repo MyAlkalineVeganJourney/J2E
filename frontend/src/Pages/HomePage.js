@@ -1,3 +1,4 @@
+
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -3288,26 +3289,62 @@ const HomePage = () => {
       </section>
 
       {/* CONTAINER 11: LINKING REALITY TO FREQUENCY (PHOTO GALLERY) */}
-      <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Linking Reality to Frequency</h2>
-        
-        <div style={styles.galleryGrid}>
-          {galleryImages.map((image, i) => (
-            <img
-              key={i}
-              src={image.src}
-              alt={image.alt}
-              style={styles.galleryImage}
-              onError={(e) => { 
-                e.target.onerror = null; 
-                e.target.src = '/images/star-pattern.png';
-              }}
-              loading="lazy"
-            />
-          ))}
-        </div>
-      </section>
-
+  {/* CONTAINER 11: LINKING REALITY TO FREQUENCY (PHOTO GALLERY) */}
+<section style={styles.section}>
+  <h2 style={styles.sectionTitle}>Linking Reality to Frequency</h2>
+  <div style={styles.galleryGrid}>
+    <img
+      src="/images/BeachDinner.png"
+      alt="MAVJ Logo"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+    <img
+      src="/images/DesBarras.jpeg"
+      alt="Des Barres Road"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+    <img
+      src="/images/BigTent.jpeg"
+      alt="Big Tent"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+    <img
+      src="/images/SL.png"
+      alt="Res Tents"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+    <img
+      src="/images/Diving-in-St-Thomas.jpg"
+      alt="Dive"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+  </div>
+</section>
       {/* CONTAINER 12: UNIVERSAL FOOTER */}
       <footer style={styles.footer}>
         <p style={{color: '#FFD700', fontWeight: '700', marginBottom: '12px'}}>
@@ -3376,7 +3413,7 @@ const HomePage = () => {
 <div style={styles.disclaimerBar}>
   {translations[currentLanguage]?.disclaimer || "EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL"}
 </div>
-<div style={{ position: "fixed", bottom: "30px", right: "30px", zIndex: 9999, display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
+<div style={{ position: "fixed", bottom: "30px", left: "18px", zIndex: 9999, display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
   <div style={styles.liveUserCounter}>
     <div style={styles.liveDot}></div>
     🔥 {liveUsers} Souls
