@@ -1,7 +1,8 @@
 import React from 'react';
 import '../styles/info.css';
 import { useNavigate } from 'react-router-dom';
-import PageLayout from '../components/PageLayout';
+
+
 
 const Journey2Enlightenment = () => {
   const navigate = useNavigate();
@@ -15,15 +16,15 @@ const Journey2Enlightenment = () => {
       color: '#9C27B0'
     },
     { 
-      title: 'St. Lucia Retreat', 
-      path: '/journey-to-enlightenment-retreat', 
+      title: 'St. Lucian Quantum Reset', 
+      path: '/journey-to-enlightenment-Consiousness Convergence', 
       desc: '11/11 annual gathering in St. Lucia - Accommodations & experiences',
       icon: '🏝️',
       color: '#4CAF50'
     },
     { 
       title: 'Accommodations', 
-      path: '/journey-to-enlightenment-accommodations', 
+      path: '/journey-2-enlightenment-accommodations', 
       desc: 'Frequency-aligned pods & transformational living spaces',
       icon: '🏕️',
       color: '#2196F3'
@@ -31,7 +32,7 @@ const Journey2Enlightenment = () => {
     { 
       title: 'Excursions', 
       path: '/excursions', 
-      desc: 'Island adventures & natural quantum experiences',
+      desc: 'Island Explorations and Adventures with Natural Quantum Experiences',
       icon: '🚣',
       color: '#FF9800'
     },
@@ -75,14 +76,14 @@ const Journey2Enlightenment = () => {
           </span>
         </h1>
         <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-          A dual-path quantum system: <strong className="text-yellow-400">Protocol</strong> for personal transformation × <strong className="text-green-400">Retreat</strong> for collective experience
+          A dual-path quantum system: <strong className="text-yellow-400">Protocol</strong> for personal transformation × <strong className="text-green-400">Convergence</strong> for collective experience
         </p>
         
         {/* QUANTUM INTRO */}
         <div className="multicolor-border max-w-4xl mx-auto mb-12">
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-yellow-400">🌟 Dual-Path Quantum System</h2>
           <p className="text-gray-300 mb-4">
-            J2E operates on two quantum levels: the <strong>Protocol</strong> (personal frequency work) and the <strong>Retreat</strong> (collective experience). 
+            J2E operates on two quantum levels: the <strong>Protocol</strong> (personal frequency work) and the <strong>Convergence</strong> (collective experience). 
             Together they create a complete system for consciousness evolution.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
@@ -90,14 +91,14 @@ const Journey2Enlightenment = () => {
               <h3 className="text-xl font-bold text-purple-400 mb-3">🌌 Quantum Protocol</h3>
               <p className="text-gray-300">
                 Your personal 90-day journey through 4 frequency stages (285Hz → 852Hz). 
-                Includes fasting, sound therapy, and consciousness expansion practices.
+                Includes reset detoxification, sound therapy, and consciousness expansion practices.
               </p>
             </div>
             <div className="bg-gradient-to-br from-green-900/30 to-teal-900/30 p-6 rounded-xl">
               <h3 className="text-xl font-bold text-green-400 mb-3">🏝️ St. Lucia Retreat</h3>
               <p className="text-gray-300">
                 Annual 11/11 gathering where protocol becomes lived experience. 
-                Includes accommodations, excursions, workshops, and community resonance.
+                Includes accommodations, excursions, workshops, and local community resonance.
               </p>
             </div>
           </div>
@@ -127,8 +128,8 @@ const Journey2Enlightenment = () => {
               </div>
             </div>
             <p className="text-gray-300 mb-6">
-              90-day journey through 4 frequency stages. Includes fasting guide, sound therapy library, 
-              quantum metrics tracker, and community support.
+              90-day journey through 4 frequency stages. Includes reset detox guide, sound therapy library, 
+              quantum metrics tracker, and MAVJ Family support.
             </p>
             <div className="flex flex-wrap gap-2 mb-6">
               {['285Hz Reset', '528Hz Alignment', '741Hz Expansion', '852Hz Unity'].map((stage, i) => (
@@ -142,7 +143,7 @@ const Journey2Enlightenment = () => {
             </button>
           </div>
 
-          {/* RETREAT PATH */}
+          {/* Resonance PATH */}
           <div 
             className="info-box rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:scale-105"
             style={{
@@ -160,7 +161,7 @@ const Journey2Enlightenment = () => {
             </div>
             <p className="text-gray-300 mb-6">
               Annual 11/11 gathering in St. Lucia. Includes frequency-aligned accommodations, 
-              oceanic missions, workshops, and community resonance experiences.
+              oceanic missions, workshops, and local community resonance experiences.
             </p>
             <div className="flex flex-wrap gap-2 mb-6">
               {['Resonance Pods', 'Ocean Excursions', 'Farm Workshops', 'Sea Moss Diving'].map((feature, i) => (
@@ -170,7 +171,7 @@ const Journey2Enlightenment = () => {
               ))}
             </div>
             <button className="w-full py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold rounded-xl">
-              Explore Retreat Experience →
+              Explore Frequency Transformation Experience →
             </button>
           </div>
         </div>
@@ -216,8 +217,8 @@ const Journey2Enlightenment = () => {
             🌐 Quantum Connection Point
           </h2>
           <p className="text-gray-300 mb-6">
-            The Protocol prepares your frequency field. The Retreat provides the quantum container 
-            for collective resonance. Together, they create a complete system for ascension.
+            The Protocol prepares your frequency field. The Convergence provides the quantum container 
+            for collective resonance. Together, they create a complete system for frequency elevation and ascension.
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <button 
@@ -230,7 +231,7 @@ const Journey2Enlightenment = () => {
               onClick={() => navigate('/journey-to-enlightenment-accommodations')}
               className="px-8 py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold rounded-full hover:scale-105 transition-all"
             >
-              Book Retreat Experience
+              Book Frequency Transformation Experience
             </button>
           </div>
         </div>

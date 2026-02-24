@@ -11,7 +11,7 @@ const Seeds = () => {
       <section className="multicolor-border">
         <h2>🌍 Earth-Based Sovereignty</h2>
         <p>
-          All seeds offered through MAVJ are non-GMO, wild harvested or heirloom varieties used for generations by
+          All seeds offered through MAVJ are completely organic non-GMO, wild harvested and heirloom varieties used for generations by
           indigenous communities. These are seeds of transformation—physically and energetically.
         </p>
       </section>
