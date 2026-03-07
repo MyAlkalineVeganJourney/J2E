@@ -13,6 +13,7 @@ import { loadStripe } from "@stripe/stripe-js";
 
 import HomePage from './Pages/HomePage';
 import MAVJStore from './Pages/MAVJStore';
+import ProductCatalog from './Pages/ProductCatalog';
 import Checkout from './Pages/Checkout';
 import Recipes from './Pages/Recipes';
 import Herbs from './Pages/Herbs';
@@ -53,6 +54,15 @@ import Numerology from './Pages/VibrationalIntelligence/PackagingLabels/Numerolo
 import PinealGland from './Pages/VibrationalIntelligence/PackagingLabels/PinealGland';
 import SacredGeometry from './Pages/VibrationalIntelligence/PackagingLabels/SacredGeometry';
 import MasterElements from './Pages/MasterElements';
+import CommunityField from './Pages/VibrationalIntelligence/CommunityField';
+import QuantumResearch from './Pages/VibrationalIntelligence/QuantumResearch';
+import QuantumBiologyNews from './Pages/VibrationalIntelligence/QuantumResearch/QuantumBiologyNews';
+import FrequencyPractices from './Pages/VibrationalIntelligence/FrequencyPractices';
+import CymaticsLab from './Pages/VibrationalIntelligence/FrequencyPractices/CymaticsLab';
+import ScienceOfConsciousness from './Pages/VibrationalIntelligence/ScienceOfConsciousness';
+import QuantumConsciousness from './Pages/VibrationalIntelligence/ScienceOfConsciousness/QuantumConsciousness';
+import NeuroQuantics from './Pages/VibrationalIntelligence/ScienceOfConsciousness/NeuroQuantics';
+import BiofieldResearch from './Pages/VibrationalIntelligence/ScienceOfConsciousness/BiofieldResearch';
 
 const stripePromise = loadStripe("pk_test_51Q4w6LA8s1feV7TsMJLPPr3VKj0IlcYkmGCojTDlEXejRTgvsiiI3VSnFUxzbVXwXPRD4xOC30xKq6L13I6JoIXb00GQe5oPCo");
 
@@ -78,6 +88,7 @@ function App() {
                     <Route path="/MAVJSearch" element={<MAVJSearch />} />
                     <Route path="/LiveBroadcast" element={<LiveBroadcast />} />
                     <Route path="/MAVJStore" element={<MAVJStore />} />
+                    <Route path="/ProductCatalog" element={<ProductCatalog />} />
                     <Route path="/PodcastVlog" element={<PodcastVlog />} />
                     <Route path="/ContactUs" element={<ContactUs />} />
                     <Route path="/Checkout" element={<Checkout />} />
@@ -112,6 +123,23 @@ function App() {
                     <Route path="/VibrationalIntelligence/PackagingLabels/PinealGland" element={<PinealGland />} />
                     <Route path="/VibrationalIntelligence/PackagingLabels/SacredGeometry" element={<SacredGeometry />} />
                     <Route path="/VibrationalIntelligence/MasterElements" element={<MasterElements />} />
+
+                    {/* Science of Consciousness Routes */}
+                    <Route path="/VibrationalIntelligence/ScienceOfConsciousness" element={<ScienceOfConsciousness />} />
+                    <Route path="/VibrationalIntelligence/ScienceOfConsciousness/QuantumConsciousness" element={<QuantumConsciousness />} />
+                    <Route path="/VibrationalIntelligence/ScienceOfConsciousness/NeuroQuantics" element={<NeuroQuantics />} />
+                    <Route path="/VibrationalIntelligence/ScienceOfConsciousness/BiofieldResearch" element={<BiofieldResearch />} />
+
+                    {/* Frequency Practices Routes */}
+                    <Route path="/VibrationalIntelligence/FrequencyPractices" element={<FrequencyPractices />} />
+                    <Route path="/VibrationalIntelligence/FrequencyPractices/CymaticsLab" element={<CymaticsLab />} />
+
+                    {/* Quantum Research Routes */}
+                    <Route path="/VibrationalIntelligence/QuantumResearch" element={<QuantumResearch />} />
+                    <Route path="/VibrationalIntelligence/QuantumResearch/QuantumBiologyNews" element={<QuantumBiologyNews />} />
+
+                    {/* Community Field Routes */}
+                    <Route path="/VibrationalIntelligence/CommunityField" element={<CommunityField />} />
                     <Route path="*" element={
                       <div style={{ padding: '20px', textAlign: 'center', color: '#FFD700' }}>
                         <h1>404 - Page Not Found</h1>

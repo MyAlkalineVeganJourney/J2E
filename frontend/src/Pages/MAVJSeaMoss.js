@@ -90,7 +90,7 @@ const MAVJSeaMoss = () => {
           textShadow: '0 0 30px rgba(255,215,0,0.9)',
           marginBottom: '20px'
         }}>
-          🌊 92 OF 102 MINERALS YOUR BODY NEEDS - IN ONE SUPERFOOD
+          🌊 95% OF THE MINERALS YOUR BODY NEEDS DAILY - IN ONE SUPERFOOD
         </h2>
         <p className="shocking-claim-subscript" style={{ fontSize: '1.3rem' }}>
           Harvested by hand from St. Lucia's volcanic reefs. Charged by solar-lunar cycles. 

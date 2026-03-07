@@ -1,432 +1,257 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Layout from '../../components/PageLayout';
 
-const VibrationalIntelligencePortal = () => {
-  const [userFrequency, setUserFrequency] = useState(null);
-  const [activeSection, setActiveSection] = useState('overview');
-  const [quantumNews, setQuantumNews] = useState([]);
+const VibrationalIntelligence = () => {
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // Initialize user's quantum profile
-  useEffect(() => {
-    // Load user's frequency data if available
-    const savedFrequency = localStorage.getItem('userFrequency');
-    if (savedFrequency) {
-      setUserFrequency(JSON.parse(savedFrequency));
+  // ALL PAGES - EVERY ROUTE NOW WORKS
+  const sections = [
+    {
+      title: 'Core Modules',
+      icon: '📚',
+      color: '#FFD700',
+      pages: [
+        { name: 'Elements & Energy', path: '/VibrationalIntelligence/ElementsEnergy', icon: '⚛️', desc: 'Biochemical intelligence of elements', color: '#06b6d4' },
+        { name: 'Frequency Recalibration', path: '/VibrationalIntelligence/FrequencyRecalibration', icon: '🔄', desc: 'Detox, reset, resonate', color: '#10b981' },
+        { name: 'J2E Protocol', path: '/VibrationalIntelligence/J2EProtocol', icon: '✨', desc: '28-day enlightenment path', color: '#ec4899' },
+        { name: 'Product Compendium', path: '/VibrationalIntelligence/ProductCompendium', icon: '💎', desc: 'Energetic product profiles', color: '#f59e0b' }
+      ]
+    },
+    {
+      title: 'Science of Consciousness',
+      icon: '🔬',
+      color: '#6366f1',
+      pages: [
+        { name: 'Research Portal', path: '/VibrationalIntelligence/ScienceOfConsciousness', icon: '🔬', desc: 'Main portal', color: '#6366f1', isFolder: true },
+        { name: 'Quantum Consciousness', path: '/VibrationalIntelligence/ScienceOfConsciousness/QuantumConsciousness', icon: '⚛️', desc: 'Orch-OR theory', color: '#6366f1' },
+        { name: 'NeuroQuantics', path: '/VibrationalIntelligence/ScienceOfConsciousness/NeuroQuantics', icon: '🧠', desc: 'Quantum brain science', color: '#6366f1' },
+        { name: 'Biofield Research', path: '/VibrationalIntelligence/ScienceOfConsciousness/BiofieldResearch', icon: '🌌', desc: 'Human energy field studies', color: '#6366f1' }
+      ]
+    },
+    {
+      title: 'Packaging Labels',
+      icon: '📦',
+      color: '#8b5cf6',
+      pages: [
+        { name: 'Symbol Portal', path: '/VibrationalIntelligence/PackagingLabels', icon: '📦', desc: 'Main portal', color: '#8b5cf6', isFolder: true },
+        { name: 'Chakras', path: '/VibrationalIntelligence/PackagingLabels/Chakras', icon: '🌀', desc: 'Energy centers', color: '#8b5cf6' },
+        { name: 'Fibonacci', path: '/VibrationalIntelligence/PackagingLabels/Fibonacci', icon: '��', desc: 'Universal mathematics', color: '#8b5cf6' },
+        { name: 'Frequency Chart', path: '/VibrationalIntelligence/PackagingLabels/FrequencyChart', icon: '📊', desc: 'Emotional frequencies', color: '#8b5cf6' },
+        { name: 'Numerology', path: '/VibrationalIntelligence/PackagingLabels/Numerology', icon: '🔢', desc: 'Number resonance', color: '#8b5cf6' },
+        { name: 'Pineal Gland', path: '/VibrationalIntelligence/PackagingLabels/PinealGland', icon: '👁️', desc: 'Quantum receiver', color: '#8b5cf6' },
+        { name: 'Sacred Geometry', path: '/VibrationalIntelligence/PackagingLabels/SacredGeometry', icon: '⭐', desc: 'Structural resonance', color: '#8b5cf6' }
+      ]
+    },
+    {
+      title: 'Frequency Practices',
+      icon: '🎵',
+      color: '#f59e0b',
+      pages: [
+        { name: 'Practices Portal', path: '/VibrationalIntelligence/FrequencyPractices', icon: '🎵', desc: 'Main portal', color: '#f59e0b', isFolder: true },
+        { name: 'Cymatics Lab', path: '/VibrationalIntelligence/FrequencyPractices/CymaticsLab', icon: '🌀', desc: 'Sound made visible', color: '#f59e0b' }
+      ]
+    },
+    {
+      title: 'Quantum Research',
+      icon: '🔭',
+      color: '#ef4444',
+      pages: [
+        { name: 'Research Portal', path: '/VibrationalIntelligence/QuantumResearch', icon: '🔭', desc: 'Main portal', color: '#ef4444', isFolder: true },
+        { name: 'Quantum Biology News', path: '/VibrationalIntelligence/QuantumResearch/QuantumBiologyNews', icon: '🧬', desc: 'Latest discoveries', color: '#ef4444' }
+      ]
+    },
+    {
+      title: 'Community Field',
+      icon: '🌍',
+      color: '#14b8a6',
+      pages: [
+        { name: 'Community Portal', path: '/VibrationalIntelligence/CommunityField', icon: '🌍', desc: 'Collective consciousness research', color: '#14b8a6' }
+      ]
+    },
+    {
+      title: 'Master Elements',
+      icon: '⚛️',
+      color: '#f59e0b',
+      pages: [
+        { name: 'Master Elements', path: '/VibrationalIntelligence/MasterElements', icon: '💎', desc: 'Complete element database', color: '#f59e0b' }
+      ]
     }
+  ];
+
+  // Flatten all pages for search
+  const allPages = sections.flatMap(s => s.pages);
+
+  // Filter based on search
+  const filteredPages = searchTerm.trim() === '' 
+    ? allPages 
+    : allPages.filter(page => 
+        page.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        page.desc.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+  // Group filtered pages back into sections
+  const getFilteredSections = () => {
+    if (searchTerm.trim() === '') return sections;
     
-    // Fetch latest quantum research news
-    fetchQuantumNews();
-  }, []);
-
-  const fetchQuantumNews = async () => {
-    // This would connect to our quantum research API
-    const news = [
-      {
-        id: 1,
-        title: 'New Study: Quantum Coherence in Microtubules Confirmed',
-        source: 'University of Arizona',
-        date: 'Recent',
-        impact: 'High',
-        link: '/vibrational-intelligence/science-of-consciousness/quantum-consciousness'
-      },
-      {
-        id: 2,
-        title: 'Breakthrough: Sound Frequencies Alter Gene Expression',
-        source: 'MIT Research',
-        date: 'Recent',
-        impact: 'High',
-        link: '/vibrational-intelligence/packaging-labels/epigenetic-frequency'
-      }
-    ];
-    setQuantumNews(news);
+    return sections
+      .map(section => ({
+        ...section,
+        pages: section.pages.filter(page => 
+          page.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          page.desc.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      }))
+      .filter(section => section.pages.length > 0);
   };
 
-  const scanUserFrequency = () => {
-    // Interactive frequency scanning
-    const frequencies = {
-      emotional: Math.floor(Math.random() * 1000),
-      mental: Math.floor(Math.random() * 1000),
-      spiritual: Math.floor(Math.random() * 1000),
-      physical: Math.floor(Math.random() * 1000)
-    };
-    setUserFrequency(frequencies);
-    localStorage.setItem('userFrequency', JSON.stringify(frequencies));
-  };
+  const displaySections = getFilteredSections();
 
   return (
-    <div className="vi-quantum-portal">
-      {/* QUANTUM WELCOME BANNER */}
-      <div className="quantum-banner">
-        <h1>🌊 Welcome to Quantum Consciousness</h1>
-        <p className="portal-subtitle">
-          Where science meets spirit • Where frequency creates reality • Where you become the alchemist
+    <Layout pageTitle="🔮 VIBRATIONAL INTELLIGENCE">
+      
+      {/* Breadcrumb */}
+      <div style={{
+        maxWidth: '1400px',
+        margin: '20px auto',
+        padding: '0 20px',
+        fontSize: '0.95rem'
+      }}>
+        <Link to="/" style={{ color: '#FFD700', textDecoration: 'none' }}>Home</Link>
+        <span style={{ color: '#FFD700', margin: '0 8px' }}>→</span>
+        <span style={{ color: '#FFFFFF' }}>Vibrational Intelligence</span>
+      </div>
+
+      {/* Hero */}
+      <div style={{
+        background: 'linear-gradient(135deg, #0f172a, #1e293b)',
+        padding: '60px 20px',
+        margin: '0 20px 40px',
+        borderRadius: '20px',
+        border: '3px solid #FFD700',
+        textAlign: 'center'
+      }}>
+        <h1 style={{
+          fontSize: 'clamp(2rem, 5vw, 3rem)',
+          color: '#FFD700',
+          marginBottom: '20px'
+        }}>
+          🔮 Vibrational Intelligence
+        </h1>
+        <p style={{
+          fontSize: '1.2rem',
+          color: '#FFFFFF',
+          maxWidth: '800px',
+          margin: '0 auto'
+        }}>
+          Quantum Science • Frequency Medicine • Consciousness Research
         </p>
-        <div className="portal-tagline">
-          <span className="quantum-tag">SOULFLOW INSPIRED</span>
-          <span className="quantum-tag">NO TRUNCATION • NO DELETION • MAXIMUM LIGHT</span>
+        <div style={{
+          marginTop: '20px',
+          color: '#10b981',
+          fontSize: '1.1rem'
+        }}>
+          {allPages.length} Pages • All Routes Active
         </div>
       </div>
 
-      {/* PERSONAL QUANTUM SCANNER */}
-      <div className="quantum-scanner-section">
-        <div className="scanner-header">
-          <h2>🔬 Your Personal Quantum Blueprint</h2>
-          <p>Discover your unique frequency signature across multiple dimensions</p>
-        </div>
-        
-        <div className="scanner-interface">
-          {userFrequency ? (
-            <div className="frequency-results">
-              <div className="frequency-dimension">
-                <h4>Emotional Frequency</h4>
-                <div className="frequency-bar">
-                  <div 
-                    className="frequency-fill" 
-                    style={{ width: `${userFrequency.emotional / 10}%` }}
-                  ></div>
+      {/* Search */}
+      <div style={{
+        maxWidth: '800px',
+        margin: '0 auto 40px',
+        padding: '0 20px'
+      }}>
+        <input
+          type="text"
+          placeholder="Search all pages..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '15px 25px',
+            fontSize: '1rem',
+            background: 'rgba(0,0,0,0.7)',
+            border: '2px solid #6366f1',
+            borderRadius: '50px',
+            color: '#FFFFFF',
+            outline: 'none'
+          }}
+        />
+        {searchTerm && (
+          <div style={{ textAlign: 'center', marginTop: '10px', color: '#FFD700' }}>
+            Found {filteredPages.length} matching {filteredPages.length === 1 ? 'page' : 'pages'}
+          </div>
+        )}
+      </div>
+
+      {/* Sections */}
+      {displaySections.map(section => (
+        <div key={section.title} style={{ maxWidth: '1400px', margin: '0 auto 50px', padding: '0 20px' }}>
+          <h2 style={{
+            color: section.color,
+            fontSize: '2rem',
+            marginBottom: '20px',
+            borderBottom: `2px solid ${section.color}`,
+            paddingBottom: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+            <span>{section.icon}</span> {section.title}
+          </h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+            gap: '20px'
+          }}>
+            {section.pages.map(page => (
+              <Link
+                key={page.path}
+                to={page.path}
+                style={{
+                  textDecoration: 'none',
+                  padding: '20px',
+                  background: 'rgba(0,0,0,0.5)',
+                  borderRadius: '10px',
+                  border: `2px solid ${page.color}40`,
+                  transition: 'all 0.3s ease',
+                  display: 'block'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = `${page.color}20`;
+                  e.currentTarget.style.borderColor = page.color;
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(0,0,0,0.5)';
+                  e.currentTarget.style.borderColor = `${page.color}40`;
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '2rem' }}>{page.icon}</span>
+                  <h3 style={{ color: '#FFFFFF', margin: 0, fontSize: '1.1rem' }}>{page.name}</h3>
                 </div>
-                <span>{userFrequency.emotional} Hz</span>
-              </div>
-              
-              <div className="frequency-dimension">
-                <h4>Mental Frequency</h4>
-                <div className="frequency-bar">
-                  <div 
-                    className="frequency-fill" 
-                    style={{ width: `${userFrequency.mental / 10}%` }}
-                  ></div>
-                </div>
-                <span>{userFrequency.mental} Hz</span>
-              </div>
-              
-              <div className="frequency-dimension">
-                <h4>Spiritual Frequency</h4>
-                <div className="frequency-bar">
-                  <div 
-                    className="frequency-fill" 
-                    style={{ width: `${userFrequency.spiritual / 10}%` }}
-                  ></div>
-                </div>
-                <span>{userFrequency.spiritual} Hz</span>
-              </div>
-              
-              <div className="frequency-dimension">
-                <h4>Physical Frequency</h4>
-                <div className="frequency-bar">
-                  <div 
-                    className="frequency-fill" 
-                    style={{ width: `${userFrequency.physical / 10}%` }}
-                  ></div>
-                </div>
-                <span>{userFrequency.physical} Hz</span>
-              </div>
-              
-              <button className="rescan-btn" onClick={scanUserFrequency}>
-                Rescan My Quantum Field
-              </button>
-            </div>
-          ) : (
-            <div className="scan-prompt">
-              <p>Your quantum blueprint reveals your unique frequency signature across emotional, mental, spiritual, and physical dimensions.</p>
-              <button className="scan-btn" onClick={scanUserFrequency}>
-                🌀 Scan My Quantum Blueprint
-              </button>
-              <p className="scan-note">This interactive scan creates your personal frequency profile for tailored experiences throughout the portal.</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* QUANTUM RESEARCH NEWS */}
-      <div className="quantum-news-section">
-        <h2>📡 Latest Quantum Consciousness Research</h2>
-        <div className="news-grid">
-          {quantumNews.map(item => (
-            <div key={item.id} className="news-card">
-              <div className="news-header">
-                <span className="news-impact">{item.impact} Impact</span>
-                <span className="news-source">{item.source}</span>
-              </div>
-              <h3>{item.title}</h3>
-              <Link to={item.link} className="news-link">
-                Explore Research →
+                <p style={{ color: '#DDD6B8', fontSize: '0.9rem', marginBottom: '10px' }}>{page.desc}</p>
+                {page.isFolder && (
+                  <span style={{
+                    background: page.color,
+                    color: '#000000',
+                    padding: '2px 8px',
+                    borderRadius: '12px',
+                    fontSize: '0.7rem',
+                    fontWeight: 'bold'
+                  }}>
+                    FOLDER
+                  </span>
+                )}
               </Link>
-            </div>
-          ))}
-          
-          {/* Placeholder for upcoming research */}
-          <div className="news-card placeholder">
-            <div className="placeholder-header">
-              <span className="placeholder-tag">COMING SOON</span>
-            </div>
-            <h3>New Research: Quantum Biology of Consciousness</h3>
-            <p className="placeholder-text">
-              Cutting-edge research linking quantum processes to conscious experience.
-              This section is being actively developed with peer-reviewed studies.
-            </p>
-            <div className="update-notice">
-              <span className="update-icon">🔬</span>
-              <span>Updated content arriving soon</span>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
-
-      {/* PORTAL NAVIGATION GRID */}
-      <div className="portal-navigation">
-        <h2>🌌 Explore Quantum Consciousness</h2>
-        <p>Navigate through our complete vibrational intelligence ecosystem</p>
-        
-        <div className="nav-grid">
-          {/* SCIENCE OF CONSCIOUSNESS */}
-          <div className="nav-category">
-            <h3>🔬 Science of Consciousness</h3>
-            <div className="nav-links">
-              <Link to="/vibrational-intelligence/science-of-consciousness" className="nav-link main">
-                Research Hub Portal
-              </Link>
-              <Link to="/vibrational-intelligence/science-of-consciousness/quantum-consciousness" className="nav-link">
-                Quantum Consciousness Studies
-                <span className="status-badge">Active Research</span>
-              </Link>
-              <Link to="/vibrational-intelligence/science-of-consciousness/neuro-quantics" className="nav-link">
-                NeuroQuantics
-                <span className="status-badge">In Development</span>
-              </Link>
-              <Link to="/vibrational-intelligence/science-of-consciousness/biofield-research" className="nav-link">
-                Biofield Research
-                <span className="status-badge">In Development</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* FREQUENCY PRACTICES */}
-          <div className="nav-category">
-            <h3>🎵 Frequency Practices</h3>
-            <div className="nav-links">
-              <Link to="/vibrational-intelligence/frequency-practices" className="nav-link main">
-                Practices Portal
-              </Link>
-              <Link to="/vibrational-intelligence/frequency-practices/quantum-breathwork" className="nav-link">
-                Quantum Breathwork
-                <span className="status-badge">With Cinematic Videos</span>
-              </Link>
-              <Link to="/vibrational-intelligence/frequency-practices/harmonics-cymatics" className="nav-link">
-                Harmonics & Cymatics
-                <span className="status-badge">Featuring Your Singing Science</span>
-              </Link>
-              <Link to="/vibrational-intelligence/frequency-practices/bioacoustics" className="nav-link">
-                BioAcoustics
-                <span className="status-badge">Healing Frequencies</span>
-              </Link>
-              <Link to="/vibrational-intelligence/frequency-practices/binaural-beats" className="nav-link">
-                Binaural Beats
-                <span className="status-badge">Brainwave Entrainment</span>
-              </Link>
-              <Link to="/vibrational-intelligence/frequency-practices/solfeggio-frequencies" className="nav-link">
-                Solfeggio Frequencies
-                <span className="status-badge">Ancient Healing Tones</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* COMMUNITY FIELD */}
-          <div className="nav-category">
-            <h3>🌍 Community Field</h3>
-            <div className="nav-links">
-              <Link to="/vibrational-intelligence/community-field" className="nav-link main">
-                Collective Consciousness Portal
-              </Link>
-              <Link to="/vibrational-intelligence/community-field/global-frequency-map" className="nav-link">
-                Global Frequency Map
-                <span className="status-badge">Live Visualization</span>
-              </Link>
-              <Link to="/vibrational-intelligence/community-field/synchronized-resonance" className="nav-link">
-                Synchronized Resonance
-                <span className="status-badge">Group Meditation</span>
-              </Link>
-              <Link to="/vibrational-intelligence/community-field/quantum-entanglement" className="nav-link">
-                Quantum Entanglement
-                <span className="status-badge">Research Portal</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* PACKAGING LABELS */}
-          <div className="nav-category">
-            <h3>📦 Packaging Labels</h3>
-            <div className="nav-links">
-              <Link to="/vibrational-intelligence/packaging-labels" className="nav-link main">
-                Symbol Science Portal
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/chakras" className="nav-link">
-                Chakra Quantum Physics
-                <span className="status-badge">Complete</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/fibonacci" className="nav-link">
-                Fibonacci Universe
-                <span className="status-badge">Complete</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/frequency-chart" className="nav-link">
-                Emotional Frequency Chart
-                <span className="status-badge">Complete</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/numerology" className="nav-link">
-                Numerology Resonance
-                <span className="status-badge">Complete</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/pineal-gland" className="nav-link">
-                Pineal Gland Activation
-                <span className="status-badge">Complete</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/sacred-geometry" className="nav-link">
-                Sacred Geometry
-                <span className="status-badge">Complete</span>
-              </Link>
-              {/* New additions */}
-              <Link to="/vibrational-intelligence/packaging-labels/cymatics" className="nav-link new">
-                Cymatics
-                <span className="status-badge">New Research</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/biogeometry" className="nav-link new">
-                BioGeometry
-                <span className="status-badge">In Development</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/time-frequencies" className="nav-link new">
-                Time Frequencies
-                <span className="status-badge">In Development</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/quantum-biology" className="nav-link new">
-                Quantum Biology
-                <span className="status-badge">Cutting Edge</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/psychoneuroimmunology" className="nav-link new">
-                Psychoneuroimmunology
-                <span className="status-badge">Mind-Body Science</span>
-              </Link>
-              <Link to="/vibrational-intelligence/packaging-labels/epigenetic-frequency" className="nav-link new">
-                Epigenetic Frequency
-                <span className="status-badge">Gene Expression Research</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* CORE MODULES */}
-          <div className="nav-category">
-            <h3>⚡ Core Quantum Modules</h3>
-            <div className="nav-links">
-              <Link to="/vibrational-intelligence/elements-energy" className="nav-link">
-                Elements & Energy
-                <span className="status-badge">Complete</span>
-              </Link>
-              <Link to="/vibrational-intelligence/frequency-recalibration" className="nav-link">
-                Frequency Recalibration
-                <span className="status-badge">Complete</span>
-              </Link>
-              <Link to="/vibrational-intelligence/j2e-protocol" className="nav-link">
-                J2E Protocol
-                <span className="status-badge">Complete</span>
-              </Link>
-              <Link to="/vibrational-intelligence/product-compendium" className="nav-link">
-                Product Compendium
-                <span className="status-badge">Complete</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* USER ENGAGEMENT & DATA COLLECTION */}
-      <div className="engagement-section">
-        <h2>💫 Contribute to Quantum Research</h2>
-        <div className="engagement-options">
-          <div className="engagement-card">
-            <h3>🎮 Quantum Games</h3>
-            <p>Interactive games that collect frequency data for research</p>
-            <div className="game-list">
-              <button className="game-btn">Frequency Matching Game</button>
-              <button className="game-btn">Quantum Pattern Recognition</button>
-              <button className="game-btn">Consciousness Exploration Quest</button>
-            </div>
-          </div>
-          
-          <div className="engagement-card">
-            <h3>📝 Research Questionnaires</h3>
-            <p>Share your experiences for scientific analysis</p>
-            <div className="questionnaire-list">
-              <button className="questionnaire-btn">Consciousness States Survey</button>
-              <button className="questionnaire-btn">Frequency Healing Experiences</button>
-              <button className="questionnaire-btn">Quantum Meditation Effects</button>
-            </div>
-          </div>
-          
-          <div className="engagement-card">
-            <h3>🧪 Citizen Science</h3>
-            <p>Participate in real quantum consciousness research</p>
-            <button className="citizen-science-btn">
-              Join Research Participant Pool
-            </button>
-            <p className="citizen-note">
-              Your anonymous data contributes to advancing quantum consciousness science
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* COMING SOON SECTION */}
-      <div className="coming-soon-section">
-        <h2>🔭 Quantum Expansions in Development</h2>
-        <div className="expansion-grid">
-          <div className="expansion-card">
-            <h3>Laws of Attraction Quantum Physics</h3>
-            <p>Scientific basis for manifestation through quantum entanglement</p>
-            <div className="progress-indicator">
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: '30%' }}></div>
-              </div>
-              <span>Research Phase</span>
-            </div>
-          </div>
-          
-          <div className="expansion-card">
-            <h3>Quantum Element Database</h3>
-            <p>Expanding Master Elements with quantum properties of all elements</p>
-            <div className="progress-indicator">
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: '20%' }}></div>
-              </div>
-              <span>Data Collection</span>
-            </div>
-          </div>
-          
-          <div className="expansion-card">
-            <h3>AI-Powered Frequency Recommendations</h3>
-            <p>Personalized quantum algorithms for transformation</p>
-            <div className="progress-indicator">
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: '15%' }}></div>
-              </div>
-              <span>Algorithm Development</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* FOOTER WITH SOULFLOW INSPIRED TAGLINE */}
-      <div className="portal-footer">
-        <div className="soulflow-inspired">
-          <span className="soulflow-tag">SOULFLOW INSPIRED</span>
-          <p>Building in full light • No truncation • No deletion • Maximum authenticity</p>
-        </div>
-        <div className="quantum-principles">
-          <span>🌀 Quantum Consciousness</span>
-          <span>🎵 Frequency Transformation</span>
-          <span>🔬 Scientific Validation</span>
-          <span>🌍 Collective Evolution</span>
-        </div>
-      </div>
-    </div>
+      ))}
+    </Layout>
   );
 };
 
-export default VibrationalIntelligencePortal;
+export default VibrationalIntelligence;
