@@ -74,7 +74,7 @@ const MAVJStore = () => {
       name: 'Alkaline Recipes',
       icon: '🍽️',
       tagline: 'Maintenance Mastery',
-      story: 'After the reset, 50% of maintenance is food. Learn to prepare alkaline meals that sustain your elevated frequency.',
+      story: 'After the reset, 80% of maintenance is food. Learn to prepare alkaline meals that sustain your elevated frequency.',
       description: 'Video recipes using volcanic ingredients',
       link: '/Recipes',
       image: '/images/RecipesBanner.png',
@@ -204,7 +204,7 @@ const MAVJStore = () => {
             ×
           </button>
           <h3 style={{ margin: '0 0 10px 0', fontSize: '1.8rem', fontWeight: 'bold' }}>
-            🎉 VOLCANIC MARCH SPECIAL: 20% OFF ALL SEA MOSS! 🎉
+            🎉 VOLCANIC MARCH SPECIAL: 50% OFF ALL SEA MOSS! 🎉
           </h3>
           <p style={{ margin: '5px 0 15px 0', fontSize: '1.2rem' }}>
             Join the MAVJ Family to unlock your discount!
@@ -223,10 +223,10 @@ const MAVJStore = () => {
               transition: 'all 0.3s'
             }}
           >
-            Subscribe & Get Code: VOLCANIC20
+            Subscribe & Get your Code: in VOLCANIC20
           </button>
           <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', fontStyle: 'italic' }}>
-            ⚡ Subscribe to YouTube & TikTok • Join the Family • Free shipping over $200
+            ⚡ Subscribe to YouTube & TikTok and our Home Website • Join the Family • Free shipping over $200
           </p>
         </div>
       )}
