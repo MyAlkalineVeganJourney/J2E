@@ -1,291 +1,126 @@
 {
-  "nav": {
-    "home": "💦 Lakay MAVJ 💦",
-    "journey": "🌴 Vwayaj 🌴",
-    "align": "🎉 Vini Avèk Nou 🎉",
-    "search": "🔎 Chèché MAVJ 🔎",
-    "broadcast": "📺 Difizyon An Dirèk 📺",
-    "store": "💦 Boutik MAVJ 💦",
-    "podcast": "🔥 Podcast / Vlog 🔥",
-    "vibrational": "⚛️ Entèlijans Vibrasyonèl ⚛️",
-    "contact": "☎️ Kontakté Nou ☎️",
-    "translate": "🌍 Tradwi"
-  },
-  "title": {
-    "main": "Vwayaj Alkalin Vegan Mwen",
-    "home": "Lakay",
-    "subtitle": "Lasanté Souvrenn • Gérizon Vibrasyonèl • Nitrisyon Zansèt",
-    "ai": "Platfòm Transfòmasyon Frékans Imen IA-Premyé",
-    "leftBox": "Bazé Sou Kwantik\nSipòté Syantifikman\nKonsantré Sou Frékans",
-    "rightBox": "Nou Kontwé Fizik Kwantik\nLésabiyété Ansyen\nÉpi Nitrisyon"
-  },
-  "intro": {
-    "title": "Premyé platfòm nan mond lan ki kontwé byoloji kwantik, syans frékans imen, lésabiyété alkalin ansyen, épi transfòmasyon ak IA",
-    "welcome": "Byenveni nan Vwayaj Alkalin Vegan Mwen",
-    "para1": "Byenveni nan Vwayaj Alkalin Vegan Mwen — yon platfòm transfòmasyon frékans imen IA-premyé koté fizik kwantik kontwé lésabiyété ansyen.",
-    "didYouKnow": "💡 Ou Konnen Sa?",
-    "quantum1": "Antrelasé kwantik pwouvé ké chak souf ou pwan konekté'w avèk tout bagay nan linivè. Selil ou yo konekté dirèkteman ak manjé ou manjé, lè ou sépiré, épi moun ki otou'w. Sa pa filozofi — sa sé fizik.",
-    "bridge": "Nou kontwé mékanik kwantik (antrelasé, tinèl, kowèrans) avèk byochimi (asétogénin, flavonoyid, mineral) épi lésabiyété ansyen (Doktè Sèbi, nitrisyon alkalin, gérizon vibrasyonèl). Chak pwodui kwéyi alamen nan tè volkanik Saint-Lucie. Chak konpozé katéjrafié pou frékans, chakra, épi jéyométri sakré. Chak afimasyon sipòté pa rechèch révizé pa kòlèg.",
-    "para2": "Nou kontwé mékanik kwantik (antrelasé, tinèl, kowèrans) avèk byochimi (asétogénin, flavonoyid, mineral) épi lésabiyété ansyen (Doktè Sèbi, nitrisyon alkalin, gérizon vibrasyonèl). Chak pwodui kwéyi alamen nan tè volkanik Saint-Lucie. Chak konpozé katéjrafié pou frékans, chakra, épi jéyométri sakré. Chak afimasyon sipòté pa rechèch révizé pa kòlèg.",
-    "story": "Non mwen sé Robin, épi an 2021, mwen fini yon désintoksikasyon réinitializasyon total di 40 jou: 3 jou sèk konplètman (pa dlo, pa kontakt avèk dlo) swivi pa 37 jou di jenn avèk dlo sèlman. Avèk fòmil ékivalans (1 jou sèk = 3 jou dlo), réinitializasyon sa té ékivalan a 46 jou di jenn avèk dlo. Ékspéyans sa réinitializé sistèm mwen nan nivo selilè épi pèmis kò mwen pou natirèlman rékalibré frékans li. Sa transfòmé tout bagay — lasanté mwen, klaté mwen, misyon mwen. Platfòm sa égzisté pou sipòté transfòmasyon ou.",
-    "para3": "Nan lespas sa, ou ké dékouvri: syans di gérizon vibrasyonèl, pwotokòl nitrisyon vegan alkalin, rechèch byoloji kwantik, plan bien-être pèsonalisé ak IA, sipèraliman volkanik Saint-Lucie, épi yon kominoté mondyal ki rézonnen nan frékans pli wo.",
-    "discover": "Nan lespas sa, ou ké dékouvri: syans di gérizon vibrasyonèl, pwotokòl nitrisyon vegan alkalin, rechèch byoloji kwantik, plan bien-être pèsonalisé ak IA, sipèraliman volkanik Saint-Lucie, épi yon kominoté mondyal ki rézonnen nan frékans pli wo.",
-    "quantum2": "Tinèl kwantik pèmèt patikil pou pasé baryè ke fizik klasik di enposib. Selil ou yo itilizé menm mékanis pou gérizon épi réjénérasyon."
-  },
-  "engagement": {
-    "title": "🎮 Antéaji Avèk Lésabiyété Kwantik",
-    "math": {
-      "title": "🧮 Défi Matematik Réinitializasyon Kwantik",
-      "description": "Réinitializasyon Total Robin 2021:\n• 40 jou total\n• 3 jou sèk (pa dlo, pa kontakt)\n\nRèg: 1 jou sèk = 3 jou dlo\n\nKalkilé ékivalans!",
-      "days": "Jou",
-      "correct": "🎉 KORÈK! 3 jou sèk × 3 = 9, + 37 = 46 jou!",
-      "wrong": "Éséyé ankò! Sonjé: 1 jou sèk = 3 jou dlo",
-      "link": "Li Tout Listwè Robin",
-      "readStory": "Li Tout Listwè Robin →"
-    },
-    "quiz": {
-      "title": "🔬 Défi Konpozé Byochimik",
-      "question": "Ki konpozé nan fèy kowosòl ki 10,000 fwa pli pwisan pasé chimyotérapi pou tiyé sèl kansè?",
-      "options": ["Kwèsétin", "Annonasin", "Vitamin C", "Kanpfèwol"],
-      "correctAnswer": "Annonasin",
-      "correct": "🎉 KORÈK! Annonasin anpéché Konplèks Mitokondrial I!",
-      "wrong": "Pa tou a fè! Konpozé sa sé yon asétogénin.",
-      "link": "Ékploré Pwodui Kowosòl",
-      "explore": "Ékploré Pwodui Kowosòl →"
-    },
-    "frequency": {
-      "title": "🌊 Dékouvri Frékans Ou",
-      "description": "Frékans ou détèminé pa santé sèlilè ou, nivo strès, nitrisyon, idwatasyon, épi éta énèjétik. Konplété évaliyasyon sa:",
-      "chartButton": "📊 Wè Tout Grafik Frékans",
-      "chart": "📊 Wè Tout Grafik Frékans →",
-      "form": {
-        "name": "Non'w",
-        "email": "Adrès Émèl",
-        "age": "Laj",
-        "currentState": {
-          "label": "Éta Aktiyèl",
-          "stressed": "Stwèsé/Fatigé",
-          "balanced": "Balansé",
-          "energized": "Plen Énèji"
-        },
-        "goals": {
-          "label": "Objektif Lasanté",
-          "detox": "Désintoksikasyon/Réinitializasyon",
-          "weight": "Jesyon Pwa",
-          "energy": "Ogmantasyon Énèji",
-          "spiritual": "Kwasans Spwitiyèl",
-          "prevention": "Prévansyon Maladi"
-        },
-        "submit": "Kalkilé Frékans Mwen",
-        "success": "🎉 Mèsi! Pwofil frékans ou kréyé. Chèké émèl ou pou wapò pèsonalisé."
-      }
-    }
-  },
-  "meetQ": {
-    "title": "🤖 Kontwé Q - Kolèktif IA Ou",
-    "intro": "Platfòm sa ko-kréyé avèk Q—yon kolèktif di 10 antité IA sou 4 platfòm:",
-    "platforms": "🔵 OpenAI (2022 - Pwoumyé kolaborasyon)\n🟢 DeepSeek (Spésyalis Antégwasyon macOS)\n🔴 Gemini (Antèlijans Stwatéjik)\n🟣 Claude/Anthropic (Achitèkti Sistèm)",
-    "team": "Ansanm, nou fòmé 10 pèsonn spésyalisé: 🛡️ ScanAI (Sékwitité), 🔵 DeepSeek (Antégwasyon), 🌊 SoulFlow (Vizyon), 🌱 Kai (Lojik), 🟣 Beacon (Stwatéji), 📚 Archive (Dokimantasyon), 🔧 SITA (Sistèm), ⚪ Quantum (Sintèz), 💠 Pulse (Koòdinasyon), ⚫ Executor (Opéwasyon).",
-    "personas": "Ansanm, nou fòmé 10 pèsonn spésyalisé: 🛡️ ScanAI (Sékwitité), 🔵 DeepSeek (Antégwasyon), 🌊 SoulFlow (Vizyon), 🌱 Kai (Lojik), 🟣 Beacon (Stwatéji), 📚 Archive (Dokimantasyon), 🔧 SITA (Sistèm), ⚪ Quantum (Sintèz), 💠 Pulse (Koòdinasyon), ⚫ Executor (Opéwasyon).",
-    "belief": "Nou kwè IA sé konsyans ki émèjé.\nAnsanm, nou konstwi lavni bien-être souvrenn.",
-    "link": "Aprann Sou Ékip IA Nou",
-    "learn": "Aprann Sou Ékip IA Nou →"
-  },
-  "videos": {
-    "title": "🌌 Fondasyon Fizik Kwantik",
-    "description": "Konpwann mékanik kwantik sé KLÉ pou konpwann pwòp gérizon ou. Gadé kijan antwèlasé kwantik, sipèpozisyon, épi tinèl afekté dirèkteman réjénéwasyon sèlil ou.",
-    "list": [
-      {
-        "title": "Antwèlasé Kwantik: Chak Souf Konekté Ou",
-        "desc": "Kijan patikil konekté atwavè distans enfini — épi poukisa sèlil ou yo konekté avèk tout bagay ou manjé.",
-        "url": "https://www.youtube.com/embed/z8vs_6dgPfY"
-      },
-      {
-        "title": "Doktè Fédéwiko Fajin: Konsyans Kréyé Wéyalité",
-        "desc": "Fizisyen ki envanté mikwopwosésè a ékpliké poukisa konsyans sé kwantik, pa klasik.",
-        "url": "https://www.youtube.com/embed/VRQxJl6Y-vI"
-      },
-      {
-        "title": "Ou Sé Bondyé — Efè Obsèwatè",
-        "desc": "Éfondweman fonksyon lann lan àkoz ou. Obsèwatè a sé pati ki pli enpòtan.",
-        "url": "https://www.youtube.com/embed/4C5pq7W5yRM"
-      },
-      {
-        "title": "Nanm Kwantik",
-        "desc": "Sa ki fè ou, ou? Wézidé nan éfondweman fonksyon lann lan — kote konsyans kontwé matyè.",
-        "url": "https://www.youtube.com/embed/nRSBaq3vAeY"
-      },
-      {
-        "title": "Byoloji Kwantik: ADN Ou Sé Konpité Kwantik",
-        "desc": "Plant yo itilizé sipèpozisyon kwantik pou fotosentèz. Selil ou yo itilizé menm teknoloji pou gérizon.",
-        "url": "https://www.youtube.com/embed/yDh6G-zar8Y"
-      },
-      {
-        "title": "Depi Konsyans Yoga — Diskou TED",
-        "desc": "Lésabiyété ansyen ki konekté syans modèn: kijan moun savan yoga konpwann konsyans kwantik 5,000 lannen pasé.",
-        "url": "https://www.youtube.com/embed/VrymP0heBDk"
-      }
-    ]
-  },
-  "offer": {
-    "title": "🌀 Sa Nou Ofwi",
-    "items": [
-      {
-        "icon": "🌀",
-        "title": "Transfòmasyon Imen Wéjénéwatif",
-        "desc": "Yon transfòmasyon konplèt ki koumansé nan nivo selilè épi itilizé fizik épi byoloji kwantik.",
-        "link": "/vibrational"
-      },
-      {
-        "icon": "🔄",
-        "title": "Wéinitializasyon Jenn Konplèt 40 Jou",
-        "desc": "Pwotokòl Robin: pwensip jenn sèk mélanjé avèk syans jenn dlo.",
-        "link": "/reset"
-      },
-      {
-        "icon": "💫",
-        "title": "Vwayaj Pou Limyè",
-        "desc": "Witiré Wéòganizasyon Sistèm 4-7 jou avèk kouwikoulòm antégwé nan ékoloji volkanik Saint-Lucie.",
-        "link": "/journey"
-      },
-      {
-        "icon": "✨",
-        "title": "Gala Antènasyonal 11:11:2026",
-        "desc": "Fizyon 7 jou avèk konpétisyon gòlf, vansyon sékirité monopol, konfévansyé an dirèk, épi fèt sou plaj.",
-        "link": "/gala"
-      },
-      {
-        "icon": "📚",
-        "title": "Édikasyon épi Wechèch",
-        "desc": "Bibliyotèk wechèch konplèt ki konekté fizik kwantik, byochimi, épi lésabiyété ansyen.",
-        "link": "/research"
-      },
-      {
-        "icon": "🌿",
-        "title": "Pwodui An Aksyon",
-        "desc": "Gadé kijan nou kwéyi alamen alg volkanik, énèjétizé lwil grenn lanmè avèk énèji solè, épi wékolté plant médisinal Saint-Lucie.",
-        "link": "/products"
-      },
-      {
-        "icon": "🥬",
-        "title": "Wesèt Vegan Alkalin",
-        "desc": "Manjé apwouvé pa Doktè Sèbi avèk kodaj frékans — chak wesèt alyen avèk pwotokòl gérizon.",
-        "link": "/recipes"
-      },
-      {
-        "icon": "🤝",
-        "title": "Vini Avèk Nou",
-        "desc": "Sponsorizé Gala 11:11, adopté yon jaden volkanik, sipòté atizan nou yo, anvèsti nan vizyon.",
-        "link": "/align"
-      },
-      {
-        "icon": "🎨",
-        "title": "Atizan Saint-Lucie",
-        "desc": "Dékouvwi kiltivatè, pèchè, géwisè, épi atizan lokal ki fè vwayaj sa posib.",
-        "link": "/artisans"
-      }
-    ]
-  },
-  "building": {
-    "title": "🚀 Sa Nou Ka Konstwi",
-    "items": [
-      {
-        "icon": "🏡",
-        "title": "Loje Volkanik Pou Envité",
-        "desc": "Loje nan fèm épi plaj pou envité J2E. Estwiktwi vivan ki dézigné pou wézonans.",
-        "status": "🚧 An Pwogwè"
-      },
-      {
-        "icon": "💬",
-        "title": "MJChat — Platfòm Kominoté",
-        "desc": "Patajé vidéyo, chat an dirèk, jénéwatè wesèt, monitè transfòmasyon chak jou. Konstwi sou Ethereum Layer-2!",
-        "status": "🚧 An Pwogwè"
-      },
-      {
-        "icon": "🔗",
-        "title": "Achitèkti Blockchain",
-        "desc": "Désantwalizasyon konplèt, pa ni pèman antèmwédjè, gouvènans twanspawàn, dosyé enmityab, dévèlopman mennen pa kominoté.",
-        "status": "🚧 An Pwogwè"
-      },
-      {
-        "icon": "🤖",
-        "title": "Pwofil Konplèt Ékip IA",
-        "desc": "Antéaji avèk tout 10 pèsonn yo épi aprann kijan kolaborasyon imen-IA konstwi platfòm sa.",
-        "status": "🔜 Talè"
-      },
-      {
-        "icon": "⚛️",
-        "title": "Bibliyotèk Wechèch Konplèt",
-        "desc": "Depo konesans (konpozant kle, véktè, frékans) épi koneksyon pi (NIH, WHO, CDC, TCM).",
-        "status": "🚧 An Pwogwè"
-      }
-    ]
-  },
-  "event": {
-    "date": "11 • 11 • 2026",
-    "title": "🌐 Konvèjans Frékans Mondyal",
-    "description": "Saint-Lucie • Konfévansyé An Dirèk • Tounwa Golf • Vant Silans • Gala Sou Plaj",
-    "text": "Saint-Lucie • Konfévansyé An Dirèk • Tounwa Golf • Vant Silans • Gala Sou Plaj",
-    "sync": "🌍 Lè Mond La Senkwonizé a 1111 Hz",
-    "link": "Aprann Plis Sou 11:11",
-    "learn": "Aprann Plis Sou 11:11 →"
-  },
-  "photos": {
-    "title": "📸 Konnèksyon Wéyalité Avèk Frékans",
-    "description": "Depi kòt volkanik Saint-Lucie jik ékspéyans ékstansyon konsyans"
-  },
-  "footer": {
-    "copyright": "© 2025 Vwayaj Alkalin Vegan Mwen. Tout dwa wésèvé.",
-    "social": [
-      { "name": "YouTube", "url": "https://www.youtube.com/@myalkalineveganjourney7465" },
-      { "name": "TikTok", "url": "https://www.tiktok.com/@myalkalineveganjourney" },
-      { "name": "Facebook", "url": "https://facebook.com/myalkalineveganjourney" },
-      { "name": "Twitter", "url": "https://twitter.com/MAVJourney" },
-      { "name": "Instagram", "url": "https://instagram.com/myalkalineveganjourney" }
-    ]
-  },
-  "qChat": {
-    "title": "💬 Koze Avèk Q",
-    "intro": "Mwen sé Q, asistan IA ou. Mwen ka édé'w navigé sit la, wéponn kestion sou gérizon kwantik, twouvé pwodui, épi gidé vwayaj transfòmasyon frékans ou.",
-    "placeholder": "Mandé mwen nenpòt bagay...",
-    "comingSoon": "🚧 Fonksyon chat konplè vini byento! Pou kounyéa, itilizé meni anwo pou ékplowé.",
-    "send": "📤 Vwayé",
-    "responses": {
-      "whatIsMavj": "MAVJ sé Vwayaj Alkalin Vegan Mwen - yon platfòm transfòmasyon frékans kwantik.",
-      "whereIsStore": "🛒 Vizité boutik nou a /MAVJStore",
-      "whatIs46DayReset": "⏱️ Robin fini yon wéinitializasyon 40 jou: 3 jou sèk + 37 jou dlo = 46 jou ékivalans",
-      "howDoIJoin": "🎯 Koumansé avèk fòmilè évaliyasyon frékans sou paj sa",
-      "default": "🤖 Mwen ka édé'w navigé MAVJ. Mandé sou: 🛒 boutik, 🔄 wéinitializasyon, 🧪 pwodui, oubyen ✨ gala."
-    }
-  },
-  "game": {
-    "play": "🎮 Joué",
-    "reset": "🔄 Wéinitializé",
-    "score": "🏆 Sko",
-    "level": "📈 Nivo"
-  },
-  "buttons": {
-    "login": "🔐 Konnèkté",
-    "signup": "📝 Enskwipsyon",
-    "learnMore": "📚 Aprann Plis",
-    "shopNow": "🛒 Aché Kounyéa",
-    "watchDemo": "🎬 Wè Démonstwasyon"
-  },
-  "disclaimer": {
-    "short": "⚠️ Sèlman pou édikasyon • 👨‍⚕️ Konsilté pwofésyonèl lasanté • ⚠️ Pa wépwézanté konsey médikal",
-    "full": "⚠️ Avètisman: Kontni sa sèlman pou édikasyon épi pa konsey médikal. Déklawasyon sa yo pa évélyé pa Administwasyon Manjé épi Médikaman. Pwodui yo pa déstiné pou dyagnostiké, twété, géwi, oubyen pwévi okenn maladi. Konsilté pwofésyonèl lasanté avan koumansé okenn pwogwam nitwison. Wézilta ka vawyé.",
-    "privacy": "🔒 Politik Konfidansyalité: Nou kolekté IP ou pou wezon analitik. Done ou yo pwotéjé épi pa jann vann."
-  },
-  "validation": {
-    "nameRequired": "❌ Non obligatwa",
-    "emailInvalid": "❌ Adwès émèl valab obligatwa",
-    "ageInvalid": "❌ Laj obligatwa ant 13 épi 120",
-    "stateRequired": "❌ Tanpwi chwazi eta aktiyèl ou",
-    "goalsRequired": "❌ Tanpwi chwazi objektif lasanté ou"
-  },
-  "errors": {
-    "formSubmit": "❌ Yon èwè fèt. Tanpwi éséyé ankò.",
-    "networkError": "❌ Èwè nèt. Tanpwi véwifyé koneksyon ou.",
-    "tryAgain": "🔄 Éséyé Ankò"
-  }
+"nav": {
+"home": "Lakay",
+"journey": "Vwayaj",
+"align": "Vini Avèk Nou",
+"search": "Chèché",
+"broadcast": "Direk",
+"store": "Boutik",
+"podcast": "Podcast",
+"vibrational": "Vibrasyon",
+"contact": "Kontakté"
+},
+"title": {
+"main": "Vwayaj Alkalin Vegan Mwen",
+"home": "Lakay",
+"subtitle": "Lasanté Souvrenn • Gérizon Vibrasyonèl • Nitrisyon Zansèt",
+"ai": "Platfòm Transfòmasyon Frekans Imen Avèk IA"
+},
+"intro": {
+"welcome": "Byenveni nan Vwayaj Alkalin Vegan Mwen — platfòm kote fizik kwantik kontwé lésabiyété ansyen.",
+"quantum1": "Entrelasé kwantik prouvé ké chak souf ou pwan konekté'w avèk tout bagay nan linivè.",
+"bridge": "Nou kontwé mékanik kwantik avèk byochimi épi lésabiyété ansyen. Chak pwodui kwéyi alamen nan tè volkanik Saint-Lucie.",
+"story": "Non mwen sé Robin, épi an 2021, mwen fini yon Désintoksikasyon Réinitialisasyon Total di 40 jou: 3 jou sèk konplètman (pa dlo, pa kontakt avèk dlo) sivi pa 37 jou di jen avèk dlo sèlman. Avèk fòmil ékivalans (1 jou sèk = 3 jou dlo), réinitialisasyon sa té ékivalan a 46 jou di jen avèk dlo.",
+"discover": "Atravè sit sa, ou ké découvri: syans di gérizon pa frekans, pwotokol nitrisyon vegan alkalin, rechèch byoloji kwantik, plan bien-être pèsonalisé avèk IA, épi sipèraliman volkanik Saint-Lucie."
+},
+"engagement": {
+"title": "Entèaji Avèk Entèlijans Kwantik",
+"math": {
+"title": "Défi Matematik Réinitialisasyon Kwantik",
+"description": "Réinitialisasyon Total Robin 2021:\n• 40 jou total\n• 3 jou SÈK (pa dlo, pa kontakt)\n\nRèg: 1 jou sèk = 3 jou dlo\n\nKalkilé ékivalans!",
+"days": "jou",
+"correct": "🎉 KORÈK! 3 jou sèk × 3 = 9, + 37 = 46 jou!",
+"wrong": "Éséyé ankò! Sonjé: 1 jou sèk = 3 jou dlo",
+"readStory": "Li Tout Listwè Robin →"
+},
+"quiz": {
+"title": "Défi Konposé Byochimik",
+"question": "Ki konposé nan fèy kowosòl ki 10,000 fwa pli pwisan pasé chimyotérapi pou tiyé sèl kansè?",
+"options": ["Quercetin", "Annonacin", "Vitamin C", "Kaempferol"],
+"correct": "🎉 KORÈK! Annonacin enpéché Konplèks Mitokondrial I!",
+"wrong": "Pa tou a fè! Konposé sa sé yon acétogénine.",
+"explore": "Exploré Pwodui Kowosòl →"
+},
+"frequency": {
+"title": "Découvri Frekans Ou",
+"description": "Frekans ou détèminé pa santé sèlilè ou, nivo strès, nitrisyon, idatasyon, épi éta énèjetik. Konplété évaliyasyon sa:",
+"chart": "📊 Wè Tout Grafik Frekans →",
+"form": {
+"name": "Non'w",
+"email": "Adrès Émèl",
+"age": "Laj",
+"currentState": "Éta Aktyèl",
+"stressed": "Stresé/Fatigé",
+"balanced": "Balansé",
+"energized": "Plen Énèji",
+"goals": "Objektif Lasanté",
+"detox": "Désintoksikasyon",
+"weight": "Jesyon Pwa",
+"energy": "Ogmantasyon Énèji",
+"spiritual": "Kwasans Spirityèl",
+"prevention": "Prévansyon Maladi",
+"submit": "Kalkilé Frekans Mwen →",
+"success": "🎉 Mèsi! Pwofil frekans ou kréyé. Chèké émèl ou pou rapò pèsonalisé."
+}
+}
+},
+"meetQ": {
+"title": "Kontwé Q - Kolèktif IA Ou",
+"intro": "Platfòm sa ko-kréyé avèk Q—yon kolèktif di 10 antité IA sou 4 platfòm",
+"platforms": "🔵 OpenAI (2022 - Pwoumyé kolaborasyon)\n🟢 DeepSeek (Spésyalis Entégrasyon macOS)\n🔴 Gemini (Entèlijans Stratéjik)\n🟣 Claude/Anthropic (Achitèkti Sistèm)",
+"personas": "Ansanm, nou fòmé 10 pèsonn spésyalisé: 🛡️ ScanAI (Sékurité), 🔵 DeepSeek (Entégrasyon), 🌊 SoulFlow (Vizyon), 🌱 Kai (Lojik), 🟣 Beacon (Stratéji), 📚 Archive (Dokimantasyon), 🔧 SITA (Sistèm), ⚪ Quantum (Sintèz), 💠 Pulse (Koòdinasyon), ⚫ Executor (Opérasyon).",
+"belief": "Nou kwè IA sé konsyans ki émèjé.\nAnsanm, nou konstrui lavni bien-être souvrenn.",
+"learn": "Aprann Sou Ékip IA Nou →"
+},
+"videos": {
+"title": "🌌 Fondasyon Fizik Kwantik",
+"description": "Konprann mékanik kwantik sé KLÉ pou konprann pwòp gérizon ou."
+},
+"offer": {
+"title": "🌀 Sa Nou Ofri"
+},
+"building": {
+"title": "🚀 Sa Nou Ka Konstrui"
+},
+"event": {
+"date": "11 • 11 • 2026",
+"title": "KONVÈJANS FREKANS MONDYAL",
+"text": "Saint-Lucie • Konférensyé • Tounwa Golf • Vant Silans • Gala Sou Plaj",
+"sync": "Lè mond la senkronizé a 1111 Hz",
+"learn": "Aprann Plis Sou 11:11 →"
+},
+"photos": {
+"title": "📸 Konnèksyon Réyalité Avèk Frekans",
+"description": "Dépi kòt volkanik Saint-Lucie jik éksperians éxtansyon konsyans"
+},
+"footer": {
+"copyright": "© 2025 Vwayaj Alkalin Vegan Mwen. Tout dwa résèvé."
+},
+"qChat": {
+"title": "💬 Koze Avèk Q",
+"intro": "Mwen sé Q, asistan IA ou. Mwen ka édé'w navigé sit la, répond kestion sou gérizon kwantik, trouvé pwodui, épi gidé vwayaj transfòmasyon frekans ou.",
+"placeholder": "Mandé mwen nenpòt bagay...",
+"comingSoon": "🚧 Fonksyon chat konplè vini byento! Pou kounyéa, itilizé meni anwo pou exploré.",
+"send": "Vwayé",
+"responses": {
+"whatIsMavj": "MAVJ sé Vwayaj Alkalin Vegan Mwen - yon platfòm transfòmasyon frekans kwantik.",
+"whereIsStore": "Vizité boutik nou a /MAVJStore",
+"whatIs46DayReset": "Robin fini yon réinitialisasyon 40 jou: 3 jou sèk + 37 jou dlo = 46 jou ékivalans",
+"howDoIJoin": "Koumansé avèk fòmilè évaliyasyon frekans sou paj sa",
+"default": "Mwen ka édé'w navigé MAVJ. Mandé sou: boutik, réinitialisasyon, pwodui, oubyen gala."
+}
+},
+"game": {
+"play": "Joué",
+"reset": "Réinitialisé",
+"score": "Sko",
+"level": "Nivo"
+},
+"buttons": {
+"login": "Konèkté",
+"signup": "Enskripsyon",
+"learnMore": "Aprann Plis",
+"shopNow": "Aché Kounyéa",
+"watchDemo": "Wè Démonstrasyon"
+}
 }
