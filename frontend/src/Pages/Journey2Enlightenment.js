@@ -1,244 +1,427 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/PageLayout';
-import '../styles/info.css';
 import { useNavigate } from 'react-router-dom';
 
 const Journey2Enlightenment = () => {
   const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const sections = [
-    { 
-      title: 'Quantum Protocol', 
-      path: '/vibrational-intelligence/j2e-protocol', 
-      desc: 'Fasting, frequency & consciousness expansion system',
-      icon: '🌌',
-      color: '#9C27B0'
+  // EXPERIENCES WITH STORE LINKS
+  const experiences = [
+    {
+      id: 'convergence',
+      title: '✨ 11:11 GLOBAL CONVERGENCE',
+      path: '/MAVJStore?category=convergence',
+      image: '/images/BeachDinner.png',
+      description: 'November 11, 2026 • Golf Tournament • Gala • Global Flash Mob',
+      longDesc: 'The signature event of the year. Join us for a 5-day immersive experience including golf at Cap Estate, an elegant gala, and a synchronized global flash mob.',
+      price: '$3,200',
+      color: '#FFD700',
+      features: ['Golf Tournament', 'Gala Dinner', 'Flash Mob', 'Workshops'],
+      storeLink: '/MAVJStore?category=convergence'
     },
-    { 
-      title: 'St. Lucian Quantum Reset', 
-      path: '/journey-to-enlightenment-Consiousness Convergence', 
-      desc: '11/11 annual gathering in St. Lucia - Accommodations & experiences',
-      icon: '🏝️',
-      color: '#4CAF50'
+    {
+      id: 'accommodations',
+      title: '🏕️ FREQUENCY PODS',
+      path: '/MAVJStore?category=accommodations',
+      image: '/images/J2EPod.jpeg',
+      description: 'Stay in our frequency-aligned eco-pods',
+      longDesc: 'Sleep in structures tuned to optimal healing frequencies. Each pod is designed with sacred geometry principles.',
+      price: '$350/night',
+      color: '#2196F3',
+      features: ['Private Pod', 'Solar Powered', 'Frequency Tuned', 'Eco-Friendly'],
+      storeLink: '/MAVJStore?category=accommodations'
     },
-    { 
-      title: 'Accommodations', 
-      path: '/journey-2-enlightenment-accommodations', 
-      desc: 'Frequency-aligned pods & transformational living spaces',
-      icon: '🏕️',
-      color: '#2196F3'
+    {
+      id: 'excursions',
+      title: '🚣 ST. LUCIAN ADVENTURES',
+      path: '/MAVJStore?category=excursions',
+      image: '/images/diving.jpeg',
+      description: 'Island explorations & sacred site visits',
+      longDesc: 'Dive into crystal waters, hike volcanic peaks, and visit sacred indigenous sites.',
+      price: '$150',
+      color: '#FF9800',
+      features: ['Snorkeling', 'Hiking', 'Sacred Sites', 'Local Guides'],
+      storeLink: '/MAVJStore?category=excursions'
     },
-    { 
-      title: 'Excursions', 
-      path: '/excursions', 
-      desc: 'Island Explorations and Adventures with Natural Quantum Experiences',
-      icon: '🚣',
-      color: '#FF9800'
+    {
+      id: 'agro',
+      title: '🌿 FARM EXPERIENCE',
+      path: '/MAVJStore?category=agro',
+      image: '/images/FarmTour.jpeg',
+      description: 'Tour our Zimbabwe Farm & herbal gardens',
+      longDesc: 'Walk through our alkaline vegan farm. Learn about herbal frequency medicine directly from our farmers.',
+      price: '$85',
+      color: '#4CAF50',
+      features: ['Farm Tour', 'Herbal Workshop', 'Tasting', 'Seeds'],
+      storeLink: '/MAVJStore?category=agro'
     },
-    { 
-      title: 'Agro Experience', 
-      path: '/j2e-agro', 
-      desc: 'Our farm and herbal frequency education',
-      icon: '🌿',
-      color: '#4CAF50'
+    {
+      id: 'aqua',
+      title: '🌊 AQUATIC MISSIONS',
+      path: '/MAVJStore?category=aqua',
+      image: '/images/KsScubaDiveSL.jpeg',
+      description: 'Sea moss diving & coral regeneration',
+      longDesc: 'Join our dive team to harvest volcanic sea moss and participate in coral restoration.',
+      price: '$200',
+      color: '#00BCD4',
+      features: ['Scuba Gear', 'Sea Moss Harvest', 'Coral Planting', 'Certified Dive Master'],
+      storeLink: '/MAVJStore?category=aqua'
     },
-    { 
-      title: 'Aquatic Missions', 
-      path: '/j2e-aqua', 
-      desc: 'Sea moss diving & coral quantum regeneration',
-      icon: '🌊',
-      color: '#2196F3'
+    {
+      id: 'workshops',
+      title: '🧘 QUANTUM WORKSHOPS',
+      path: '/MAVJStore?category=workshops',
+      image: '/images/RecipesBanner.png',
+      description: 'Frequency healing & consciousness expansion',
+      longDesc: 'Daily workshops on quantum biology, sound healing, and frequency recalibration.',
+      price: '$95',
+      color: '#9C27B0',
+      features: ['Daily Sessions', 'Expert Led', 'Materials Included', 'Certificate'],
+      storeLink: '/MAVJStore?category=workshops'
     },
-    { 
-      title: 'Workshops & Lectures', 
-      path: '/j2e-workshops', 
-      desc: 'Quantum talks, healing circles, and frequency training',
-      icon: '🧘',
-      color: '#9C27B0'
+    {
+      id: 'food',
+      title: '🍃 SACRED NOURISHMENT',
+      path: '/MAVJStore?category=food',
+      image: '/images/KingOysterSalad.jpg',
+      description: 'Farm-to-table alkaline cuisine',
+      longDesc: 'Experience gourmet alkaline vegan meals prepared with ingredients harvested that morning.',
+      price: '$65',
+      color: '#FF5722',
+      features: ['3 Meals Daily', 'Chef-Led Classes', 'Recipe Cards', 'Nutrition Guide'],
+      storeLink: '/MAVJStore?category=food'
     },
-    { 
-      title: 'Sacred Nourishment', 
-      path: '/j2e-food', 
-      desc: 'Farm-to-table dining & local quantum nutrition',
-      icon: '🍃',
-      color: '#FF9800'
-    },
+    {
+      id: 'protocol',
+      title: '⚡ QUANTUM PROTOCOL',
+      path: '/MAVJStore?category=protocol',
+      image: '/images/AlkalineSmoothies.jpg',
+      description: '90-day personal transformation system',
+      longDesc: 'Complete reset protocol with detox, sound therapy, and daily frequency tracking.',
+      price: '$250',
+      color: '#673AB7',
+      features: ['Detox Guide', 'Sound Library', 'Tracking App', 'Support Group'],
+      storeLink: '/MAVJStore?category=protocol'
+    }
   ];
+
+  const featuredExperiences = experiences.filter(e => 
+    selectedCategory === 'all' ? true : e.id === selectedCategory
+  );
+
+  const handleBookNow = (storePath) => {
+    navigate(storePath);
+  };
 
   return (
     <Layout pageTitle="JOURNEY 2 ENLIGHTENMENT">
-      <div className="info-page-container">
-        {/* QUANTUM HEADER */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-600">
-              🌴 Journey 2 Enlightenment
-            </span>
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            A dual-path quantum system: <strong className="text-yellow-400">Protocol</strong> for personal transformation × <strong className="text-green-400">Convergence</strong> for collective experience
-          </p>
-          
-          {/* QUANTUM INTRO */}
-          <div className="multicolor-border max-w-4xl mx-auto mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-yellow-400">🌟 Dual-Path Quantum System</h2>
-            <p className="text-gray-300 mb-4">
-              J2E operates on two quantum levels: the <strong>Protocol</strong> (personal frequency work) and the <strong>Convergence</strong> (collective experience). 
-              Together they create a complete system for consciousness evolution.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-              <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-purple-400 mb-3">🌌 Quantum Protocol</h3>
-                <p className="text-gray-300">
-                  Your personal 90-day journey through 4 frequency stages (285Hz → 852Hz). 
-                  Includes reset detoxification, sound therapy, and consciousness expansion practices.
-                </p>
-              </div>
-              <div className="bg-gradient-to-br from-green-900/30 to-teal-900/30 p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-green-400 mb-3">🏝️ St. Lucia Retreat</h3>
-                <p className="text-gray-300">
-                  Annual 11/11 gathering where protocol becomes lived experience. 
-                  Includes accommodations, excursions, workshops, and local community resonance.
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* HERO SECTION WITH FULL BACKGROUND IMAGE */}
+      <div style={{
+        backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/images/BeachDinner.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '600px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        marginBottom: '40px',
+        position: 'relative'
+      }}>
+        <h1 style={{
+          fontSize: 'clamp(2.5rem, 8vw, 5rem)',
+          color: '#FFD700',
+          textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+          marginBottom: '20px',
+          fontWeight: '900'
+        }}>
+          JOURNEY 2 ENLIGHTENMENT
+        </h1>
+        <p style={{
+          fontSize: 'clamp(1.2rem, 3vw, 2rem)',
+          color: 'white',
+          maxWidth: '800px',
+          margin: '0 20px 30px',
+          textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
+        }}>
+          Your Quantum Transformation Awaits in St. Lucia
+        </p>
+        <button
+          onClick={() => handleBookNow('/MAVJStore?category=convergence')}
+          style={{
+            padding: '15px 50px',
+            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+            border: 'none',
+            borderRadius: '50px',
+            fontSize: '1.3rem',
+            fontWeight: 'bold',
+            color: '#000',
+            cursor: 'pointer',
+            boxShadow: '0 4px 15px rgba(255,215,0,0.3)'
+          }}
+        >
+          BOOK THE CONVERGENCE →
+        </button>
+      </div>
+
+      {/* QUICK STATS */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gap: '20px',
+        maxWidth: '1200px',
+        margin: '0 auto 50px',
+        padding: '0 20px'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '2rem', color: '#FFD700' }}>🌴</div>
+          <h3 style={{ color: '#FFD700' }}>8 Unique Experiences</h3>
         </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '2rem', color: '#FFD700' }}>🏝️</div>
+          <h3 style={{ color: '#FFD700' }}>St. Lucia Location</h3>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '2rem', color: '#FFD700' }}>⚡</div>
+          <h3 style={{ color: '#FFD700' }}>Frequency-Focused</h3>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '2rem', color: '#FFD700' }}>🎯</div>
+          <h3 style={{ color: '#FFD700' }}>Book Direct</h3>
+        </div>
+      </div>
 
-        {/* QUANTUM PATH SELECTION */}
-        <section className="max-w-5xl mx-auto mb-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-yellow-400">
-            Choose Your Quantum Path
+      {/* CATEGORY FILTER */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '10px',
+        flexWrap: 'wrap',
+        marginBottom: '40px'
+      }}>
+        <button
+          onClick={() => setSelectedCategory('all')}
+          style={{
+            padding: '10px 20px',
+            background: selectedCategory === 'all' ? '#FFD700' : 'transparent',
+            border: '2px solid #FFD700',
+            borderRadius: '30px',
+            color: selectedCategory === 'all' ? '#000' : '#FFD700',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+          }}
+        >
+          ALL EXPERIENCES
+        </button>
+        {experiences.map(exp => (
+          <button
+            key={exp.id}
+            onClick={() => setSelectedCategory(exp.id)}
+            style={{
+              padding: '10px 20px',
+              background: selectedCategory === exp.id ? exp.color : 'transparent',
+              border: `2px solid ${exp.color}`,
+              borderRadius: '30px',
+              color: selectedCategory === exp.id ? '#000' : exp.color,
+              cursor: 'pointer',
+              fontWeight: 'bold'
+            }}
+          >
+            {exp.title.split(' ')[1]}
+          </button>
+        ))}
+      </div>
+
+      {/* FEATURED EXPERIENCE (if one selected) */}
+      {selectedCategory !== 'all' && (
+        <div style={{
+          maxWidth: '1000px',
+          margin: '0 auto 40px',
+          background: 'rgba(0,0,0,0.7)',
+          borderRadius: '15px',
+          padding: '30px',
+          border: `2px solid ${experiences.find(e => e.id === selectedCategory)?.color}`
+        }}>
+          <h2 style={{ color: '#FFD700', fontSize: '2rem', marginBottom: '20px' }}>
+            {experiences.find(e => e.id === selectedCategory)?.title}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* PROTOCOL PATH */}
-            <div 
-              className="info-box rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:scale-105"
-              style={{
-                background: 'linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(0, 0, 0, 0.7))',
-                border: '2px solid rgba(156, 39, 176, 0.3)'
-              }}
-              onClick={() => navigate('/vibrational-intelligence/j2e-protocol')}
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="text-4xl">🌌</div>
-                <div>
-                  <h3 className="text-2xl font-bold text-purple-400">Quantum Protocol</h3>
-                  <p className="text-gray-400">Personal Transformation System</p>
-                </div>
-              </div>
-              <p className="text-gray-300 mb-6">
-                90-day journey through 4 frequency stages. Includes reset detox guide, sound therapy library, 
-                quantum metrics tracker, and MAVJ Family support.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {['285Hz Reset', '528Hz Alignment', '741Hz Expansion', '852Hz Unity'].map((stage, i) => (
-                  <span key={i} className="px-3 py-1 bg-purple-900/50 text-purple-300 rounded-full text-sm">
-                    {stage}
-                  </span>
-                ))}
-              </div>
-              <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl">
-                Begin Quantum Journey →
-              </button>
-            </div>
+          <p style={{ color: 'white', fontSize: '1.1rem', marginBottom: '20px' }}>
+            {experiences.find(e => e.id === selectedCategory)?.longDesc}
+          </p>
+          <button
+            onClick={() => handleBookNow(experiences.find(e => e.id === selectedCategory)?.storeLink)}
+            style={{
+              padding: '12px 30px',
+              background: `linear-gradient(135deg, ${experiences.find(e => e.id === selectedCategory)?.color}, #FFA500)`,
+              border: 'none',
+              borderRadius: '30px',
+              fontSize: '1.1rem',
+              fontWeight: 'bold',
+              color: '#000',
+              cursor: 'pointer'
+            }}
+          >
+            BOOK NOW — {experiences.find(e => e.id === selectedCategory)?.price}
+          </button>
+        </div>
+      )}
 
-            {/* Resonance PATH */}
-            <div 
-              className="info-box rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:scale-105"
-              style={{
-                background: 'linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(0, 0, 0, 0.7))',
-                border: '2px solid rgba(76, 175, 80, 0.3)'
-              }}
-              onClick={() => navigate('/journey-to-enlightenment-accommodations')}
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="text-4xl">🏝️</div>
-                <div>
-                  <h3 className="text-2xl font-bold text-green-400">St. Lucia Retreat</h3>
-                  <p className="text-gray-400">Collective Experience</p>
-                </div>
-              </div>
-              <p className="text-gray-300 mb-6">
-                Annual 11/11 gathering in St. Lucia. Includes frequency-aligned accommodations, 
-                oceanic missions, workshops, and local community resonance experiences.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {['Resonance Pods', 'Ocean Excursions', 'Farm Workshops', 'Sea Moss Diving'].map((feature, i) => (
-                  <span key={i} className="px-3 py-1 bg-green-900/50 text-green-300 rounded-full text-sm">
+      {/* EXPERIENCES GRID */}
+      <h2 style={{
+        color: '#FFD700',
+        fontSize: '2.5rem',
+        textAlign: 'center',
+        margin: '40px 0'
+      }}>
+        {selectedCategory === 'all' ? 'ALL J2E EXPERIENCES' : 'SIMILAR EXPERIENCES'}
+      </h2>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: '30px',
+        padding: '20px',
+        maxWidth: '1400px',
+        margin: '0 auto'
+      }}>
+        {featuredExperiences.map((exp, index) => (
+          <div
+            key={index}
+            style={{
+              backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url(${exp.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              borderRadius: '15px',
+              padding: '25px 20px',
+              border: `2px solid ${exp.color}`,
+              transition: 'transform 0.3s',
+              minHeight: '350px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <div>
+              <h3 style={{ color: exp.color, fontSize: '1.8rem', marginBottom: '10px' }}>
+                {exp.title}
+              </h3>
+              <p style={{ color: 'white', marginBottom: '15px' }}>{exp.description}</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '15px' }}>
+                {exp.features.map((feature, i) => (
+                  <span key={i} style={{
+                    padding: '3px 8px',
+                    background: 'rgba(255,255,255,0.1)',
+                    borderRadius: '12px',
+                    fontSize: '0.7rem',
+                    color: exp.color
+                  }}>
                     {feature}
                   </span>
                 ))}
               </div>
-              <button className="w-full py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold rounded-xl">
-                Explore Frequency Transformation Experience →
-              </button>
             </div>
-          </div>
-        </section>
-
-        {/* ALL SECTIONS GRID */}
-        <section className="max-w-6xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-yellow-400">
-            Complete J2E Ecosystem
-          </h2>
-          <div className="info-grid">
-            {sections.map((sec, i) => (
-              <div 
-                key={i} 
-                className="info-box rounded-xl p-6 cursor-pointer transition-all duration-300 hover:scale-105"
-                onClick={() => navigate(sec.path)}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: '#FFD700', fontSize: '1.3rem', fontWeight: 'bold' }}>
+                {exp.price}
+              </span>
+              <button
+                onClick={() => handleBookNow(exp.storeLink)}
                 style={{
-                  background: `linear-gradient(135deg, ${sec.color}15, rgba(0,0,0,0.7))`,
-                  border: `2px solid ${sec.color}40`
+                  padding: '8px 20px',
+                  background: `linear-gradient(135deg, ${exp.color}, #FFA500)`,
+                  border: 'none',
+                  borderRadius: '25px',
+                  color: '#000',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
                 }}
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="text-3xl">{sec.icon}</div>
-                  <h3 className="text-xl font-bold" style={{ color: sec.color }}>
-                    {sec.title}
-                  </h3>
-                </div>
-                <p className="text-gray-300">{sec.desc}</p>
-                <div className="mt-4 text-right">
-                  <span className="text-sm text-gray-400 hover:text-white transition-colors">
-                    Explore →
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* QUANTUM CONNECTION */}
-        <section className="max-w-4xl mx-auto mt-20 text-center">
-          <div className="multicolor-border p-8 rounded-2xl">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-yellow-400">
-              🌐 Quantum Connection Point
-            </h2>
-            <p className="text-gray-300 mb-6">
-              The Protocol prepares your frequency field. The Convergence provides the quantum container 
-              for collective resonance. Together, they create a complete system for frequency elevation and ascension.
-            </p>
-            <div className="flex flex-col md:flex-row gap-4 justify-center">
-              <button 
-                onClick={() => navigate('/vibrational-intelligence/j2e-protocol')}
-                className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:scale-105 transition-all"
-              >
-                Start Quantum Protocol
-              </button>
-              <button 
-                onClick={() => navigate('/journey-to-enlightenment-accommodations')}
-                className="px-8 py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold rounded-full hover:scale-105 transition-all"
-              >
-                Book Frequency Transformation Experience
+                Book Now →
               </button>
             </div>
           </div>
-        </section>
+        ))}
+      </div>
+
+      {/* STORE INTEGRATION BANNER */}
+      <div style={{
+        maxWidth: '1200px',
+        margin: '60px auto',
+        padding: '40px 20px',
+        background: 'linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,0,0,0.9))',
+        border: '3px solid #FFD700',
+        borderRadius: '20px',
+        textAlign: 'center'
+      }}>
+        <h2 style={{ color: '#FFD700', fontSize: '2.5rem', marginBottom: '20px' }}>
+          🛒 ALL EXPERIENCES AVAILABLE IN THE STORE
+        </h2>
+        <p style={{ color: 'white', fontSize: '1.2rem', marginBottom: '30px', maxWidth: '800px', margin: '0 auto 30px' }}>
+          Book your entire Journey2Enlightenment experience directly through our secure store.
+          Golf tournaments, accommodations, workshops — all in one place.
+        </p>
+        <button
+          onClick={() => navigate('/MAVJStore?category=j2e')}
+          style={{
+            padding: '15px 50px',
+            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+            border: 'none',
+            borderRadius: '50px',
+            fontSize: '1.3rem',
+            fontWeight: 'bold',
+            color: '#000',
+            cursor: 'pointer'
+          }}
+        >
+          VISIT J2E STORE SECTION →
+        </button>
+      </div>
+
+      {/* PHOTO GALLERY */}
+      <h2 style={{ color: '#FFD700', fontSize: '2rem', textAlign: 'center', margin: '40px 0 20px' }}>
+        St. Lucia in Pictures
+      </h2>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gap: '15px',
+        padding: '20px',
+        maxWidth: '1200px',
+        margin: '0 auto'
+      }}>
+        {[
+          '/images/BeachBar.jpeg',
+          '/images/diving.jpeg',
+          '/images/FarmTour.jpeg',
+          '/images/KsScubaDiveSL.jpeg',
+          '/images/RobinDive.jpg',
+          '/images/ResidentialTents.png',
+          '/images/SeaPods.jpeg',
+          '/images/BigTent.jpeg'
+        ].map((img, i) => (
+          <img
+            key={i}
+            src={img}
+            alt="St. Lucia"
+            style={{
+              width: '100%',
+              height: '200px',
+              objectFit: 'cover',
+              borderRadius: '10px',
+              border: '2px solid #FFD700'
+            }}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+        ))}
       </div>
     </Layout>
   );
 };
 
-export default Journey2Enlightenment; 
+export default Journey2Enlightenment;

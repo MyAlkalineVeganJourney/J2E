@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/PageLayout';
+import products from '../data/products';
+import { CartContext } from '../context/CartContext';
 
 const MAVJStore = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [showAnnouncement, setShowAnnouncement] = useState(true);
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [userInfo, setUserInfo] = useState({ name: '', email: '', youtube: false, tiktok: false });
+  const { cartItems, addToCart } = useContext(CartContext);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const categories = [
     {
@@ -131,27 +137,39 @@ const MAVJStore = () => {
     }
   ];
 
+  const featuredProducts = [
+    products.find(p => p.name.includes('21 Day Reset')),
+    products.find(p => p.name.includes('Castor Oil')),
+    products.find(p => p.name.includes('Walnut Chews')),
+    products.find(p => p.name.includes('Panadol')),
+    products.find(p => p.name.includes('Sea Moss Bomb'))
+  ].filter(Boolean);
+
   const handleSubscribeSubmit = () => {
-    // Save to family database (you'll implement backend)
     console.log('New family member:', userInfo);
     localStorage.setItem('mavj_family_member', JSON.stringify(userInfo));
     setShowSubscribeModal(false);
     setShowAnnouncement(false);
   };
 
-  const filteredCategories = searchTerm === '' 
-    ? categories 
-    : categories.filter(cat => 
-        cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cat.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cat.tagline.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cat.story.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+  const handleBuyNow = (product) => {
+    if (product.url) {
+      window.open(product.url, '_blank');
+    } else {
+      alert('Stripe link coming soon for this product!');
+    }
+  };
+
+  const handleAddToCart = (product) => {
+    const productWithId = { ...product, id: product.name };
+    addToCart(productWithId);
+    alert(`✅ ${product.name} added to cart!`);
+  };
 
   return (
     <Layout pageTitle="🛒 MAVJ STORE">
       
-      {/* STORE BREADCRUMB NAVIGATION */}
+      {/* STORE BREADCRUMB NAVIGATION WITH LARGE CART BUTTON */}
       <div style={{
         maxWidth: '1600px',
         margin: '0 auto 20px',
@@ -162,9 +180,39 @@ const MAVJStore = () => {
         fontSize: '0.9rem',
         color: '#FFD700'
       }}>
-        <Link to="/" style={{ color: '#FFD700', textDecoration: 'none' }}>🏠 Home</Link>
+        <Link to="/" onClick={() => window.scrollTo(0, 0)} style={{ color: '#FFD700', textDecoration: 'none' }}>
+          🏠 Home
+        </Link>
         <span>→</span>
-        <span style={{ color: '#FFF', fontWeight: 'bold' }}>Store</span>
+        <span style={{ color: '#FFF', fontWeight: 'bold', fontSize: '1.2rem' }}>Store Home</span>
+        
+        <Link to="/ShoppingCart" onClick={() => window.scrollTo(0, 0)} style={{
+          marginLeft: 'auto',
+          padding: '15px 30px',
+          background: 'linear-gradient(135deg, #00CED1, #0080FF)',
+          color: '#000',
+          textDecoration: 'none',
+          borderRadius: '50px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          fontSize: '1.3rem',
+          fontWeight: 'bold',
+          border: '3px solid #FFD700',
+          boxShadow: '0 5px 25px rgba(0,206,209,0.6)',
+          transition: 'all 0.3s'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.boxShadow = '0 10px 35px rgba(0,206,209,0.9)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 5px 25px rgba(0,206,209,0.6)';
+        }}>
+          <span style={{ fontSize: '2rem' }}>🛒</span>
+          <span>Cart ({cartItems.length})</span>
+        </Link>
       </div>
 
       {/* ANNOUNCEMENT BANNER WITH SUBSCRIPTION */}
@@ -223,10 +271,10 @@ const MAVJStore = () => {
               transition: 'all 0.3s'
             }}
           >
-            Subscribe & Get your Code: in VOLCANIC20
+            Subscribe & Get Code: VOLCANIC20
           </button>
           <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', fontStyle: 'italic' }}>
-            ⚡ Subscribe to YouTube & TikTok and our Home Website • Join the Family • Free shipping over $200
+            ⚡ Subscribe to YouTube & TikTok • Join the Family • Free shipping over $200
           </p>
         </div>
       )}
@@ -377,7 +425,132 @@ const MAVJStore = () => {
         </video>
       </div>
 
-      {/* HERO SECTION - NO MULTICOLOR BORDER ON IMAGE */}
+      {/* FEATURED PRODUCTS - 5 NON-SEA MOSS ITEMS */}
+      <div style={{
+        maxWidth: '1600px',
+        margin: '0 auto 60px',
+        padding: '0 20px'
+      }}>
+        <h2 style={{
+          fontSize: 'clamp(2rem, 4vw, 3rem)',
+          textAlign: 'center',
+          color: '#FFD700',
+          marginBottom: '30px'
+        }}>
+          ⚡ Featured Products
+        </h2>
+        
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '25px'
+        }}>
+          {featuredProducts.map((product, i) => product && (
+            <div key={i} style={{
+              background: 'rgba(0,0,0,0.7)',
+              borderRadius: '15px',
+              border: '3px solid #FFD700',
+              overflow: 'hidden',
+              boxShadow: '0 5px 20px rgba(255,215,0,0.4)',
+              transition: 'all 0.3s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-10px)';
+              e.currentTarget.style.boxShadow = '0 15px 40px rgba(255,215,0,0.7)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 5px 20px rgba(255,215,0,0.4)';
+            }}
+            >
+              <div style={{
+                height: '200px',
+                background: `url(${product.image}) center/cover`,
+                backgroundPosition: 'center center'
+              }}></div>
+              
+              <div style={{ padding: '20px' }}>
+                <h3 style={{
+                  color: '#FFD700',
+                  fontSize: '1.05rem',
+                  marginBottom: '10px',
+                  minHeight: '55px',
+                  lineHeight: '1.3'
+                }}>
+                  {product.name}
+                </h3>
+                
+                <p style={{
+                  color: '#DDD6B8',
+                  fontSize: '0.9rem',
+                  marginBottom: '15px',
+                  minHeight: '40px',
+                  lineHeight: '1.4'
+                }}>
+                  {product.description}
+                </p>
+
+                <div style={{
+                  fontSize: '2rem',
+                  fontWeight: 'bold',
+                  color: '#FFD700',
+                  marginBottom: '15px'
+                }}>
+                  ${product.price.toFixed(2)}
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <button
+                    onClick={() => handleBuyNow(product)}
+                    style={{
+                      flex: 1,
+                      padding: '15px',
+                      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                      border: 'none',
+                      borderRadius: '10px',
+                      color: '#000',
+                      fontSize: '1.1rem',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s'
+                    }}
+                    onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+                    onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                  >
+                    BUY NOW
+                  </button>
+                  
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    style={{
+                      padding: '15px',
+                      background: 'rgba(0,206,209,0.2)',
+                      border: '2px solid #00CED1',
+                      borderRadius: '10px',
+                      color: '#00CED1',
+                      fontSize: '1.3rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = 'rgba(0,206,209,0.4)';
+                      e.target.style.transform = 'scale(1.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = 'rgba(0,206,209,0.2)';
+                      e.target.style.transform = 'scale(1)';
+                    }}
+                  >
+                    🛒
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* HERO SECTION - MATCHING FONT/COLOR FOR BOTH LINES */}
       <div style={{
         position: 'relative',
         padding: '80px 20px',
@@ -414,15 +587,17 @@ const MAVJStore = () => {
             This is More Than a Store
           </h1>
           
-          <p style={{
-            fontSize: 'clamp(1.3rem, 3vw, 2rem)',
-            color: '#FFD700',
-            maxWidth: '900px',
-            margin: '0 auto 20px',
-            lineHeight: '1.6'
+          <h2 style={{
+            fontSize: 'clamp(2rem, 6vw, 4.5rem)',
+            background: 'linear-gradient(135deg, #FFD700, #00CED1, #FF69B4, #9400D3)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            marginBottom: '25px',
+            fontWeight: 'bold'
           }}>
             Your Roadmap from Cellular Confusion to Quantum Coherence
-          </p>
+          </h2>
           
           <p style={{
             fontSize: 'clamp(1rem, 2vw, 1.3rem)',
@@ -472,11 +647,11 @@ const MAVJStore = () => {
             { img: '/images/SpectrumSeaMossfullRaw.jpg', name: 'Spectrum Sea Moss (Raw)' },
             { img: '/images/SeaMossGelSpoon.jpg', name: 'Sea Moss Gel' },
             { img: '/images/RawSpectrumMoss.png', name: 'Raw Spectrum Moss' },
-            { img: '/images/GoldSMGel.png', name: 'Gold Sea Moss Gel' },
-            { img: '/images/VioletRawSeaMoss.jpg', name: 'Violet Raw Sea Moss' },
-            { img: '/images/JadeRawSeaMoss.jpg', name: 'Jade Raw Sea Moss' }
+            { img: '/images/GoldSMG.png', name: 'Gold Sea Moss Gel' },
+            { img: '/images/VioletRawMossHarvest.jpg', name: 'Violet Raw Sea Moss' },
+            { img: '/images/RawMossViolet.jpg', name: 'Violet Raw Moss' }
           ].map((item, i) => (
-            <Link to="/MAVJSeaMoss" key={i} style={{ textDecoration: 'none' }}>
+            <Link to="/MAVJSeaMoss" onClick={() => window.scrollTo(0, 0)} key={i} style={{ textDecoration: 'none' }}>
               <div style={{
                 borderRadius: '15px',
                 overflow: 'hidden',
@@ -486,8 +661,7 @@ const MAVJStore = () => {
                 cursor: 'pointer'
               }}
               onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              >
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
                 <img src={item.img} alt={item.name} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
                 <div style={{ padding: '15px', background: '#000', textAlign: 'center' }}>
                   <p style={{ color: '#00CED1', fontSize: '1.1rem', fontWeight: 'bold', margin: 0 }}>{item.name}</p>
@@ -497,7 +671,7 @@ const MAVJStore = () => {
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: '30px' }}>
-          <Link to="/MAVJSeaMoss" style={{
+          <Link to="/MAVJSeaMoss" onClick={() => window.scrollTo(0, 0)} style={{
             display: 'inline-block',
             padding: '15px 40px',
             background: 'linear-gradient(135deg, #00CED1, #0080FF)',
@@ -549,12 +723,12 @@ const MAVJStore = () => {
             <li>Qin et al. (2020) - <em>Marine Drugs</em>: Sulfated polysaccharides bioactivity studies</li>
           </ul>
           <p style={{ marginTop: '20px', fontStyle: 'italic', color: '#FFD700' }}>
-            Visit our <Link to="/MAVJSeaMoss" style={{ color: '#00CED1', textDecoration: 'underline' }}>Sea Moss page</Link> for complete research citations and detailed biochemical information.
+            Visit our <Link to="/MAVJSeaMoss" onClick={() => window.scrollTo(0, 0)} style={{ color: '#00CED1', textDecoration: 'underline' }}>Sea Moss page</Link> for complete research citations and detailed biochemical information.
           </p>
         </div>
       </div>
 
-      {/* THE ULTIMATE GOAL */}
+      {/* THE ULTIMATE GOAL - 777 KIT & TRANSFORMATION KITS */}
       <div style={{
         maxWidth: '1200px',
         margin: '0 auto 60px',
@@ -579,6 +753,31 @@ const MAVJStore = () => {
           Everything we offer guides you toward ONE transformational milestone: 
           the 21-day distilled water reset.
         </p>
+
+        <div style={{
+          background: 'rgba(148,0,211,0.1)',
+          padding: '30px',
+          borderRadius: '15px',
+          marginBottom: '30px',
+          border: '2px solid #9400D3'
+        }}>
+          <h3 style={{ color: '#9400D3', fontSize: '2rem', marginBottom: '20px', textAlign: 'center' }}>
+            777 Detox Protocol Kit
+          </h3>
+          <p style={{ color: '#DDD6B8', fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '20px' }}>
+            <strong style={{ color: '#FFD700' }}>7 Days Fresh-Squeezed Unsweetened Juices</strong> with Sea Moss Gel<br/>
+            <strong style={{ color: '#FFD700' }}>7 Days Alkaline Herbal Teas</strong> (35 different herbs included)<br/>
+            <strong style={{ color: '#FFD700' }}>7 Days Distilled Water Only</strong> - Complete cellular reset
+          </p>
+          <p style={{ color: '#00CED1', fontSize: '1.1rem', lineHeight: '1.8' }}>
+            This kit includes chelation herbs combined with Sea Moss that naturally remove heavy metals 
+            from the body, preparing you for the ultimate 21-day water reset.
+          </p>
+        </div>
+
+        <h3 style={{ color: '#FFD700', fontSize: '1.8rem', marginBottom: '20px', textAlign: 'center' }}>
+          Additional Transformation Kits Available:
+        </h3>
         
         <div style={{
           display: 'grid',
@@ -586,67 +785,52 @@ const MAVJStore = () => {
           gap: '25px',
           marginTop: '30px'
         }}>
-          <Link to="/MAVJSeaMoss" style={{ textDecoration: 'none' }}>
-            <div style={{ 
-              padding: '25px', 
-              background: 'rgba(255,215,0,0.1)', 
-              borderRadius: '15px', 
-              border: '2px solid rgba(255,215,0,0.3)',
-              cursor: 'pointer',
-              transition: 'all 0.3s'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-            >
-              <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.3rem' }}>🧠 Mental Clarity</h3>
-              <p style={{ color: '#DDD6B8' }}>Brain fog dissolves. Cognitive function sharpens exponentially.</p>
-            </div>
-          </Link>
+          <div style={{ 
+            padding: '25px', 
+            background: 'rgba(255,215,0,0.1)', 
+            borderRadius: '15px', 
+            border: '2px solid rgba(255,215,0,0.3)'
+          }}>
+            <h4 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.3rem' }}>💉 Diabetes Support Kit</h4>
+            <p style={{ color: '#DDD6B8' }}>Specialized herbs and protocols to support blood sugar regulation and pancreatic function.</p>
+          </div>
           
-          <Link to="/MAVJDetox" style={{ textDecoration: 'none' }}>
-            <div style={{ 
-              padding: '25px', 
-              background: 'rgba(0,206,209,0.1)', 
-              borderRadius: '15px', 
-              border: '2px solid rgba(0,206,209,0.3)',
-              cursor: 'pointer',
-              transition: 'all 0.3s'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-            >
-              <h3 style={{ color: '#00CED1', marginBottom: '15px', fontSize: '1.3rem' }}>⚡ Complete Energy</h3>
-              <p style={{ color: '#DDD6B8' }}>Uninhibited vitality flows. No afternoon crashes. Pure life force.</p>
-            </div>
-          </Link>
+          <div style={{ 
+            padding: '25px', 
+            background: 'rgba(0,206,209,0.1)', 
+            borderRadius: '15px', 
+            border: '2px solid rgba(0,206,209,0.3)'
+          }}>
+            <h4 style={{ color: '#00CED1', marginBottom: '15px', fontSize: '1.3rem' }}>❤️ High Blood Pressure Kit</h4>
+            <p style={{ color: '#DDD6B8' }}>Heart-supportive herbs and minerals to normalize blood pressure naturally.</p>
+          </div>
           
-          <Link to="/ContactUs" style={{ textDecoration: 'none' }}>
-            <div style={{ 
-              padding: '25px', 
-              background: 'rgba(148,0,211,0.1)', 
-              borderRadius: '15px', 
-              border: '2px solid rgba(148,0,211,0.3)',
-              cursor: 'pointer',
-              transition: 'all 0.3s'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-            >
-              <h3 style={{ color: '#9400D3', marginBottom: '15px', fontSize: '1.3rem' }}>🩺 Disease Reversal</h3>
-              <p style={{ color: '#DDD6B8' }}>Diabetes symptoms recede. Blood pressure normalizes. Pain dissolves.</p>
-            </div>
-          </Link>
+          <div style={{ 
+            padding: '25px', 
+            background: 'rgba(148,0,211,0.1)', 
+            borderRadius: '15px', 
+            border: '2px solid rgba(148,0,211,0.3)'
+          }}>
+            <h4 style={{ color: '#9400D3', marginBottom: '15px', fontSize: '1.3rem' }}>🛡️ Autoimmune Support Kit</h4>
+            <p style={{ color: '#DDD6B8' }}>Anti-inflammatory herbs and immune-modulating protocols for autoimmune conditions.</p>
+          </div>
         </div>
         
-        <p style={{ 
-          marginTop: '30px',
-          fontSize: '1.1rem',
-          textAlign: 'center',
-          color: '#DDD6B8',
-          fontStyle: 'italic'
-        }}>
-          ✅ Based on scientifically researched cellular autophagy protocols
-        </p>
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <Link to="/MAVJDetox" onClick={() => window.scrollTo(0, 0)} style={{
+            display: 'inline-block',
+            padding: '18px 45px',
+            background: 'linear-gradient(135deg, #9400D3, #00CED1)',
+            color: '#000',
+            textDecoration: 'none',
+            borderRadius: '50px',
+            fontSize: '1.3rem',
+            fontWeight: 'bold',
+            boxShadow: '0 8px 25px rgba(148,0,211,0.5)'
+          }}>
+            Explore All Transformation Kits →
+          </Link>
+        </div>
       </div>
 
       {/* CHOOSE YOUR FREQUENCY */}
@@ -670,10 +854,23 @@ const MAVJStore = () => {
           fontSize: '1.2rem',
           color: '#DDD6B8',
           maxWidth: '900px',
-          margin: '0 auto 50px',
+          margin: '0 auto 20px',
           lineHeight: '1.8'
         }}>
           Follow the journey from foundation to ultimate convergence. Each stage prepares you for the next.
+        </p>
+        <p style={{
+          textAlign: 'center',
+          fontSize: '1.1rem',
+          marginBottom: '50px'
+        }}>
+          <a href="#product-cards" style={{
+            color: '#00CED1',
+            textDecoration: 'underline',
+            fontWeight: 'bold'
+          }}>
+            Click here to view all products with prices →
+          </a>
         </p>
         
         <div style={{
@@ -681,10 +878,11 @@ const MAVJStore = () => {
           gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
           gap: '30px'
         }}>
-          {filteredCategories.map(cat => (
+          {categories.map(cat => (
             <Link
               key={cat.id}
               to={cat.link}
+              onClick={() => window.scrollTo(0, 0)}
               style={{
                 background: 'rgba(0,0,0,0.6)',
                 borderRadius: '20px',
@@ -802,6 +1000,162 @@ const MAVJStore = () => {
         </div>
       </div>
 
+      {/* PRODUCT CARDS SECTION */}
+      <div id="product-cards" style={{
+        maxWidth: '1600px',
+        margin: '0 auto 60px',
+        padding: '0 20px'
+      }}>
+        <h2 style={{
+          fontSize: 'clamp(2rem, 4vw, 3rem)',
+          textAlign: 'center',
+          color: '#FFD700',
+          marginBottom: '30px'
+        }}>
+          🛒 All Products - Shop Now
+        </h2>
+        
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '25px'
+        }}>
+          {products.map((product, i) => (
+            <div key={i} style={{
+              background: 'rgba(0,0,0,0.7)',
+              borderRadius: '15px',
+              border: '3px solid #00CED1',
+              overflow: 'hidden',
+              boxShadow: '0 5px 20px rgba(0,206,209,0.4)',
+              transition: 'all 0.3s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-10px)';
+              e.currentTarget.style.boxShadow = '0 15px 40px rgba(0,206,209,0.7)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 5px 20px rgba(0,206,209,0.4)';
+            }}
+            >
+              <div style={{
+                height: '200px',
+                background: `url(${product.image}) center/cover`,
+                backgroundPosition: 'center center'
+              }}></div>
+              
+              <div style={{ padding: '20px' }}>
+                <div style={{
+                  background: '#FFD700',
+                  color: '#000',
+                  padding: '5px 10px',
+                  borderRadius: '10px',
+                  fontSize: '0.8rem',
+                  fontWeight: 'bold',
+                  display: 'inline-block',
+                  marginBottom: '10px'
+                }}>
+                  {product.category}
+                </div>
+
+                <h3 style={{
+                  color: '#FFD700',
+                  fontSize: '1.05rem',
+                  marginBottom: '10px',
+                  minHeight: '55px',
+                  lineHeight: '1.3'
+                }}>
+                  {product.name}
+                </h3>
+                
+                <p style={{
+                  color: '#DDD6B8',
+                  fontSize: '0.9rem',
+                  marginBottom: '15px',
+                  minHeight: '40px',
+                  lineHeight: '1.4'
+                }}>
+                  {product.description}
+                </p>
+
+                <div style={{
+                  fontSize: '2rem',
+                  fontWeight: 'bold',
+                  color: '#00CED1',
+                  marginBottom: '15px'
+                }}>
+                  ${product.price.toFixed(2)}
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <button
+                    onClick={() => handleBuyNow(product)}
+                    style={{
+                      flex: 1,
+                      padding: '15px',
+                      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                      border: 'none',
+                      borderRadius: '10px',
+                      color: '#000',
+                      fontSize: '1.1rem',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s'
+                    }}
+                    onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+                    onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                  >
+                    BUY NOW
+                  </button>
+                  
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    style={{
+                      padding: '15px',
+                      background: 'rgba(0,206,209,0.2)',
+                      border: '2px solid #00CED1',
+                      borderRadius: '10px',
+                      color: '#00CED1',
+                      fontSize: '1.3rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = 'rgba(0,206,209,0.4)';
+                      e.target.style.transform = 'scale(1.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = 'rgba(0,206,209,0.2)';
+                      e.target.style.transform = 'scale(1)';
+                    }}
+                  >
+                    🛒
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            style={{
+              padding: '15px 40px',
+              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+              border: 'none',
+              borderRadius: '50px',
+              color: '#000',
+              fontSize: '1.2rem',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+          >
+            ↑ Back to Top
+          </button>
+        </div>
+      </div>
+
       {/* CORAL RESTORATION */}
       <div style={{
         maxWidth: '1200px',
@@ -858,7 +1212,7 @@ const MAVJStore = () => {
         </div>
       </div>
 
-      {/* FOOD GALLERY - MOVED TO BOTTOM */}
+      {/* FOOD GALLERY */}
       <div style={{
         maxWidth: '1600px',
         margin: '0 auto 60px',
@@ -894,7 +1248,7 @@ const MAVJStore = () => {
             { img: '/images/AVChocandWalnutCookies.jpg', name: 'Alkaline Cookies' },
             { img: '/images/SesameStarCandy.jpg', name: 'Sesame Stars' }
           ].map((item, i) => (
-            <Link to="/Recipes" key={i} style={{ textDecoration: 'none' }}>
+            <Link to="/Recipes" key={i} onClick={() => window.scrollTo(0, 0)} style={{ textDecoration: 'none' }}>
               <div style={{
                 borderRadius: '15px',
                 overflow: 'hidden',
@@ -915,7 +1269,7 @@ const MAVJStore = () => {
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: '30px' }}>
-          <Link to="/Recipes" style={{
+          <Link to="/Recipes" onClick={() => window.scrollTo(0, 0)} style={{
             display: 'inline-block',
             padding: '15px 40px',
             background: 'linear-gradient(135deg, #FF69B4, #FF1493)',
@@ -930,7 +1284,7 @@ const MAVJStore = () => {
         </div>
       </div>
 
-      {/* DR SEBI GUIDE - MOVED TO BOTTOM */}
+      {/* DR SEBI GUIDE */}
       <div style={{
         maxWidth: '1600px',
         margin: '0 auto 50px',
@@ -963,13 +1317,6 @@ const MAVJStore = () => {
         }}>
           All products align with Dr. Sebi's approved nutritional guide
         </p>
-        <p style={{
-          marginTop: '10px',
-          fontSize: '1rem',
-          color: '#DDD6B8'
-        }}>
-          Click image for detailed nutritional guide (coming soon)
-        </p>
       </div>
 
       {/* CONSULTATION */}
@@ -992,6 +1339,7 @@ const MAVJStore = () => {
         </p>
         <Link 
           to="/ContactUs"
+          onClick={() => window.scrollTo(0, 0)}
           style={{
             display: 'inline-block',
             padding: '18px 45px',

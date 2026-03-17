@@ -8,6 +8,7 @@ import DOMPurify from 'dompurify';
 // ==================== COMPONENT DEFINITION ====================
 const HomePage = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   // ==================== STATE MANAGEMENT ====================
   const [currentLanguage, setCurrentLanguage] = useState('English');
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
@@ -1422,6 +1423,7 @@ const HomePage = () => {
 
   // ==================== LANGUAGE HANDLER ====================
   const handleLanguageChange = useCallback((lang) => {
+    i18n.changeLanguage(lang);
     setCurrentLanguage(lang);
     setShowLanguageDropdown(false);
 
@@ -1432,7 +1434,7 @@ const HomePage = () => {
 
     setPositiveGame(prev => ({ ...prev, currentWord: newWord }));
     trackInteraction('language_changed', { from: currentLanguage, to: lang });
-  }, [currentLanguage, positiveWordBank, positiveGame.level, trackInteraction]);
+  }, [i18n, currentLanguage, positiveWordBank, positiveGame.level, trackInteraction]);
 
   // ==================== STYLES ====================
   const styles = {
@@ -2572,7 +2574,7 @@ const HomePage = () => {
               textAlign: 'center',
               whiteSpace: 'nowrap'
             }}>
-              {translations[currentLanguage]?.title?.quantum || "QUANTUM BASED"}<br />
+              {t("title.leftBox").split("\n")[0]}<br />
               {translations[currentLanguage]?.title?.scientific || "SCIENTIFICALLY BACKED"}<br />
               {translations[currentLanguage]?.title?.frequency || "FREQUENCY FOCUSED"}
             </div>
@@ -2734,7 +2736,7 @@ const HomePage = () => {
             letterSpacing: '2.5px',
             textShadow: '0 0 14px rgba(0,212,255,0.9)'
           }}>
-            {translations[currentLanguage]?.title?.home || "YOU ARE HOME"}
+            {t("title.home")}
           </div>
         </div>
       </section>
@@ -3363,7 +3365,7 @@ const HomePage = () => {
             YouTube
           </a>
           <a 
-            href="https://www.tiktok.com/@myalkalineveganjourney"
+            href="https://www.tiktok.com/@myalkalineveganjourney.4?lang=en"
             target="_blank"
             rel="noopener noreferrer"
             style={styles.socialLink}
@@ -3373,7 +3375,7 @@ const HomePage = () => {
             TikTok
           </a>
           <a 
-            href="https://facebook.com"
+            href="https://www.facebook.com/MyAlkalineVeganJourney"
             target="_blank"
             rel="noopener noreferrer"
             style={styles.socialLink}

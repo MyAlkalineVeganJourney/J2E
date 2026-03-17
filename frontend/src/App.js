@@ -1,4 +1,4 @@
-// src/App.js - UPDATED VERSION
+// src/App.js - UPDATED VERSION (with J2EConvergence added)
 import './i18n/config';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/config';
@@ -35,6 +35,7 @@ import J2EAgro from './Pages/J2EAgro';
 import J2EAqua from './Pages/J2EAqua';
 import J2EWorkshops from './Pages/J2EWorkshops';
 import J2EFood from './Pages/J2EFood';
+import J2EConvergence from './Pages/J2EConvergence';  // ← NEW LINE ADDED
 import TheJourney from './Pages/TheJourney';
 import PodcastVlog from './Pages/PodcastVlog';
 import AlignWithUs from './Pages/AlignWithUs';
@@ -98,6 +99,7 @@ function App() {
                     <Route path="/Oils" element={<Oils />} />
                     <Route path="/MAVJDetox" element={<MAVJDetox />} />
                     <Route path="/Journey2Enlightenment" element={<Journey2Enlightenment />} />
+                    <Route path="/J2EConvergence" element={<J2EConvergence />} />  {/* ← NEW ROUTE ADDED */}
                     <Route path="/AVSnacks" element={<AVSnacks />} />
                     <Route path="/Seeds" element={<Seeds />} />
                     <Route path="/MAVJSeaMoss" element={<MAVJSeaMoss />} />
