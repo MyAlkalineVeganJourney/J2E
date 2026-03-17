@@ -692,35 +692,64 @@ const HomePage = () => {
   }), []);
 
   // ==================== ANNOUNCEMENTS ====================
+  
   const announcements = useMemo(() => [
     {
       id: 1,
       icon: '✨',
-      title: translations[currentLanguage]?.announcements?.j2e_2026 || 'Journey to Enlightenment 2026',
-      date: 'Year Round in St.Lucia Reserve Your Dates, 2026',
-      description: translations[currentLanguage]?.announcements?.j2e_desc || 'Reset, Rise, Resonate, Resurrect - 5-day immersive experience in St. Lucia',
+      title: 'J2E / 11:11 CONVERGENCE',
+      date: 'Finalizing 2026 Residency',
+      description: 'Annual Gala & Global Link in St. Lucia. Year-round 7-day Realignment stays.',
       link: '/Journey2Enlightenment',
       urgent: true
     },
     {
       id: 2,
-      icon: '🌊',
-      title: translations[currentLanguage]?.announcements?.seamoss || 'New Sea Moss Harvest Available',
-      date: '2026',
-      description: translations[currentLanguage]?.announcements?.seamoss_desc || 'Fresh violet, jade, gold and spectrum gel and raw sea moss now in stock',
-      link: '/MAVJStore',
+      icon: '📡',
+      title: 'LIVE BROADCAST PORTAL',
+      date: 'Quantum Updates',
+      description: 'Join our next live stream for breaking news in Quantum Physics and health recalibration.',
+      link: '/LiveBroadcast',
       urgent: false
     },
     {
       id: 3,
-      icon: '📚',
-      title: translations[currentLanguage]?.announcements?.protocol || '40-Day Protocol Guide Updated',
-      date: 'January 2026',
-      description: translations[currentLanguage]?.announcements?.protocol_desc || 'Enhanced with quantum frequency tracking tools',
-      link: '/TheJourney',
+      icon: '📦',
+      title: 'RESONANCE ALIGNMENT PORTAL',
+      date: 'Global Giving Active',
+      description: 'Align via Amazon gifts. Just click the product photo and it ships directly to the mission.',
+      link: '/AlignWithUs',
+      urgent: false
+    },
+    {
+      id: 4,
+      icon: '🔮',
+      title: 'VIBRATIONAL INTELLIGENCE',
+      date: 'Consciousness Research',
+      description: 'Latest quantum physics news and consciousness research updates.',
+      link: '/VibrationalIntelligence',
+      urgent: false
+    },
+    {
+      id: 5,
+      icon: '💃',
+      title: 'GLOBAL FLASH MOB',
+      date: 'Date: CLASSIFIED',
+      description: 'Calling all Dancers, Drummers, and Musicians. Join the global surprise. Email your 30-sec clip.',
+      link: '/ContactUs',
+      urgent: true
+    },
+    {
+      id: 6,
+      icon: '🛒',
+      title: 'BIO-MINERAL EXCHANGE',
+      date: 'Now Shipping Globally',
+      description: 'The story of your journey. St. Lucian Sea Moss Gel & Genesis Castor Seeds.',
+      link: '/MAVJStore',
       urgent: false
     }
-  ], [currentLanguage]);
+  ], []);
+
 
   // ==================== VIDEOS ====================
   const videos = useMemo(() => [
@@ -2575,8 +2604,8 @@ const HomePage = () => {
               whiteSpace: 'nowrap'
             }}>
               {t("title.leftBox").split("\n")[0]}<br />
-              {translations[currentLanguage]?.title?.scientific || "SCIENTIFICALLY BACKED"}<br />
-              {translations[currentLanguage]?.title?.frequency || "FREQUENCY FOCUSED"}
+              {translations[currentLanguage]?.title?.scientific || "{translations[currentLanguage]?.title?.scientific || "{translations[currentLanguage]?.title?.scientific || "SCIENTIFICALLY BACKED"}"}"}<br />
+              {translations[currentLanguage]?.title?.frequency || "{translations[currentLanguage]?.title?.frequency || "{translations[currentLanguage]?.title?.frequency || "FREQUENCY FOCUSED"}"}"}
             </div>
           </div>
 
@@ -2635,7 +2664,7 @@ const HomePage = () => {
               lineHeight: '1.1',
               whiteSpace: 'nowrap'
             }}>
-              💦 MY ALKALINE VEGAN JOURNEY 💦
+              {translations[currentLanguage]?.title?.company_name || "{translations[currentLanguage]?.title?.company_name || "💦 MY ALKALINE VEGAN JOURNEY 💦"}"}
             </h1>
             <div style={{
               color: '#00d4ff',
@@ -2647,7 +2676,7 @@ const HomePage = () => {
               textShadow: '0 0 10px rgba(0,212,255,0.85)',
               whiteSpace: 'nowrap'
             }}>
-              SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION
+              {translations[currentLanguage]?.title?.tagline || "{translations[currentLanguage]?.title?.tagline || "SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION"}"}
             </div>
           </div>
 
@@ -2704,9 +2733,9 @@ const HomePage = () => {
               textAlign: 'center',
               whiteSpace: 'nowrap'
             }}>
-              {translations[currentLanguage]?.title?.quantum_physics || "WHERE QUANTUM PHYSICS"}<br />
-              {translations[currentLanguage]?.title?.ancient_wisdom || "MEETS ANCIENT WISDOM"}<br />
-              {translations[currentLanguage]?.title?.nutrition || "AND NUTRITION"}
+              {translations[currentLanguage]?.title?.quantum_physics || "{translations[currentLanguage]?.title?.quantum_physics || "{translations[currentLanguage]?.title?.quantum_physics || "WHERE QUANTUM PHYSICS"}"}"}<br />
+              {translations[currentLanguage]?.title?.ancient_wisdom || "{translations[currentLanguage]?.title?.ancient_wisdom || "{translations[currentLanguage]?.title?.ancient_wisdom || "MEETS ANCIENT WISDOM"}"}"}<br />
+              {translations[currentLanguage]?.title?.nutrition || "{translations[currentLanguage]?.title?.nutrition || "{translations[currentLanguage]?.title?.nutrition || "AND NUTRITION"}"}"}
             </div>
           </div>
         </div>
