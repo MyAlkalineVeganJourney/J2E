@@ -8,6 +8,7 @@ import DOMPurify from 'dompurify';
 // ==================== COMPONENT DEFINITION ====================
 const HomePage = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   // ==================== STATE MANAGEMENT ====================
   const [currentLanguage, setCurrentLanguage] = useState('English');
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
@@ -691,35 +692,64 @@ const HomePage = () => {
   }), []);
 
   // ==================== ANNOUNCEMENTS ====================
+  
   const announcements = useMemo(() => [
     {
       id: 1,
       icon: '✨',
-      title: translations[currentLanguage]?.announcements?.j2e_2026 || 'Journey to Enlightenment 2026',
-      date: 'Year Round in St.Lucia Reserve Your Dates, 2026',
-      description: translations[currentLanguage]?.announcements?.j2e_desc || 'Reset, Rise, Resonate, Resurrect - 5-day immersive experience in St. Lucia',
+      title: 'J2E / 11:11 CONVERGENCE',
+      date: 'Finalizing 2026 Residency',
+      description: 'Annual Gala & Global Link in St. Lucia. Year-round 7-day Realignment stays.',
       link: '/Journey2Enlightenment',
       urgent: true
     },
     {
       id: 2,
-      icon: '🌊',
-      title: translations[currentLanguage]?.announcements?.seamoss || 'New Sea Moss Harvest Available',
-      date: '2026',
-      description: translations[currentLanguage]?.announcements?.seamoss_desc || 'Fresh violet, jade, gold and spectrum gel and raw sea moss now in stock',
-      link: '/MAVJStore',
+      icon: '📡',
+      title: 'LIVE BROADCAST PORTAL',
+      date: 'Quantum Updates',
+      description: 'Join our next live stream for breaking news in Quantum Physics and health recalibration.',
+      link: '/LiveBroadcast',
       urgent: false
     },
     {
       id: 3,
-      icon: '📚',
-      title: translations[currentLanguage]?.announcements?.protocol || '40-Day Protocol Guide Updated',
-      date: 'January 2026',
-      description: translations[currentLanguage]?.announcements?.protocol_desc || 'Enhanced with quantum frequency tracking tools',
-      link: '/TheJourney',
+      icon: '📦',
+      title: 'RESONANCE ALIGNMENT PORTAL',
+      date: 'Global Giving Active',
+      description: 'Align via Amazon gifts. Just click the product photo and it ships directly to the mission.',
+      link: '/AlignWithUs',
+      urgent: false
+    },
+    {
+      id: 4,
+      icon: '🔮',
+      title: 'VIBRATIONAL INTELLIGENCE',
+      date: 'Consciousness Research',
+      description: 'Latest quantum physics news and consciousness research updates.',
+      link: '/VibrationalIntelligence',
+      urgent: false
+    },
+    {
+      id: 5,
+      icon: '💃',
+      title: 'GLOBAL FLASH MOB',
+      date: 'Date: CLASSIFIED',
+      description: 'Calling all Dancers, Drummers, and Musicians. Join the global surprise. Email your 30-sec clip.',
+      link: '/ContactUs',
+      urgent: true
+    },
+    {
+      id: 6,
+      icon: '🛒',
+      title: 'BIO-MINERAL EXCHANGE',
+      date: 'Now Shipping Globally',
+      description: 'The story of your journey. St. Lucian Sea Moss Gel & Genesis Castor Seeds.',
+      link: '/MAVJStore',
       urgent: false
     }
-  ], [currentLanguage]);
+  ], []);
+
 
   // ==================== VIDEOS ====================
   const videos = useMemo(() => [
@@ -1422,6 +1452,7 @@ const HomePage = () => {
 
   // ==================== LANGUAGE HANDLER ====================
   const handleLanguageChange = useCallback((lang) => {
+    i18n.changeLanguage(lang);
     setCurrentLanguage(lang);
     setShowLanguageDropdown(false);
 
@@ -1432,7 +1463,7 @@ const HomePage = () => {
 
     setPositiveGame(prev => ({ ...prev, currentWord: newWord }));
     trackInteraction('language_changed', { from: currentLanguage, to: lang });
-  }, [currentLanguage, positiveWordBank, positiveGame.level, trackInteraction]);
+  }, [i18n, currentLanguage, positiveWordBank, positiveGame.level, trackInteraction]);
 
   // ==================== STYLES ====================
   const styles = {
@@ -2572,9 +2603,9 @@ const HomePage = () => {
               textAlign: 'center',
               whiteSpace: 'nowrap'
             }}>
-              {translations[currentLanguage]?.title?.quantum || "QUANTUM BASED"}<br />
+              {t("title.leftBox").split("\n")[0]}<br />
               {translations[currentLanguage]?.title?.scientific || "SCIENTIFICALLY BACKED"}<br />
-              {translations[currentLanguage]?.title?.frequency || "FREQUENCY FOCUSED"}
+              {translations[currentLanguage]?.title?.frequency || "{translations[currentLanguage]?.title?.frequency || "{translations[currentLanguage]?.title?.frequency || "FREQUENCY FOCUSED"}"}"}
             </div>
           </div>
 
@@ -2633,7 +2664,7 @@ const HomePage = () => {
               lineHeight: '1.1',
               whiteSpace: 'nowrap'
             }}>
-              💦 MY ALKALINE VEGAN JOURNEY 💦
+              {translations[currentLanguage]?.title?.company_name || "{translations[currentLanguage]?.title?.company_name || "💦 MY ALKALINE VEGAN JOURNEY 💦"}"}
             </h1>
             <div style={{
               color: '#00d4ff',
@@ -2645,7 +2676,7 @@ const HomePage = () => {
               textShadow: '0 0 10px rgba(0,212,255,0.85)',
               whiteSpace: 'nowrap'
             }}>
-              SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION
+              {translations[currentLanguage]?.title?.tagline || "{translations[currentLanguage]?.title?.tagline || "SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION"}"}
             </div>
           </div>
 
@@ -2702,9 +2733,9 @@ const HomePage = () => {
               textAlign: 'center',
               whiteSpace: 'nowrap'
             }}>
-              {translations[currentLanguage]?.title?.quantum_physics || "WHERE QUANTUM PHYSICS"}<br />
-              {translations[currentLanguage]?.title?.ancient_wisdom || "MEETS ANCIENT WISDOM"}<br />
-              {translations[currentLanguage]?.title?.nutrition || "AND NUTRITION"}
+              {translations[currentLanguage]?.title?.quantum_physics || "{translations[currentLanguage]?.title?.quantum_physics || "{translations[currentLanguage]?.title?.quantum_physics || "WHERE QUANTUM PHYSICS"}"}"}<br />
+              {translations[currentLanguage]?.title?.ancient_wisdom || "{translations[currentLanguage]?.title?.ancient_wisdom || "{translations[currentLanguage]?.title?.ancient_wisdom || "MEETS ANCIENT WISDOM"}"}"}<br />
+              {translations[currentLanguage]?.title?.nutrition || "{translations[currentLanguage]?.title?.nutrition || "{translations[currentLanguage]?.title?.nutrition || "AND NUTRITION"}"}"}
             </div>
           </div>
         </div>
@@ -2734,7 +2765,7 @@ const HomePage = () => {
             letterSpacing: '2.5px',
             textShadow: '0 0 14px rgba(0,212,255,0.9)'
           }}>
-            {translations[currentLanguage]?.title?.home || "YOU ARE HOME"}
+            {t("title.home")}
           </div>
         </div>
       </section>
@@ -2855,324 +2886,93 @@ const HomePage = () => {
       <section style={{...styles.section, backgroundImage: 'url(/images/star-pattern.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
         <h2 style={styles.sectionTitle}>User Engagement Games</h2>
         
-       {/* ===== MAVJ POSITIVE WORD GAME - COMPLETE FIXED ===== */}
-
-{/* Brian Story Teaser */}
-<div style={{
-  maxWidth: '600px',
-  margin: '0 auto 25px',
-  padding: '15px 20px',
-  background: 'linear-gradient(135deg, rgba(148,0,211,0.15), rgba(255,215,0,0.15))',
-  borderRadius: '15px',
-  border: '2px solid #9400D3',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: '15px',
-  flexWrap: 'wrap',
-  cursor: 'pointer'
-}}
-onClick={() => setShowBrianStory(true)}>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-    <span style={{ fontSize: '2rem' }}>📖</span>
-    <div>
-      <div style={{ color: '#FFD700', fontWeight: 'bold', fontSize: '1rem' }}>
-        Brian's Story
-      </div>
-      <div style={{ color: '#fff', fontSize: '0.85rem', opacity: 0.8 }}>
-        "I love you, BUT I need space" → "I love you AND I need space"
-      </div>
-    </div>
-  </div>
-  <span style={{ color: '#9400D3', fontSize: '1.2rem' }}>▶</span>
-</div>
-
-{/* Game Header */}
-<h2 style={{
-  color: '#FFD700',
-  fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-  textAlign: 'center',
-  marginBottom: '20px',
-  textShadow: '0 0 20px #FFD700'
-}}>
-  🌀 {translations[currentLanguage]?.games?.positive_word?.title || 'MAVJ Positive Word Game'}
-</h2>
-
-{/* Stats Bar */}
-<div style={{
-  display: 'flex',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  maxWidth: '600px',
-  margin: '0 auto 25px',
-  padding: '12px 20px',
-  background: 'linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,212,255,0.1))',
-  border: '2px solid',
-  borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-  borderRadius: '40px',
-  flexWrap: 'wrap',
-  gap: '15px'
-}}>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-    <span style={{ fontSize: '1.3rem' }}>🔥</span>
-    <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
-      {translations[currentLanguage]?.games?.streak || 'STREAK'}: {positiveGame?.streak || 0}
-    </span>
-  </div>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-    <span style={{ fontSize: '1.3rem' }}>✨</span>
-    <span style={{ color: '#00d4ff', fontWeight: 'bold' }}>
-      {translations[currentLanguage]?.games?.score || 'SCORE'}: {positiveGame?.score || 0}
-    </span>
-  </div>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-    <span style={{ fontSize: '1.3rem' }}>🌀</span>
-    <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
-      {translations[currentLanguage]?.games?.level || 'LEVEL'}: {positiveGame?.level || 1}/3
-    </span>
-  </div>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-    <span style={{ fontSize: '1.3rem' }}>🪙</span>
-    <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
-      COINS: {positiveGame?.coins || 0}
-    </span>
-  </div>
-</div>
-
-{/* Target Words - All blanks */}
-<div style={{
-  maxWidth: '800px',
-  margin: '20px auto',
-  padding: '20px',
-  background: 'rgba(0,0,0,0.3)',
-  borderRadius: '20px',
-  border: '2px solid #FFD700'
-}}>
-  <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.2rem', textAlign: 'center' }}>
-    🎯 {translations[currentLanguage]?.games?.target_words || 'DISCOVER THESE WORDS'}
-  </h3>
-  
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-    {/* LOVE - 4 letters */}
-    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-      {[0,1,2,3].map((_, i) => (
-        <div key={`love-${i}`} style={{
-          width: '45px',
-          height: '45px',
-          background: 'rgba(255,215,0,0.1)',
-          border: '2px solid #FFD700',
-          borderRadius: '8px'
-        }} />
-      ))}
-    </div>
-    
-    {/* PEACE - 5 letters */}
-    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-      {[0,1,2,3,4].map((_, i) => (
-        <div key={`peace-${i}`} style={{
-          width: '45px',
-          height: '45px',
-          background: 'rgba(255,215,0,0.1)',
-          border: '2px solid #FFD700',
-          borderRadius: '8px'
-        }} />
-      ))}
-    </div>
-    
-    {/* JOY - 3 letters */}
-    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-      {[0,1,2].map((_, i) => (
-        <div key={`joy-${i}`} style={{
-          width: '45px',
-          height: '45px',
-          background: 'rgba(255,215,0,0.1)',
-          border: '2px solid #FFD700',
-          borderRadius: '8px'
-        }} />
-      ))}
-    </div>
-    
-    {/* HOPE - 4 letters */}
-    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-      {[0,1,2,3].map((_, i) => (
-        <div key={`hope-${i}`} style={{
-          width: '45px',
-          height: '45px',
-          background: 'rgba(255,215,0,0.1)',
-          border: '2px solid #FFD700',
-          borderRadius: '8px'
-        }} />
-      ))}
-    </div>
-  </div>
-</div>
-
-{/* Letter Circle with Scramble Button */}
-<div style={{ position: 'relative', margin: '30px auto', width: 'fit-content' }}>
-  {/* Scramble Button */}
-  <button
-    onClick={() => {
-      // Scramble letters logic will be implemented
-      console.log('Scramble clicked');
-    }}
-    style={{
-      position: 'absolute',
-      top: '-15px',
-      right: '-15px',
-      width: '40px',
-      height: '40px',
-      borderRadius: '50%',
-      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-      border: 'none',
-      color: '#000',
-      fontSize: '1.2rem',
-      fontWeight: 'bold',
-      cursor: 'pointer',
-      zIndex: 10
-    }}
-  >
-    🔄
-  </button>
-  
-  {/* Circle of Letters */}
-  <div style={{
-    position: 'relative',
-    width: 'min(350px, 80vw)',
-    height: 'min(350px, 80vw)',
-    margin: '0 auto'
-  }}>
-    <svg width="100%" height="100%" viewBox="0 0 100 100">
-      <circle
-        cx="50"
-        cy="50"
-        r="45"
-        fill="none"
-        stroke="url(#circleGradient)"
-        strokeWidth="2"
-        strokeDasharray="4,4"
-      />
-      <defs>
-        <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FFD700" />
-          <stop offset="50%" stopColor="#00d4ff" />
-          <stop offset="100%" stopColor="#FFD700" />
-        </linearGradient>
-      </defs>
-    </svg>
-    
-    {/* Random letters - completely scrambled */}
-    {['L','O','V','E','P','A','C','J','Y','H','F','T','W','K','Z','X']
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 16)
-      .map((letter, i) => {
-        const angle = (i * 22.5) * Math.PI / 180;
-        const x = 50 + 38 * Math.cos(angle);
-        const y = 50 + 38 * Math.sin(angle);
-        return (
-          <div
-            key={i}
-            style={{
-              position: 'absolute',
-              left: `${x}%`,
-              top: `${y}%`,
-              transform: 'translate(-50%, -50%)',
-              width: '42px',
-              height: '42px',
-              background: 'rgba(0,0,0,0.9)',
-              border: '2px solid',
-              borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#FFD700',
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
-          >
-            {letter}
+        {/* POSITIVE WORD GAME */}
+        <div style={{marginBottom: '40px'}}>
+          <h3 style={{color: '#FFD700', fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px'}}>
+            ✨ {translations[currentLanguage]?.games?.positive_word?.title || 'MAVJ Positive Word Game'}
+          </h3>
+          
+          <div style={styles.gameStats}>
+            <div><span>{translations[currentLanguage]?.games?.score || 'Score'}:</span> <span style={styles.statValue}>{positiveGame.score}</span></div>
+            <div><span>{translations[currentLanguage]?.games?.streak || 'Streak'}:</span> <span style={styles.statValue}>{positiveGame.streak}</span></div>
+            <div><span>{translations[currentLanguage]?.games?.level || 'Level'}:</span> <span style={styles.statValue}>{positiveGame.level}/3</span></div>
+            {positiveGame.godSpaceActivated && (
+              <div style={styles.godSpaceBadge}>
+                🌟 {translations[currentLanguage]?.games?.god_space || 'GOD SPACE'} 🌟
+              </div>
+            )}
           </div>
-        );
-      })}
-  </div>
-</div>
-
-{/* Word Bank */}
-<div style={{
-  maxWidth: '800px',
-  margin: '30px auto',
-  padding: '20px',
-  background: 'rgba(0,0,0,0.3)',
-  borderRadius: '20px',
-  border: '2px solid #00d4ff'
-}}>
-  <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.2rem' }}>
-    📚 {translations[currentLanguage]?.games?.word_bank || 'WORD BANK'}
-  </h3>
-  <div style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-    gap: '10px'
-  }}>
-    {/* Words will be populated from game state */}
-    <div style={{ color: '#00d4ff', textAlign: 'center', padding: '10px' }}>
-      Discover words to build your collection!
-    </div>
-  </div>
-</div>
-
-{/* Action Buttons */}
-<div style={{
-  display: 'flex',
-  justifyContent: 'center',
-  gap: '12px',
-  marginTop: '20px',
-  flexWrap: 'wrap'
-}}>
-  <button style={{
-    padding: '10px 20px',
-    background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-    border: 'none',
-    borderRadius: '25px',
-    color: '#000',
-    fontSize: '0.9rem',
-    fontWeight: 'bold',
-    cursor: 'pointer'
-  }}>
-    🔍 {translations[currentLanguage]?.games?.hint || 'HINT'} (10 🪙)
-  </button>
-  <button style={{
-    padding: '10px 20px',
-    background: 'linear-gradient(135deg, #00d4ff, #667eea)',
-    border: 'none',
-    borderRadius: '25px',
-    color: '#fff',
-    fontSize: '0.9rem',
-    fontWeight: 'bold',
-    cursor: 'pointer'
-  }}>
-    🔄 {translations[currentLanguage]?.games?.scramble || 'SCRAMBLE'}
-  </button>
-  <button
-    onClick={() => {
-      // Reset game logic
-      console.log('Reset clicked');
-    }}
-    style={{
-      padding: '10px 20px',
-      background: 'rgba(255,0,0,0.15)',
-      border: '2px solid #ff6b6b',
-      borderRadius: '25px',
-      color: '#ff6b6b',
-      fontSize: '0.9rem',
-      fontWeight: 'bold',
-      cursor: 'pointer'
-    }}
-  >
-    🔄 {translations[currentLanguage]?.games?.reset || 'RESET'}
-  </button>
-</div>
+          
+          <div style={styles.wordDisplay}>{positiveGame.currentWord}</div>
+          
+          {positiveGame.feedback && (
+            <div style={styles.gameFeedback}>{positiveGame.feedback}</div>
+          )}
+          
+          <div style={styles.wordGrid}>
+            {(positiveWordBank[currentLanguage]?.[positiveGame.level] || positiveWordBank.English[1]).map((word, i) => (
+              <button
+                key={i}
+                style={styles.wordButton}
+                onClick={() => handleWordClick(word)}
+                onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.3)'}
+                onMouseLeave={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.1)'}
+              >
+                {word}
+              </button>
+            ))}
+          </div>
+          
+          <button 
+            style={styles.gameReset} 
+            onClick={resetPositiveGame}
+            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 0, 0, 0.3)'}
+            onMouseLeave={(e) => e.target.style.background = 'rgba(255, 0, 0, 0.2)'}
+          >
+            {translations[currentLanguage]?.games?.reset || 'Reset Game'}
+          </button>
+        </div>
+        
+        {/* GAMES GRID */}
+        <div style={styles.gamesGrid}>
+          {/* MATH GAME */}
+          <div style={styles.gameCard}>
+            <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
+              {translations[currentLanguage]?.games?.math?.title || 'Quantum Reset Math'}
+            </h3>
+            <p style={{marginBottom: '12px'}}>
+              {translations[currentLanguage]?.games?.math?.question || '40 day reset, 3 of those days were dry = ?'}
+            </p>
+            <p style={{marginBottom: '10px', color: '#00d4ff', fontSize: '0.78rem', fontStyle: 'italic', textAlign: 'center'}}>
+              {translations[currentLanguage]?.games?.math?.hint || '💡 Hint: 1 dry day = 3 water days'}
+            </p>
+             
+            {!quizState.math.submitted ? (
+              <>
+                {['40', '46', '49'].map(num => (
+                  <button
+                    key={num}
+                    style={styles.gameButton}
+                    onClick={() => handleMathAnswer(num)}
+                    onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.3)'}
+                    onMouseLeave={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.15)'}
+                  >
+                    {num}
+                  </button>
+                ))}
+              </>
+            ) : (
+              <div style={styles.gameResult}>
+                {quizState.math.feedback}
+                <button 
+                  style={{...styles.gameReset, marginTop: '10px'}} 
+                  onClick={() => resetQuiz('math')}
+                >
+                  {translations[currentLanguage]?.games?.try_again || 'Try Again'}
+                </button>
+              </div>
+            )
+}</div>
           {/* COMPOUND GAME */}
           <div style={styles.gameCard}>
             <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
@@ -3520,67 +3320,62 @@ onClick={() => setShowBrianStory(true)}>
       </section>
 
       {/* CONTAINER 11: LINKING REALITY TO FREQUENCY (PHOTO GALLERY) */}
-      <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Linking Reality to Frequency</h2>
-<div style={styles.galleryGrid}>
-  <img
-    src="https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/MAVJLogo.png"
-    alt="J2E Logo"
-    style={styles.galleryImage}
-    loading="lazy"
-    onError={(e) => { 
-      e.target.onerror = null; 
-      e.target.src = '/images/star-pattern.png';
-    }}
-  />
-  <img
-    src="https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/DBRoad.jpg"
-    alt="Des Barres Road"
-    style={styles.galleryImage}
-    loading="lazy"
-    onError={(e) => { 
-      e.target.onerror = null; 
-      e.target.src = '/images/star-pattern.png';
-    }}
-  />
-  <img
-    src="https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/BigTent.jpeg"
-    alt="Big Tent"
-    style={styles.galleryImage}
-    loading="lazy"
-    onError={(e) => { 
-      e.target.onerror = null; 
-      e.target.src = '/images/star-pattern.png';
-    }}
-  />
-  <img
-    src="https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/ResTents.jpeg"
-    alt="Res Tents"
-    style={styles.galleryImage}
-    loading="lazy"
-    onError={(e) => { 
-      e.target.onerror = null; 
-      e.target.src = '/images/star-pattern.png';
-    }}
-  />
-  <img
-    src="https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/Diving%20in%20St.%20Thomas.jpg"
-    alt="Dive"
-    style={styles.galleryImage}
-    loading="lazy"
-    onError={(e) => { 
-      e.target.onerror = null; 
-      e.target.src = '/images/star-pattern.png';
-    }}
-  />
-</div>    loading="lazy"
-    onError={(e) => { 
-      e.target.onerror = null; 
-      e.target.src = '/images/star-pattern.png';
-    }}
- 
-      </section>
-
+  {/* CONTAINER 11: LINKING REALITY TO FREQUENCY (PHOTO GALLERY) */}
+<section style={styles.section}>
+  <h2 style={styles.sectionTitle}>Linking Reality to Frequency</h2>
+  <div style={styles.galleryGrid}>
+    <img
+      src="/images/BeachDinner.png"
+      alt="MAVJ Logo"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+    <img
+      src="/images/DesBarras.jpeg"
+      alt="Des Barres Road"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+    <img
+      src="/images/BigTent.jpeg"
+      alt="Big Tent"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+    <img
+      src="/images/SL.png"
+      alt="Res Tents"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+    <img
+      src="/images/Diving-in-St-Thomas.jpg"
+      alt="Dive"
+      style={styles.galleryImage}
+      loading="lazy"
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = '/images/star-pattern.png';
+      }}
+    />
+  </div>
+</section>
       {/* CONTAINER 12: UNIVERSAL FOOTER */}
       <footer style={styles.footer}>
         <p style={{color: '#FFD700', fontWeight: '700', marginBottom: '12px'}}>
@@ -3599,7 +3394,7 @@ onClick={() => setShowBrianStory(true)}>
             YouTube
           </a>
           <a 
-            href="https://www.tiktok.com/@myalkalineveganjourney"
+            href="https://www.tiktok.com/@myalkalineveganjourney.4?lang=en"
             target="_blank"
             rel="noopener noreferrer"
             style={styles.socialLink}
@@ -3609,7 +3404,7 @@ onClick={() => setShowBrianStory(true)}>
             TikTok
           </a>
           <a 
-            href="https://facebook.com"
+            href="https://www.facebook.com/MyAlkalineVeganJourney"
             target="_blank"
             rel="noopener noreferrer"
             style={styles.socialLink}

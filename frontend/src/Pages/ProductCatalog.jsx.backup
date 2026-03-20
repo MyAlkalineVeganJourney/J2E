@@ -52,7 +52,7 @@ const ProductCatalog = () => {
         background: `linear-gradient(90deg, ${color}, transparent)`,
         marginBottom: '40px',
         borderRadius: '2px'
-      }} />
+      }}></div>
       
       <div style={{
         display: 'grid',
@@ -84,7 +84,7 @@ const ProductCatalog = () => {
               backgroundImage: `url(${product.image})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'
-            }} />
+            }}></div>
             
             <div style={{ padding: '25px' }}>
               <div style={{
@@ -214,6 +214,7 @@ const ProductCatalog = () => {
 
   return (
     <Layout pageTitle="🛒 Complete Product Catalog">
+      
       <div style={{
         maxWidth: '1600px',
         margin: '0 auto 30px',
@@ -272,6 +273,12 @@ const ProductCatalog = () => {
         padding: '30px',
         background: 'rgba(0,0,0,0.6)',
         borderRadius: '15px',
+      <div style={{
+        maxWidth: '1600px',
+        margin: '0 auto 60px',
+        padding: '30px',
+        background: 'rgba(0,0,0,0.6)',
+        borderRadius: '15px',
         border: '2px solid #FFD700'
       }}>
         <h3 style={{ color: '#FFD700', marginBottom: '20px', textAlign: 'center', fontSize: '1.5rem' }}>
@@ -283,47 +290,54 @@ const ProductCatalog = () => {
           gap: '15px',
           justifyContent: 'center'
         }}>
-          {[
-            { name: 'Sea Moss', id: 'seamoss', color: '#00CED1', icon: '🌊' },
-            { name: 'Herbs', id: 'herbs', color: '#32CD32', icon: '🌿' },
-            { name: 'Seeds', id: 'seeds', color: '#FFD700', icon: '🌱' },
-            { name: 'Oils', id: 'oils', color: '#FF6B00', icon: '🔥' },
-            { name: 'Kits', id: 'kits', color: '#9400D3', icon: '💎' },
-            { name: 'Snacks', id: 'snacks', color: '#FFD700', icon: '✨' },
-            { name: 'Beverages', id: 'beverages', color: '#4169E1', icon: '🥤' },
-            { name: 'J2E', id: 'j2e', color: '#00CED1', icon: '🏝️' },
-            { name: 'Merchandise', id: 'merchandise', color: '#FFD700', icon: '👕' }
-          ].map(cat => (
-            <a
-              key={cat.id}
-              href={`#${cat.id}`}
-              style={{
-                padding: '12px 25px',
-                background: `${cat.color}20`,
-                border: `2px solid ${cat.color}`,
-                borderRadius: '25px',
-                color: cat.color,
-                textDecoration: 'none',
-                fontSize: '1.1rem',
-                fontWeight: 'bold',
-                transition: 'all 0.3s'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = `${cat.color}40`;
-                e.target.style.transform = 'scale(1.05)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = `${cat.color}20`;
-                e.target.style.transform = 'scale(1)';
-              }}
-            >
-              {cat.icon} {cat.name}
+          {{
+            [
+              { name: 'Sea Moss', id: 'seamoss', color: '#00CED1', icon: '🌊' },
+              { name: 'Herbs', id: 'herbs', color: '#32CD32', icon: '🌿' },
+              { name: 'Seeds', id: 'seeds', color: '#FFD700', icon: '🌱' },
+              { name: 'Oils', id: 'oils', color: '#FF6B00', icon: '🔥' },
+              { name: 'Kits', id: 'kits', color: '#9400D3', icon: '💎' },
+              { name: 'Snacks', id: 'snacks', color: '#FFD700', icon: '✨' },
+              { name: 'Beverages', id: 'beverages', color: '#4169E1', icon: '🥤' },
+              { name: 'J2E', id: 'j2e', color: '#00CED1', icon: '🏝️' },
+              { name: 'Merchandise', id: 'merchandise', color: '#FFD700', icon: '👕' }
+            ].map(cat => (
+              <a
+                key={cat.id}
+                href={`#${cat.id}`}
+                style={{
+                  padding: '12px 25px',
+                  background: `${cat.color}20`,
+                  border: `2px solid ${cat.color}`,
+                  borderRadius: '25px',
+                  color: cat.color,
+                  textDecoration: 'none',
+                  fontSize: '1.1rem',
+                  fontWeight: 'bold',
+                  transition: 'all 0.3s'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = `${cat.color}40`;
+                  e.target.style.transform = 'scale(1.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = `${cat.color}20`;
+                  e.target.style.transform = 'scale(1)';
+                }}
+              >
+                {cat.icon} {cat.name}
+              </a>
+            ))}
+          }}
+        </div>
+      </div>              {cat.icon} {cat.name}
             </a>
           ))}
         </div>
       </div>
 
       <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '0 20px 80px' }}>
+        
         <CategorySection 
           id="seamoss"
           title="Sea Moss - All Colors & Sizes"
@@ -456,4 +470,3 @@ const ProductCatalog = () => {
 };
 
 export default ProductCatalog;
-      
