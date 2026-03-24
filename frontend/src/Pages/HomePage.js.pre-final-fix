@@ -17,31 +17,8 @@ const HomePage = () => {
   const [liveUsers, setLiveUsers] = useState(127);
   const [particlesEnabled, setParticlesEnabled] = useState(true);
   const [showBrianStory, setShowBrianStory] = useState(false);
-  const [videoLoading, setVideoLoading] = useState({});
+  const [videoLoading, setVideoLoading] = useState({}); // Track video loading states
   
-  // Game States - MAVJ Positive Word Game
-  const [selectedWord, setSelectedWord] = useState('');
-  const [shuffledLetters, setShuffledLetters] = useState(() => {
-    // All 26 letters of the alphabet
-    const alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-    // Randomly select 16 letters for this round
-    return [...alphabet].sort(() => Math.random() - 0.5).slice(0, 16);
-  });
-  const [targetWords, setTargetWords] = useState([
-    { word: 'LOVE', found: false },
-    { word: 'PEACE', found: false },
-    { word: 'JOY', found: false },
-    { word: 'HOPE', found: false }
-  ]);
-  const [wordBank, setWordBank] = useState([]);
-  const [gameFeedback, setGameFeedback] = useState(null);
-  const initialTargetWords = [
-    { word: 'LOVE', found: false },
-    { word: 'PEACE', found: false },
-    { word: 'JOY', found: false },
-    { word: 'HOPE', found: false }
-  ];
-
   // Game States
   const [quizState, setQuizState] = useState({
     math: { answer: null, submitted: false, score: 0, feedback: '' },
@@ -102,7 +79,7 @@ const HomePage = () => {
   const translations = {
     English: {
       nav: {
-        home: 'My Alkaline Vegan Journey',
+        home: 'MAVJHome',
         journey: 'The Journey',
         store: 'MAVJStore',
         j2e: 'Journey 2 Enlightenment',
@@ -120,7 +97,7 @@ const HomePage = () => {
         quantum_physics: 'Where Quantum Physics',
         ancient_wisdom: 'Meets Ancient Wisdom',
         nutrition: 'And Nutrition',
-        home: "My Alkaline Vegan Journey",
+        home: "YOU'RE HOME",
         sovereign: 'Sovereign Living',
         transformation: 'Frequency Transformation',
         ancestral: 'Ancestral Nutrition',
@@ -169,7 +146,7 @@ const HomePage = () => {
     },
     Spanish: {
       nav: {
-        home: 'My Alkaline Vegan Journey',
+        home: 'MAVJHome',
         journey: 'El Viaje',
         store: 'MAVJStore',
         j2e: 'Viaje a la Iluminación',
@@ -196,7 +173,7 @@ const HomePage = () => {
     },
     French: {
       nav: {
-        home: 'My Alkaline Vegan Journey',
+        home: 'MAVJHome',
         journey: 'Le Voyage',
         store: 'MAVJStore',
         j2e: 'Voyage vers l\'Éveil',
@@ -210,7 +187,7 @@ const HomePage = () => {
     },
     German: {
       nav: {
-        home: 'My Alkaline Vegan Journey',
+        home: 'MAVJHome',
         journey: 'Die Reise',
         store: 'MAVJStore',
         j2e: 'Reise zur Erleuchtung',
@@ -224,7 +201,7 @@ const HomePage = () => {
     },
     Italian: {
       nav: {
-        home: 'My Alkaline Vegan Journey',
+        home: 'MAVJHome',
         journey: 'Il Viaggio',
         store: 'MAVJStore',
         j2e: 'Viaggio verso l\'Illuminazione',
@@ -2593,206 +2570,202 @@ const HomePage = () => {
       </nav>
     
       {/* CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES) */}
-<section style={styles.titleSection}>
-  <div style={{
-    display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    width: '100%',
-    padding: '8px 18px 4px',
-    gap: '12px',
-    flex: 1
-  }}>
-
-    {/* LEFT TEXT BOX — hangs below container border */}
-    <div style={{
-      background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
-      borderRadius: '4px',
-      padding: '2px',
-      flexShrink: 0,
-      alignSelf: 'flex-end',
-      position: 'relative',
-      bottom: '-10px'
-    }}>
-      <div style={{
-        background: 'rgba(0, 0, 0, 0.95)',
-        borderRadius: '3px',
-        padding: '10px 14px',
-        fontSize: '0.72rem',
-        fontWeight: '800',
-        color: '#FFD700',
-        lineHeight: '1.6',
-        textAlign: 'center',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.leftBox", "ELECTROMAGNETIC\nRESONANCE\nALIGNMENT").split("\n")[0]}<br />
-        {t("title.scientific", "SCIENTIFICALLY BACKED")}<br />
-        {t("title.frequency", "FREQUENCY FOCUSED")}
-      </div>
-    </div>
-
-    {/* LEFT LOGO — middle height, close to company name */}
-    <div style={{
-      width: '110px',
-      height: '110px',
-      borderRadius: '50%',
-      border: '3px solid #FFD700',
-      overflow: 'hidden',
-      background: 'transparent',
-      boxShadow: '0 0 24px rgba(255,215,0,0.95)',
-      animation: 'heartbeat 1.4s ease-in-out infinite',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      alignSelf: 'center'
-    }}>
-      <img
-        src="/images/MAVJLogo.jpg"
-        alt="MAVJ Logo"
-        style={{
+      <section style={styles.titleSection}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
           width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          borderRadius: '50%'
-        }}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = '/J2E/images/photos.png';
-        }}
-      />
-    </div>
+          padding: '8px 18px 4px',
+          gap: '12px',
+          flex: 1
+        }}>
 
-    {/* CENTER — Company name + tagline directly beneath */}
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      flex: 1,
-      alignSelf: 'flex-start',
-      paddingTop: '6px',
-      gap: '6px'
-    }}>
-      <h1 style={{
-        fontFamily: "'Georgia','Times New Roman',serif",
-        fontSize: 'clamp(1.5rem,3vw,2.2rem)',
-        fontWeight: '900',
-        color: '#FFD700',
-        textAlign: 'center',
-        margin: 0,
-        letterSpacing: '1.5px',
-        textShadow: '0 0 18px rgba(255,215,0,0.95)',
-        lineHeight: '1.1',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.companyName", "My Alkaline Vegan Journey")}
-      </h1>
-      <div style={{
-        color: '#00d4ff',
-        fontSize: 'clamp(0.65rem,1.3vw,0.85rem)',
-        fontWeight: '800',
-        letterSpacing: '0.7px',
-        textTransform: 'uppercase',
-        textAlign: 'center',
-        textShadow: '0 0 10px rgba(0,212,255,0.85)',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.tagline", "SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION")}
-      </div>
-    </div>
+          {/* LEFT TEXT BOX — hangs below container border */}
+          <div style={{
+            background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
+            borderRadius: '4px',
+            padding: '2px',
+            flexShrink: 0,
+            alignSelf: 'flex-end',
+            position: 'relative',
+            bottom: '-10px'
+          }}>
+            <div style={{
+              background: 'rgba(0, 0, 0, 0.95)',
+              borderRadius: '3px',
+              padding: '10px 14px',
+              fontSize: '0.72rem',
+              fontWeight: '800',
+              color: '#FFD700',
+              lineHeight: '1.6',
+              textAlign: 'center',
+              whiteSpace: 'nowrap'
+            }}>
+              {t("title.leftBox").split("\n")[0]}<br />
+              {translations[currentLanguage]?.title?.scientific || "SCIENTIFICALLY BACKED"}<br />
+              {translations[currentLanguage]?.title?.frequency || "FREQUENCY FOCUSED"}            </div>
+          </div>
 
-    {/* RIGHT LOGO — mirrors left logo */}
-    <div style={{
-      width: '110px',
-      height: '110px',
-      borderRadius: '50%',
-      border: '3px solid #FFD700',
-      overflow: 'hidden',
-      background: 'transparent',
-      boxShadow: '0 0 24px rgba(255,215,0,0.95)',
-      animation: 'heartbeat 1.4s ease-in-out infinite',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      alignSelf: 'center'
-    }}>
-      <img
-        src="/images/MAVJLogo.jpg"
-        alt="MAVJ Logo"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          borderRadius: '50%'
-        }}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = '/J2E/images/photos.png';
-        }}
-      />
-    </div>
+          {/* LEFT LOGO — middle height, close to company name */}
+          <div style={{
+            width: '110px',
+            height: '110px',
+            borderRadius: '50%',
+            border: '3px solid #FFD700',
+            overflow: 'hidden',
+            background: 'transparent',
+            boxShadow: '0 0 24px rgba(255,215,0,0.95)',
+            animation: 'heartbeat 1.4s ease-in-out infinite',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            alignSelf: 'center'
+          }}>
+            <img
+              src="/images/MAVJLogo.jpg"
+              alt="MAVJ Logo"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '50%'
+              }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/J2E/images/photos.png';
+              }}
+            />
+          </div>
 
-    {/* RIGHT TEXT BOX — mirrors left text box */}
-    <div style={{
-      background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
-      borderRadius: '4px',
-      padding: '2px',
-      flexShrink: 0,
-      alignSelf: 'flex-end',
-      position: 'relative',
-      bottom: '-10px'
-    }}>
-      <div style={{
-        background: 'rgba(0, 0, 0, 0.95)',
-        borderRadius: '3px',
-        padding: '10px 14px',
-        fontSize: '0.72rem',
-        fontWeight: '800',
-        color: '#FFD700',
-        lineHeight: '1.6',
-        textAlign: 'center',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.quantum_physics", "WHERE QUANTUM PHYSICS")}<br />
-        {t("title.ancient_wisdom", "MEETS ANCIENT WISDOM")}<br />
-        {t("title.nutrition", "AND NUTRITION")}
-      </div>
-    </div>
-  </div>
+          {/* CENTER — Company name (anchor) + tagline directly beneath */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            flex: 1,
+            alignSelf: 'flex-start',
+            paddingTop: '6px',
+            gap: '6px'
+          }}>
+            <h1 style={{
+              fontFamily: "'Georgia','Times New Roman',serif",
+              fontSize: 'clamp(1.5rem,3vw,2.2rem)',
+              fontWeight: '900',
+              color: '#FFD700',
+              textAlign: 'center',
+              margin: 0,
+              letterSpacing: '1.5px',
+              textShadow: '0 0 18px rgba(255,215,0,0.95)',
+              lineHeight: '1.1',
+              whiteSpace: 'nowrap'
+            }}>{t("title.home")}</h1>
+            <div style={{
+              color: '#00d4ff',
+              fontSize: 'clamp(0.65rem,1.3vw,0.85rem)',
+              fontWeight: '800',
+              letterSpacing: '0.7px',
+              textTransform: 'uppercase',
+              textAlign: 'center',
+              textShadow: '0 0 10px rgba(0,212,255,0.85)',
+              whiteSpace: 'nowrap'
+            }}>
+          {translations[currentLanguage]?.title?.tagline || "SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION"}             </div>
+          </div>
 
-  {/* PAGE TITLE — sits on bottom border, enlarged */}
-  <div style={{
-    background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
-    borderRadius: '5px',
-    padding: '2px',
-    display: 'inline-flex',
-    position: 'absolute',
-    bottom: '-20px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    zIndex: 1901,
-    whiteSpace: 'nowrap'
-  }}>
-    <div style={{
-      background: 'rgba(0, 0, 0, 0.97)',
-      borderRadius: '4px',
-      padding: '6px 28px',
-      fontSize: '1.15rem',
-      fontWeight: '900',
-      color: '#00d4ff',
-      textAlign: 'center',
-      textTransform: 'uppercase',
-      letterSpacing: '2.5px',
-      textShadow: '0 0 14px rgba(0,212,255,0.9)'
-    }}>
-      {t("title.pageTitle", "HOME")}
-    </div>
-  </div>
-</section>cd 
+          {/* RIGHT LOGO — mirrors left logo */}
+          <div style={{
+            width: '110px',
+            height: '110px',
+            borderRadius: '50%',
+            border: '3px solid #FFD700',
+            overflow: 'hidden',
+            background: 'transparent',
+            boxShadow: '0 0 24px rgba(255,215,0,0.95)',
+            animation: 'heartbeat 1.4s ease-in-out infinite',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            alignSelf: 'center'
+          }}>
+            <img
+              src="/images/MAVJLogo.jpg"
+              alt="MAVJ Logo"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '50%'
+              }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/J2E/images/photos.png';
+              }}
+            />
+          </div>
 
-{/* ANNOUNCEMENTS & RESONANCE ALIGNMENT PORTAL */}
+          {/* RIGHT TEXT BOX — mirrors left text box */}
+          <div style={{
+            background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
+            borderRadius: '4px',
+            padding: '2px',
+            flexShrink: 0,
+            alignSelf: 'flex-end',
+            position: 'relative',
+            bottom: '-10px'
+          }}>
+            <div style={{
+              background: 'rgba(0, 0, 0, 0.95)',
+              borderRadius: '3px',
+              padding: '10px 14px',
+              fontSize: '0.72rem',
+              fontWeight: '800',
+              color: '#FFD700',
+              lineHeight: '1.6',
+              textAlign: 'center',
+              whiteSpace: 'nowrap'
+            }}>
+          {translations[currentLanguage]?.title?.quantum_physics || "WHERE QUANTUM PHYSICS"}<br />
+          {translations[currentLanguage]?.title?.ancient_wisdom || "MEETS ANCIENT WISDOM"}<br />
+          {translations[currentLanguage]?.title?.nutrition || "AND NUTRITION"}
+            </div>
+          </div>
+        </div>
+
+        {/* PAGE TITLE — sits on bottom border, enlarged */}
+        <div style={{
+          background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
+          borderRadius: '5px',
+          padding: '2px',
+          display: 'inline-flex',
+          position: 'absolute',
+          bottom: '-20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1901,
+          whiteSpace: 'nowrap'
+        }}>
+          <div style={{
+            background: 'rgba(0, 0, 0, 0.97)',
+            borderRadius: '4px',
+            padding: '6px 28px',
+            fontSize: '1.15rem',
+            fontWeight: '900',
+            color: '#00d4ff',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            letterSpacing: '2.5px',
+            textShadow: '0 0 14px rgba(0,212,255,0.9)'
+          }}>
+            {t("title.home")}
+          </div>
+        </div>
+      </section>
+
+{/* ANNOUNCEMENT SECTION */}
 <div style={{
   backgroundImage: 'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url(/images/Robin.jpeg)',
   backgroundSize: 'cover',
@@ -2806,25 +2779,15 @@ const HomePage = () => {
   {/* SECTION 1: ANNOUNCEMENTS & RESONANCE PORTAL */}
   <section style={{ padding: '40px 20px 30px 20px' }}>
     <div style={{ textAlign: 'center', marginBottom: '25px' }}>
-      <h2 style={{ color: '#FFD700', fontSize: '1.6rem', fontWeight: '900' }}>
-        {t('announcements.title', '📢 Announcements & Resonance Alignment Portal')}
-      </h2>
+      <h2 style={{ color: '#FFD700', fontSize: '1.6rem', fontWeight: '900' }}>📢 Announcements & Resonance Portal</h2>
     </div>
 
-    <div style={{ 
-      display: 'flex', 
-      flexWrap: 'wrap', 
-      gap: '18px', 
-      justifyContent: 'center', 
-      alignItems: 'stretch', 
-      maxWidth: '1100px', 
-      margin: '0 auto' 
-    }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px', justifyContent: 'center', alignItems: 'stretch', maxWidth: '1200px', margin: '0 auto' }}>
       {announcements.map((announcement) => (
         <div key={announcement.id} style={{
           flex: '1 1 280px',
-          maxWidth: '300px',
-          minWidth: '260px',
+          maxWidth: '320px',
+          minWidth: '280px',
           background: 'rgba(0,0,0,0.88)', 
           borderRadius: '12px', 
           border: '2px solid transparent',
@@ -2833,8 +2796,7 @@ const HomePage = () => {
           display: 'flex', 
           flexDirection: 'column', 
           justifyContent: 'space-between',
-          height: 'auto',
-          minHeight: '380px'
+          height: 'auto'
         }}>
           <div>
             <h3 style={{ color: '#FFD700', fontSize: '1rem', fontWeight: '900', marginBottom: '6px' }}>
@@ -2844,43 +2806,47 @@ const HomePage = () => {
               {announcement.description}
             </p>
 
-            {/* BOX 3: RESONANCE ALIGNMENT PORTAL - GIFT PORTAL */}
+            {/* RESONANCE ALIGNMENT PORTAL (BOX #3 ONLY) */}
             {announcement.id === 3 && (
               <>
+                {/* SHIPPING ADDRESS BOX - ABOVE THE SCROLL */}
                 <div style={{
                   background: 'rgba(255,215,0,0.12)',
                   borderLeft: '3px solid #FFD700',
-                  padding: '6px 8px',
-                  marginBottom: '10px',
-                  borderRadius: '4px'
+                  padding: '8px 10px',
+                  marginBottom: '12px',
+                  borderRadius: '6px'
                 }}>
-                  <p style={{ color: '#FFD700', fontSize: '0.6rem', fontWeight: 'bold', marginBottom: '2px' }}>
-                    {t('announcements.shipTo', '📦 SHIP TO:')}
+                  <p style={{ color: '#FFD700', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
+                    📦 SHIP TO:
                   </p>
-                  <p style={{ color: '#DDD6B8', fontSize: '0.55rem', lineHeight: '1.2', margin: 0 }}>
+                  <p style={{ color: '#DDD6B8', fontSize: '0.55rem', lineHeight: '1.3', margin: 0 }}>
                     MY ALKALINE VEGAN JOURNEY<br/>
                     2281 NW 82nd Ave, STE. SLU114258<br/>
-                    Doral, FL 33198-6511
+                    Doral, FL 33198-6511<br/>
+                    (305)-470-8998
                   </p>
                 </div>
 
+                {/* SCROLL BOX - SHOWS 2 ITEMS AT A TIME */}
                 <div style={{ 
                   background: 'rgba(0,212,255,0.08)', 
-                  borderRadius: '6px', 
+                  borderRadius: '8px', 
                   border: '1px solid #00d4ff', 
-                  padding: '5px'
+                  padding: '6px',
+                  position: 'relative'
                 }}>
                   <p style={{ 
                     color: '#00d4ff', 
-                    fontSize: '0.55rem', 
+                    fontSize: '0.6rem', 
                     fontWeight: '900', 
-                    marginBottom: '4px', 
+                    marginBottom: '6px', 
                     textAlign: 'center'
                   }}>
-                    ⚡ {t('announcements.gifts', 'RESONANCE ALIGNMENT: GIFTS')} ⚡
+                    ⚡ SCROLL DOWN FOR 150+ GIFTS ⚡
                   </p>
                   <div style={{ 
-                    height: '100px', 
+                    height: '160px', 
                     overflowY: 'auto', 
                     scrollbarWidth: 'thin',
                     paddingRight: '3px'
@@ -2890,11 +2856,14 @@ const HomePage = () => {
                       { icon: '☀️', label: 'Power Station', price: '$499', link: 'https://amzn.to/3OE9SBC' },
                       { icon: '🤿', label: 'Dive Set', price: '$59', link: 'https://amzn.to/4l3fXDF' },
                       { icon: '🔋', label: 'Solar Charger', price: '$35', link: 'https://amzn.to/47igjAC' },
-                      { icon: '📻', label: 'Radio', price: '$39', link: 'https://amzn.to/4b4Z8E2' },
-                      { icon: '🏮', label: 'Lanterns', price: '$25', link: 'https://amzn.to/4r4omIv' },
-                      { icon: '🔦', label: 'Flashlights', price: '$22', link: 'https://amzn.to/4l1vTGF' },
+                      { icon: '📻', label: 'Emergency Radio', price: '$39', link: 'https://amzn.to/4b4Z8E2' },
+                      { icon: '🏮', label: 'Solar Lanterns', price: '$25', link: 'https://amzn.to/4r4omIv' },
+                      { icon: '🔦', label: 'LED Flashlights', price: '$22', link: 'https://amzn.to/4l1vTGF' },
                       { icon: '🔧', label: 'Tool Set', price: '$45', link: 'https://amzn.to/4b0ZJXh' },
-                      { icon: '🥡', label: 'Sealer', price: '$68', link: 'https://amzn.to/4sk9aYT' }
+                      { icon: '🥡', label: 'Vacuum Sealer', price: '$68', link: 'https://amzn.to/4sk9aYT' },
+                      { icon: '🎧', label: 'Headphones', price: '$29', link: 'https://amzn.to/4tUjKHs' },
+                      { icon: '💡', label: 'LED Bulbs', price: '$18', link: 'https://amzn.to/4b0ZJXh' },
+                      { icon: '🧰', label: 'Tool Bag', price: '$25', link: 'https://amzn.to/4b0ZJXh' }
                     ].map((item, idx) => (
                       <a 
                         key={idx} 
@@ -2905,76 +2874,61 @@ const HomePage = () => {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'space-between',
-                          padding: '5px 3px',
-                          borderBottom: idx < 8 ? '1px solid rgba(255,215,0,0.1)' : 'none',
-                          textDecoration: 'none'
+                          padding: '8px 6px',
+                          borderBottom: idx < 11 ? '1px solid rgba(255,215,0,0.1)' : 'none',
+                          textDecoration: 'none',
+                          transition: 'all 0.2s'
                         }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0,212,255,0.15)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                       >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <span style={{ fontSize: '0.9rem' }}>{item.icon}</span>
-                          <span style={{ color: '#fff', fontSize: '0.55rem' }}>{item.label}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
+                          <span style={{ color: '#fff', fontSize: '0.65rem' }}>{item.label}</span>
                         </div>
-                        <span style={{ color: '#FFD700', fontSize: '0.55rem', fontWeight: 'bold' }}>{item.price}</span>
+                        <span style={{ color: '#FFD700', fontSize: '0.65rem', fontWeight: 'bold' }}>{item.price}</span>
                       </a>
                     ))}
                   </div>
+                  
+                  {/* SCROLL INDICATOR */}
                   <div style={{
                     textAlign: 'center',
-                    marginTop: '3px',
+                    marginTop: '6px',
                     color: '#00d4ff',
-                    fontSize: '0.45rem'
+                    fontSize: '0.55rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '4px'
                   }}>
-                    ▼ {t('announcements.scroll', 'SCROLL FOR MORE')} ▼
+                    <span>▼</span>
+                    <span>SCROLL FOR MORE</span>
+                    <span>▼</span>
                   </div>
                 </div>
               </>
             )}
 
-            {/* BOX 4: VIBRATIONAL INTELLIGENCE */}
+            {/* VIBRATIONAL INTELLIGENCE CARD CONTENT (BOX #? - Add content here) */}
             {announcement.id === 4 && (
-              <div style={{ 
-                background: 'rgba(99,102,241,0.1)', 
-                borderRadius: '6px', 
-                padding: '8px',
-                border: '1px solid #6366f1',
-                marginTop: '5px'
-              }}>
-                <p style={{ color: '#8b5cf6', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                  🔮 {t('announcements.viLatest', 'Latest Discovery:')}
-                </p>
-                <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                  {t('announcements.viContent', 'Quantum coherence in microtubules confirmed at body temperature')}
-                </p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                    {t('announcements.viDate', 'Mar 2026')}
-                  </span>
-                  <span style={{ color: '#6366f1', fontSize: '0.55rem' }}>
-                    {t('announcements.viImpact', 'BREAKTHROUGH')}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* BOX 5: FLASH MOB */}
-            {announcement.id === 5 && (
-              <div style={{ 
-                background: 'rgba(236,72,153,0.1)', 
-                borderRadius: '6px', 
-                padding: '8px',
-                border: '1px solid #ec4899',
-                marginTop: '5px'
-              }}>
-                <p style={{ color: '#ec4899', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                  🌍 {t('announcements.flashMob', 'GLOBAL FLASH MOB')}
-                </p>
-                <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                  {t('announcements.flashMobDesc', 'Submit your 30-second dance clip! Join dancers worldwide in synchronized celebration.')}
-                </p>
-                <div>
-                  <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                    {t('announcements.flashMobDeadline', 'Deadline: April 30, 2026')}
-                  </span>
+              <div style={{ marginTop: '8px' }}>
+                <div style={{ 
+                  background: 'rgba(99,102,241,0.1)', 
+                  borderRadius: '8px', 
+                  padding: '8px',
+                  border: '1px solid #6366f1'
+                }}>
+                  <p style={{ color: '#8b5cf6', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '6px' }}>
+                    🔮 Latest Discovery:
+                  </p>
+                  <p style={{ color: '#fff', fontSize: '0.7rem', lineHeight: '1.3' }}>
+                    Quantum coherence in microtubules confirmed at body temperature
+                  </p>
+                  <div style={{ marginTop: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ color: '#FFD700', fontSize: '0.6rem' }}>Mar 2026</span>
+                    <span style={{ color: '#6366f1', fontSize: '0.6rem' }}>BREAKTHROUGH</span>
+                  </div>
                 </div>
               </div>
             )}
@@ -2982,7 +2936,7 @@ const HomePage = () => {
           <a 
             href={announcement.link} 
             style={{
-              marginTop: '10px', 
+              marginTop: '12px', 
               padding: '8px', 
               background: 'linear-gradient(135deg, #FFD700, #FFA500)', 
               color: '#000', 
@@ -2990,12 +2944,10 @@ const HomePage = () => {
               borderRadius: '25px', 
               fontWeight: 'bold', 
               textAlign: 'center', 
-              fontSize: '0.7rem'
+              fontSize: '0.75rem'
             }}
           >
-            {announcement.id === 3 
-              ? t('announcements.viewGifts', '🔗 VIEW GIFTS') 
-              : t('announcements.learnMore', '🔗 LEARN MORE')}
+            {announcement.id === 3 ? "🔗 VIEW ALL GIFTS" : "🔗 LEARN MORE"}
           </a>
         </div>
       ))}
@@ -3011,27 +2963,24 @@ const HomePage = () => {
       padding: '35px', 
       borderRadius: '20px', 
       border: '2px solid transparent',
-      borderImage: 'linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4, #f59e0b) 1'
+      borderImage: 'linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4, #f59e0b) 1',
+      boxShadow: '0 0 30px rgba(0,0,0,0.5)' 
     }}>
-      <h2 style={{ color: '#FFD700', textAlign: 'center', fontSize: '1.9rem', marginBottom: '20px' }}>
-        {t('quantumJourney.title', 'The Quantum Journey')}
-      </h2>
+      <h2 style={{ color: '#FFD700', textAlign: 'center', fontSize: '1.9rem', marginBottom: '20px' }}>The Quantum Journey</h2>
       <div style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.65' }}>
-        <p>{t('quantumJourney.p1', 'My experience during the 40-day Total Reset allowed me to visualize God\'s Space—a realm beyond euphoria, beyond bliss.')}</p>
-        <p style={{ marginTop: '12px' }}>{t('quantumJourney.p2', 'This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.')}</p>
+        <p>My experience during the 40-day Total Reset allowed me to visualize God's Space—a realm beyond euphoria, beyond bliss.</p>
+        <p style={{ marginTop: '12px' }}>This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.</p>
         
-        <h3 style={{color: '#FFD700', fontSize: '1.1rem', margin: '20px 0 12px'}}>
-          {t('quantumJourney.subtitle', 'How Frequency Recalibration Works')}
-        </h3>
+        <h3 style={{color: '#FFD700', fontSize: '1.1rem', margin: '20px 0 12px'}}>How Frequency Recalibration Works</h3>
         <ul style={{listStyle: 'none', padding: 0}}>
           <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-            <span>✨</span> {t('quantumJourney.point1', 'Your electromagnetic field resonates at optimal vitality')}
+            <span style={{fontSize: '1rem'}}>✨</span> Your electromagnetic field resonates at optimal vitality
           </li>
           <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-            <span>✨</span> {t('quantumJourney.point2', 'Cellular structures maintain coherence')}
+            <span style={{fontSize: '1rem'}}>✨</span> Cellular structures maintain coherence
           </li>
           <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-            <span>✨</span> {t('quantumJourney.point3', 'Your body accesses quantum regeneration')}
+            <span style={{fontSize: '1rem'}}>✨</span> Your body accesses quantum regeneration
           </li>
         </ul>
       </div>
@@ -3042,407 +2991,324 @@ const HomePage = () => {
       <section style={{...styles.section, backgroundImage: 'url(/J2E/images/photos.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
         <h2 style={styles.sectionTitle}>User Engagement Games</h2>
         
-        {/* ===== MAVJ POSITIVE WORD GAME ===== */}
-        
-        {/* Brian Story Teaser */}
-        <div style={{
-          maxWidth: '600px',
-          margin: '0 auto 25px',
-          padding: '15px 20px',
-          background: 'linear-gradient(135deg, rgba(148,0,211,0.15), rgba(255,215,0,0.15))',
-          borderRadius: '15px',
-          border: '2px solid #9400D3',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '15px',
-          flexWrap: 'wrap',
-          cursor: 'pointer'
-        }}
-        onClick={() => setShowBrianStory(true)}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '2rem' }}>📖</span>
-            <div>
-              <div style={{ color: '#FFD700', fontWeight: 'bold', fontSize: '1rem' }}>
-                Brian's Story
-              </div>
-              <div style={{ color: '#fff', fontSize: '0.85rem', opacity: 0.8 }}>
-                "I see how every word shapes my reality. I choose words that elevate."
-              </div>
-            </div>
-          </div>
-          <span style={{ color: '#9400D3', fontSize: '1.2rem' }}>▶</span>
-        </div>
-        
-        {/* Game Header */}
-        <h2 style={{
-          color: '#FFD700',
-          fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-          textAlign: 'center',
-          marginBottom: '20px',
-          textShadow: '0 0 20px #FFD700'
-        }}>
-          🌀 {translations[currentLanguage]?.games?.positive_word?.title || 'MAVJ Positive Word Game'}
-        </h2>
-        
-        {/* Stats Bar */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          maxWidth: '600px',
-          margin: '0 auto 25px',
-          padding: '12px 20px',
-          background: 'linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,212,255,0.1))',
-          border: '2px solid',
-          borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-          borderRadius: '40px',
-          flexWrap: 'wrap',
-          gap: '15px'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '1.3rem' }}>🔥</span>
-            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
-              {translations[currentLanguage]?.games?.streak || 'STREAK'}: {positiveGame?.streak || 0}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '1.3rem' }}>✨</span>
-            <span style={{ color: '#00d4ff', fontWeight: 'bold' }}>
-              {translations[currentLanguage]?.games?.score || 'SCORE'}: {positiveGame?.score || 0}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '1.3rem' }}>🌀</span>
-            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
-              {translations[currentLanguage]?.games?.level || 'LEVEL'}: {positiveGame?.level || 1}/3
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '1.3rem' }}>🪙</span>
-            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
-              COINS: {positiveGame?.coins || 0}
-            </span>
-          </div>
-        </div>
-        
-        {/* Current Word Display */}
-        <div style={{
-          textAlign: 'center',
-          margin: '20px auto',
-          padding: '15px',
-          background: 'rgba(0,0,0,0.5)',
-          borderRadius: '30px',
-          maxWidth: '400px'
-        }}>
-          <span style={{ color: '#FFD700', letterSpacing: '4px', fontSize: '1.5rem', fontWeight: 'bold' }}>
-            {selectedWord || '_____'}
-          </span>
-        </div>
-        
-        {/* Target Words */}
-        <div style={{
-          maxWidth: '800px',
-          margin: '20px auto',
-          padding: '20px',
-          background: 'rgba(0,0,0,0.3)',
-          borderRadius: '20px',
-          border: '2px solid #FFD700'
-        }}>
-          <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.2rem', textAlign: 'center' }}>
-            🎯 {translations[currentLanguage]?.games?.target_words || 'DISCOVER THESE WORDS'}
-          </h3>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            {targetWords.map((target, idx) => (
-              <div key={idx} style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                {target.word.split('').map((letter, i) => (
-                  <div key={i} style={{
-                    width: '45px',
-                    height: '45px',
-                    background: target.found ? 'rgba(76,175,80,0.2)' : 'rgba(255,215,0,0.1)',
-                    border: target.found ? '2px solid #4CAF50' : '2px solid #FFD700',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.3rem',
-                    fontWeight: 'bold',
-                    color: target.found ? '#4CAF50' : '#FFD700'
-                  }}>
-                    {target.found ? letter : ''}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Letter Circle */}
-        <div style={{ position: 'relative', margin: '30px auto', width: 'fit-content' }}>
-          <button
-            onClick={() => {
-              setShuffledLetters([...shuffledLetters].sort(() => Math.random() - 0.5));
-            }}
+{/* ===== MAVJ POSITIVE WORD GAME - COMPLETE FIXED ===== */}
+
+{/* Brian Story Teaser */}
+<div style={{
+  maxWidth: '600px',
+  margin: '0 auto 25px',
+  padding: '15px 20px',
+  background: 'linear-gradient(135deg, rgba(148,0,211,0.15), rgba(255,215,0,0.15))',
+  borderRadius: '15px',
+  border: '2px solid #9400D3',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '15px',
+  flexWrap: 'wrap',
+  cursor: 'pointer'
+}}
+onClick={() => setShowBrianStory(true)}>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+    <span style={{ fontSize: '2rem' }}>📖</span>
+    <div>
+      <div style={{ color: '#FFD700', fontWeight: 'bold', fontSize: '1rem' }}>
+        Brian's Story
+      </div>
+      <div style={{ color: '#fff', fontSize: '0.85rem', opacity: 0.8 }}>
+        "I love you, BUT I need space" → "I love you AND I need space"
+      </div>
+    </div>
+  </div>
+  <span style={{ color: '#9400D3', fontSize: '1.2rem' }}>▶</span>
+</div>
+
+{/* Game Header */}
+<h2 style={{
+  color: '#FFD700',
+  fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+  textAlign: 'center',
+  marginBottom: '20px',
+  textShadow: '0 0 20px #FFD700'
+}}>
+  🌀 {translations[currentLanguage]?.games?.positive_word?.title || 'MAVJ Positive Word Game'}
+</h2>
+
+{/* Stats Bar */}
+<div style={{
+  display: 'flex',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  maxWidth: '600px',
+  margin: '0 auto 25px',
+  padding: '12px 20px',
+  background: 'linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,212,255,0.1))',
+  border: '2px solid',
+  borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
+  borderRadius: '40px',
+  flexWrap: 'wrap',
+  gap: '15px'
+}}>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+    <span style={{ fontSize: '1.3rem' }}>🔥</span>
+    <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
+      {translations[currentLanguage]?.games?.streak || 'STREAK'}: {positiveGame?.streak || 0}
+    </span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+    <span style={{ fontSize: '1.3rem' }}>✨</span>
+    <span style={{ color: '#00d4ff', fontWeight: 'bold' }}>
+      {translations[currentLanguage]?.games?.score || 'SCORE'}: {positiveGame?.score || 0}
+    </span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+    <span style={{ fontSize: '1.3rem' }}>🌀</span>
+    <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
+      {translations[currentLanguage]?.games?.level || 'LEVEL'}: {positiveGame?.level || 1}/3
+    </span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+    <span style={{ fontSize: '1.3rem' }}>🪙</span>
+    <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
+      COINS: {positiveGame?.coins || 0}
+    </span>
+  </div>
+</div>
+
+{/* Target Words - All blanks */}
+<div style={{
+  maxWidth: '800px',
+  margin: '20px auto',
+  padding: '20px',
+  background: 'rgba(0,0,0,0.3)',
+  borderRadius: '20px',
+  border: '2px solid #FFD700'
+}}>
+  <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.2rem', textAlign: 'center' }}>
+    🎯 {translations[currentLanguage]?.games?.target_words || 'DISCOVER THESE WORDS'}
+  </h3>
+  
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+    {/* LOVE - 4 letters */}
+    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+      {[0,1,2,3].map((_, i) => (
+        <div key={`love-${i}`} style={{
+          width: '45px',
+          height: '45px',
+          background: 'rgba(255,215,0,0.1)',
+          border: '2px solid #FFD700',
+          borderRadius: '8px'
+        }} />
+      ))}
+    </div>
+    
+    {/* PEACE - 5 letters */}
+    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+      {[0,1,2,3,4].map((_, i) => (
+        <div key={`peace-${i}`} style={{
+          width: '45px',
+          height: '45px',
+          background: 'rgba(255,215,0,0.1)',
+          border: '2px solid #FFD700',
+          borderRadius: '8px'
+        }} />
+      ))}
+    </div>
+    
+    {/* JOY - 3 letters */}
+    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+      {[0,1,2].map((_, i) => (
+        <div key={`joy-${i}`} style={{
+          width: '45px',
+          height: '45px',
+          background: 'rgba(255,215,0,0.1)',
+          border: '2px solid #FFD700',
+          borderRadius: '8px'
+        }} />
+      ))}
+    </div>
+    
+    {/* HOPE - 4 letters */}
+    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+      {[0,1,2,3].map((_, i) => (
+        <div key={`hope-${i}`} style={{
+          width: '45px',
+          height: '45px',
+          background: 'rgba(255,215,0,0.1)',
+          border: '2px solid #FFD700',
+          borderRadius: '8px'
+        }} />
+      ))}
+    </div>
+  </div>
+</div>
+
+{/* Letter Circle with Scramble Button */}
+<div style={{ position: 'relative', margin: '30px auto', width: 'fit-content' }}>
+  {/* Scramble Button */}
+  <button
+    onClick={() => {
+      // Scramble letters logic will be implemented
+      console.log('Scramble clicked');
+    }}
+    style={{
+      position: 'absolute',
+      top: '-15px',
+      right: '-15px',
+      width: '40px',
+      height: '40px',
+      borderRadius: '50%',
+      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+      border: 'none',
+      color: '#000',
+      fontSize: '1.2rem',
+      fontWeight: 'bold',
+      cursor: 'pointer',
+      zIndex: 10
+    }}
+  >
+    🔄
+  </button>
+  
+  {/* Circle of Letters */}
+  <div style={{
+    position: 'relative',
+    width: 'min(350px, 80vw)',
+    height: 'min(350px, 80vw)',
+    margin: '0 auto'
+  }}>
+    <svg width="100%" height="100%" viewBox="0 0 100 100">
+      <circle
+        cx="50"
+        cy="50"
+        r="45"
+        fill="none"
+        stroke="url(#circleGradient)"
+        strokeWidth="2"
+        strokeDasharray="4,4"
+      />
+      <defs>
+        <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FFD700" />
+          <stop offset="50%" stopColor="#00d4ff" />
+          <stop offset="100%" stopColor="#FFD700" />
+        </linearGradient>
+      </defs>
+    </svg>
+    
+    {/* Random letters - completely scrambled */}
+    {['L','O','V','E','P','A','C','J','Y','H','F','T','W','K','Z','X']
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 16)
+      .map((letter, i) => {
+        const angle = (i * 22.5) * Math.PI / 180;
+        const x = 50 + 38 * Math.cos(angle);
+        const y = 50 + 38 * Math.sin(angle);
+        return (
+          <div
+            key={i}
             style={{
               position: 'absolute',
-              top: '-15px',
-              right: '-15px',
-              width: '40px',
-              height: '40px',
+              left: `${x}%`,
+              top: `${y}%`,
+              transform: 'translate(-50%, -50%)',
+              width: '42px',
+              height: '42px',
+              background: 'rgba(0,0,0,0.9)',
+              border: '2px solid',
+              borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-              border: 'none',
-              color: '#000',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#FFD700',
               fontSize: '1.2rem',
               fontWeight: 'bold',
-              cursor: 'pointer',
-              zIndex: 10
-            }}
-          >
-            🔄
-          </button>
-          
-          <div style={{
-            position: 'relative',
-            width: 'min(350px, 80vw)',
-            height: 'min(350px, 80vw)',
-            margin: '0 auto'
-          }}>
-            <svg width="100%" height="100%" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="45" fill="none" stroke="url(#circleGradient)" strokeWidth="2" strokeDasharray="4,4" />
-              <defs>
-                <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFD700" />
-                  <stop offset="50%" stopColor="#00d4ff" />
-                  <stop offset="100%" stopColor="#FFD700" />
-                </linearGradient>
-              </defs>
-            </svg>
-            
-            {shuffledLetters.map((letter, i) => {
-              const angle = (i * 22.5) * Math.PI / 180;
-              const x = 50 + 38 * Math.cos(angle);
-              const y = 50 + 38 * Math.sin(angle);
-              return (
-                <div
-                  key={i}
-                  onClick={() => {
-                    setSelectedWord(prev => prev + letter);
-                  }}
-                  style={{
-                    position: 'absolute',
-                    left: `${x}%`,
-                    top: `${y}%`,
-                    transform: 'translate(-50%, -50%)',
-                    width: '42px',
-                    height: '42px',
-                    background: 'rgba(0,0,0,0.9)',
-                    border: '2px solid',
-                    borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#FFD700',
-                    fontSize: '1.2rem',
-                    fontWeight: 'bold',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {letter}
-                </div>
-              );
-            })}
-          </div>
-          
-          {/* Submit and Clear Buttons */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' }}>
-            <button
-              onClick={() => {
-                const match = targetWords.find(t => t.word === selectedWord && !t.found);
-                if (match) {
-                  setTargetWords(prev => prev.map(t => 
-                    t.word === selectedWord ? { ...t, found: true } : t
-                  ));
-                  setPositiveGame(prev => ({
-                    ...prev,
-                    score: prev.score + 100,
-                    streak: prev.streak + 1,
-                    coins: prev.coins + 10
-                  }));
-                  setGameFeedback({ type: 'success', message: `✨ ${selectedWord}! +100 points` });
-                  setWordBank(prev => [...prev, { word: selectedWord, found: true }]);
-                  setSelectedWord('');
-                } else if (selectedWord.length > 0) {
-                  setPositiveGame(prev => ({
-                    ...prev,
-                    streak: 0,
-                    coins: Math.max(0, prev.coins - 1)
-                  }));
-                  setGameFeedback({ type: 'error', message: `💫 "${selectedWord}" is not a target word. Try again!` });
-                  setSelectedWord('');
-                }
-              }}
-              style={{
-                padding: '12px 30px',
-                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-                border: 'none',
-                borderRadius: '30px',
-                color: '#000',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-            >
-              ✓ {translations[currentLanguage]?.games?.submit || 'SUBMIT WORD'}
-            </button>
-            <button
-              onClick={() => setSelectedWord('')}
-              style={{
-                padding: '12px 30px',
-                background: 'rgba(255,255,255,0.1)',
-                border: '2px solid #FFD700',
-                borderRadius: '30px',
-                color: '#FFD700',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-            >
-              ✗ CLEAR
-            </button>
-          </div>
-          
-          {gameFeedback && (
-            <div style={{
-              marginTop: '15px',
-              padding: '10px',
-              textAlign: 'center',
-              borderRadius: '10px',
-              background: gameFeedback.type === 'success' ? 'rgba(76,175,80,0.2)' : 'rgba(255,0,0,0.2)',
-              color: gameFeedback.type === 'success' ? '#4CAF50' : '#ff6b6b'
-            }}>
-              {gameFeedback.message}
-            </div>
-          )}
-        </div>
-        
-        {/* Word Bank */}
-        <div style={{
-          maxWidth: '800px',
-          margin: '30px auto',
-          padding: '20px',
-          background: 'rgba(0,0,0,0.3)',
-          borderRadius: '20px',
-          border: '2px solid #00d4ff'
-        }}>
-          <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.2rem' }}>
-            📚 {translations[currentLanguage]?.games?.word_bank || 'WORD BANK'}
-          </h3>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: '10px'
-          }}>
-            {wordBank.length === 0 ? (
-              <div style={{ color: '#00d4ff', textAlign: 'center', padding: '10px' }}>
-                Discover words to build your collection!
-              </div>
-            ) : (
-              wordBank.map((item, idx) => (
-                <div key={idx} style={{
-                  padding: '10px',
-                  background: 'rgba(255,215,0,0.1)',
-                  border: '1px solid #FFD700',
-                  borderRadius: '10px',
-                  cursor: 'pointer'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '1.1rem' }}>💎</span>
-                    <div>
-                      <div style={{ color: '#FFD700', fontWeight: 'bold' }}>{item.word}</div>
-                      <div style={{ fontSize: '0.7rem', color: '#00d4ff' }}>Click for etymology</div>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-        
-        {/* Action Buttons */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '12px',
-          marginTop: '20px',
-          flexWrap: 'wrap'
-        }}>
-          <button
-            onClick={() => {
-              if (positiveGame.coins >= 5) {
-                const unfound = targetWords.find(t => !t.found);
-                if (unfound) {
-                  setGameFeedback({ type: 'info', message: `💡 Hint: The word starts with "${unfound.word[0]}"` });
-                  setPositiveGame(prev => ({ ...prev, coins: prev.coins - 5 }));
-                }
-              } else {
-                setGameFeedback({ type: 'error', message: 'Not enough coins! Complete words to earn more.' });
-              }
-            }}
-            style={{
-              padding: '10px 20px',
-              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-              border: 'none',
-              borderRadius: '25px',
-              color: '#000',
-              fontSize: '0.9rem',
-              fontWeight: 'bold',
               cursor: 'pointer'
             }}
           >
-            🪙 {translations[currentLanguage]?.games?.hint || 'HINT'} (5)
-          </button>
-          <button
-            onClick={() => {
-              setShuffledLetters([...shuffledLetters].sort(() => Math.random() - 0.5));
-            }}
-            style={{
-              padding: '10px 20px',
-              background: 'linear-gradient(135deg, #00d4ff, #667eea)',
-              border: 'none',
-              borderRadius: '25px',
-              color: '#fff',
-              fontSize: '0.9rem',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
-          >
-            🔄 {translations[currentLanguage]?.games?.scramble || 'SCRAMBLE'}
-          </button>
-          <button
-            onClick={() => {
-              setTargetWords(initialTargetWords.map(w => ({ ...w, found: false })));
-              setWordBank([]);
-              setSelectedWord('');
-              setGameFeedback(null);
-              setPositiveGame(prev => ({ ...prev, score: 0, streak: 0, coins: 0 }));
-            }}
-            style={{
-              padding: '10px 20px',
-              background: 'rgba(255,0,0,0.15)',
-              border: '2px solid #ff6b6b',
-              borderRadius: '25px',
-              color: '#ff6b6b',
-              fontSize: '0.9rem',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
-          >
-            🔄 {translations[currentLanguage]?.games?.reset || 'RESET'}
-          </button>
-        </div>
+            {letter}
+          </div>
+        );
+      })}
+  </div>
+</div>
+
+{/* Word Bank */}
+<div style={{
+  maxWidth: '800px',
+  margin: '30px auto',
+  padding: '20px',
+  background: 'rgba(0,0,0,0.3)',
+  borderRadius: '20px',
+  border: '2px solid #00d4ff'
+}}>
+  <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.2rem' }}>
+    📚 {translations[currentLanguage]?.games?.word_bank || 'WORD BANK'}
+  </h3>
+  <div style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+    gap: '10px'
+  }}>
+    {/* Words will be populated from game state */}
+    <div style={{ color: '#00d4ff', textAlign: 'center', padding: '10px' }}>
+      Discover words to build your collection!
+    </div>
+  </div>
+</div>
+
+{/* Action Buttons */}
+<div style={{
+  display: 'flex',
+  justifyContent: 'center',
+  gap: '12px',
+  marginTop: '20px',
+  flexWrap: 'wrap'
+}}>
+  <button style={{
+    padding: '10px 20px',
+    background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+    border: 'none',
+    borderRadius: '25px',
+    color: '#000',
+    fontSize: '0.9rem',
+    fontWeight: 'bold',
+    cursor: 'pointer'
+  }}>
+    🔍 {translations[currentLanguage]?.games?.hint || 'HINT'} (10 🪙)
+  </button>
+  <button style={{
+    padding: '10px 20px',
+    background: 'linear-gradient(135deg, #00d4ff, #667eea)',
+    border: 'none',
+    borderRadius: '25px',
+    color: '#fff',
+    fontSize: '0.9rem',
+    fontWeight: 'bold',
+    cursor: 'pointer'
+  }}>
+    🔄 {translations[currentLanguage]?.games?.scramble || 'SCRAMBLE'}
+  </button>
+  <button
+    onClick={() => {
+      // Reset game logic
+      console.log('Reset clicked');
+    }}
+    style={{
+      padding: '10px 20px',
+      background: 'rgba(255,0,0,0.15)',
+      border: '2px solid #ff6b6b',
+      borderRadius: '25px',
+      color: '#ff6b6b',
+      fontSize: '0.9rem',
+      fontWeight: 'bold',
+      cursor: 'pointer'
+    }}
+  >
+    🔄 {translations[currentLanguage]?.games?.reset || 'RESET'}
+  </button>
+</div>
         
         {/* GAMES GRID */}
         <div style={styles.gamesGrid}>
