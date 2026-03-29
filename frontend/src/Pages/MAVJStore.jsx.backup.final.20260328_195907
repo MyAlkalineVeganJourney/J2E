@@ -1,0 +1,257 @@
+import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Layout from '../components/PageLayout';
+import products from '../data/products';
+import { CartContext } from '../context/CartContext';
+
+const MAVJStore = () => {
+  const { t } = useTranslation();
+  const { cartItems } = useContext(CartContext);
+  const [showAnnouncement, setShowAnnouncement] = useState(true);
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [userInfo, setUserInfo] = useState({ name: '', email: '' });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleSubscribeSubmit = () => {
+    if (userInfo.name && userInfo.email) {
+      localStorage.setItem('mavj_family_member', JSON.stringify(userInfo));
+      setShowSubscribeModal(false);
+      setShowAnnouncement(false);
+      alert('✅ Welcome to the MAVJ Family! Your discount code: VOLCANIC20');
+    }
+  };
+
+  const handleBuyNow = (url) => {
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } else {
+      alert(t('store.coming_soon', 'Coming soon!'));
+    }
+  };
+
+  const seaMossColors = [
+    {
+      name: t('seamoss.spectrum.name', 'Spectrum Sea Moss'),
+      botanical: 'Eucheuma spp. & Gracilaria spp.',
+      color: '#9370DB',
+      rawImage: '/images/RawSpectrumMoss.png',
+      gelImage: '/images/Gel.jpg',
+      benefit: t('seamoss.spectrum.benefit', 'Full spectrum mineral profile combining Gold, Jade, and Violet - provides complete cellular support with all 95% of daily minerals, antioxidants, and phytonutrients for total body homeostasis'),
+      raw: [
+        products.find(p => p.name.includes('Spectrum') && p.name.includes('Raw 2oz')),
+        products.find(p => p.name.includes('Spectrum') && p.name.includes('Raw 4oz')),
+        products.find(p => p.name.includes('Spectrum') && p.name.includes('Raw 8oz')),
+        products.find(p => p.name.includes('Spectrum') && p.name.includes('Raw 16oz'))
+      ].filter(Boolean),
+      gel: [
+        products.find(p => p.name.includes('Spectrum') && p.name.includes('Gel 32oz'))
+      ].filter(Boolean)
+    },
+    {
+      name: t('seamoss.gold.name', 'Gold Sea Moss'),
+      botanical: 'Eucheuma cottonii',
+      color: '#FFD700',
+      rawImage: '/images/gold-sea-moss-16oz.jpg',
+      gelImage: '/images/GoldGel.jpg',
+      benefit: t('seamoss.gold.benefit', 'Golden frequencies resonate with solar plexus chakra - ignites digestive fire, activates metabolic processes, enhances nutrient absorption, supports adrenal function, and amplifies solar life force energy throughout the body'),
+      raw: [
+        products.find(p => p.name.includes('Gold') && p.name.includes('Raw 2oz')),
+        products.find(p => p.name.includes('Gold') && p.name.includes('Raw 4oz')),
+        products.find(p => p.name.includes('Gold') && p.name.includes('Raw 8oz')),
+        products.find(p => p.name.includes('Gold') && p.name.includes('Raw 16oz'))
+      ].filter(Boolean),
+      gel: []
+    },
+    {
+      name: t('seamoss.violet.name', 'Violet Sea Moss'),
+      botanical: 'Gracilaria spp.',
+      color: '#9370DB',
+      rawImage: '/images/RawMossViolet.jpg',
+      gelImage: '/images/Gel.jpg',
+      benefit: t('seamoss.violet.benefit', 'Violet vibration activates crown and third eye chakras - enhances spiritual clarity, amplifies intuitive perception, supports thyroid and pineal gland function, promotes deep sleep cycles, and facilitates quantum coherence with higher consciousness'),
+      raw: [
+        products.find(p => p.name.includes('Violet') && p.name.includes('Raw 2oz')),
+        products.find(p => p.name.includes('Violet') && p.name.includes('Raw 4oz')),
+        products.find(p => p.name.includes('Violet') && p.name.includes('Raw 8oz')),
+        products.find(p => p.name.includes('Violet') && p.name.includes('Raw 16oz'))
+      ].filter(Boolean),
+      gel: []
+    },
+    {
+      name: t('seamoss.jade.name', 'Jade Sea Moss'),
+      botanical: 'Gracilaria changii',
+      color: '#00A86B',
+      rawImage: '/images/JadeRawSeaMoss.jpg',
+      gelImage: '/images/SeaMossGelSpoon.jpg',
+      benefit: t('seamoss.jade.benefit', 'Jade green resonates with heart chakra - strengthens cardiovascular system, balances blood pressure, promotes emotional equilibrium, maximizes chlorophyll absorption for deep cellular oxygenation, supports lymphatic flow, and harmonizes cardiac rhythm with Earth frequency'),
+      raw: [
+        products.find(p => p.name.includes('Jade') && p.name.includes('Raw 2oz')),
+        products.find(p => p.name.includes('Jade') && p.name.includes('Raw 4oz')),
+        products.find(p => p.name.includes('Jade') && p.name.includes('Raw 8oz')),
+        products.find(p => p.name.includes('Jade') && p.name.includes('Raw 16oz'))
+      ].filter(Boolean),
+      gel: []
+    }
+  ];
+
+  const j2eAccommodations = [
+    products.find(p => p.name.includes('J2E Enlightenment Pod (one person)')),
+    products.find(p => p.name.includes('J2E Frequency Pod (2 Guests')),
+    products.find(p => p.name.includes('J2E Resonance Pod (4+ guests')),
+    products.find(p => p.name.includes('J2E Vibration Off-Campus Pod')),
+    products.find(p => p.name.includes('J2E Deluxe Amplification Pod'))
+  ].filter(Boolean);
+
+  return (
+    <Layout pageTitle={t('store.title', '🛒 MAVJ Store - Your Journey Roadmap')}>
+      
+      <div style={{ maxWidth: '1600px', margin: '0 auto 20px', padding: '0 20px', display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', color: '#FFD700' }}>
+        <Link to="/" onClick={() => window.scrollTo(0, 0)} style={{ color: '#FFD700', textDecoration: 'none' }}>🏠 {t('nav.home', 'Home')}</Link>
+        <span>→</span>
+        <span style={{ color: '#FFF', fontWeight: 'bold', fontSize: 'clamp(1rem, 2.5vw, 1.2rem)' }}>{t('nav.store', 'Store Home')}</span>
+        <Link to="/ShoppingCart" onClick={() => window.scrollTo(0, 0)} style={{ marginLeft: 'auto', padding: 'clamp(10px, 3vw, 15px) clamp(20px, 5vw, 30px)', background: 'linear-gradient(135deg, #00CED1, #0080FF)', color: '#000', textDecoration: 'none', borderRadius: '50px', display: 'flex', alignItems: 'center', gap: '12px', fontSize: 'clamp(1rem, 2.5vw, 1.3rem)', fontWeight: 'bold', border: '3px solid #FFD700', boxShadow: '0 5px 25px rgba(0,206,209,0.6)' }}>
+          <span style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>��</span>
+          <span>{t('nav.cart', 'Cart')} ({cartItems.length})</span>
+        </Link>
+      </div>
+
+      {showAnnouncement && (
+        <div style={{ background: 'linear-gradient(90deg, #FFD700, #FFA500, #FFD700)', padding: 'clamp(20px, 5vw, 30px)', textAlign: 'center', color: '#000', position: 'relative', marginBottom: '40px', borderRadius: '15px', boxShadow: '0 5px 30px rgba(255,215,0,0.6)', maxWidth: '1600px', margin: '0 auto 40px' }}>
+          <button onClick={() => setShowAnnouncement(false)} style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(0,0,0,0.3)', border: 'none', color: '#000', fontSize: 'clamp(1.5rem, 3vw, 1.8rem)', cursor: 'pointer', borderRadius: '50%', width: 'clamp(30px, 5vw, 35px)', height: 'clamp(30px, 5vw, 35px)', fontWeight: 'bold' }}>×</button>
+          <h3 style={{ margin: '0 0 10px 0', fontSize: 'clamp(1.2rem, 4vw, 1.8rem)', fontWeight: 'bold' }}>🎉 {t('announce.title', 'VOLCANIC MARCH: 50% OFF SEA MOSS!')} 🎉</h3>
+          <p style={{ margin: '5px 0 15px 0', fontSize: 'clamp(1rem, 3vw, 1.2rem)' }}>{t('announce.subtitle', 'Join the MAVJ Family!')}</p>
+          <button onClick={() => setShowSubscribeModal(true)} style={{ padding: 'clamp(12px, 3vw, 15px) clamp(20px, 5vw, 30px)', background: '#000', color: '#FFD700', border: '2px solid #FFD700', borderRadius: '10px', fontSize: 'clamp(1rem, 2.5vw, 1.1rem)', fontWeight: 'bold', cursor: 'pointer' }}>{t('announce.button', 'Get Code: VOLCANIC20')}</button>
+        </div>
+      )}
+
+      {showSubscribeModal && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.95)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+          <div style={{ background: '#000', border: '3px solid #FFD700', borderRadius: '20px', padding: 'clamp(20px, 5vw, 40px)', maxWidth: '500px', width: '100%' }}>
+            <h2 style={{ color: '#FFD700', marginBottom: '20px', textAlign: 'center', fontSize: 'clamp(1.5rem, 4vw, 2rem)' }}>🌟 {t('modal.title', 'Join the MAVJ Family!')}</h2>
+            <input type="text" placeholder={t('modal.name', 'Your Name')} value={userInfo.name} onChange={(e) => setUserInfo({...userInfo, name: e.target.value})} style={{ width: '100%', padding: '15px', marginBottom: '15px', background: 'rgba(255,255,255,0.1)', border: '2px solid #FFD700', borderRadius: '10px', color: '#FFF', fontSize: '1rem', boxSizing: 'border-box' }} />
+            <input type="email" placeholder={t('modal.email', 'Your Email')} value={userInfo.email} onChange={(e) => setUserInfo({...userInfo, email: e.target.value})} style={{ width: '100%', padding: '15px', marginBottom: '20px', background: 'rgba(255,255,255,0.1)', border: '2px solid #FFD700', borderRadius: '10px', color: '#FFF', fontSize: '1rem', boxSizing: 'border-box' }} />
+            <button onClick={handleSubscribeSubmit} disabled={!userInfo.name || !userInfo.email} style={{ width: '100%', padding: '15px', background: userInfo.name && userInfo.email ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#666', color: '#000', border: 'none', borderRadius: '10px', fontSize: '1.2rem', fontWeight: 'bold', cursor: userInfo.name && userInfo.email ? 'pointer' : 'not-allowed', marginBottom: '10px' }}>{t('modal.submit', 'Join & Get Code!')}</button>
+            <button onClick={() => setShowSubscribeModal(false)} style={{ width: '100%', padding: '10px', background: 'transparent', color: '#FFD700', border: '2px solid #FFD700', borderRadius: '10px', cursor: 'pointer' }}>{t('modal.cancel', 'Later')}</button>
+          </div>
+        </div>
+      )}
+
+      <div style={{ position: 'relative', padding: 'clamp(40px, 10vw, 80px) 20px', marginBottom: '60px', borderRadius: '20px', overflow: 'hidden', maxWidth: '1600px', margin: '0 auto 60px', background: '#000' }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(/images/SpectrumSeaMossfullRaw.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.25, zIndex: 1 }}></div>
+        <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+          <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 4rem)', background: 'linear-gradient(135deg, #FFD700, #00CED1, #FF69B4, #9400D3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', marginBottom: '20px', fontWeight: 'bold', lineHeight: '1.2' }}>{t('hero.title', 'This is More Than a Store')}</h1>
+          <h2 style={{ fontSize: 'clamp(1.2rem, 4vw, 2.2rem)', background: 'linear-gradient(135deg, #FFD700, #00CED1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontWeight: 'bold', lineHeight: '1.3' }}>{t('hero.subtitle', 'Your Roadmap from Cellular Confusion to Quantum Coherence')}</h2>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: '1200px', margin: '0 auto 80px', padding: '0 20px' }}>
+        <div style={{ background: 'linear-gradient(135deg, rgba(0,206,209,0.1), rgba(0,0,0,0.3))', border: '3px solid #00CED1', borderRadius: '20px', padding: 'clamp(30px, 6vw, 50px)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', right: 0, top: 0, width: '40%', height: '100%', backgroundImage: 'url(/images/SeaMossBanner.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15, zIndex: 0 }}></div>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '25px' }}>
+              <span style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}>🌊</span>
+              <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', color: '#00CED1', margin: 0 }}>{t('ch1.title', 'Chapter 1: The Foundation')}</h2>
+            </div>
+            <p style={{ fontSize: 'clamp(1.1rem, 3vw, 1.4rem)', lineHeight: '1.8', color: '#DDD6B8', marginBottom: '20px' }}>
+              {t('ch1.p1', 'Start here. Before anything else, your body needs minerals.')}
+            </p>
+            <p style={{ fontSize: 'clamp(1.1rem, 3vw, 1.4rem)', lineHeight: '1.8', color: '#DDD6B8', marginBottom: '20px' }}>
+              {t('ch1.p2', 'Sea Moss was the very first thing I bought outside of myself. It provides approximately 95% of the minerals your body needs daily. Stay on Sea Moss until you reset - it creates the homeostasis your body requires.')}
+            </p>
+            <p style={{ fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.7', color: '#FFD700', fontStyle: 'italic', marginBottom: '25px' }}>
+              {t('ch1.p3', 'The absence of ANY mineral in your body results in disease.')}
+            </p>
+            <a href="#seamoss-products" style={{ display: 'inline-block', padding: 'clamp(12px, 3vw, 18px) clamp(25px, 5vw, 40px)', background: 'linear-gradient(135deg, #00CED1, #0080FF)', color: '#000', textDecoration: 'none', borderRadius: '50px', fontSize: 'clamp(1rem, 2.8vw, 1.3rem)', fontWeight: 'bold', boxShadow: '0 5px 20px rgba(0,206,209,0.5)' }}>{t('ch1.cta', 'Explore Sea Moss →')}</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="seamoss-products" style={{ maxWidth: '1600px', margin: '0 auto 80px', padding: '0 20px' }}>
+        <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', textAlign: 'center', color: '#00CED1', marginBottom: 'clamp(30px, 6vw, 50px)' }}>🌊 {t('seamoss.title', 'Sea Moss - Choose Your Color Frequency')}</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))', gap: 'clamp(25px, 4vw, 35px)' }}>
+          {seaMossColors.map((moss, idx) => (
+            <div key={idx} style={{ background: 'rgba(0,0,0,0.8)', border: `3px solid ${moss.color}`, borderRadius: '20px', overflow: 'hidden', boxShadow: `0 10px 40px ${moss.color}50` }}>
+              
+              <div style={{ height: '220px', display: 'flex' }}>
+                <div style={{ flex: 1, backgroundImage: `url(${moss.rawImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <div style={{ flex: 1, backgroundImage: `url(${moss.gelImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              </div>
+              
+              <div style={{ padding: 'clamp(20px, 4vw, 30px)' }}>
+                <h3 style={{ color: moss.color, fontSize: 'clamp(1.4rem, 3.2vw, 1.7rem)', marginBottom: '8px', fontWeight: 'bold' }}>{moss.name}</h3>
+                <p style={{ color: '#888', fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', fontStyle: 'italic', marginBottom: '15px' }}>{moss.botanical}</p>
+                <p style={{ color: '#DDD6B8', fontSize: 'clamp(0.9rem, 2.2vw, 1rem)', lineHeight: '1.6', marginBottom: '25px' }}>{moss.benefit}</p>
+                
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ color: '#FFD700', fontSize: 'clamp(1.1rem, 2.6vw, 1.3rem)', marginBottom: '12px', fontWeight: 'bold' }}>{t('seamoss.raw', 'Raw:')}</h4>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+                    {moss.raw.map((product, i) => product && (
+                      <button key={i} onClick={() => handleBuyNow(product.url)} style={{ padding: '12px 8px', background: `${moss.color}20`, border: `2px solid ${moss.color}`, borderRadius: '10px', color: moss.color, fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }} onMouseEnter={(e) => e.target.style.background = `${moss.color}40`} onMouseLeave={(e) => e.target.style.background = `${moss.color}20`}>
+                        <span>{product.name.match(/\d+oz/)?.[0] || 'Unknown'}</span>
+                        <span style={{ fontSize: 'clamp(1rem, 2.4vw, 1.2rem)' }}>${product.price}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {moss.gel.length > 0 && (
+                  <div style={{ marginBottom: '20px' }}>
+                    <h4 style={{ color: '#FFD700', fontSize: 'clamp(1.1rem, 2.6vw, 1.3rem)', marginBottom: '12px', fontWeight: 'bold' }}>{t('seamoss.gel', 'Gel:')}</h4>
+                    <div style={{ display: 'grid', gap: '10px' }}>
+                      {moss.gel.map((product, i) => product && (
+                        <button key={i} onClick={() => handleBuyNow(product.url)} style={{ padding: '12px', background: `${moss.color}20`, border: `2px solid ${moss.color}`, borderRadius: '10px', color: moss.color, fontSize: 'clamp(0.9rem, 2.2vw, 1rem)', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onMouseEnter={(e) => e.target.style.background = `${moss.color}40`} onMouseLeave={(e) => e.target.style.background = `${moss.color}20`}>
+                          <span>{product.name.match(/\d+oz/)?.[0] || 'Unknown'}</span>
+                          <span style={{ fontSize: 'clamp(1.1rem, 2.6vw, 1.3rem)' }}>${product.price}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <Link to="/MAVJSeaMoss" onClick={() => window.scrollTo(0, 0)} style={{ display: 'block', padding: '14px', background: 'transparent', border: `2px solid ${moss.color}`, borderRadius: '12px', color: moss.color, textAlign: 'center', textDecoration: 'none', fontSize: 'clamp(1rem, 2.4vw, 1.1rem)', fontWeight: 'bold', transition: 'all 0.3s' }} onMouseEnter={(e) => e.target.style.background = `${moss.color}20`} onMouseLeave={(e) => e.target.style.background = 'transparent'}>
+                  {t('seamoss.details', 'Full Scientific Details →')}
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div id="j2e-products" style={{ maxWidth: '900px', margin: '0 auto 80px', padding: '0 20px' }}>
+        <div style={{ background: 'linear-gradient(135deg, rgba(0,206,209,0.2), rgba(148,0,211,0.2))', border: '3px solid', borderImage: 'linear-gradient(45deg,violet,indigo,blue,green,yellow,orange,red) 1', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 15px 50px rgba(0,206,209,0.5)' }}>
+          <div style={{ height: '300px', backgroundImage: 'url(/images/J2EPod.jpeg)', backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+          <div style={{ padding: 'clamp(30px, 5vw, 40px)' }}>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', background: 'linear-gradient(135deg, #00CED1, #9400D3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '15px', fontWeight: 'bold' }}>{t('j2e.title', 'Journey 2 Enlightenment')}</h2>
+            <p style={{ fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)', color: '#DDD6B8', marginBottom: '25px', lineHeight: '1.7' }}>{t('j2e.subtitle', '7-Day All-Inclusive Experience | St. Lucia | Convergence: November 11, 2026')}</p>
+            
+            <h3 style={{ color: '#FFD700', fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginBottom: '20px' }}>{t('j2e.choose', 'Choose Your Accommodation:')}</h3>
+            <div style={{ display: 'grid', gap: '15px', marginBottom: '25px' }}>
+              {j2eAccommodations.map((acc, i) => (
+                <button key={i} onClick={() => handleBuyNow(acc.url)} style={{ padding: '18px 25px', background: 'rgba(0,206,209,0.2)', border: '2px solid #00CED1', borderRadius: '12px', color: '#00CED1', fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', fontWeight: 'bold', cursor: 'pointer', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0,206,209,0.4)'} onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0,206,209,0.2)'}>
+                  <span>{acc.name.replace('J2E ', '')}</span>
+                  <span style={{ color: '#FFD700' }}>${acc.price}</span>
+                </button>
+              ))}
+            </div>
+
+            <Link to="/J2EAccommodations" onClick={() => window.scrollTo(0, 0)} style={{ display: 'block', padding: '15px', background: 'linear-gradient(135deg, #00CED1, #9400D3)', color: '#FFF', textAlign: 'center', textDecoration: 'none', borderRadius: '12px', fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)', fontWeight: 'bold' }}>
+              {t('j2e.details', 'Full Experience Details →')}
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: '1000px', margin: '60px auto', padding: 'clamp(30px, 6vw, 40px)', textAlign: 'center', background: 'linear-gradient(135deg, rgba(148,0,211,0.1), rgba(255,215,0,0.1))', borderRadius: '20px', border: '3px solid', borderImage: 'linear-gradient(45deg,violet,indigo,blue,green,yellow,orange,red) 1' }}>
+        <h2 style={{ color: '#9400D3', fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '20px', lineHeight: '1.2' }}>💬 {t('consult.title', 'Need Personalized Guidance?')}</h2>
+        <p style={{ fontSize: 'clamp(1rem, 3vw, 1.3rem)', marginBottom: '30px', lineHeight: '1.6', color: '#DDD6B8' }}>{t('consult.desc', 'Book a consultation with Robin for customized protocols aligned with your unique frequency, health history, and transformation goals.')}</p>
+        <Link to="/ContactUs" onClick={() => window.scrollTo(0, 0)} style={{ display: 'inline-block', padding: 'clamp(15px, 4vw, 18px) clamp(30px, 7vw, 45px)', background: 'linear-gradient(135deg, #9400D3, #FFD700)', color: '#000', textDecoration: 'none', borderRadius: '50px', fontSize: 'clamp(1.1rem, 3vw, 1.3rem)', fontWeight: 'bold', boxShadow: '0 8px 25px rgba(148,0,211,0.5)' }}>{t('consult.cta', 'Schedule Consultation →')}</Link>
+      </div>
+    </Layout>
+  );
+};
+
+export default MAVJStore;

@@ -1,16 +1,16 @@
-
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import DOMPurify from 'dompurify';
 
+
 // ==================== COMPONENT DEFINITION ====================
 const HomePage = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   // ==================== STATE MANAGEMENT ====================
-  const [currentLanguage, setCurrentLanguage] = useState('English');
+  const currentLanguage = i18n.language;
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [showQChat, setShowQChat] = useState(false);
   const [showAnnouncements, setShowAnnouncements] = useState(true);
@@ -18,29 +18,113 @@ const HomePage = () => {
   const [particlesEnabled, setParticlesEnabled] = useState(true);
   const [showBrianStory, setShowBrianStory] = useState(false);
   const [videoLoading, setVideoLoading] = useState({});
+  const [emailCaptured, setEmailCaptured] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [emailInput, setEmailInput] = useState('');
+  const [familyMemberNumber, setFamilyMemberNumber] = useState(1);
+
+  // ==================== POSITIVE WORD GAME STATE ====================
   
-  // Game States - MAVJ Positive Word Game
+  // Helper function to get correct letter count for a set of words
+  const [pendingNewWord, setPendingNewWord] = useState(null);
+  const getUniqueLettersForWords = (words) => {
+    const letterCount = {};
+    words.forEach(word => {
+      word.split('').forEach(letter => {
+        letterCount[letter] = (letterCount[letter] || 0) + 1;
+      });
+    });
+    const letters = [];
+    Object.entries(letterCount).forEach(([letter, count]) => {
+      for (let i = 0; i < count; i++) {
+        letters.push(letter);
+      }
+    });
+    return letters;
+  };
+
+  // Check if a word can be made from given letters
+  const canMakeWordFromLetters = (word, letters) => {
+    const letterCount = {};
+    letters.forEach(l => { letterCount[l] = (letterCount[l] || 0) + 1; });
+    
+    const wordCount = {};
+    word.split('').forEach(l => { wordCount[l] = (wordCount[l] || 0) + 1; });
+    
+    return Object.entries(wordCount).every(([l, c]) => (letterCount[l] || 0) >= c);
+  };
+
+  // Game puzzles - each episode has its own letter pool
+  const gamePuzzles = [
+    {
+      id: 1,
+      name: t('game.episode1', 'Peace Episode'),
+      primaryWords: ['PEACE', 'TRUST', 'CAN', 'SMILE'],
+      letters: getUniqueLettersForWords(['PEACE', 'TRUST', 'CAN', 'SMILE']),
+      backgroundImage: '/images/PeaceBanner.jpg'
+    },
+    {
+      id: 2,
+      name: t('game.episode2', 'Love Episode'),
+      primaryWords: ['LOVE', 'JOY', 'HOPE', 'KIND'],
+      letters: getUniqueLettersForWords(['LOVE', 'JOY', 'HOPE', 'KIND']),
+      backgroundImage: '/images/LoveBanner.jpg'
+    },
+    {
+      id: 3,
+      name: t('game.episode3', 'Faith Episode'),
+      primaryWords: ['FAITH', 'GRACE', 'TRUE', 'CARE'],
+      letters: getUniqueLettersForWords(['FAITH', 'GRACE', 'TRUE', 'CARE']),
+      backgroundImage: '/images/FaithBanner.jpg'
+    }
+  ];
+
+  // Game state
   const [selectedWord, setSelectedWord] = useState('');
   const [shuffledLetters, setShuffledLetters] = useState(() => {
-    // All 26 letters of the alphabet
-    const alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-    // Randomly select 16 letters for this round
-    return [...alphabet].sort(() => Math.random() - 0.5).slice(0, 16);
+    const puzzle = gamePuzzles[0];
+    return [...puzzle.letters].sort(() => Math.random() - 0.5);
   });
-  const [targetWords, setTargetWords] = useState([
-    { word: 'LOVE', found: false },
-    { word: 'PEACE', found: false },
-    { word: 'JOY', found: false },
-    { word: 'HOPE', found: false }
-  ]);
+  const [targetWords, setTargetWords] = useState(() => {
+    const puzzle = gamePuzzles[0];
+    return puzzle.primaryWords.map(word => ({ word, found: false }));
+  });
   const [wordBank, setWordBank] = useState([]);
   const [gameFeedback, setGameFeedback] = useState(null);
-  const initialTargetWords = [
-    { word: 'LOVE', found: false },
-    { word: 'PEACE', found: false },
-    { word: 'JOY', found: false },
-    { word: 'HOPE', found: false }
-  ];
+  const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
+  
+  // Word exists in database check
+  const wordExistsInDatabase = (word) => {
+    const upperWord = word.toUpperCase();
+    const allKnownWords = [
+      'LOVE', 'PEACE', 'JOY', 'HOPE', 'FAITH', 'GRACE', 'TRUST', 
+      'KIND', 'TRUE', 'CARE', 'MUST', 'NEST', 'RUST', 'SUN', 'RUN', 'SMILE'
+    ];
+    return allKnownWords.includes(upperWord);
+  };
+  
+  // Save user discovery
+  const saveUserDiscovery = (email, word) => {
+    const discoveries = JSON.parse(localStorage.getItem('mavj_discoveries') || '[]');
+    discoveries.push({ email, word, date: new Date().toISOString() });
+    localStorage.setItem('mavj_discoveries', JSON.stringify(discoveries));
+    setFamilyMemberNumber(discoveries.length + 1);
+  };
+  
+  // Start new puzzle (next episode)
+  const startNewPuzzle = () => {
+    const newIndex = (currentPuzzleIndex + 1) % gamePuzzles.length;
+    const puzzle = gamePuzzles[newIndex];
+    setTargetWords(puzzle.primaryWords.map(word => ({ word, found: false })));
+    setShuffledLetters([...puzzle.letters].sort(() => Math.random() - 0.5));
+    setSelectedWord('');
+    setWordBank([]);
+    setGameFeedback(null);
+    setCurrentPuzzleIndex(newIndex);
+    setEmailCaptured(false);
+  };
+  
+  const initialTargetWords = gamePuzzles[0].primaryWords.map(word => ({ word, found: false }));
 
   // Game States
   const [quizState, setQuizState] = useState({
@@ -717,180 +801,175 @@ const HomePage = () => {
 
   // ==================== ANNOUNCEMENTS ====================
   
-  
-  
-  const announcements = useMemo(() => [
-    {
-      id: 1,
-      icon: '✨',
-      title: translations[currentLanguage]?.announcements?.j2e_title || 'J2E / 11:11 CONVERGENCE',
-      description: translations[currentLanguage]?.announcements?.j2e_desc || 'Annual Gala & Global Link. Year-round Realignment stays.',
-      link: '/Journey2Enlightenment',
-      urgent: true
-    },
-    {
-      id: 2,
-      icon: '��',
-      title: translations[currentLanguage]?.announcements?.live_title || 'LIVE BROADCAST PORTAL',
-      description: translations[currentLanguage]?.announcements?.live_desc || 'Quantum Updates & health recalibration news.',
-      link: '/LiveBroadcast',
-      urgent: false
-    },
-    {
-      id: 3,
-      icon: '📦',
-      title: translations[currentLanguage]?.announcements?.portal_title || 'RESONANCE ALIGNMENT PORTAL',
-      description: translations[currentLanguage]?.announcements?.portal_desc || 'Align via Amazon gifts. Click the photo to ship.',
-      link: '/AlignWithUs',
-      urgent: false
-    },
-    {
-      id: 4,
-      icon: '🔮',
-      title: translations[currentLanguage]?.announcements?.vi_title || 'VIBRATIONAL INTELLIGENCE',
-      description: translations[currentLanguage]?.announcements?.vi_desc || 'Latest quantum physics and consciousness updates.',
-      link: '/VibrationalIntelligence',
-      urgent: false
-    },
-    {
-      id: 5,
-      icon: '💃',
-      title: translations[currentLanguage]?.announcements?.flash_title || 'GLOBAL FLASH MOB',
-      description: translations[currentLanguage]?.announcements?.flash_desc || 'Join the global surprise. Email your 30-sec clip.',
-      link: '/ContactUs',
-      urgent: true
-    },
-    {
-      id: 6,
-      icon: '🛒',
-      title: translations[currentLanguage]?.announcements?.store_title || 'BIO-MINERAL EXCHANGE',
-      description: translations[currentLanguage]?.announcements?.store_desc || 'St. Lucian Sea Moss Gel & Genesis Castor Seeds.',
-      link: '/MAVJStore',
-      urgent: false
-    }
-  ], [currentLanguage]);
+    const announcements = useMemo(() => [
+      {
+        id: 1,
+        icon: '✨',
+        title: t('announcements.j2e_title', 'J2E / 11:11 CONVERGENCE'),
+        description: t('announcements.j2e_desc', 'Annual Gala & Global Link. Year-round Realignment stays.'),
+        link: '/Journey2Enlightenment',
+        urgent: true
+      },
+      {
+        id: 2,
+        icon: '📡',
+        title: t('announcements.live_title', 'LIVE BROADCAST PORTAL'),
+        description: t('announcements.live_desc', 'Quantum Updates & health recalibration news.'),
+        link: '/LiveBroadcast',
+        urgent: false
+      },
+      {
+        id: 3,
+        icon: '📦',
+        title: t('announcements.portal_title', 'RESONANCE ALIGNMENT PORTAL'),
+        description: t('announcements.portal_desc', 'Align via Amazon gifts. Click the photo to ship.'),
+        link: '/AlignWithUs',
+        urgent: false
+      },
+      {
+        id: 4,
+        icon: '🔮',
+        title: t('announcements.vi_title', 'VIBRATIONAL INTELLIGENCE'),
+        description: t('announcements.vi_desc', 'Latest quantum physics and consciousness updates.'),
+        link: '/VibrationalIntelligence',
+        urgent: false
+      },
+      {
+        id: 5,
+        icon: '💃',
+        title: t('announcements.flash_title', 'GLOBAL FLASH MOB'),
+        description: t('announcements.flash_desc', 'Join the global surprise. Email your 30-sec clip.'),
+        link: '/ContactUs',
+        urgent: true
+      },
+      {
+        id: 6,
+        icon: '🛒',
+        title: t('announcements.store_title', 'BIO-MINERAL EXCHANGE'),
+        description: t('announcements.store_desc', 'St. Lucian Sea Moss Gel & Genesis Castor Seeds.'),
+        link: '/MAVJStore',
+        urgent: false
+      }
+    ], [t]); 
 
 
 
 
   // ==================== VIDEOS ====================
-  const videos = useMemo(() => [
-    {
-      id: 'quantum-sleep',
-      title: 'The Science of Sleep & Quantum Reality',
-      desc: 'Discover how your consciousness operates in quantum states during sleep.',
-      thumbnail: '/images/Atom.jpg',
-      url: 'https://drive.google.com/file/d/15vC0Mh0O633c_CW_Hoy9Jo59zhqCrHGt/view'
-    },
-    {
-      id: 'faggin-consciousness',
-      title: 'Faggin - Consciousness Explained',
-      desc: 'Federico Faggin reveals the quantum nature of consciousness.',
-      thumbnail: '/images/Consciousness.jpeg',
-      url: 'https://drive.google.com/file/d/15ZbEUGJcdHrlL2Ie9qO44DutBVKCpQ2_/view'
-    },
-    {
-      id: 'you-are-god',
-      title: 'You Are God - Faggin',
-      desc: 'Understanding your divine nature through quantum physics.',
-      thumbnail: '/images/God.jpeg',
-      url: 'https://drive.google.com/file/d/1Gbh4r-fSDME0nnrv1GiDqgUeuDeFFbWb/view'
-    },
-    {
-      id: 'quantum-soul',
-      title: 'The Quantum Soul',
-      desc: 'Your soul exists in quantum superposition across infinite timelines.',
-      thumbnail: '/images/Soul.jpeg',
-      url: 'https://drive.google.com/file/d/1P5ySleWI1eJWZXuRhpLnzXPbu8HBfoKB/view'
-    },
-    {
-      id: 'quantum-biology',
-      title: 'Quantum Biology',
-      desc: 'How quantum mechanics governs your DNA and cellular processes.',
-      thumbnail: '/images/DNA.jpg',
-      url: 'https://drive.google.com/file/d/1duJqHBAv6GSnITCFgK6F6GZqjlN4ywDH/view'
-    },
-    {
-      id: 'yogi-consciousness',
-      title: 'Consciousness by a Yogi',
-      desc: 'Ancient wisdom meets modern quantum understanding.',
-      thumbnail: '/images/Yoga Consciousness.jpeg',
-      url: 'https://drive.google.com/file/d/1g-UYH_cZSZn6CISOUlfTxsAtGz1kUeew/view'
-    }
-  ], []);
+const videos = useMemo(() => [
+  {
+    id: 'quantum-sleep',
+    title: t('videos.quantum_sleep.title', 'The Science of Sleep & Quantum Reality'),
+    desc: t('videos.quantum_sleep.desc', 'Discover how your consciousness operates in quantum states during sleep.'),
+    thumbnail: '/images/Atom.jpg',
+    url: 'https://drive.google.com/file/d/15vC0Mh0O633c_CW_Hoy9Jo59zhqCrHGt/view'
+  },
+  {
+    id: 'faggin-consciousness',
+    title: t('videos.faggin_consciousness.title', 'Faggin - Consciousness Explained'),
+    desc: t('videos.faggin_consciousness.desc', 'Federico Faggin reveals the quantum nature of consciousness.'),
+    thumbnail: '/images/Consciousness.jpeg',
+    url: 'https://drive.google.com/file/d/15ZbEUGJcdHrlL2Ie9qO44DutBVKCpQ2_/view'
+  },
+  {
+    id: 'you-are-god',
+    title: t('videos.you_are_god.title', 'You Are God - Faggin'),
+    desc: t('videos.you_are_god.desc', 'Understanding your divine nature through quantum physics.'),
+    thumbnail: '/images/God.jpeg',
+    url: 'https://drive.google.com/file/d/1Gbh4r-fSDME0nnrv1GiDqgUeuDeFFbWb/view'
+  },
+  {
+    id: 'quantum-soul',
+    title: t('videos.quantum_soul.title', 'The Quantum Soul'),
+    desc: t('videos.quantum_soul.desc', 'Your soul exists in quantum superposition across infinite timelines.'),
+    thumbnail: '/images/Soul.jpeg',
+    url: 'https://drive.google.com/file/d/1P5ySleWI1eJWZXuRhpLnzXPbu8HBfoKB/view'
+  },
+  {
+    id: 'quantum-biology',
+    title: t('videos.quantum_biology.title', 'Quantum Biology'),
+    desc: t('videos.quantum_biology.desc', 'How quantum mechanics governs your DNA and cellular processes.'),
+    thumbnail: '/images/DNA.jpg',
+    url: 'https://drive.google.com/file/d/1duJqHBAv6GSnITCFgK6F6GZqjlN4ywDH/view'
+  },
+  {
+    id: 'yogi-consciousness',
+    title: t('videos.yogi_consciousness.title', 'Consciousness by a Yogi'),
+    desc: t('videos.yogi_consciousness.desc', 'Ancient wisdom meets modern quantum understanding.'),
+    thumbnail: '/images/Yoga Consciousness.jpeg',
+    url: 'https://drive.google.com/file/d/1g-UYH_cZSZn6CISOUlfTxsAtGz1kUeew/view'
+  }
+], [t]);
 
-  // ==================== OFFERS ====================
-  const offers = useMemo(() => [
-    {
-      icon: '🌱',
-      title: '40-Day Protocol',
-      desc: 'Complete cellular detoxification and frequency recalibration.',
-      link: '/TheJourney'
-    },
-    {
-      icon: '✨',
-      title: 'Journey 2 Enlightenment',
-      desc: '5-day immersive experience in St. Lucia.',
-      link: '/Journey2Enlightenment'
-    },
-    {
-      icon: '🔮',
-      title: '1111 Convergence',
-      desc: 'Global collective consciousness shift.',
-      link: '/Journey2Enlightenment#convergence'
-    },
-    {
-      icon: '🧬',
-      title: 'Sea Moss & Herbs',
-      desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.',
-      link: '/MAVJStore'
-    },
-    {
-      icon: '💬',
-      title: 'Digital Consultations',
-      desc: 'One-on-one guidance for your transformation journey.',
-      link: '/MAVJDigitalConsultation'
-    },
-    {
-      icon: '📚',
-      title: 'Vibrational Intelligence',
-      desc: 'Deep dive into frequency, elements, and chakras.',
-      link: '/VibrationalIntelligence'
-    }
-  ], []);
-
-  // ==================== BUILDING ====================
-  const building = useMemo(() => [
-    {
-      icon: '🏡',
-      title: 'Guest Accommodations',
-      desc: 'Eco-friendly structures for J2E guests.',
-      status: 'IN PROGRESS',
-      thumbnail: '/images/J2EPod.jpeg'
-    },
-    {
-      icon: '💬',
-      title: 'MJChat Platform',
-      desc: 'Video sharing, live chat, recipe uploads.',
-      status: 'IN PROGRESS',
-      thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg'
-    },
-    {
-      icon: '🔗',
-      title: 'Blockchain Integration',
-      desc: 'Complete decentralization, sovereign payment processing.',
-      status: 'IN PROGRESS',
-      thumbnail: '/images/Atom.jpg'
-    },
-    {
-      icon: '🤖',
-      title: 'AI Team Introduction',
-      desc: 'Meet all 10 personas and learn about human-AI collaboration.',
-      status: 'COMING SOON',
-      thumbnail: '/images/Consciousness.jpeg'
-    }
-  ], []);
-
+const offers = useMemo(() => [
+  {
+    icon: '🌱',
+    title: t('offers.40_day_protocol.title', '40-Day Protocol'),
+    desc: t('offers.40_day_protocol.desc', 'Complete cellular detoxification and frequency recalibration.'),
+    link: '/TheJourney'
+  },
+  {
+    icon: '✨',
+    title: t('offers.journey_2_enlightenment.title', 'Journey 2 Enlightenment'),
+    desc: t('offers.journey_2_enlightenment.desc', '5-day immersive experience in St. Lucia.'),
+    link: '/Journey2Enlightenment'
+  },
+  {
+    icon: '🔮',
+    title: t('offers.convergence.title', '1111 Convergence'),
+    desc: t('offers.convergence.desc', 'Global collective consciousness shift.'),
+    link: '/Journey2Enlightenment#convergence'
+  },
+  {
+    icon: '🧬',
+    title: t('offers.sea_moss_herbs.title', 'Sea Moss & Herbs'),
+    desc: t('offers.sea_moss_herbs.desc', 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.'),
+    link: '/MAVJStore'
+  },
+  {
+    icon: '💬',
+    title: t('offers.digital_consultations.title', 'Digital Consultations'),
+    desc: t('offers.digital_consultations.desc', 'One-on-one guidance for your transformation journey.'),
+    link: '/MAVJDigitalConsultation'
+  },
+  {
+    icon: '📚',
+    title: t('offers.vibrational_intelligence.title', 'Vibrational Intelligence'),
+    desc: t('offers.vibrational_intelligence.desc', 'Deep dive into frequency, elements, and chakras.'),
+    link: '/VibrationalIntelligence'
+  }
+], [t]);
+ // ==================== BUILDING ====================
+const building = useMemo(() => [
+  {
+    icon: '🏡',
+    title: t('building.guest_accommodations.title', 'Guest Accommodations'),
+    desc: t('building.guest_accommodations.desc', 'Eco-friendly structures for J2E guests.'),
+    status: t('building.guest_accommodations.status', 'IN PROGRESS'),
+    thumbnail: '/images/J2EPod.jpeg'
+  },
+  {
+    icon: '💬',
+    title: t('building.mjchat.title', 'MJChat Platform'),
+    desc: t('building.mjchat.desc', 'Video sharing, live chat, recipe uploads.'),
+    status: t('building.mjchat.status', 'IN PROGRESS'),
+    thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg'
+  },
+  {
+    icon: '🔗',
+    title: t('building.blockchain.title', 'Blockchain Integration'),
+    desc: t('building.blockchain.desc', 'Complete decentralization, sovereign payment processing.'),
+    status: t('building.blockchain.status', 'IN PROGRESS'),
+    thumbnail: '/images/Atom.jpg'
+  },
+  {
+    icon: '🤖',
+    title: t('building.ai_team.title', 'AI Team Introduction'),
+    desc: t('building.ai_team.desc', 'Meet all 10 personas and learn about human-AI collaboration.'),
+    status: t('building.ai_team.status', 'COMING SOON'),
+    thumbnail: '/images/Consciousness.jpeg'
+  }
+], [t]);
   // ==================== ARTISANS ====================
   const artisans = useMemo(() => [
     {
@@ -1472,21 +1551,19 @@ const HomePage = () => {
     setQState(prev => ({ ...prev, messages: [], context: [] }));
   }, []);
 
-  // ==================== LANGUAGE HANDLER ====================
-  const handleLanguageChange = useCallback((lang) => {
-    i18n.changeLanguage(lang);
-    setCurrentLanguage(lang);
-    setShowLanguageDropdown(false);
+ // ==================== LANGUAGE HANDLER ====================
+const handleLanguageChange = useCallback((lang) => {
+  i18n.changeLanguage(lang);
+  setShowLanguageDropdown(false);
 
-    // Update positive word game for new language
-    const currentWords = positiveWordBank[lang] || positiveWordBank.English;
-    const levelWords = currentWords[positiveGame.level] || currentWords[1];
-    const newWord = levelWords[Math.floor(Math.random() * levelWords.length)];
+  // Update positive word game for new language
+  const currentWords = positiveWordBank[lang] || positiveWordBank.English;
+  const levelWords = currentWords[positiveGame.level] || currentWords[1];
+  const newWord = levelWords[Math.floor(Math.random() * levelWords.length)];
 
-    setPositiveGame(prev => ({ ...prev, currentWord: newWord }));
-    trackInteraction('language_changed', { from: currentLanguage, to: lang });
-  }, [i18n, currentLanguage, positiveWordBank, positiveGame.level, trackInteraction]);
-
+  setPositiveGame(prev => ({ ...prev, currentWord: newWord }));
+  trackInteraction('language_changed', { from: currentLanguage, to: lang });
+}, [i18n, currentLanguage, positiveWordBank, positiveGame.level, trackInteraction]);
   // ==================== STYLES ====================
   const styles = {
     // Rainbow Border - Brand Signature
@@ -2470,6 +2547,7 @@ const HomePage = () => {
   }, []);
 
   // ==================== RENDER ====================
+  
   return (
     <div style={styles.mainContainer}>
         <nav style={styles.navbar}>
@@ -2592,8 +2670,28 @@ const HomePage = () => {
         <span style={{ color: '#FFD700', fontSize: '0.75rem', flexShrink: 0, opacity: 0.6, userSelect: 'none', pointerEvents: 'none' }}>▶</span>
       </nav>
     
-      {/* CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES) */}
-<section style={styles.titleSection}>
+{/* CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES) */}
+<section style={{
+  position: 'sticky',
+  top: '45px',
+  zIndex: 1900,
+  width: '100%',
+  minHeight: '180px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '20px 20px 30px 20px',
+  overflow: 'visible',
+  backgroundColor: '#000',
+  backgroundImage: `url(/images/star-pattern.png)`,
+  backgroundSize: '100px',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'repeat',
+  borderBottom: '3px solid',
+  borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
+  borderImageSlice: 1
+}}>
   <div style={{
     display: 'flex',
     alignItems: 'flex-end',
@@ -2625,7 +2723,7 @@ const HomePage = () => {
         textAlign: 'center',
         whiteSpace: 'nowrap'
       }}>
-        {t("title.leftBox", "ELECTROMAGNETIC\nRESONANCE\nALIGNMENT").split("\n")[0]}<br />
+        {t("title.quantum", "QUANTUM BASED")}<br />
         {t("title.scientific", "SCIENTIFICALLY BACKED")}<br />
         {t("title.frequency", "FREQUENCY FOCUSED")}
       </div>
@@ -2787,660 +2885,805 @@ const HomePage = () => {
       letterSpacing: '2.5px',
       textShadow: '0 0 14px rgba(0,212,255,0.9)'
     }}>
-      {t("title.pageTitle", "HOME")}
+      {t("title.pageTitle", "YOU ARE HOME")}
     </div>
   </div>
-</section>cd 
+</section>
 
-{/* ANNOUNCEMENTS & RESONANCE ALIGNMENT PORTAL */}
+{/* THE ANNOUNCEMENT PORTALS */}
 <div style={{
-  backgroundImage: 'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url(/images/Robin.jpeg)',
+  position: 'relative',
+  backgroundImage: 'url(/images/Robin.jpeg)',
   backgroundSize: 'cover',
   backgroundPosition: 'center 55%',
-  backgroundRepeat: 'no-repeat',
   backgroundAttachment: 'scroll',
-  borderTop: '2px solid #FFD700',
-  borderBottom: '2px solid #FFD700'
+  backgroundRepeat: 'no-repeat'
 }}>
-  
-  {/* SECTION 1: ANNOUNCEMENTS & RESONANCE PORTAL */}
-  <section style={{ padding: '40px 20px 30px 20px' }}>
-    <div style={{ textAlign: 'center', marginBottom: '25px' }}>
-      <h2 style={{ color: '#FFD700', fontSize: '1.6rem', fontWeight: '900' }}>
-        {t('announcements.title', '📢 Announcements & Resonance Alignment Portal')}
-      </h2>
-    </div>
+  {/* Dark overlay for readability */}
+  <div style={{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0,0,0,0.65)',
+    zIndex: 1
+  }} />
 
-    <div style={{ 
-      display: 'flex', 
-      flexWrap: 'wrap', 
-      gap: '18px', 
-      justifyContent: 'center', 
-      alignItems: 'stretch', 
-      maxWidth: '1100px', 
-      margin: '0 auto' 
-    }}>
-      {announcements.map((announcement) => (
-        <div key={announcement.id} style={{
-          flex: '1 1 280px',
-          maxWidth: '300px',
-          minWidth: '260px',
-          background: 'rgba(0,0,0,0.88)', 
-          borderRadius: '12px', 
-          border: '2px solid transparent',
-          borderImage: 'linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4, #f59e0b) 1',
-          padding: '15px', 
-          display: 'flex', 
-          flexDirection: 'column', 
-          justifyContent: 'space-between',
-          height: 'auto',
-          minHeight: '380px'
-        }}>
-          <div>
-            <h3 style={{ color: '#FFD700', fontSize: '1rem', fontWeight: '900', marginBottom: '6px' }}>
-              {announcement.icon} {announcement.title}
-            </h3>
-            <p style={{ color: '#fff', fontSize: '0.8rem', marginBottom: '12px', lineHeight: '1.35' }}>
-              {announcement.description}
-            </p>
+  <div style={{ position: 'relative', zIndex: 2 }}>
+    
+    {/* SECTION 1: ANNOUNCEMENTS & RESONANCE PORTAL */}
+    <section style={{ padding: '40px 20px 30px 20px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '25px' }}>
+        <h2 style={{ color: '#FFD700', fontSize: '1.6rem', fontWeight: '900' }}>
+          {translations[currentLanguage]?.announcements?.title || '📢 Announcements & Resonance Alignment Portal'}
+        </h2>
+      </div>
 
-            {/* BOX 3: RESONANCE ALIGNMENT PORTAL - GIFT PORTAL */}
-            {announcement.id === 3 && (
-              <>
-                <div style={{
-                  background: 'rgba(255,215,0,0.12)',
-                  borderLeft: '3px solid #FFD700',
-                  padding: '6px 8px',
-                  marginBottom: '10px',
-                  borderRadius: '4px'
-                }}>
-                  <p style={{ color: '#FFD700', fontSize: '0.6rem', fontWeight: 'bold', marginBottom: '2px' }}>
-                    {t('announcements.shipTo', '📦 SHIP TO:')}
-                  </p>
-                  <p style={{ color: '#DDD6B8', fontSize: '0.55rem', lineHeight: '1.2', margin: 0 }}>
-                    MY ALKALINE VEGAN JOURNEY<br/>
-                    2281 NW 82nd Ave, STE. SLU114258<br/>
-                    Doral, FL 33198-6511
-                  </p>
+      <div style={{ 
+        display: 'flex', 
+        flexWrap: 'wrap', 
+        gap: '18px', 
+        justifyContent: 'center', 
+        alignItems: 'stretch', 
+        maxWidth: '1100px', 
+        margin: '0 auto' 
+      }}>
+        {announcements.map((announcement) => (
+          <div key={announcement.id} style={{
+            flex: '1 1 280px',
+            maxWidth: '300px',
+            minWidth: '260px',
+            background: 'rgba(0,0,0,0.88)', 
+            borderRadius: '12px', 
+            border: '2px solid transparent',
+            borderImage: 'linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4, #f59e0b) 1',
+            padding: '15px', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            justifyContent: 'space-between',
+            height: 'auto',
+            minHeight: '380px'
+          }}>
+            <div>
+              <h3 style={{ color: '#FFD700', fontSize: '1rem', fontWeight: '900', marginBottom: '6px' }}>
+                {announcement.icon} {announcement.title}
+              </h3>
+              <p style={{ color: '#fff', fontSize: '0.8rem', marginBottom: '12px', lineHeight: '1.35' }}>
+                {announcement.description}
+              </p>
+
+              {/* BOX 1: JOURNEY 2 ENLIGHTENMENT & 11:11 CONVERGENCE */}
+              {announcement.id === 1 && (
+                <div>
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,100,0,0.15))',
+                    borderRadius: '8px',
+                    padding: '10px',
+                    marginBottom: '12px',
+                    textAlign: 'center',
+                    border: '1px solid #FFD700'
+                  }}>
+                    <div style={{ color: '#FFD700', fontSize: '0.6rem', letterSpacing: '2px', fontWeight: 'bold' }}>
+                      {translations[currentLanguage]?.announcements?.j2e_countdown || 'DAYS UNTIL 11:11 CONVERGENCE'}
+                    </div>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#FFD700', lineHeight: 1 }}>
+                      233
+                    </div>
+                    <div style={{ color: '#FFD700', fontSize: '0.55rem' }}>
+                      {translations[currentLanguage]?.announcements?.j2e_date || 'NOVEMBER 11, 2026'}
+                    </div>
+                  </div>
+
+                  <div style={{
+                    background: 'rgba(0,0,0,0.5)',
+                    borderRadius: '8px',
+                    padding: '8px',
+                    marginBottom: '10px'
+                  }}>
+                    <div style={{ color: '#FFD700', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '6px' }}>
+                      🌟 {translations[currentLanguage]?.announcements?.j2e_highlights || '5-DAY IMMERSION'}
+                    </div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {[
+                        translations[currentLanguage]?.announcements?.j2e_golf || '🏌️ Golf Tournament',
+                        translations[currentLanguage]?.announcements?.j2e_gala || '💃 Gala Dinner',
+                        translations[currentLanguage]?.announcements?.j2e_flashmob || '🌊 Global Flash Mob',
+                        translations[currentLanguage]?.announcements?.j2e_workshops || '🧘 Quantum Workshops',
+                        translations[currentLanguage]?.announcements?.j2e_pods || '🏕️ Frequency Pods',
+                        translations[currentLanguage]?.announcements?.j2e_food || '🥗 Farm-to-Table'
+                      ].map((item, idx) => (
+                        <span key={idx} style={{
+                          background: 'rgba(255,215,0,0.12)',
+                          padding: '3px 8px',
+                          borderRadius: '15px',
+                          fontSize: '0.6rem',
+                          color: '#FFD700'
+                        }}>
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div style={{
+                    background: 'rgba(255,215,0,0.05)',
+                    borderLeft: '3px solid #FFD700',
+                    padding: '6px 8px',
+                    marginBottom: '8px'
+                  }}>
+                    <p style={{ color: '#FFD700', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '2px' }}>
+                      🔥 {translations[currentLanguage]?.announcements?.j2e_teaser_title || 'WHAT AWAITS YOU:'}
+                    </p>
+                    <p style={{ color: '#ddd', fontSize: '0.6rem', lineHeight: '1.3', margin: 0 }}>
+                      {translations[currentLanguage]?.announcements?.j2e_teaser || 'Walk the volcanic soils of St. Lucia. Sleep in frequency-tuned pods. Dive into crystal waters. Align with 1,111 souls at the exact moment of 11:11.'}
+                    </p>
+                  </div>
+
+                  <div style={{
+                    background: 'rgba(255,100,0,0.2)',
+                    borderRadius: '4px',
+                    padding: '4px',
+                    textAlign: 'center',
+                    marginTop: '6px'
+                  }}>
+                    <span style={{ color: '#FFA500', fontSize: '0.6rem', fontWeight: 'bold' }}>
+                      ⚡ {translations[currentLanguage]?.announcements?.j2e_urgency || 'EARLY BIRD PRICING • 42 SPOTS REMAINING'} ⚡
+                    </span>
+                  </div>
                 </div>
+              )}
 
-                <div style={{ 
-                  background: 'rgba(0,212,255,0.08)', 
-                  borderRadius: '6px', 
-                  border: '1px solid #00d4ff', 
-                  padding: '5px'
-                }}>
-                  <p style={{ 
-                    color: '#00d4ff', 
-                    fontSize: '0.55rem', 
-                    fontWeight: '900', 
-                    marginBottom: '4px', 
-                    textAlign: 'center'
+              {/* BOX 2: LIVE BROADCAST PORTAL */}
+              {announcement.id === 2 && (
+                <div>
+                  <div style={{
+                    background: 'rgba(6,182,212,0.15)',
+                    borderRadius: '8px',
+                    padding: '10px',
+                    marginBottom: '10px',
+                    border: '1px solid #06b6d4'
                   }}>
-                    ⚡ {t('announcements.gifts', 'RESONANCE ALIGNMENT: GIFTS')} ⚡
-                  </p>
-                  <div style={{ 
-                    height: '100px', 
-                    overflowY: 'auto', 
-                    scrollbarWidth: 'thin',
-                    paddingRight: '3px'
-                  }}>
-                    {[
-                      { icon: '🔌', label: 'Transformer', price: '$95', link: 'https://amzn.to/4b4XodY' },
-                      { icon: '☀️', label: 'Power Station', price: '$499', link: 'https://amzn.to/3OE9SBC' },
-                      { icon: '🤿', label: 'Dive Set', price: '$59', link: 'https://amzn.to/4l3fXDF' },
-                      { icon: '🔋', label: 'Solar Charger', price: '$35', link: 'https://amzn.to/47igjAC' },
-                      { icon: '📻', label: 'Radio', price: '$39', link: 'https://amzn.to/4b4Z8E2' },
-                      { icon: '🏮', label: 'Lanterns', price: '$25', link: 'https://amzn.to/4r4omIv' },
-                      { icon: '🔦', label: 'Flashlights', price: '$22', link: 'https://amzn.to/4l1vTGF' },
-                      { icon: '🔧', label: 'Tool Set', price: '$45', link: 'https://amzn.to/4b0ZJXh' },
-                      { icon: '🥡', label: 'Sealer', price: '$68', link: 'https://amzn.to/4sk9aYT' }
-                    ].map((item, idx) => (
-                      <a 
-                        key={idx} 
-                        href={item.link} 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          padding: '5px 3px',
-                          borderBottom: idx < 8 ? '1px solid rgba(255,215,0,0.1)' : 'none',
-                          textDecoration: 'none'
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <span style={{ fontSize: '0.9rem' }}>{item.icon}</span>
-                          <span style={{ color: '#fff', fontSize: '0.55rem' }}>{item.label}</span>
-                        </div>
-                        <span style={{ color: '#FFD700', fontSize: '0.55rem', fontWeight: 'bold' }}>{item.price}</span>
-                      </a>
-                    ))}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '1.2rem' }}>📡</span>
+                      <span style={{ color: '#06b6d4', fontWeight: 'bold', fontSize: '0.7rem' }}>
+                        {translations[currentLanguage]?.announcements?.live_next || 'NEXT BROADCAST:'}
+                      </span>
+                    </div>
+                    <p style={{ color: '#fff', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '4px' }}>
+                      {translations[currentLanguage]?.announcements?.live_title || 'Quantum Biology & Cellular Regeneration'}
+                    </p>
+                    <p style={{ color: '#FFD700', fontSize: '0.6rem' }}>
+                      {translations[currentLanguage]?.announcements?.live_date || 'April 5, 2026 • 7PM EST'}
+                    </p>
                   </div>
                   <div style={{
-                    textAlign: 'center',
-                    marginTop: '3px',
-                    color: '#00d4ff',
-                    fontSize: '0.45rem'
+                    background: 'rgba(0,0,0,0.4)',
+                    borderRadius: '6px',
+                    padding: '6px',
+                    textAlign: 'center'
                   }}>
-                    ▼ {t('announcements.scroll', 'SCROLL FOR MORE')} ▼
+                    <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
+                      🎙️ {translations[currentLanguage]?.announcements?.live_guests || 'Featuring: Quantum Biologist Dr. Sarah Chen'}
+                    </span>
                   </div>
                 </div>
-              </>
-            )}
+              )}
 
-            {/* BOX 4: VIBRATIONAL INTELLIGENCE */}
-            {announcement.id === 4 && (
-              <div style={{ 
-                background: 'rgba(99,102,241,0.1)', 
-                borderRadius: '6px', 
-                padding: '8px',
-                border: '1px solid #6366f1',
-                marginTop: '5px'
-              }}>
-                <p style={{ color: '#8b5cf6', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                  🔮 {t('announcements.viLatest', 'Latest Discovery:')}
-                </p>
-                <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                  {t('announcements.viContent', 'Quantum coherence in microtubules confirmed at body temperature')}
-                </p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                    {t('announcements.viDate', 'Mar 2026')}
-                  </span>
-                  <span style={{ color: '#6366f1', fontSize: '0.55rem' }}>
-                    {t('announcements.viImpact', 'BREAKTHROUGH')}
-                  </span>
-                </div>
-              </div>
-            )}
+              {/* BOX 3: RESONANCE ALIGNMENT PORTAL - GIFT PORTAL */}
+              {announcement.id === 3 && (
+                <>
+                  <div style={{
+                    background: 'rgba(255,215,0,0.12)',
+                    borderLeft: '3px solid #FFD700',
+                    padding: '6px 8px',
+                    marginBottom: '10px',
+                    borderRadius: '4px'
+                  }}>
+                    <p style={{ color: '#FFD700', fontSize: '0.6rem', fontWeight: 'bold', marginBottom: '2px' }}>
+                      {translations[currentLanguage]?.announcements?.shipTo || '📦 SHIP TO:'}
+                    </p>
+                    <p style={{ color: '#DDD6B8', fontSize: '0.55rem', lineHeight: '1.2', margin: 0 }}>
+                      MY ALKALINE VEGAN JOURNEY<br/>
+                      2281 NW 82nd Ave, STE. SLU114258<br/>
+                      Doral, FL 33198-6511
+                    </p>
+                  </div>
 
-            {/* BOX 5: FLASH MOB */}
-            {announcement.id === 5 && (
-              <div style={{ 
-                background: 'rgba(236,72,153,0.1)', 
-                borderRadius: '6px', 
-                padding: '8px',
-                border: '1px solid #ec4899',
-                marginTop: '5px'
-              }}>
-                <p style={{ color: '#ec4899', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                  🌍 {t('announcements.flashMob', 'GLOBAL FLASH MOB')}
-                </p>
-                <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                  {t('announcements.flashMobDesc', 'Submit your 30-second dance clip! Join dancers worldwide in synchronized celebration.')}
-                </p>
-                <div>
-                  <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                    {t('announcements.flashMobDeadline', 'Deadline: April 30, 2026')}
-                  </span>
+                  <div style={{ 
+                    background: 'rgba(0,212,255,0.08)', 
+                    borderRadius: '6px', 
+                    border: '1px solid #00d4ff', 
+                    padding: '5px'
+                  }}>
+                    <p style={{ 
+                      color: '#00d4ff', 
+                      fontSize: '0.55rem', 
+                      fontWeight: '900', 
+                      marginBottom: '4px', 
+                      textAlign: 'center'
+                    }}>
+                      ⚡ {translations[currentLanguage]?.announcements?.gifts || 'RESONANCE ALIGNMENT: GIFTS'} ⚡
+                    </p>
+                    <div style={{ 
+                      height: '100px', 
+                      overflowY: 'auto', 
+                      scrollbarWidth: 'thin',
+                      paddingRight: '3px'
+                    }}>
+                      {[
+                        { icon: '🔌', label: 'Transformer', price: '$95', link: 'https://amzn.to/4b4XodY' },
+                        { icon: '☀️', label: 'Power Station', price: '$499', link: 'https://amzn.to/3OE9SBC' },
+                        { icon: '🤿', label: 'Dive Set', price: '$59', link: 'https://amzn.to/4l3fXDF' },
+                        { icon: '🔋', label: 'Solar Charger', price: '$35', link: 'https://amzn.to/47igjAC' },
+                        { icon: '📻', label: 'Radio', price: '$39', link: 'https://amzn.to/4b4Z8E2' },
+                        { icon: '🏮', label: 'Lanterns', price: '$25', link: 'https://amzn.to/4r4omIv' },
+                        { icon: '🔦', label: 'Flashlights', price: '$22', link: 'https://amzn.to/4l1vTGF' },
+                        { icon: '🔧', label: 'Tool Set', price: '$45', link: 'https://amzn.to/4b0ZJXh' },
+                        { icon: '🥡', label: 'Sealer', price: '$68', link: 'https://amzn.to/4sk9aYT' }
+                      ].map((item, idx) => (
+                        <a 
+                          key={idx} 
+                          href={item.link} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '5px 3px',
+                            borderBottom: idx < 8 ? '1px solid rgba(255,215,0,0.1)' : 'none',
+                            textDecoration: 'none'
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ fontSize: '0.9rem' }}>{item.icon}</span>
+                            <span style={{ color: '#fff', fontSize: '0.55rem' }}>{item.label}</span>
+                          </div>
+                          <span style={{ color: '#FFD700', fontSize: '0.55rem', fontWeight: 'bold' }}>{item.price}</span>
+                        </a>
+                      ))}
+                    </div>
+                    <div style={{
+                      textAlign: 'center',
+                      marginTop: '3px',
+                      color: '#00d4ff',
+                      fontSize: '0.45rem'
+                    }}>
+                      ▼ {translations[currentLanguage]?.announcements?.scroll || 'SCROLL FOR MORE'} ▼
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* BOX 4: VIBRATIONAL INTELLIGENCE - COMPACT VERSION */}
+              {announcement.id === 4 && (
+                <div style={{ 
+                  background: 'rgba(99,102,241,0.1)', 
+                  borderRadius: '6px', 
+                  padding: '8px',
+                  border: '1px solid #6366f1',
+                  marginTop: '5px'
+                }}>
+                  <p style={{ color: '#8b5cf6', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
+                    🔮 {translations[currentLanguage]?.announcements?.viLatest || 'Latest Discovery:'}
+                  </p>
+                  <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
+                    {translations[currentLanguage]?.announcements?.viContent || 'Quantum coherence in microtubules confirmed at body temperature'}
+                  </p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
+                      {translations[currentLanguage]?.announcements?.viDate || 'Mar 2026'}
+                    </span>
+                    <span style={{ color: '#6366f1', fontSize: '0.55rem' }}>
+                      {translations[currentLanguage]?.announcements?.viImpact || 'BREAKTHROUGH'}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+
+              {/* BOX 5: GLOBAL FLASH MOB */}
+              {announcement.id === 5 && (
+                <div style={{ 
+                  background: 'rgba(236,72,153,0.1)', 
+                  borderRadius: '6px', 
+                  padding: '8px',
+                  border: '1px solid #ec4899',
+                  marginTop: '5px'
+                }}>
+                  <p style={{ color: '#ec4899', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
+                    🌍 {translations[currentLanguage]?.announcements?.flashMob || 'GLOBAL FLASH MOB'}
+                  </p>
+                  <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
+                    {translations[currentLanguage]?.announcements?.flashMobDesc || 'Submit your 30-second dance clip! Join dancers worldwide in synchronized celebration.'}
+                  </p>
+                  <div>
+                    <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
+                      {translations[currentLanguage]?.announcements?.flashMobDeadline || 'Deadline: April 30, 2026'}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* BOX 6: STORE - SEA MOSS SALE */}
+              {announcement.id === 6 && (
+                <div style={{ 
+                  background: 'rgba(76,175,80,0.1)', 
+                  borderRadius: '6px', 
+                  padding: '8px',
+                  border: '1px solid #4CAF50',
+                  marginTop: '5px'
+                }}>
+                  <p style={{ color: '#4CAF50', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '4px' }}>
+                    🛒 {translations[currentLanguage]?.announcements?.storeSale || '50% OFF • ST. LUCIAN SEA MOSS GEL'}
+                  </p>
+                  <p style={{ color: '#fff', fontSize: '0.6rem', lineHeight: '1.3', marginBottom: '4px' }}>
+                    {translations[currentLanguage]?.announcements?.storeDesc || 'Harvested from volcanic waters. 92 of 102 minerals. Gelatinous, potent, lab-tested.'}
+                  </p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ color: '#FFD700', fontSize: '0.6rem', fontWeight: 'bold' }}>
+                      {translations[currentLanguage]?.announcements?.storePrice || '$24.99 (reg $49.99)'}
+                    </span>
+                    <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
+                      {translations[currentLanguage]?.announcements?.storeStock || '342 jars left'}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <a 
+              href={announcement.link} 
+              style={{
+                marginTop: '12px', 
+                padding: '8px', 
+                background: 'linear-gradient(135deg, #FFD700, #FFA500)', 
+                color: '#000', 
+                textDecoration: 'none', 
+                borderRadius: '25px', 
+                fontWeight: 'bold', 
+                textAlign: 'center', 
+                fontSize: '0.7rem'
+              }}
+            >
+              {announcement.id === 3 
+                ? (translations[currentLanguage]?.announcements?.viewGifts || '🔗 VIEW GIFTS')
+                : (translations[currentLanguage]?.announcements?.learnMore || '🔗 LEARN MORE')}
+            </a>
           </div>
-          <a 
-            href={announcement.link} 
-            style={{
-              marginTop: '10px', 
-              padding: '8px', 
-              background: 'linear-gradient(135deg, #FFD700, #FFA500)', 
-              color: '#000', 
-              textDecoration: 'none', 
-              borderRadius: '25px', 
-              fontWeight: 'bold', 
-              textAlign: 'center', 
-              fontSize: '0.7rem'
-            }}
-          >
-            {announcement.id === 3 
-              ? t('announcements.viewGifts', '🔗 VIEW GIFTS') 
-              : t('announcements.learnMore', '🔗 LEARN MORE')}
-          </a>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  {/* SECTION 2: THE QUANTUM JOURNEY */}
-  <section style={{ padding: '30px 20px 60px 20px' }}>
-    <div style={{ 
-      maxWidth: '850px', 
-      margin: '0 auto', 
-      background: 'rgba(0,0,0,0.85)', 
-      padding: '35px', 
-      borderRadius: '20px', 
-      border: '2px solid transparent',
-      borderImage: 'linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4, #f59e0b) 1'
-    }}>
-      <h2 style={{ color: '#FFD700', textAlign: 'center', fontSize: '1.9rem', marginBottom: '20px' }}>
-        {t('quantumJourney.title', 'The Quantum Journey')}
-      </h2>
-      <div style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.65' }}>
-        <p>{t('quantumJourney.p1', 'My experience during the 40-day Total Reset allowed me to visualize God\'s Space—a realm beyond euphoria, beyond bliss.')}</p>
-        <p style={{ marginTop: '12px' }}>{t('quantumJourney.p2', 'This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.')}</p>
-        
-        <h3 style={{color: '#FFD700', fontSize: '1.1rem', margin: '20px 0 12px'}}>
-          {t('quantumJourney.subtitle', 'How Frequency Recalibration Works')}
-        </h3>
-        <ul style={{listStyle: 'none', padding: 0}}>
-          <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-            <span>✨</span> {t('quantumJourney.point1', 'Your electromagnetic field resonates at optimal vitality')}
-          </li>
-          <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-            <span>✨</span> {t('quantumJourney.point2', 'Cellular structures maintain coherence')}
-          </li>
-          <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-            <span>✨</span> {t('quantumJourney.point3', 'Your body accesses quantum regeneration')}
-          </li>
-        </ul>
+        ))}
       </div>
-    </div>
-  </section>
+    </section>
+
+    {/* SECTION 2: THE QUANTUM JOURNEY - RESTORED FULL VERSION */}
+    <section style={{ padding: '30px 20px 60px 20px' }}>
+      <div style={{ 
+        maxWidth: '850px', 
+        margin: '0 auto', 
+        background: 'rgba(0,0,0,0.85)', 
+        padding: '35px', 
+        borderRadius: '20px', 
+        border: '2px solid transparent',
+        borderImage: 'linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4, #f59e0b) 1'
+      }}>
+        <h2 style={{ color: '#FFD700', textAlign: 'center', fontSize: '1.9rem', marginBottom: '20px' }}>
+          {translations[currentLanguage]?.quantumJourney?.title || 'The Quantum Journey'}
+        </h2>
+        <div style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.65' }}>
+          <p>{translations[currentLanguage]?.quantumJourney?.p1 || 'My experience during my 40-day Total Reset allowed me to visualize Godspace—a realm beyond euphoria, beyond bliss.'}</p>
+          <p style={{ marginTop: '12px' }}>{translations[currentLanguage]?.quantumJourney?.p2 || 'This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.'}</p>
+          
+          <h3 style={{color: '#FFD700', fontSize: '1.1rem', margin: '20px 0 12px'}}>
+            {translations[currentLanguage]?.quantumJourney?.subtitle || 'How Frequency Recalibration Works'}
+          </h3>
+          <ul style={{listStyle: 'none', padding: 0}}>
+            <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+              <span>✨</span> {translations[currentLanguage]?.quantumJourney?.point1 || 'Your electromagnetic field resonates at optimal vitality'}
+            </li>
+            <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+              <span>✨</span> {translations[currentLanguage]?.quantumJourney?.point2 || 'Cellular structures maintain coherence'}
+            </li>
+            <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+              <span>✨</span> {translations[currentLanguage]?.quantumJourney?.point3 || 'Your body accesses quantum regeneration'}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>
+
       {/* CONTAINER 4: USER ENGAGEMENT GAMES */}
       <section style={{...styles.section, backgroundImage: 'url(/J2E/images/photos.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
         <h2 style={styles.sectionTitle}>User Engagement Games</h2>
         
-        {/* ===== MAVJ POSITIVE WORD GAME ===== */}
+                {/* ===== MAVJ POSITIVE WORD GAME ===== */}
         
-        {/* Brian Story Teaser */}
+        {/* Brian Story */}
         <div style={{
-          maxWidth: '600px',
-          margin: '0 auto 25px',
-          padding: '15px 20px',
+          maxWidth: '800px',
+          margin: '0 auto 20px',
+          padding: '20px',
           background: 'linear-gradient(135deg, rgba(148,0,211,0.15), rgba(255,215,0,0.15))',
-          borderRadius: '15px',
+          borderRadius: '16px',
           border: '2px solid #9400D3',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '15px',
-          flexWrap: 'wrap',
-          cursor: 'pointer'
-        }}
-        onClick={() => setShowBrianStory(true)}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '2rem' }}>📖</span>
-            <div>
-              <div style={{ color: '#FFD700', fontWeight: 'bold', fontSize: '1rem' }}>
-                Brian's Story
-              </div>
-              <div style={{ color: '#fff', fontSize: '0.85rem', opacity: 0.8 }}>
-                "I see how every word shapes my reality. I choose words that elevate."
-              </div>
-            </div>
-          </div>
-          <span style={{ color: '#9400D3', fontSize: '1.2rem' }}>▶</span>
+          textAlign: 'center',
+          backdropFilter: 'blur(8px)'
+        }}>
+          <h3 style={{ color: '#FFD700', marginBottom: '12px', fontSize: '1.2rem' }}>
+            📖 {t('game.brian_story_title', 'Brian\'s Story')}
+          </h3>
+          <p style={{ color: '#fff', fontSize: '0.9rem', lineHeight: '1.5', marginBottom: '10px' }}>
+            {t('game.brian_story', 'Brian spoke one sentence, and every word carried something other than positive. On the spot, I translated it into a sentence that was completely positive. That moment revealed the power of conscious language. Every word we speak is a frequency.')}
+          </p>
+          <p style={{ color: '#00d4ff', fontSize: '0.8rem' }}>
+            ✨ {t('game.tagline', 'Unscramble. Discover. Elevate.')}
+          </p>
         </div>
         
-        {/* Game Header */}
-        <h2 style={{
-          color: '#FFD700',
-          fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-          textAlign: 'center',
-          marginBottom: '20px',
-          textShadow: '0 0 20px #FFD700'
-        }}>
-          🌀 {translations[currentLanguage]?.games?.positive_word?.title || 'MAVJ Positive Word Game'}
-        </h2>
-        
-        {/* Stats Bar */}
+        {/* Game Header with Stats */}
         <div style={{
           display: 'flex',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
           alignItems: 'center',
-          maxWidth: '600px',
-          margin: '0 auto 25px',
+          maxWidth: '700px',
+          margin: '0 auto 20px',
           padding: '12px 20px',
-          background: 'linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,212,255,0.1))',
+          background: 'linear-gradient(135deg, rgba(255,215,0,0.15), rgba(0,212,255,0.15))',
           border: '2px solid',
           borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-          borderRadius: '40px',
+          borderRadius: '60px',
           flexWrap: 'wrap',
           gap: '15px'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '1.3rem' }}>🔥</span>
-            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
-              {translations[currentLanguage]?.games?.streak || 'STREAK'}: {positiveGame?.streak || 0}
-            </span>
+            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>{t('game.streak', 'STREAK')}: {positiveGame?.streak || 0}</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '1.3rem' }}>✨</span>
-            <span style={{ color: '#00d4ff', fontWeight: 'bold' }}>
-              {translations[currentLanguage]?.games?.score || 'SCORE'}: {positiveGame?.score || 0}
-            </span>
+            <span style={{ color: '#00d4ff', fontWeight: 'bold' }}>{t('game.score', 'SCORE')}: {positiveGame?.score || 0}</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '1.3rem' }}>🌀</span>
-            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
-              {translations[currentLanguage]?.games?.level || 'LEVEL'}: {positiveGame?.level || 1}/3
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '1.3rem' }}>🪙</span>
-            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>
-              COINS: {positiveGame?.coins || 0}
-            </span>
+            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>{t('game.coins', 'COINS')}: {positiveGame?.coins || 0}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '1.3rem' }}>🎯</span>
+            <span style={{ color: '#00d4ff', fontWeight: 'bold' }}>{targetWords.filter(t => t.found).length}/{targetWords.length} {t('game.found', 'found')}</span>
           </div>
         </div>
         
-        {/* Current Word Display */}
+        {/* Target Words Area */}
         <div style={{
-          textAlign: 'center',
-          margin: '20px auto',
-          padding: '15px',
-          background: 'rgba(0,0,0,0.5)',
-          borderRadius: '30px',
-          maxWidth: '400px'
-        }}>
-          <span style={{ color: '#FFD700', letterSpacing: '4px', fontSize: '1.5rem', fontWeight: 'bold' }}>
-            {selectedWord || '_____'}
-          </span>
-        </div>
-        
-        {/* Target Words */}
-        <div style={{
-          maxWidth: '800px',
-          margin: '20px auto',
+          maxWidth: '900px',
+          margin: '0 auto 20px',
           padding: '20px',
-          background: 'rgba(0,0,0,0.3)',
+          background: 'rgba(0,0,0,0.4)',
           borderRadius: '20px',
-          border: '2px solid #FFD700'
+          border: '2px solid #FFD700',
+          backdropFilter: 'blur(4px)'
         }}>
-          <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.2rem', textAlign: 'center' }}>
-            🎯 {translations[currentLanguage]?.games?.target_words || 'DISCOVER THESE WORDS'}
+          <h3 style={{ color: '#FFD700', textAlign: 'center', marginBottom: '15px', fontSize: '1.1rem' }}>
+            🎯 {t('game.target_words', 'DISCOVER THESE WORDS')}
           </h3>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '20px'
+          }}>
             {targetWords.map((target, idx) => (
-              <div key={idx} style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                {target.word.split('').map((letter, i) => (
-                  <div key={i} style={{
-                    width: '45px',
-                    height: '45px',
-                    background: target.found ? 'rgba(76,175,80,0.2)' : 'rgba(255,215,0,0.1)',
-                    border: target.found ? '2px solid #4CAF50' : '2px solid #FFD700',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.3rem',
-                    fontWeight: 'bold',
-                    color: target.found ? '#4CAF50' : '#FFD700'
-                  }}>
-                    {target.found ? letter : ''}
-                  </div>
-                ))}
+              <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  {target.word.split('').map((letter, i) => (
+                    <div key={i} style={{
+                      width: '38px',
+                      height: '38px',
+                      background: target.found ? 'linear-gradient(135deg, #4CAF50, #2E7D32)' : 'rgba(255,215,0,0.1)',
+                      border: target.found ? '2px solid #4CAF50' : '2px solid #FFD700',
+                      borderRadius: '10px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.2rem',
+                      fontWeight: 'bold',
+                      color: target.found ? '#fff' : '#FFD700',
+                      boxShadow: target.found ? '0 0 15px #4CAF50' : 'none'
+                    }}>
+                      {target.found ? letter : ''}
+                    </div>
+                  ))}
+                </div>
+                {target.found && <span style={{ color: '#4CAF50', fontSize: '0.7rem' }}>✓</span>}
               </div>
             ))}
           </div>
         </div>
         
-        {/* Letter Circle */}
-        <div style={{ position: 'relative', margin: '30px auto', width: 'fit-content' }}>
-          <button
-            onClick={() => {
-              setShuffledLetters([...shuffledLetters].sort(() => Math.random() - 0.5));
-            }}
-            style={{
-              position: 'absolute',
-              top: '-15px',
-              right: '-15px',
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-              border: 'none',
-              color: '#000',
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              zIndex: 10
-            }}
-          >
-            🔄
-          </button>
-          
-          <div style={{
-            position: 'relative',
-            width: 'min(350px, 80vw)',
-            height: 'min(350px, 80vw)',
-            margin: '0 auto'
-          }}>
-            <svg width="100%" height="100%" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="45" fill="none" stroke="url(#circleGradient)" strokeWidth="2" strokeDasharray="4,4" />
-              <defs>
-                <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFD700" />
-                  <stop offset="50%" stopColor="#00d4ff" />
-                  <stop offset="100%" stopColor="#FFD700" />
-                </linearGradient>
-              </defs>
-            </svg>
-            
-            {shuffledLetters.map((letter, i) => {
-              const angle = (i * 22.5) * Math.PI / 180;
-              const x = 50 + 38 * Math.cos(angle);
-              const y = 50 + 38 * Math.sin(angle);
-              return (
-                <div
-                  key={i}
-                  onClick={() => {
-                    setSelectedWord(prev => prev + letter);
-                  }}
-                  style={{
-                    position: 'absolute',
-                    left: `${x}%`,
-                    top: `${y}%`,
-                    transform: 'translate(-50%, -50%)',
-                    width: '42px',
-                    height: '42px',
-                    background: 'rgba(0,0,0,0.9)',
-                    border: '2px solid',
-                    borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#FFD700',
-                    fontSize: '1.2rem',
-                    fontWeight: 'bold',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {letter}
-                </div>
-              );
-            })}
-          </div>
-          
-          {/* Submit and Clear Buttons */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' }}>
-            <button
-              onClick={() => {
-                const match = targetWords.find(t => t.word === selectedWord && !t.found);
-                if (match) {
-                  setTargetWords(prev => prev.map(t => 
-                    t.word === selectedWord ? { ...t, found: true } : t
-                  ));
-                  setPositiveGame(prev => ({
-                    ...prev,
-                    score: prev.score + 100,
-                    streak: prev.streak + 1,
-                    coins: prev.coins + 10
-                  }));
-                  setGameFeedback({ type: 'success', message: `✨ ${selectedWord}! +100 points` });
-                  setWordBank(prev => [...prev, { word: selectedWord, found: true }]);
-                  setSelectedWord('');
-                } else if (selectedWord.length > 0) {
-                  setPositiveGame(prev => ({
-                    ...prev,
-                    streak: 0,
-                    coins: Math.max(0, prev.coins - 1)
-                  }));
-                  setGameFeedback({ type: 'error', message: `💫 "${selectedWord}" is not a target word. Try again!` });
-                  setSelectedWord('');
-                }
-              }}
-              style={{
-                padding: '12px 30px',
-                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-                border: 'none',
-                borderRadius: '30px',
-                color: '#000',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-            >
-              ✓ {translations[currentLanguage]?.games?.submit || 'SUBMIT WORD'}
-            </button>
-            <button
-              onClick={() => setSelectedWord('')}
-              style={{
-                padding: '12px 30px',
-                background: 'rgba(255,255,255,0.1)',
-                border: '2px solid #FFD700',
-                borderRadius: '30px',
-                color: '#FFD700',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-            >
-              ✗ CLEAR
-            </button>
-          </div>
-          
-          {gameFeedback && (
-            <div style={{
-              marginTop: '15px',
-              padding: '10px',
-              textAlign: 'center',
-              borderRadius: '10px',
-              background: gameFeedback.type === 'success' ? 'rgba(76,175,80,0.2)' : 'rgba(255,0,0,0.2)',
-              color: gameFeedback.type === 'success' ? '#4CAF50' : '#ff6b6b'
-            }}>
-              {gameFeedback.message}
-            </div>
-          )}
+        {/* Current Word Platform */}
+        <div style={{
+          width: '320px',
+          margin: '0 auto 15px',
+          padding: '12px',
+          background: 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(148,0,211,0.3))',
+          borderRadius: '50px',
+          border: '2px solid #FFD700',
+          textAlign: 'center',
+          boxShadow: '0 0 20px rgba(255,215,0,0.3)'
+        }}>
+          <span style={{ color: '#FFD700', fontSize: '1.3rem', letterSpacing: '6px', fontWeight: 'bold' }}>
+            {selectedWord || '_____'}
+          </span>
         </div>
         
-        {/* Word Bank */}
+        {/* Letter Circle */}
         <div style={{
-          maxWidth: '800px',
-          margin: '30px auto',
-          padding: '20px',
-          background: 'rgba(0,0,0,0.3)',
-          borderRadius: '20px',
-          border: '2px solid #00d4ff'
+          position: 'relative',
+          width: `${Math.min(450, Math.max(300, shuffledLetters.length * 28))}px`,
+          height: `${Math.min(450, Math.max(300, shuffledLetters.length * 28))}px`,
+          margin: '15px auto'
         }}>
-          <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.2rem' }}>
-            📚 {translations[currentLanguage]?.games?.word_bank || 'WORD BANK'}
-          </h3>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: '10px'
-          }}>
-            {wordBank.length === 0 ? (
-              <div style={{ color: '#00d4ff', textAlign: 'center', padding: '10px' }}>
-                Discover words to build your collection!
+          <svg width="100%" height="100%" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#circleGradient)" strokeWidth="2" strokeDasharray="5,5" />
+            <defs>
+              <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFD700" />
+                <stop offset="50%" stopColor="#00d4ff" />
+                <stop offset="100%" stopColor="#FF00FF" />
+              </linearGradient>
+            </defs>
+          </svg>
+          
+          {shuffledLetters.map((letter, i) => {
+            const angle = (i * (360 / shuffledLetters.length)) * Math.PI / 180;
+            const x = 50 + 38 * Math.cos(angle);
+            const y = 50 + 38 * Math.sin(angle);
+            return (
+              <div
+                key={i}
+                onClick={() => setSelectedWord(prev => prev + letter)}
+                style={{
+                  position: 'absolute',
+                  left: `${x}%`,
+                  top: `${y}%`,
+                  transform: 'translate(-50%, -50%)',
+                  width: '48px',
+                  height: '48px',
+                  background: 'radial-gradient(circle, rgba(0,0,0,0.9), rgba(255,215,0,0.2))',
+                  border: '2px solid',
+                  borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#FFD700',
+                  fontSize: '1.3rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 0 15px rgba(255,215,0,0.5)'
+                }}
+              >
+                {letter}
               </div>
-            ) : (
-              wordBank.map((item, idx) => (
-                <div key={idx} style={{
-                  padding: '10px',
-                  background: 'rgba(255,215,0,0.1)',
-                  border: '1px solid #FFD700',
-                  borderRadius: '10px',
-                  cursor: 'pointer'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '1.1rem' }}>💎</span>
-                    <div>
-                      <div style={{ color: '#FFD700', fontWeight: 'bold' }}>{item.word}</div>
-                      <div style={{ fontSize: '0.7rem', color: '#00d4ff' }}>Click for etymology</div>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+            );
+          })}
         </div>
         
         {/* Action Buttons */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '12px',
-          marginTop: '20px',
-          flexWrap: 'wrap'
-        }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', margin: '15px 0' }}>
           <button
             onClick={() => {
-              if (positiveGame.coins >= 5) {
-                const unfound = targetWords.find(t => !t.found);
-                if (unfound) {
-                  setGameFeedback({ type: 'info', message: `💡 Hint: The word starts with "${unfound.word[0]}"` });
-                  setPositiveGame(prev => ({ ...prev, coins: prev.coins - 5 }));
+              const matchedTarget = targetWords.find(t => t.word === selectedWord && !t.found);
+              
+              if (matchedTarget) {
+                setTargetWords(prev => prev.map(t => 
+                  t.word === selectedWord ? { ...t, found: true } : t
+                ));
+                setPositiveGame(prev => ({
+                  ...prev,
+                  score: (prev?.score || 0) + 100,
+                  streak: (prev?.streak || 0) + 1,
+                  coins: (prev?.coins || 0) + 10
+                }));
+                setGameFeedback({ type: 'success', message: `🎉 ${selectedWord}! +100 points`, showConfetti: true });
+                setSelectedWord('');
+                
+                const allFound = targetWords.every(t => t.found);
+                if (allFound) {
+                  setGameFeedback({ type: 'success', message: `🏆 ROUND COMPLETE! +50 bonus coins!`, showConfetti: true });
+                  setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) + 50 }));
+                  setTimeout(() => startNewPuzzle(), 2000);
                 }
-              } else {
-                setGameFeedback({ type: 'error', message: 'Not enough coins! Complete words to earn more.' });
+              } 
+              else if (selectedWord.length > 0) {
+                const canBeMade = canMakeWordFromLetters(selectedWord, shuffledLetters);
+                
+                if (canBeMade) {
+                  const isAlreadyTarget = targetWords.some(t => t.word === selectedWord);
+                  
+                  if (!isAlreadyTarget) {
+                    setTargetWords(prev => [...prev, { word: selectedWord, found: false }]);
+                    setGameFeedback({ type: 'success', message: `✨ NEW WORD! "${selectedWord}" added! +25 coins` });
+                    setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) + 25 }));
+                  } else {
+                    setGameFeedback({ type: 'info', message: `📚 "${selectedWord}" is already in your list!` });
+                  }
+                } else {
+                  setGameFeedback({ type: 'error', message: `💫 "${selectedWord}" cannot be made from these letters.` });
+                  setPositiveGame(prev => ({ ...prev, streak: 0 }));
+                }
+                setSelectedWord('');
               }
             }}
             style={{
-              padding: '10px 20px',
+              padding: '12px 28px',
               background: 'linear-gradient(135deg, #FFD700, #FFA500)',
               border: 'none',
-              borderRadius: '25px',
+              borderRadius: '40px',
               color: '#000',
+              fontSize: '0.9rem',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              boxShadow: '0 0 20px rgba(255,215,0,0.5)'
+            }}
+          >
+            ✓ {t('game.submit', 'SUBMIT')}
+          </button>
+          <button
+            onClick={() => setSelectedWord('')}
+            style={{
+              padding: '12px 28px',
+              background: 'rgba(255,255,255,0.1)',
+              border: '2px solid #FFD700',
+              borderRadius: '40px',
+              color: '#FFD700',
               fontSize: '0.9rem',
               fontWeight: 'bold',
               cursor: 'pointer'
             }}
           >
-            🪙 {translations[currentLanguage]?.games?.hint || 'HINT'} (5)
+            ✗ {t('game.clear', 'CLEAR')}
           </button>
           <button
-            onClick={() => {
-              setShuffledLetters([...shuffledLetters].sort(() => Math.random() - 0.5));
-            }}
+            onClick={() => setShuffledLetters([...shuffledLetters].sort(() => Math.random() - 0.5))}
             style={{
-              padding: '10px 20px',
+              padding: '12px 28px',
               background: 'linear-gradient(135deg, #00d4ff, #667eea)',
               border: 'none',
-              borderRadius: '25px',
+              borderRadius: '40px',
               color: '#fff',
               fontSize: '0.9rem',
               fontWeight: 'bold',
               cursor: 'pointer'
             }}
           >
-            🔄 {translations[currentLanguage]?.games?.scramble || 'SCRAMBLE'}
+            🔄 {t('game.scramble', 'SCRAMBLE')}
           </button>
+        </div>
+        
+        {/* Feedback Message */}
+        {gameFeedback && (
+          <div style={{
+            marginTop: '15px',
+            padding: '12px',
+            textAlign: 'center',
+            borderRadius: '16px',
+            background: gameFeedback.type === 'success' ? 'rgba(76,175,80,0.2)' : 'rgba(0,212,255,0.2)',
+            border: '1px solid',
+            borderColor: gameFeedback.type === 'success' ? '#4CAF50' : '#00d4ff',
+            color: gameFeedback.type === 'success' ? '#4CAF50' : '#00d4ff',
+            fontSize: '0.9rem',
+            maxWidth: '500px',
+            marginLeft: 'auto',
+            marginRight: 'auto'
+          }}>
+            {gameFeedback.message}
+          </div>
+        )}
+        
+        {/* Word Bank */}
+        <div style={{
+          maxWidth: '700px',
+          margin: '20px auto',
+          padding: '15px',
+          background: 'rgba(0,0,0,0.4)',
+          borderRadius: '16px',
+          border: '2px solid #00d4ff',
+          maxHeight: '130px',
+          overflowY: 'auto'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>📚 {t('game.word_bank', 'WORD BANK')}</span>
+            <span style={{ color: '#00d4ff', fontSize: '0.75rem' }}>{wordBank.length} {t('game.words', 'words')}</span>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {wordBank.length === 0 ? (
+              <span style={{ color: '#00d4ff', fontSize: '0.8rem' }}>{t('game.discover_words', 'Words you discover will appear here')}</span>
+            ) : (
+              wordBank.slice(-12).map((item, idx) => (
+                <span key={idx} style={{
+                  padding: '5px 12px',
+                  background: 'rgba(255,215,0,0.15)',
+                  border: '1px solid #FFD700',
+                  borderRadius: '30px',
+                  color: '#FFD700',
+                  fontSize: '0.75rem',
+                  cursor: 'pointer'
+                }}>
+                  {item.word}
+                </span>
+              ))
+            )}
+          </div>
+        </div>
+        
+        {/* Hint and Reset Buttons */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '10px' }}>
           <button
             onClick={() => {
-              setTargetWords(initialTargetWords.map(w => ({ ...w, found: false })));
-              setWordBank([]);
-              setSelectedWord('');
-              setGameFeedback(null);
-              setPositiveGame(prev => ({ ...prev, score: 0, streak: 0, coins: 0 }));
+              if ((positiveGame?.coins || 0) >= 3) {
+                const unfound = targetWords.find(t => !t.found);
+                if (unfound) {
+                  setGameFeedback({ type: 'info', message: `💡 Hint: The word starts with "${unfound.word[0]}"` });
+                  setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) - 3 }));
+                }
+              } else {
+                setGameFeedback({ type: 'error', message: 'Not enough coins! Complete words to earn more.' });
+              }
             }}
             style={{
-              padding: '10px 20px',
-              background: 'rgba(255,0,0,0.15)',
-              border: '2px solid #ff6b6b',
-              borderRadius: '25px',
-              color: '#ff6b6b',
-              fontSize: '0.9rem',
+              padding: '8px 20px',
+              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+              border: 'none',
+              borderRadius: '30px',
+              color: '#000',
+              fontSize: '0.75rem',
               fontWeight: 'bold',
               cursor: 'pointer'
             }}
           >
-            🔄 {translations[currentLanguage]?.games?.reset || 'RESET'}
+            🪙 {t('game.hint_button', 'HINT')} (3)
+          </button>
+          <button
+            onClick={() => startNewPuzzle()}
+            style={{
+              padding: '8px 20px',
+              background: 'linear-gradient(135deg, #00d4ff, #667eea)',
+              border: 'none',
+              borderRadius: '30px',
+              color: '#fff',
+              fontSize: '0.75rem',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+          >
+            🎲 {t('game.new_puzzle', 'NEW PUZZLE')}
+          </button>
+          <button
+            onClick={() => {
+              const puzzle = gamePuzzles[0];
+              setTargetWords(puzzle.primaryWords.map(word => ({ word, found: false })));
+              setShuffledLetters([...puzzle.letters].sort(() => Math.random() - 0.5));
+              setSelectedWord('');
+              setWordBank([]);
+              setGameFeedback(null);
+              setPositiveGame(prev => ({ ...prev, score: 0, streak: 0, coins: 0 }));
+              setEmailCaptured(false);
+            }}
+            style={{
+              padding: '8px 20px',
+              background: 'rgba(255,0,0,0.15)',
+              border: '2px solid #ff6b6b',
+              borderRadius: '30px',
+              color: '#ff6b6b',
+              fontSize: '0.75rem',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+          >
+            🔄 {t('game.reset', 'RESET')}
           </button>
         </div>
         
@@ -3449,13 +3692,13 @@ const HomePage = () => {
           {/* MATH GAME */}
           <div style={styles.gameCard}>
             <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
-              {translations[currentLanguage]?.games?.math?.title || 'Quantum Reset Math'}
+              {t('games.math.title', 'Quantum Reset Math')}
             </h3>
             <p style={{marginBottom: '12px'}}>
-              {translations[currentLanguage]?.games?.math?.question || '40 day reset, 3 of those days were dry = ?'}
+              {t('games.math.question', '40 day reset, 3 of those days were dry = ?')}
             </p>
             <p style={{marginBottom: '10px', color: '#00d4ff', fontSize: '0.78rem', fontStyle: 'italic', textAlign: 'center'}}>
-              {translations[currentLanguage]?.games?.math?.hint || '💡 Hint: 1 dry day = 3 water days'}
+              {t('games.math.hint', '💡 Hint: 1 dry day = 3 water days')}
             </p>
              
             {!quizState.math.submitted ? (
@@ -3479,11 +3722,11 @@ const HomePage = () => {
                   style={{...styles.gameReset, marginTop: '10px'}} 
                   onClick={() => resetQuiz('math')}
                 >
-                  {translations[currentLanguage]?.games?.try_again || 'Try Again'}
+                  {t('games.try_again', 'Try Again')}
                 </button>
               </div>
-            )
-}</div>
+            )}
+          </div>
           {/* COMPOUND GAME */}
           <div style={styles.gameCard}>
             <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
