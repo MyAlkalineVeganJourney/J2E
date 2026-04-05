@@ -1993,7 +1993,7 @@ const handleLanguageChange = useCallback((lang) => {
       minHeight: '100vh',
       margin: 0,
       padding: 0,
-      paddingTop: '220px' // Space for fixed headers - REDUCED FROM 280px
+      paddingTop: '0px' // Space for fixed headers - REDUCED FROM 280px
     },
 
     // CONTAINER 1: NAVIGATION (ULTRA-THIN)
@@ -2960,7 +2960,7 @@ const handleLanguageChange = useCallback((lang) => {
   // ==================== RENDER ====================
   
   return (
-    <Layout pageTitle="YOU ARE HOME">
+    <Layout pageTitle="HOME">
       <div style={styles.mainContainer}>
     
 
@@ -4401,7 +4401,7 @@ const handleLanguageChange = useCallback((lang) => {
       description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.',
       location: 'Castries Market Arcade, St. Lucia',
       image: '/images/JulianCoconutArtist.png',
-      workImage: "/Images/JulianBirdFeeders.png"
+      workImage: '/images/JulianBirdFeeders.png'
     },
     {
       name: 'Kurt The Fisherman',
@@ -4409,7 +4409,7 @@ const handleLanguageChange = useCallback((lang) => {
       description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.',
       location: 'Tou Rouge, Castries, St. Lucia',
       image: '/images/KurtTheFISHERMAN.png',
-      workImage: '/Innmages/KurtwithSnapper.png'
+      workImage: '/images/KurtwithSnapper.png'
     },
     {
       name: 'Brittany',
