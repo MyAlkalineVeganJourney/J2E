@@ -86,8 +86,8 @@ const MAVJStore = () => {
     { name: 'Sea Moss', icon: '🌊', color: '#00CED1', link: '/MAVJSeaMoss', image: '/images/SeaMossBanner.jpg', stage: 'FOUNDATION' },
     { name: 'Transformation Kits', icon: '💎', color: '#9400D3', link: '/ProductCatalog#kits', image: '/images/Detox.jpg', stage: 'RESET' },
     { name: 'Sacred Herbs', icon: '🌿', color: '#32CD32', link: '/ProductCatalog#herbs', image: '/images/Panadol.jpg', stage: 'HEALING' },
-    { name: 'Life Seeds', icon: '��', color: '#FFD700', link: '/ProductCatalog#seeds', image: '/images/SeedsBanner.jpg', stage: 'SOVEREIGNTY' },
-    { name: 'Sacred Oils', icon: '🔥', color: '#FF6B00', link: '/ProductCatalog#oils', image: '/images/CastorOilBanner.jpg', stage: 'INFLAMMATION' },
+    { name: 'Life Seeds', icon: '🌱', color: '#FFD700', link: '/ProductCatalog#seeds', image: '/images/SeedsBanner.jpg', stage: 'SOVEREIGNTY' },
+    { name: 'Sacred Oils', icon: '��', color: '#FF6B00', link: '/ProductCatalog#oils', image: '/images/CastorOilBanner.jpg', stage: 'INFLAMMATION' },
     { name: 'Alkaline Recipes', icon: '🍽️', color: '#FF69B4', link: '/Recipes', image: '/images/RecipesBanner.png', stage: 'MAINTENANCE' },
     { name: 'Treats', icon: '✨', color: '#FFD700', link: '/ProductCatalog#snacks', image: '/images/WalnutCookies.png', stage: 'CELEBRATION' },
     { name: 'Beverages', icon: '🥤', color: '#4169E1', link: '/ProductCatalog#beverages', image: '/images/TheBomb.jpg', stage: 'VITALITY' },
@@ -147,7 +147,7 @@ const MAVJStore = () => {
           ))}
         </div>
         <Link to="/ProductCatalog" onClick={() => window.scrollTo(0, 0)} style={{ display: 'block', textAlign: 'center', padding: 'clamp(15px, 4vw, 20px)', background: 'linear-gradient(135deg, #FFD700, #FFA500)', borderRadius: '15px', textDecoration: 'none' }}>
-          <p style={{ color: '#000', fontSize: 'clamp(1rem, 3vw, 1.3rem)', fontWeight: 'bold', margin: 0 }}>�� VIEW COMPLETE PRODUCT CATALOG →</p>
+          <p style={{ color: '#000', fontSize: 'clamp(1rem, 3vw, 1.3rem)', fontWeight: 'bold', margin: 0 }}>🛒 VIEW COMPLETE PRODUCT CATALOG →</p>
         </Link>
       </div>
 
@@ -524,7 +524,7 @@ const MAVJStore = () => {
 
       {/* CONSULTATION CTA */}
       <div style={{ maxWidth: '1000px', margin: '60px auto', padding: 'clamp(30px, 6vw, 40px)', textAlign: 'center', background: 'linear-gradient(135deg, rgba(148,0,211,0.1), rgba(255,215,0,0.1))', borderRadius: '20px', border: '3px solid', borderImage: 'linear-gradient(45deg,violet,indigo,blue,green,yellow,orange,red) 1' }}>
-        <h2 style={{ color: '#9400D3', fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '20px', lineHeight: '1.2' }}>💬 Need Personalized Guidance?</h2>
+        <h2 style={{ color: '#9400D3', fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '20px', lineHeight: '1.2' }}>�� Need Personalized Guidance?</h2>
         <p style={{ fontSize: 'clamp(1rem, 3vw, 1.3rem)', marginBottom: '30px', lineHeight: '1.6', color: '#DDD6B8' }}>Book a consultation with Robin for customized protocols aligned with your unique frequency, health history, and transformation goals.</p>
         <Link to="/ContactUs" onClick={() => window.scrollTo(0, 0)} style={{ display: 'inline-block', padding: 'clamp(15px, 4vw, 18px) clamp(30px, 7vw, 45px)', background: 'linear-gradient(135deg, #9400D3, #FFD700)', color: '#000', textDecoration: 'none', borderRadius: '50px', fontSize: 'clamp(1.1rem, 3vw, 1.3rem)', fontWeight: 'bold', boxShadow: '0 8px 25px rgba(148,0,211,0.5)' }}>Schedule Consultation →</Link>
       </div>

@@ -17,8 +17,8 @@ const Layout = ({ children, pageTitle }) => {
 
   // ================================================================
   // 18-LANGUAGE TRANSLATION TABLE
-  // Keys: companyName, tagline, leftBox (3 lines), rightBox (3 lines),
-  //       all 10 nav labels, disclaimer
+  // Keys: co (company), tl (tagline), l1-l3 (left box), r1-r3 (right box),
+  //       n0-n9 (nav labels), foot (footer), pt (page title)
   // ================================================================
   const TR = useMemo(() => ({
     English: {
@@ -29,7 +29,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJHome', n1:'The Journey', n2:'MAVJStore', n3:'Journey 2 Enlightenment',
       n4:'Vibrational Intelligence', n5:'Align With Us', n6:'MAVJSearch',
       n7:'Live Broadcast', n8:'PodCast/Vlog', n9:'Contact Us',
-      foot:'EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL'
+      foot:'EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL',
+      pt: 'YOU ARE HOME'
     },
     Spanish: {
       co: '💦 MI VIAJE VEGANO ALCALINO 💦',
@@ -39,7 +40,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJInicio', n1:'El Viaje', n2:'MAVJTienda', n3:'Viaje a la Iluminación',
       n4:'Inteligencia Vibratoria', n5:'Alíneate Con Nosotros', n6:'MAVJBúsqueda',
       n7:'Transmisión en Vivo', n8:'PodCast/Vlog', n9:'Contáctenos',
-      foot:'SOLO PROPÓSITOS EDUCATIVOS • CONSULTE A UN PROFESIONAL DE SALUD'
+      foot:'SOLO PROPÓSITOS EDUCATIVOS • CONSULTE A UN PROFESIONAL DE SALUD',
+      pt: 'ESTÁS EN CASA'
     },
     French: {
       co: '💦 MON VOYAGE VÉGÉTALIEN ALCALIN 💦',
@@ -49,7 +51,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJAccueil', n1:'Le Voyage', n2:'MAVJBoutique', n3:"Voyage vers l'Éveil",
       n4:'Intelligence Vibratoire', n5:'Aligner avec Nous', n6:'MAVJRecherche',
       n7:'Diffusion en Direct', n8:'PodCast/Vlog', n9:'Contactez-Nous',
-      foot:'À DES FINS ÉDUCATIVES UNIQUEMENT • CONSULTEZ UN PROFESSIONNEL DE SANTÉ'
+      foot:'À DES FINS ÉDUCATIVES UNIQUEMENT • CONSULTEZ UN PROFESSIONNEL DE SANTÉ',
+      pt: 'VOUS ÊTES CHEZ VOUS'
     },
     German: {
       co: '💦 MEINE ALKALISCHE VEGANE REISE 💦',
@@ -59,7 +62,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJStartseite', n1:'Die Reise', n2:'MAVJGeschäft', n3:'Reise zur Erleuchtung',
       n4:'Schwingungsintelligenz', n5:'Mit uns ausrichten', n6:'MAVJSuche',
       n7:'Live-Übertragung', n8:'PodCast/Vlog', n9:'Kontaktieren Sie uns',
-      foot:'NUR FÜR BILDUNGSZWECKE • FACHMANN KONSULTIEREN'
+      foot:'NUR FÜR BILDUNGSZWECKE • FACHMANN KONSULTIEREN',
+      pt: 'DU BIST ZU HAUSE'
     },
     Italian: {
       co: '💦 IL MIO VIAGGIO VEGANO ALCALINO 💦',
@@ -69,7 +73,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJHome', n1:'Il Viaggio', n2:'MAVJNegozio', n3:"Viaggio verso l'Illuminazione",
       n4:'Intelligenza Vibrazionale', n5:'Allineati con Noi', n6:'MAVJRicerca',
       n7:'Trasmissione in Diretta', n8:'PodCast/Vlog', n9:'Contattaci',
-      foot:'SOLO A SCOPO EDUCATIVO • CONSULTARE UN PROFESSIONISTA SANITARIO'
+      foot:'SOLO A SCOPO EDUCATIVO • CONSULTARE UN PROFESSIONISTA SANITARIO',
+      pt: 'SEI A CASA'
     },
     Chinese: {
       co: '💦 我的碱性纯素旅程 💦',
@@ -79,7 +84,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJ首页', n1:'旅程', n2:'MAVJ商店', n3:'启蒙之旅',
       n4:'振动智能', n5:'与我们结盟', n6:'MAVJ搜索',
       n7:'直播', n8:'播客/视频', n9:'联系我们',
-      foot:'仅供教育目的 • 请咨询医疗专业人士'
+      foot:'仅供教育目的 • 请咨询医疗专业人士',
+      pt: '你在家'
     },
     Taiwanese: {
       co: '💦 我的鹼性純素旅程 💦',
@@ -89,7 +95,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJ首頁', n1:'旅程', n2:'MAVJ商店', n3:'啟蒙之旅',
       n4:'振動智慧', n5:'佮咱結盟', n6:'MAVJ搜尋',
       n7:'現場直播', n8:'播客/影片', n9:'聯絡阮',
-      foot:'僅供教育目的 • 請諮詢醫療專業人士'
+      foot:'僅供教育目的 • 請諮詢醫療專業人士',
+      pt: '你佇厝'
     },
     Amharic: {
       co: '💦 የአልካሊን ቪጋን ጉዞዬ 💦',
@@ -99,7 +106,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJቤት', n1:'ጉዞው', n2:'MAVJሱቅ', n3:'ወደ ማብራት ጉዞ',
       n4:'የድምፅ ኢንተለጀንስ', n5:'ከእኛ ጋር ይያዙ', n6:'MAVJፍለጋ',
       n7:'ቀጥታ ስርጭት', n8:'ፖድካስት/ቭሎግ', n9:'አግኙን',
-      foot:'ለትምህርታዊ ዓላማ ብቻ • የጤና ባለሙያ ያማክሩ'
+      foot:'ለትምህርታዊ ዓላማ ብቻ • የጤና ባለሙያ ያማክሩ',
+      pt: 'ቤት ነህ'
     },
     Arabic: {
       co: '💦 رحلتي النباتية القلوية 💦',
@@ -109,7 +117,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJالرئيسية', n1:'الرحلة', n2:'MAVJالمتجر', n3:'رحلة إلى التنوير',
       n4:'الذكاء الاهتزازي', n5:'انضم إلينا', n6:'MAVJالبحث',
       n7:'البث المباشر', n8:'بودكاست/فيديو', n9:'اتصل بنا',
-      foot:'لأغراض تعليمية فقط • استشر متخصصاً في الرعاية الصحية'
+      foot:'لأغراض تعليمية فقط • استشر متخصصاً في الرعاية الصحية',
+      pt: 'أنت في المنزل'
     },
     Swahili: {
       co: '💦 SAFARI YANGU YA VEGAN ALKALI 💦',
@@ -119,7 +128,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJNyumbani', n1:'Safari', n2:'MAVJDuka', n3:'Safari ya Kuelimika',
       n4:'Akili ya Mtetemo', n5:'Oanisha Nasi', n6:'MAVJUtafutaji',
       n7:'Moja kwa Moja', n8:'Podcast/Vlog', n9:'Wasiliana Nasi',
-      foot:'KWA MADHUMUNI YA ELIMU TU • WASILIANA NA MTAALAMU WA AFYA'
+      foot:'KWA MADHUMUNI YA ELIMU TU • WASILIANA NA MTAALAMU WA AFYA',
+      pt: 'U KO NYUMBANI'
     },
     Patois: {
       co: '💦 VWAYAJ VEGAN ALKALEN MWEN 💦',
@@ -129,7 +139,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJLakay', n1:'Vwayaj la', n2:'MAVJMagazen', n3:'Vwayaj pou Limyè',
       n4:'Entèlijans Vibwasyon', n5:'Aliyen avèk Nou', n6:'MAVJRéchèch',
       n7:'An dirèk', n8:'Podcast/Vlog', n9:'Kontakte Nou',
-      foot:'POU REZON EDIKASYON SÈLMAN • KONSILTE PWOFESYONÈL SANTE'
+      foot:'POU REZON EDIKASYON SÈLMAN • KONSILTE PWOFESYONÈL SANTE',
+      pt: 'OU LAKAY'
     },
     BAramaic: {
       co: '💦 ܡܥܒܪܢܘܬܝ ܦܝܓܢܝܬܐ ܩܠܝܐ 💦',
@@ -139,7 +150,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'ܒܝܬܐ ܕܡܐܒܝ', n1:'ܡܥܒܪܢܘܬܐ', n2:'ܚܢܘܬܐ ܕܡܐܒܝ', n3:'ܡܥܒܪܢܘܬܐ ܠܢܘܗܪܐ',
       n4:'ܚܟܡܬܐ ܕܙܘܥܐ', n5:'ܫܘܬܦܘ ܥܡܢ', n6:'ܒܥܝܬܐ ܕܡܐܒܝ',
       n7:'ܦܘܫܩܐ ܓܝܪܐ', n8:'ܩܪܝܢܐ ܥܠ ܢܗܪܐ', n9:'ܡܠܠ ܥܡܢ',
-      foot:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ'
+      foot:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ',
+      pt: 'ܐܢܬ ܒܒܝܬܟ'
     },
     NAramaic: {
       co: '💦 ܡܲܥܒܪܵܢܘܼܬܝ ܦܲܝܓܵܢܵܝܬܵܐ ܩܲܠܵܝܬܵܐ 💦',
@@ -149,7 +161,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'ܒܝܼܬܐ ܕܡܲܝܟܵܐ', n1:'ܡܲܥܒܪܵܢܘܼܬܼܵܐ', n2:'ܚܵܢܘܼܬܼܵܐ ܕܡܲܝܟܵܐ', n3:'ܡܲܥܒܪܵܢܘܼܬܼܵܐ ܠܢܘܼܗܪܵܐ',
       n4:'ܚܸܟܼܡܬܵܐ ܕܙܵܘܥܵܐ', n5:'ܫܘܼܬܵܦܘܼ ܥܲܡܲܢ', n6:'ܒܘܼܨܝܵܐ ܕܡܲܝܟܵܐ',
       n7:'ܦܘܼܫܩܵܐ ܓܲܝܵܐ', n8:'ܦܘܼܕܩܵܣܬܼ', n9:'ܡܲܠܵܠܘܼ ܥܲܡܲܢ',
-      foot:'ܠܫܘܼܡܠܵܝܵܐ ܕܝܵܠܦܵܢܵܐ ܒܠܚܘܼܕ̥ • ܫܵܐܠ ܐܵܣܝܵܐ ܡܗܝܼܡܵܢܵܐ'
+      foot:'ܠܫܘܼܡܠܵܝܵܐ ܕܝܵܠܦܵܢܵܐ ܒܠܚܘܼܕ̥ • ܫܵܐܠ ܐܵܣܝܵܐ ܡܗܝܼܡܵܢܵܐ',
+      pt: 'ܐܲܢ݇ܬ ܒܒܹܝܬܘܼܟ݂'
     },
     SAramaic: {
       co: '💦 ܡܥܰܒܪܢܘܬܝ ܦܝܓܢܝܬܐ ܩܠܝܐ 💦',
@@ -159,7 +172,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'ܒܹܝܬܐ ܕܡܵܒܝ', n1:'ܡܥܰܒܪܢܘܬܐ', n2:'ܚܢܘܬܐ ܕܡܵܒܝ', n3:'ܡܥܰܒܪܢܘܬܐ ܠܢܘܗܪܐ ܪܘܚܢܐ',
       n4:'ܚܰܟܡܬܐ ܕܙܘܥܐ ܡܫܝܚܝܐ', n5:'ܫܘܬܦܘ ܥܡܢ ܒܪܘܚܐ', n6:'ܒܘܨܝܐ ܕܡܵܒܝ',
       n7:'ܦܘܫܩܐ ܩܕܝܫܐ', n8:'ܩܪܝܢܐ ܩܕܝܫܐ', n9:'ܩܪܘ ܠܢ',
-      foot:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܩܕܝܫܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ'
+      foot:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܩܕܝܫܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ',
+      pt: 'ܐܢܬ ܒܒܝܬܐ ܩܕܝܫܐ'
     },
     Hebrew: {
       co: '💦 המסע הטבעוני הבסיסי שלי 💦',
@@ -169,7 +183,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJבית', n1:'המסע', n2:'MAVJחנות', n3:'מסע להארה',
       n4:'אינטליגנציה ויברציונית', n5:'התיישרו איתנו', n6:'MAVJחיפוש',
       n7:'שידור חי', n8:'פודקאסט/וולוג', n9:'צור קשר',
-      foot:'למטרות חינוכיות בלבד • התייעץ עם איש מקצוע בתחום הבריאות'
+      foot:'למטרות חינוכיות בלבד • התייעץ עם איש מקצוע בתחום הבריאות',
+      pt: 'אתה בבית'
     },
     Greek: {
       co: '💦 ΤΟ ΑΛΚΑΛΙΚΟ ΒΙΓΚΑΝ ΤΑΞΙΔΙ ΜΟΥ 💦',
@@ -179,7 +194,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJΑρχική', n1:'Το Ταξίδι', n2:'MAVJΚατάστημα', n3:'Ταξίδι προς Φωτισμό',
       n4:'Δονητική Νοημοσύνη', n5:'Ευθυγραμμιστείτε Μαζί Μας', n6:'MAVJΑναζήτηση',
       n7:'Ζωντανή Μετάδοση', n8:'Podcast/Vlog', n9:'Επικοινωνήστε Μαζί Μας',
-      foot:'ΜΟΝΟ ΓΙΑ ΕΚΠΑΙΔΕΥΤΙΚΟΥΣ ΣΚΟΠΟΥΣ • ΣΥΜΒΟΥΛΕΥΤΕΙΤΕ ΕΠΑΓΓΕΛΜΑΤΙΑ ΥΓΕΙΑΣ'
+      foot:'ΜΟΝΟ ΓΙΑ ΕΚΠΑΙΔΕΥΤΙΚΟΥΣ ΣΚΟΠΟΥΣ • ΣΥΜΒΟΥΛΕΥΤΕΙΤΕ ΕΠΑΓΓΕΛΜΑΤΙΑ ΥΓΕΙΑΣ',
+      pt: 'ΕΙΣΑΙ ΣΠΙΤΙ'
     },
     Latin: {
       co: '💦 ITER MEUM VEGAN ALCALINUM 💦',
@@ -189,7 +205,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJDomus', n1:'Iter', n2:'MAVJTaberna', n3:'Iter ad Illuminationem',
       n4:'Intelligentia Vibrationis', n5:'Coniunge te Nobiscum', n6:'MAVJQuaerere',
       n7:'Vivum Iactum', n8:'PodCast/Vlog', n9:'Contactare Nos',
-      foot:'AD FINES EDUCATIONIS SOLUM • CONSULERE PROFESSIONALEM SANITATIS'
+      foot:'AD FINES EDUCATIONIS SOLUM • CONSULERE PROFESSIONALEM SANITATIS',
+      pt: 'DOMI ES'
     },
     Sanskrit: {
       co: '💦 मेरी क्षारीय शाकाहारी यात्रा 💦',
@@ -199,7 +216,8 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJगृहम्', n1:'यात्रा', n2:'MAVJविक्रयस्थानम्', n3:'प्रबोधनयात्रा',
       n4:'कम्पनबुद्धि', n5:'अस्माभिः सह संलग्न्यन्ताम्', n6:'MAVJअन्वेषणम्',
       n7:'सजीवप्रसारणम्', n8:'पोड्कास्ट्/व्लॉग्', n9:'सम्पर्क कुरुत',
-      foot:'केवल शैक्षिक उद्देश्यों के लिए • स्वास्थ्य पेशेवर से परामर्श करें'
+      foot:'केवल शैक्षिक उद्देश्यों के लिए • स्वास्थ्य पेशेवर से परामर्श करें',
+      pt: 'गृहे असि'
     }
   }), []);
 
@@ -220,7 +238,9 @@ const Layout = ({ children, pageTitle }) => {
   const activeLangObj = LANGS.find(l => l.name === currentLang) || LANGS[0];
 
   // Nav items built from active T, so they translate instantly
+  // LANGUAGE SELECTOR IS NOW FIRST (left side)
   const navItems = useMemo(() => [
+    { icon: '🌐', label: 'Language', type: 'dropdown' },  // ← FIRST (left side)
     { path: '/', icon: '🏠', label: T.n0, type: 'nav' },
     { path: '/TheJourney', icon: '🌱', label: T.n1, type: 'nav' },
     { path: '/MAVJStore', icon: '🛒', label: T.n2, type: 'nav' },
@@ -230,8 +250,7 @@ const Layout = ({ children, pageTitle }) => {
     { path: '/MAVJSearch', icon: '🔍', label: T.n6, type: 'nav' },
     { path: '/LiveBroadcast', icon: '📡', label: T.n7, type: 'nav' },
     { path: '/PodcastVlog', icon: '🎙️', label: T.n8, type: 'nav' },
-    { path: '/ContactUs', icon: '☎️', label: T.n9, type: 'nav' },
-    { icon: '🌐', label: 'Language', type: 'dropdown' }
+    { path: '/ContactUs', icon: '☎️', label: T.n9, type: 'nav' }
   ], [T]);
 
   const handleLangChange = useCallback((name) => {
@@ -241,22 +260,36 @@ const Layout = ({ children, pageTitle }) => {
 
   const handleNav = useCallback((path) => { navigate(path); }, [navigate]);
 
-  // Page title: each page passes its own prop. Fallback = 'YOU ARE HOME'
-  const displayTitle = pageTitle || 'YOU ARE HOME';
+  // Page title: if pageTitle is 'HOME', use translated T.pt
+  // Otherwise, use the passed pageTitle (for other pages)
+  const displayTitle = pageTitle === 'HOME' ? T.pt : pageTitle;
 
-  // Shared style for all nav buttons including language button
+  // Shared style for all nav buttons - FIXED WIDTH for consistency
   const btnStyle = (active) => ({
-    color: '#FFD700', fontSize: '0.7rem', padding: '4px 8px',
+    color: '#FFD700',
+    fontSize: '0.7rem',
+    padding: '4px 8px',
+    minWidth: '110px',
+    maxWidth: '130px',
+    textAlign: 'center',
+    justifyContent: 'center',
     border: '2px solid',
     borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
     borderRadius: '4px',
     background: active
       ? 'linear-gradient(135deg,rgba(255,215,0,0.3),rgba(0,212,255,0.3))'
       : 'rgba(0,0,0,0.7)',
-    fontWeight: '700', whiteSpace: 'nowrap',
+    fontWeight: '700',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
     boxShadow: '0 0 6px rgba(255,215,0,0.3)',
-    display: 'flex', alignItems: 'center', gap: '3px',
-    flexShrink: 0, minHeight: '28px', cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '3px',
+    flexShrink: 0,
+    minHeight: '28px',
+    cursor: 'pointer',
     transition: 'all 0.3s ease'
   });
 
@@ -265,8 +298,8 @@ const Layout = ({ children, pageTitle }) => {
       {/* ============================================================
           CONTAINER 1 — NAVIGATION BAR
           Fixed top, zIndex 2000, height 45px
-          ◀ scroll-hint ... [nav buttons] ... [🌐 Language ▼] ... scroll-hint ▶
-          Dropdown: position fixed top 46px right 8px, zIndex 99999
+          ◀ scroll-hint ... [🌐 Language ▼] ... [nav buttons] ... scroll-hint ▶
+          Dropdown: position fixed top 46px left 8px, zIndex 99999
           Live counter: floating BOTTOM LEFT (not in nav)
           ============================================================ */}
       <nav style={{
@@ -291,13 +324,13 @@ const Layout = ({ children, pageTitle }) => {
         }}>
           {navItems.map((item) => {
 
-            /* ---- LANGUAGE DROPDOWN BUTTON (last item) ---- */
+            /* ---- LANGUAGE DROPDOWN BUTTON (first item) ---- */
             if (item.type === 'dropdown') {
               return (
                 <div key="lang" style={{ position:'relative', flexShrink:0 }}>
                   {/* Button — same visual style as nav buttons */}
                   <div
-                    style={{ ...btnStyle(false), minWidth:'120px', justifyContent:'space-between', gap:'4px' }}
+                    style={{ ...btnStyle(false), minWidth:'130px', justifyContent:'space-between', gap:'4px' }}
                     onClick={() => setShowDropdown(p => !p)}
                     onMouseEnter={(e) => { e.currentTarget.style.background='linear-gradient(135deg,rgba(255,215,0,0.5),rgba(0,212,255,0.5))'; e.currentTarget.style.boxShadow='0 0 15px rgba(255,215,0,1)'; }}
                     onMouseLeave={(e) => { e.currentTarget.style.background='rgba(0,0,0,0.7)'; e.currentTarget.style.boxShadow='0 0 6px rgba(255,215,0,0.3)'; }}
@@ -310,7 +343,7 @@ const Layout = ({ children, pageTitle }) => {
                   {/* Dropdown — position FIXED escapes all overflow clipping */}
                   {showDropdown && (
                     <div style={{
-                      position:'fixed', top:'46px', right:'8px',
+                      position:'fixed', top:'46px', left:'8px',  // ← NOW ON LEFT SIDE
                       background:'rgba(5,5,15,0.99)', border:'2px solid',
                       borderImage:'linear-gradient(135deg,#FFD700,#00d4ff,#FF00FF,#FFD700) 1',
                       borderRadius:'6px', minWidth:'175px', maxHeight:'440px',
@@ -349,7 +382,12 @@ const Layout = ({ children, pageTitle }) => {
                 onMouseLeave={(e) => { e.currentTarget.style.background= location.pathname===item.path ? 'linear-gradient(135deg,rgba(255,215,0,0.3),rgba(0,212,255,0.3))':'rgba(0,0,0,0.7)'; e.currentTarget.style.boxShadow='0 0 6px rgba(255,215,0,0.3)'; }}
               >
                 <span>{item.icon}</span>
-                <span>{item.label}</span>
+                <span style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  maxWidth: '90px'
+                }}>{item.label}</span>
               </div>
             );
           })}

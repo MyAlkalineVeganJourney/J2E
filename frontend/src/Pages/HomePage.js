@@ -3,12 +3,75 @@ import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import DOMPurify from 'dompurify';
-
+import Layout from '../components/PageLayout';
 
 // ==================== COMPONENT DEFINITION ====================
 const HomePage = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+
+  // ==================== MASTER ARTISAN DATABASE (VETTED) ====================
+  // This is the direct ledger of your St. Lucian Team. 
+  // Each artisan has a 2-photo stack (Profile + Craft).
+  const artisan = [
+    {
+      name: 'Julian The Coconut Artist',
+      specialty: 'Functional Coconut Art & Birdfeeders',
+      description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.',
+      location: 'Castries Market Arcade, St. Lucia',
+      image: '/images/Julian The Coconut Artist.png',
+      workImage: "/images/Julian's Coconut BirdFeeders.png"
+    },
+    {
+      name: 'Kurt The Fisherman',
+      specialty: 'Sustainable Traditional Fishing',
+      description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.',
+      location: 'Tou Rouge, Castries, St. Lucia',
+      image: '/images/KurtTheFISHERMAN.png',
+      workImage: '/images/Kurt the Fisherman with Red Snapper catch.png'
+    },
+    {
+      name: 'Brittany',
+      specialty: '100% All-Natural Creams & Fermentations',
+      description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.',
+      location: 'Washington, DC & Gros Islet, St. Lucia',
+      image: '/images/Brittany Creams and fermentations.png',
+      workImage: "/images/Brittany's Cream.png"
+    },
+    {
+      name: 'Anthony The Barber',
+      specialty: 'Precision Grooming & Self-Cut Artistry',
+      description: 'Expert barbering focused on sharp aesthetics and personal frequency.',
+      location: 'St. Lucia',
+      image: '/images/AnthonyTheBarber.png',
+      workImage: '/images/AnthonyTheBarberSelfCut.png'
+    },
+    {
+      name: 'King Khaled',
+      specialty: 'Rastafarian Organic Farmer',
+      description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.',
+      location: 'Des Barras, St. Lucia',
+      image: '/images/KingKhaled.jpg',
+      workImage: '/images/DesBarras.jpeg'
+    },
+    {
+      name: 'Reggie The Builder',
+      specialty: 'Black Mallet Official Recycle Man',
+      description: 'Building sustainable structures and leading the recycling movement.',
+      location: 'Black Mallet, St. Lucia',
+      image: '/images/REGGIE.jpeg',
+      workImage: '/images/ReggieTheBuilder and OfficialRecycleMan.png'
+    },
+    {
+      name: 'Simeon',
+      specialty: 'The Horse Trainer',
+      description: 'Managing the sanctuary and training horses at the Rastafarian farm.',
+      location: 'Des Barras, St. Lucia',
+      image: '/images/Simeon.png',
+      workImage: '/images/HorseOnFarm.jpeg'
+    }
+  ];
+
   // ==================== STATE MANAGEMENT ====================
   const currentLanguage = i18n.language;
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
@@ -23,157 +86,506 @@ const HomePage = () => {
   const [emailInput, setEmailInput] = useState('');
   const [familyMemberNumber, setFamilyMemberNumber] = useState(1);
 
-  // ==================== POSITIVE WORD GAME STATE ====================
+// ==================== MAVJ WORD GAME - COMPLETE STATE ====================
+
+// Game State
+const [showEmailInCircle, setShowEmailInCircle] = useState(false);
+const [pendingNewWord, setPendingNewWord] = useState(null);
+const [showConfetti, setShowConfetti] = useState(false);
+
+// ========== ALGORITHM 1: WORD DATABASE WITH FULL METADATA ==========
+const MAVJ_WORD_DATABASE = [
+  { word: "LOVE", definition: "Intense feeling of deep affection", etymology: "Old English 'lufu'", frequency: "9.2 Hz", chakra: "Heart", isPositive: true },
+  { word: "PEACE", definition: "Freedom from disturbance; tranquility", etymology: "Anglo-French 'pes'", frequency: "8.5 Hz", chakra: "Crown", isPositive: true },
+  { word: "JOY", definition: "Feeling of great pleasure and happiness", etymology: "Old French 'joie'", frequency: "9.0 Hz", chakra: "Sacral", isPositive: true },
+  { word: "HOPE", definition: "Optimistic expectation for positive outcomes", etymology: "Old English 'hopa'", frequency: "8.2 Hz", chakra: "Solar Plexus", isPositive: true },
+  { word: "FAITH", definition: "Complete trust or confidence in something greater", etymology: "Anglo-French 'feid'", frequency: "8.8 Hz", chakra: "Third Eye", isPositive: true },
+  { word: "GRACE", definition: "Simple elegance; kindness; divine favor", etymology: "Old French 'grace'", frequency: "8.3 Hz", chakra: "Heart", isPositive: true },
+  { word: "TRUST", definition: "Firm belief in reliability or truth", etymology: "Old Norse 'traust'", frequency: "8.1 Hz", chakra: "Root", isPositive: true },
+  { word: "KIND", definition: "Having a benevolent, caring nature", etymology: "Old English 'cynde'", frequency: "8.6 Hz", chakra: "Heart", isPositive: true },
+  { word: "TRUE", definition: "In accordance with fact or reality", etymology: "Old English 'triewe'", frequency: "7.9 Hz", chakra: "Throat", isPositive: true },
+  { word: "CARE", definition: "Provision of what is necessary for well-being", etymology: "Old English 'caru'", frequency: "8.4 Hz", chakra: "Heart", isPositive: true },
+  { word: "SMILE", definition: "Pleased, kind, or amused facial expression", etymology: "Middle English 'smilen'", frequency: "9.1 Hz", chakra: "Heart", isPositive: true },
+  { word: "LIGHT", definition: "Illumination; that which makes vision possible", etymology: "Old English 'leoht'", frequency: "9.4 Hz", chakra: "Crown", isPositive: true },
+  { word: "HEART", definition: "Center of emotion; vital organ", etymology: "Old English 'heorte'", frequency: "8.9 Hz", chakra: "Heart", isPositive: true },
+  { word: "SOUL", definition: "Spiritual essence of a being", etymology: "Old English 'sawol'", frequency: "9.0 Hz", chakra: "Crown", isPositive: true },
+  { word: "DREAM", definition: "Cherished aspiration; series of thoughts during sleep", etymology: "Old English 'dream'", frequency: "8.5 Hz", chakra: "Third Eye", isPositive: true },
+  { word: "WISDOM", definition: "Quality of having experience and knowledge", etymology: "Old English 'wisdom'", frequency: "9.2 Hz", chakra: "Crown", isPositive: true },
+  { word: "POWER", definition: "Ability to do something; strength", etymology: "Anglo-French 'pouer'", frequency: "8.3 Hz", chakra: "Solar Plexus", isPositive: true },
+  { word: "STRENGTH", definition: "Quality of being strong; resilience", etymology: "Old English 'strengþu'", frequency: "8.6 Hz", chakra: "Root", isPositive: true },
+  { word: "COURAGE", definition: "Ability to do something frightening", etymology: "Old French 'corage'", frequency: "8.8 Hz", chakra: "Solar Plexus", isPositive: true },
+  { word: "KINDNESS", definition: "Quality of being friendly and considerate", etymology: "Old English 'kyndnes'", frequency: "8.7 Hz", chakra: "Heart", isPositive: true },
+  { word: "GRATITUDE", definition: "Quality of being thankful", etymology: "Latin 'gratitudo'", frequency: "8.9 Hz", chakra: "Heart", isPositive: true },
+  { word: "COMPASSION", definition: "Sympathetic concern for others", etymology: "Latin 'compassio'", frequency: "8.8 Hz", chakra: "Heart", isPositive: true },
+  { word: "FORGIVENESS", definition: "Act of pardoning an offender", etymology: "Old English 'forgiefnes'", frequency: "8.4 Hz", chakra: "Heart", isPositive: true },
+  { word: "HARMONY", definition: "Agreement; pleasing combination", etymology: "Greek 'harmonia'", frequency: "8.5 Hz", chakra: "Heart", isPositive: true },
+  { word: "BALANCE", definition: "State of equilibrium", etymology: "Latin 'bilancia'", frequency: "8.2 Hz", chakra: "Root", isPositive: true },
+  { word: "FREEDOM", definition: "Power to act without constraint", etymology: "Old English 'freodom'", frequency: "8.7 Hz", chakra: "Root", isPositive: true },
+  { word: "CREATIVITY", definition: "Use of imagination to create", etymology: "Latin 'creare'", frequency: "8.6 Hz", chakra: "Sacral", isPositive: true },
+  { word: "INSPIRATION", definition: "Process of being mentally stimulated", etymology: "Latin 'inspirare'", frequency: "8.9 Hz", chakra: "Crown", isPositive: true },
+  { word: "ABUNDANCE", definition: "Plenty; overflowing quantity", etymology: "Latin 'abundare'", frequency: "8.5 Hz", chakra: "Root", isPositive: true },
+  { word: "PROSPERITY", definition: "State of flourishing success", etymology: "Latin 'prosperare'", frequency: "8.4 Hz", chakra: "Solar Plexus", isPositive: true }
+];
+
+// ========== ALGORITHM 2: GET UNIQUE ESSENTIAL LETTERS ==========
+// Takes words, returns each letter only ONCE (no duplicates)
+const getUniqueEssentialLetters = (words) => {
+  const letterSet = new Set();
+  words.forEach(word => {
+    word.toUpperCase().split('').forEach(letter => {
+      letterSet.add(letter);
+    });
+  });
+  return Array.from(letterSet);
+};
+
+// ========== ALGORITHM 3: CHECK IF WORD CAN BE MADE ==========
+const canWordBeMade = (word, availableLetters) => {
+  const letters = [...availableLetters];
+  const upperWord = word.toUpperCase();
   
-  // Helper function to get correct letter count for a set of words
-  const [pendingNewWord, setPendingNewWord] = useState(null);
-  const getUniqueLettersForWords = (words) => {
-    const letterCount = {};
-    words.forEach(word => {
-      word.split('').forEach(letter => {
-        letterCount[letter] = (letterCount[letter] || 0) + 1;
-      });
-    });
-    const letters = [];
-    Object.entries(letterCount).forEach(([letter, count]) => {
-      for (let i = 0; i < count; i++) {
-        letters.push(letter);
-      }
-    });
-    return letters;
-  };
+  for (let i = 0; i < upperWord.length; i++) {
+    const char = upperWord[i];
+    const index = letters.indexOf(char);
+    if (index === -1) return false;
+    letters.splice(index, 1);
+  }
+  return true;
+};
 
-  // Check if a word can be made from given letters
-  const canMakeWordFromLetters = (word, letters) => {
-    const letterCount = {};
-    letters.forEach(l => { letterCount[l] = (letterCount[l] || 0) + 1; });
-    
-    const wordCount = {};
-    word.split('').forEach(l => { wordCount[l] = (wordCount[l] || 0) + 1; });
-    
-    return Object.entries(wordCount).every(([l, c]) => (letterCount[l] || 0) >= c);
-  };
-
-  // Game puzzles - each episode has its own letter pool
-  const gamePuzzles = [
-    {
-      id: 1,
-      name: t('game.episode1', 'Peace Episode'),
-      primaryWords: ['PEACE', 'TRUST', 'CAN', 'SMILE'],
-      letters: getUniqueLettersForWords(['PEACE', 'TRUST', 'CAN', 'SMILE']),
-      backgroundImage: '/images/PeaceBanner.jpg'
-    },
-    {
-      id: 2,
-      name: t('game.episode2', 'Love Episode'),
-      primaryWords: ['LOVE', 'JOY', 'HOPE', 'KIND'],
-      letters: getUniqueLettersForWords(['LOVE', 'JOY', 'HOPE', 'KIND']),
-      backgroundImage: '/images/LoveBanner.jpg'
-    },
-    {
-      id: 3,
-      name: t('game.episode3', 'Faith Episode'),
-      primaryWords: ['FAITH', 'GRACE', 'TRUE', 'CARE'],
-      letters: getUniqueLettersForWords(['FAITH', 'GRACE', 'TRUE', 'CARE']),
-      backgroundImage: '/images/FaithBanner.jpg'
+// ========== ALGORITHM 4: FIND ALL POSSIBLE WORDS FROM LETTERS ==========
+const findAllPossibleWords = (essentialLetters, wordDatabase) => {
+  const possibleWords = [];
+  const usedWords = new Set();
+  
+  for (const wordObj of wordDatabase) {
+    const word = wordObj.word;
+    if (usedWords.has(word)) continue;
+    if (canWordBeMade(word, essentialLetters)) {
+      possibleWords.push({ ...wordObj, found: false });
+      usedWords.add(word);
     }
-  ];
+  }
+  
+  // Sort by length (longest first)
+  possibleWords.sort((a, b) => b.word.length - a.word.length);
+  return possibleWords;
+};
 
-  // Game state
-  const [selectedWord, setSelectedWord] = useState('');
-  const [shuffledLetters, setShuffledLetters] = useState(() => {
-    const puzzle = gamePuzzles[0];
-    return [...puzzle.letters].sort(() => Math.random() - 0.5);
+// ========== ALGORITHM 5: SELECT RANDOM TARGET WORDS FOR PUZZLE ==========
+const selectTargetWordsForPuzzle = (allPossibleWords, minWords = 12, maxWords = 20) => {
+  // Group words by length
+  const wordsByLength = {};
+  allPossibleWords.forEach(word => {
+    const len = word.word.length;
+    if (!wordsByLength[len]) wordsByLength[len] = [];
+    wordsByLength[len].push(word);
   });
-  const [targetWords, setTargetWords] = useState(() => {
-    const puzzle = gamePuzzles[0];
-    return puzzle.primaryWords.map(word => ({ word, found: false }));
-  });
-  const [wordBank, setWordBank] = useState([]);
-  const [gameFeedback, setGameFeedback] = useState(null);
-  const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
   
-  // Word exists in database check
-  const wordExistsInDatabase = (word) => {
-    const upperWord = word.toUpperCase();
-    const allKnownWords = [
-      'LOVE', 'PEACE', 'JOY', 'HOPE', 'FAITH', 'GRACE', 'TRUST', 
-      'KIND', 'TRUE', 'CARE', 'MUST', 'NEST', 'RUST', 'SUN', 'RUN', 'SMILE'
-    ];
-    return allKnownWords.includes(upperWord);
-  };
+  const selectedTargets = [];
+  const lengths = Object.keys(wordsByLength).sort((a, b) => b - a);
   
-  // Save user discovery
-  const saveUserDiscovery = (email, word) => {
-    const discoveries = JSON.parse(localStorage.getItem('mavj_discoveries') || '[]');
-    discoveries.push({ email, word, date: new Date().toISOString() });
-    localStorage.setItem('mavj_discoveries', JSON.stringify(discoveries));
-    setFamilyMemberNumber(discoveries.length + 1);
-  };
+  // Always include the longest word (the "master word")
+  if (lengths.length > 0) {
+    const longestLen = lengths[0];
+    const longestWords = wordsByLength[longestLen];
+    const randomLongWord = longestWords[Math.floor(Math.random() * longestWords.length)];
+    selectedTargets.push({ ...randomLongWord, found: false });
+  }
   
-  // Start new puzzle (next episode)
-  const startNewPuzzle = () => {
-    const newIndex = (currentPuzzleIndex + 1) % gamePuzzles.length;
-    const puzzle = gamePuzzles[newIndex];
-    setTargetWords(puzzle.primaryWords.map(word => ({ word, found: false })));
-    setShuffledLetters([...puzzle.letters].sort(() => Math.random() - 0.5));
-    setSelectedWord('');
-    setWordBank([]);
-    setGameFeedback(null);
-    setCurrentPuzzleIndex(newIndex);
-    setEmailCaptured(false);
-  };
+  // Fill remaining slots with random words
+  const remainingSlots = Math.floor(Math.random() * (maxWords - minWords) + minWords);
   
-  const initialTargetWords = gamePuzzles[0].primaryWords.map(word => ({ word, found: false }));
+  for (const len of lengths) {
+    if (selectedTargets.length >= remainingSlots) break;
+    const availableWords = wordsByLength[len].filter(w => 
+      !selectedTargets.some(s => s.word === w.word)
+    );
+    
+    // Take up to 3 words from each length group
+    const wordsToTake = Math.min(3, availableWords.length, remainingSlots - selectedTargets.length);
+    for (let i = 0; i < wordsToTake; i++) {
+      const randomIndex = Math.floor(Math.random() * availableWords.length);
+      selectedTargets.push({ ...availableWords[randomIndex], found: false });
+    }
+  }
+  
+  return selectedTargets;
+};
 
-  // Game States
-  const [quizState, setQuizState] = useState({
-    math: { answer: null, submitted: false, score: 0, feedback: '' },
-    compound: { answer: null, submitted: false, score: 0, feedback: '' }
-  });
+// ========== ALGORITHM 6: GENERATE COMPLETE PUZZLE ==========
+const generatePuzzle = () => {
+  // Randomly select 3 base words from database
+  const shuffledDb = [...MAVJ_WORD_DATABASE].sort(() => Math.random() - 0.5);
+  const baseWords = shuffledDb.slice(0, 3);
   
-  const [positiveGame, setPositiveGame] = useState({
-    score: 0,
-    streak: 0,
-    level: 1,
-    currentWord: '',
-    gameActive: true,
-    godSpaceActivated: false,
-    feedback: '',
-    history: [],
-    wordsUsed: []
-  });
+  // Get unique essential letters (no duplicates)
+  const essentialLetters = getUniqueEssentialLetters(baseWords.map(w => w.word));
   
-  const [formState, setFormState] = useState({
-    data: { name: '', email: '', age: '', currentState: '', goals: '' },
-    submitted: false,
-    error: null,
-    isSubmitting: false,
-    frequencyScore: null,
-    recommendations: ''
-  });
+  // Find ALL possible words from these letters
+  const allPossibleWords = findAllPossibleWords(essentialLetters, MAVJ_WORD_DATABASE);
   
-  const [analyticsState, setAnalyticsState] = useState({
-    scrollDepth: 0,
-    timeOnPage: 0,
-    interactions: []
-  });
+  // Select target words for the puzzle
+  const targetWordsList = selectTargetWordsForPuzzle(allPossibleWords);
   
-  const [qState, setQState] = useState({
-    messages: [],
-    input: '',
-    isListening: false,
-    isSpeaking: false,
-    language: 'English',
-    context: [],
-    learningData: {}
-  });
+  // Shuffle letters for circle display
+  const shuffledLetters = [...essentialLetters].sort(() => Math.random() - 0.5);
+  
+  console.log("=== PUZZLE GENERATED ===");
+  console.log("Base words:", baseWords.map(w => w.word).join(", "));
+  console.log("Essential letters:", essentialLetters.join(", "));
+  console.log("Total possible words:", allPossibleWords.length);
+  console.log("Target words in puzzle:", targetWordsList.length);
+  console.log("Target words:", targetWordsList.map(w => w.word).join(", "));
+  
+  return {
+    baseWords: baseWords,
+    essentialLetters: essentialLetters,
+    circleLetters: shuffledLetters.slice(0, 12), // Max 12 letters in circle
+    targetWords: targetWordsList,
+    allPossibleWords: allPossibleWords
+  };
+};
 
-  const pageStartTime = useRef(Date.now());
-  const recognitionRef = useRef(null);
-  const synthRef = useRef(null);
-  const videoRefs = useRef({}); // Store video element refs
+// Game state
+const [currentPuzzle, setCurrentPuzzle] = useState(() => generatePuzzle());
+const [currentLevel, setCurrentLevel] = useState(1);
+const [selectedWord, setSelectedWord] = useState('');
+const [shuffledLetters, setShuffledLetters] = useState(currentPuzzle.circleLetters);
+const [targetWords, setTargetWords] = useState(currentPuzzle.targetWords);
+const [wordBank, setWordBank] = useState([]);
+const [gameFeedback, setGameFeedback] = useState(null);
+const [showConfettiEffect, setShowConfettiEffect] = useState(false);
+
+// IP Capture
+const [userIP, setUserIP] = useState('');
+
+useEffect(() => {
+  const captureIP = async () => {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json');
+      const data = await response.json();
+      setUserIP(data.ip);
+      localStorage.setItem('mavj_user_ip', data.ip);
+    } catch (error) {
+      const storedIP = localStorage.getItem('mavj_user_ip');
+      if (storedIP) setUserIP(storedIP);
+      else setUserIP('guest-' + Math.random().toString(36).substr(2, 6));
+    }
+  };
+  captureIP();
+}, []);
+
+// Check if word can be made from circle letters
+const canMakeWord = (word) => {
+  return canWordBeMade(word, currentPuzzle.essentialLetters);
+};
+
+// Word exists in database
+const wordExistsInDatabase = (word) => {
+  const upperWord = word.toUpperCase();
+  return MAVJ_WORD_DATABASE.find(w => w.word === upperWord) || null;
+};
+
+// Get full word metadata
+const getWordMetadata = (word) => {
+  const upperWord = word.toUpperCase();
+  return MAVJ_WORD_DATABASE.find(w => w.word === upperWord);
+};
+
+// Save user discovery
+const saveUserDiscovery = (email, word) => {
+  const discoveries = JSON.parse(localStorage.getItem('mavj_discoveries') || '[]');
+  discoveries.push({ email, word, date: new Date().toISOString(), ip: userIP });
+  localStorage.setItem('mavj_discoveries', JSON.stringify(discoveries));
+};
+
+// Generate unique family ID
+const generateUniqueFamilyID = (email, ip) => {
+  const timestamp = Date.now();
+  const hashString = `${ip}-${email}-${timestamp}`;
+  let hash = 0;
+  for (let i = 0; i < hashString.length; i++) {
+    hash = ((hash << 5) - hash) + hashString.charCodeAt(i);
+    hash = hash & hash;
+  }
+  const hashHex = Math.abs(hash).toString(16).toUpperCase().substring(0, 8);
+  return `MAVJ-${hashHex}`;
+};
+
+// Generate word metadata for new words
+const generateWordMetadata = (word, email, familyID) => {
+  const existing = getWordMetadata(word);
+  if (existing) {
+    return {
+      ...existing,
+      discoveredBy: email,
+      familyID: familyID,
+      dateDiscovered: new Date().toISOString(),
+      status: "verified"
+    };
+  }
   
+  return {
+    word: word.toUpperCase(),
+    definition: `"${word.toUpperCase()}" is a word discovered by MAVJ Family Member #${familyID}. This word contributes to conscious language.`,
+    etymology: `Discovered through the MAVJ Positive Word Game on ${new Date().toLocaleDateString()}.`,
+    frequency: "8.5 Hz",
+    chakra: "Heart",
+    discoveredBy: email,
+    familyID: familyID,
+    dateDiscovered: new Date().toISOString(),
+    isPositive: "pending",
+    status: "pending_verification"
+  };
+};
+
+// Add new word to database
+const addNewWordToDatabase = (word, email, ip, familyID) => {
+  const newWordEntry = generateWordMetadata(word, email, familyID);
+  const customWords = JSON.parse(localStorage.getItem('mavj_custom_words') || '[]');
+  customWords.push(newWordEntry);
+  localStorage.setItem('mavj_custom_words', JSON.stringify(customWords));
+  return newWordEntry;
+};
+
+// Get user's contributed words
+const getUserContributedWords = (email, ip) => {
+  const customWords = JSON.parse(localStorage.getItem('mavj_custom_words') || '[]');
+  return customWords.filter(w => w.discoveredBy === email || w.discoveredIP === ip);
+};
+
+// Generate certificate with full word breakdown
+const generateCertificate = (familyID, email, wordsFound, score, contributedWords = [], newWordData = null) => {
+  const wordBreakdownHTML = newWordData ? `
+  <div style="background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(148,0,211,0.1)); border-radius: 15px; padding: 20px; margin: 20px 0; border: 1px solid #00d4ff;">
+    <h3 style="color: #FFD700; text-align: center; margin-bottom: 15px;">📖 Word Breakdown: ${newWordData.word}</h3>
+    <div style="display: grid; gap: 12px;">
+      <div><span style="color: #FFD700;">Definition:</span> <span style="color: #fff;">${newWordData.definition}</span></div>
+      <div><span style="color: #FFD700;">Etymology:</span> <span style="color: #fff;">${newWordData.etymology}</span></div>
+      <div><span style="color: #FFD700;">Frequency:</span> <span style="color: #fff;">${newWordData.frequency}</span></div>
+      <div><span style="color: #FFD700;">Chakra:</span> <span style="color: #fff;">${newWordData.chakra}</span></div>
+      <div><span style="color: #FFD700;">Discovered By:</span> <span style="color: #fff;">${newWordData.discoveredBy}</span></div>
+      <div><span style="color: #FFD700;">Date:</span> <span style="color: #fff;">${newWordData.dateDiscovered}</span></div>
+    </div>
+  </div>
+  ` : '';
+  
+  const certificateHTML = `<!DOCTYPE html>
+<html>
+<head>
+  <title>MAVJ Family Certificate - ${familyID}</title>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #0a0a0a, #1a0033);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px;
+      font-family: 'Montserrat', Georgia, sans-serif;
+    }
+    .certificate {
+      max-width: 900px;
+      width: 100%;
+      background: linear-gradient(135deg, #000000, #0a0a0a);
+      border: 3px solid transparent;
+      border-image: linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #9400D3) 1;
+      border-image-slice: 1;
+      border-radius: 30px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+    .certificate::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(circle at 10% 20%, rgba(255,215,0,0.1) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+    }
+    .certificate-content { position: relative; z-index: 1; }
+    .logo { text-align: center; margin-bottom: 30px; }
+    .logo h1 { font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .logo p { color: #00d4ff; font-size: 0.7rem; letter-spacing: 2px; }
+    .title { text-align: center; margin: 20px 0; }
+    .title h2 { color: #FFD700; font-size: 1.5rem; border-top: 2px solid #FFD700; border-bottom: 2px solid #FFD700; display: inline-block; padding: 8px 20px; }
+    .family-id { text-align: center; background: rgba(255,215,0,0.1); padding: 12px; border-radius: 12px; margin: 20px 0; }
+    .family-id span { color: #00d4ff; font-size: 1.2rem; font-weight: bold; }
+    .recipient { text-align: center; margin: 25px 0; }
+    .recipient .name { color: #fff; font-size: 1.5rem; font-weight: 600; word-break: break-all; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 30px 0; }
+    .stat-card { background: rgba(255,215,0,0.1); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255,215,0,0.3); }
+    .stat-number { font-size: 2rem; font-weight: 900; color: #FFD700; }
+    .stat-label { color: #00d4ff; font-size: 0.7rem; margin-top: 5px; }
+    .contributed { background: rgba(148,0,211,0.2); border-radius: 12px; padding: 15px; margin: 20px 0; border: 1px solid #9400D3; }
+    .contributed h3 { color: #FFD700; font-size: 0.9rem; margin-bottom: 10px; text-align: center; }
+    .word-list { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .word-badge { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+    .signature { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,215,0,0.3); }
+    .signature .name { font-family: 'Brush Script MT', cursive; font-size: 1.8rem; color: #FFD700; }
+    .signature .title { color: #00d4ff; font-size: 0.8rem; }
+    .date { text-align: center; margin-top: 20px; color: rgba(255,255,255,0.5); font-size: 0.7rem; }
+    @media (max-width: 600px) {
+      .certificate { padding: 20px; }
+      .stats { grid-template-columns: 1fr; }
+      .recipient .name { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="certificate">
+    <div class="certificate-content">
+      <div class="logo"><h1>⚡ MAVJ ⚡</h1><p>MANIFESTING A VIBRANT JOURNEY</p></div>
+      <div class="title"><h2>CERTIFICATE OF EXCELLENCE</h2></div>
+      <div class="family-id"><span>✦ FAMILY ID: ${familyID} ✦</span></div>
+      <div class="recipient"><div class="name">${email}</div></div>
+      <div class="stats">
+        <div class="stat-card"><div class="stat-number">${wordsFound}</div><div class="stat-label">WORDS DISCOVERED</div></div>
+        <div class="stat-card"><div class="stat-number">${score}</div><div class="stat-label">TOTAL SCORE</div></div>
+        <div class="stat-card"><div class="stat-number">${Math.floor(score / 500) + 1}</div><div class="stat-label">MASTERY LEVEL</div></div>
+      </div>
+      ${wordBreakdownHTML}
+      ${contributedWords.length > 0 ? `
+      <div class="contributed">
+        <h3>🏆 WORDS CONTRIBUTED TO MAVJ DATABASE 🏆</h3>
+        <div class="word-list">${contributedWords.map(w => `<div class="word-badge">${w.word}</div>`).join('')}</div>
+      </div>
+      ` : ''}
+      <div class="signature"><div class="name">Robin MAVJ</div><div class="title">Founder & Chief Frequency Officer</div></div>
+      <div class="date">Certified on ${new Date().toLocaleDateString()}</div>
+    </div>
+  </div>
+</body>
+</html>`;
+  
+  const blob = new Blob([certificateHTML], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `MAVJ_Certificate_${familyID.replace(/[^a-zA-Z0-9]/g, '_')}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  return certificateHTML;
+};
+
+// Simulate email send
+const simulateEmailSend = (email, familyID, newWord, wordMetadata) => {
+  const emailLog = JSON.parse(localStorage.getItem('mavj_emails') || '[]');
+  emailLog.push({
+    to: email,
+    familyID: familyID,
+    newWord: newWord,
+    wordMetadata: wordMetadata,
+    date: new Date().toISOString()
+  });
+  localStorage.setItem('mavj_emails', JSON.stringify(emailLog));
+};
+
+// Start new level
+const startNewLevel = () => {
+  const newPuzzle = generatePuzzle();
+  setCurrentPuzzle(newPuzzle);
+  setCurrentLevel(prev => prev + 1);
+  setTargetWords(newPuzzle.targetWords);
+  setShuffledLetters([...newPuzzle.circleLetters].sort(() => Math.random() - 0.5));
+  setSelectedWord('');
+  setWordBank([]);
+  setGameFeedback(null);
+  setShowConfettiEffect(false);
+  setShowEmailInCircle(false);
+  setPendingNewWord(null);
+};
+
+// Reset game
+const resetGame = () => {
+  const newPuzzle = generatePuzzle();
+  setCurrentPuzzle(newPuzzle);
+  setCurrentLevel(1);
+  setTargetWords(newPuzzle.targetWords);
+  setShuffledLetters([...newPuzzle.circleLetters].sort(() => Math.random() - 0.5));
+  setSelectedWord('');
+  setWordBank([]);
+  setGameFeedback(null);
+  setPositiveGame(prev => ({ ...prev, score: 0, streak: 0, coins: 0, level: 1 }));
+  setShowConfettiEffect(false);
+  setShowEmailInCircle(false);
+  setPendingNewWord(null);
+  setEmailCaptured(false);
+  setUserEmail('');
+  setEmailInput('');
+};
+
+// Scramble letters
+const scrambleLetters = () => {
+  const scrambled = [...shuffledLetters];
+  for (let i = scrambled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [scrambled[i], scrambled[j]] = [scrambled[j], scrambled[i]];
+  }
+  setShuffledLetters(scrambled);
+};
+
+// Existing positiveGame state
+const [positiveGame, setPositiveGame] = useState({
+  score: 0,
+  streak: 0,
+  level: 1,
+  currentWord: '',
+  gameActive: true,
+  godSpaceActivated: false,
+  feedback: '',
+  history: [],
+  wordsUsed: []
+});
+
+// Other existing states
+const [quizState, setQuizState] = useState({
+  math: { answer: null, submitted: false, score: 0, feedback: '' },
+  compound: { answer: null, submitted: false, score: 0, feedback: '' }
+});
+
+const [formState, setFormState] = useState({
+  data: { name: '', email: '', age: '', currentState: '', goals: '' },
+  submitted: false,
+  error: null,
+  isSubmitting: false,
+  frequencyScore: null,
+  recommendations: ''
+});
+
+const [analyticsState, setAnalyticsState] = useState({
+  scrollDepth: 0,
+  timeOnPage: 0,
+  interactions: []
+});
+
+const [qState, setQState] = useState({
+  messages: [],
+  input: '',
+  isListening: false,
+  isSpeaking: false,
+  language: 'English',
+  context: [],
+  learningData: {}
+});
+
+const pageStartTime = useRef(Date.now());
+const recognitionRef = useRef(null);
+const synthRef = useRef(null);
+const videoRefs = useRef({});
+  
+
   // ==================== 18 LANGUAGE SYSTEM ====================
   const availableLanguages = [
     'English', 'Spanish', 'French', 'German', 'Italian', 
@@ -1126,7 +1538,6 @@ const building = useMemo(() => [
       }
     };
   }, [currentLanguage, positiveGame.level, positiveGame.currentWord, positiveWordBank]);
-
   // ==================== UTILITY FUNCTIONS ====================
   const sanitizeInput = useCallback((str) => {
     if (typeof str !== 'string') return '';
@@ -2549,353 +2960,17 @@ const handleLanguageChange = useCallback((lang) => {
   // ==================== RENDER ====================
   
   return (
-    <div style={styles.mainContainer}>
-        <nav style={styles.navbar}>
-        <span style={{ color: '#FFD700', fontSize: '0.75rem', flexShrink: 0, opacity: 0.6, userSelect: 'none', pointerEvents: 'none' }}>◀</span>
-
-        <div style={styles.navScrollContainer}>
-          {navItems.map((item) => {
-            if (item.type === 'dropdown') {
-              return (
-                <div key="lang-dropdown-btn" style={{ position: 'relative', flexShrink: 0 }}>
-                  <div
-                    style={{
-                      ...styles.navLink,
-                      minWidth: '115px',
-                      justifyContent: 'space-between',
-                      gap: '4px',
-                      cursor: 'pointer'
-                    }}
-                    onClick={() => setShowLanguageDropdown(prev => !prev)}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.5), rgba(0,212,255,0.5))';
-                      e.currentTarget.style.boxShadow = '0 0 15px rgba(255,215,0,1)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)';
-                      e.currentTarget.style.boxShadow = '0 0 6px rgba(255,215,0,0.3)';
-                    }}
-                  >
-                    <span>🌐 🇺🇸</span>
-                    <span style={{ flex: 1, textAlign: 'center' }}>{currentLanguage}</span>
-                    <span style={{ fontSize: '0.5rem' }}>{showLanguageDropdown ? '▲' : '▼'}</span>
-                  </div>
-
-                  {showLanguageDropdown && (
-                    <div style={{
-                      position: 'fixed',
-                      top: '46px',
-                      right: '8px',
-                      background: 'rgba(5,5,15,0.99)',
-                      border: '2px solid',
-                      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700) 1',
-                      borderRadius: '6px',
-                      minWidth: '175px',
-                      maxHeight: '440px',
-                      overflowY: 'auto',
-                      zIndex: 99999,
-                      boxShadow: '0 10px 40px rgba(0,0,0,0.99)'
-                    }}>
-                      <div style={{
-                        padding: '8px 14px',
-                        borderBottom: '1px solid rgba(255,215,0,0.4)',
-                        color: '#FFD700',
-                        fontSize: '0.65rem',
-                        fontWeight: '900',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1.2px',
-                        background: 'rgba(255,215,0,0.08)'
-                      }}>
-                        🌐 Select Language
-                      </div>
-                      {availableLanguages.map((lang) => (
-                        <div
-                          key={lang}
-                          style={{
-                            background: lang === currentLanguage ? 'rgba(255,215,0,0.22)' : 'transparent',
-                            color: '#FFD700',
-                            borderBottom: '1px solid rgba(255,215,0,0.08)',
-                            padding: '9px 14px',
-                            cursor: 'pointer',
-                            fontSize: '0.75rem',
-                            fontWeight: '700',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '10px',
-                            transition: 'background 0.15s ease'
-                          }}
-                          onClick={() => handleLanguageChange(lang)}
-                          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,215,0,0.38)'; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.background = lang === currentLanguage ? 'rgba(255,215,0,0.22)' : 'transparent'; }}
-                        >
-                          <span style={{ fontSize: '1.15rem' }}>
-                            {lang === 'English' ? '🇺🇸' : lang === 'Spanish' ? '🇪🇸' : lang === 'French' ? '🇫🇷' : lang === 'German' ? '🇩🇪' : lang === 'Italian' ? '🇮🇹' : lang === 'Chinese' ? '🇨🇳' : lang === 'Taiwanese' ? '🇹🇼' : lang === 'Amharic' ? '🇪🇹' : lang === 'Arabic' ? '🇸🇦' : lang === 'Swahili' ? '🇰🇪' : lang === 'Patois' ? '🇱🇨' : lang === 'BAramaic' ? '📜' : lang === 'NAramaic' ? '📜' : lang === 'SAramaic' ? '✝️' : lang === 'Hebrew' ? '🇮🇱' : lang === 'Greek' ? '🇬🇷' : lang === 'Latin' ? '🏛️' : '🕉️'}
-                          </span>
-                          <span style={{ flex: 1 }}>{lang}</span>
-                          {lang === currentLanguage && <span style={{ fontSize: '0.8rem', color: '#00ff88' }}>✓</span>}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
-
-            return (
-              <a
-                key={item.path}
-                href={item.path}
-                style={styles.navLink}
-                onClick={(e) => {
-                  e.preventDefault();
-                  trackInteraction("nav_click", { path: item.path });
-                  navigate(item.path);
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = "linear-gradient(135deg, rgba(255,215,0,0.5), rgba(0,212,255,0.5))";
-                  e.target.style.boxShadow = "0 0 15px rgba(255,215,0,1)";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = "rgba(0, 0, 0, 0.7)";
-                  e.target.style.boxShadow = "0 0 6px rgba(255,215,0,0.3)";
-                }}
-              >
-                <span>{item.icon}</span>
-                <span>{item.label}</span>
-              </a>
-            );
-          })}
-        </div>
-
-        <span style={{ color: '#FFD700', fontSize: '0.75rem', flexShrink: 0, opacity: 0.6, userSelect: 'none', pointerEvents: 'none' }}>▶</span>
-      </nav>
+    <Layout pageTitle="YOU ARE HOME">
+      <div style={styles.mainContainer}>
     
-{/* CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES) */}
-<section style={{
-  position: 'sticky',
-  top: '45px',
-  zIndex: 1900,
-  width: '100%',
-  minHeight: '180px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: '20px 20px 30px 20px',
-  overflow: 'visible',
-  backgroundColor: '#000',
-  backgroundImage: `url(/images/star-pattern.png)`,
-  backgroundSize: '100px',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'repeat',
-  borderBottom: '3px solid',
-  borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
-  borderImageSlice: 1
-}}>
-  <div style={{
-    display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    width: '100%',
-    padding: '8px 18px 4px',
-    gap: '12px',
-    flex: 1
-  }}>
-
-    {/* LEFT TEXT BOX — hangs below container border */}
-    <div style={{
-      background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
-      borderRadius: '4px',
-      padding: '2px',
-      flexShrink: 0,
-      alignSelf: 'flex-end',
-      position: 'relative',
-      bottom: '-10px'
-    }}>
-      <div style={{
-        background: 'rgba(0, 0, 0, 0.95)',
-        borderRadius: '3px',
-        padding: '10px 14px',
-        fontSize: '0.72rem',
-        fontWeight: '800',
-        color: '#FFD700',
-        lineHeight: '1.6',
-        textAlign: 'center',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.quantum", "QUANTUM BASED")}<br />
-        {t("title.scientific", "SCIENTIFICALLY BACKED")}<br />
-        {t("title.frequency", "FREQUENCY FOCUSED")}
-      </div>
-    </div>
-
-    {/* LEFT LOGO — middle height, close to company name */}
-    <div style={{
-      width: '110px',
-      height: '110px',
-      borderRadius: '50%',
-      border: '3px solid #FFD700',
-      overflow: 'hidden',
-      background: 'transparent',
-      boxShadow: '0 0 24px rgba(255,215,0,0.95)',
-      animation: 'heartbeat 1.4s ease-in-out infinite',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      alignSelf: 'center'
-    }}>
-      <img
-        src="/images/MAVJLogo.jpg"
-        alt="MAVJ Logo"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          borderRadius: '50%'
-        }}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = '/J2E/images/photos.png';
-        }}
-      />
-    </div>
-
-    {/* CENTER — Company name + tagline directly beneath */}
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      flex: 1,
-      alignSelf: 'flex-start',
-      paddingTop: '6px',
-      gap: '6px'
-    }}>
-      <h1 style={{
-        fontFamily: "'Georgia','Times New Roman',serif",
-        fontSize: 'clamp(1.5rem,3vw,2.2rem)',
-        fontWeight: '900',
-        color: '#FFD700',
-        textAlign: 'center',
-        margin: 0,
-        letterSpacing: '1.5px',
-        textShadow: '0 0 18px rgba(255,215,0,0.95)',
-        lineHeight: '1.1',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.companyName", "My Alkaline Vegan Journey")}
-      </h1>
-      <div style={{
-        color: '#00d4ff',
-        fontSize: 'clamp(0.65rem,1.3vw,0.85rem)',
-        fontWeight: '800',
-        letterSpacing: '0.7px',
-        textTransform: 'uppercase',
-        textAlign: 'center',
-        textShadow: '0 0 10px rgba(0,212,255,0.85)',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.tagline", "SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION")}
-      </div>
-    </div>
-
-    {/* RIGHT LOGO — mirrors left logo */}
-    <div style={{
-      width: '110px',
-      height: '110px',
-      borderRadius: '50%',
-      border: '3px solid #FFD700',
-      overflow: 'hidden',
-      background: 'transparent',
-      boxShadow: '0 0 24px rgba(255,215,0,0.95)',
-      animation: 'heartbeat 1.4s ease-in-out infinite',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      alignSelf: 'center'
-    }}>
-      <img
-        src="/images/MAVJLogo.jpg"
-        alt="MAVJ Logo"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          borderRadius: '50%'
-        }}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = '/J2E/images/photos.png';
-        }}
-      />
-    </div>
-
-    {/* RIGHT TEXT BOX — mirrors left text box */}
-    <div style={{
-      background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
-      borderRadius: '4px',
-      padding: '2px',
-      flexShrink: 0,
-      alignSelf: 'flex-end',
-      position: 'relative',
-      bottom: '-10px'
-    }}>
-      <div style={{
-        background: 'rgba(0, 0, 0, 0.95)',
-        borderRadius: '3px',
-        padding: '10px 14px',
-        fontSize: '0.72rem',
-        fontWeight: '800',
-        color: '#FFD700',
-        lineHeight: '1.6',
-        textAlign: 'center',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.quantum_physics", "WHERE QUANTUM PHYSICS")}<br />
-        {t("title.ancient_wisdom", "MEETS ANCIENT WISDOM")}<br />
-        {t("title.nutrition", "AND NUTRITION")}
-      </div>
-    </div>
-  </div>
-
-  {/* PAGE TITLE — sits on bottom border, enlarged */}
-  <div style={{
-    background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
-    borderRadius: '5px',
-    padding: '2px',
-    display: 'inline-flex',
-    position: 'absolute',
-    bottom: '-20px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    zIndex: 1901,
-    whiteSpace: 'nowrap'
-  }}>
-    <div style={{
-      background: 'rgba(0, 0, 0, 0.97)',
-      borderRadius: '4px',
-      padding: '6px 28px',
-      fontSize: '1.15rem',
-      fontWeight: '900',
-      color: '#00d4ff',
-      textAlign: 'center',
-      textTransform: 'uppercase',
-      letterSpacing: '2.5px',
-      textShadow: '0 0 14px rgba(0,212,255,0.9)'
-    }}>
-      {t("title.pageTitle", "YOU ARE HOME")}
-    </div>
-  </div>
-</section>
 
 {/* THE ANNOUNCEMENT PORTALS */}
 <div style={{
   position: 'relative',
-  backgroundImage: 'url(/images/Robin.jpeg)',
+  marginTop: '-60px',
+          backgroundImage: 'url(/images/Robin.jpeg)',
   backgroundSize: 'cover',
-  backgroundPosition: 'center 55%',
+  backgroundPosition: 'center 30%',
   backgroundAttachment: 'scroll',
   backgroundRepeat: 'no-repeat'
 }}>
@@ -3270,7 +3345,7 @@ const handleLanguageChange = useCallback((lang) => {
           {translations[currentLanguage]?.quantumJourney?.title || 'The Quantum Journey'}
         </h2>
         <div style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.65' }}>
-          <p>{translations[currentLanguage]?.quantumJourney?.p1 || 'My experience during my 40-day Total Reset allowed me to visualize Godspace—a realm beyond euphoria, beyond bliss.'}</p>
+          <p>{translations[currentLanguage]?.quantumJourney?.p1 || 'My experience during my 40-day Total Reset allowed me to visualize what I call the Godspace—a realm beyond euphoria, beyond bliss. This space is a combnation of immence peace and joy with insane clarity and sharp intuition. It is now well known throughout the scientific community the overwhelming positive benefits of reset detoxification. The activation of the stem cells and the growth hormones that are directly related to rebuilding and replacing damaged cells. The eradication of visceral fat which is known to be found around vital organs and inclusive of cells that damage the body. The visceral fat contributes to that belly, arm and back fat that seems impossible to remove.'}</p>
           <p style={{ marginTop: '12px' }}>{translations[currentLanguage]?.quantumJourney?.p2 || 'This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.'}</p>
           
           <h3 style={{color: '#FFD700', fontSize: '1.1rem', margin: '20px 0 12px'}}>
@@ -3294,398 +3369,697 @@ const handleLanguageChange = useCallback((lang) => {
 </div>
 
       {/* CONTAINER 4: USER ENGAGEMENT GAMES */}
-      <section style={{...styles.section, backgroundImage: 'url(/J2E/images/photos.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
-        <h2 style={styles.sectionTitle}>User Engagement Games</h2>
+      <section style={{...styles.section, backgroundImage: 'url(/J2E/images/PinealGland.jpg)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+        <h2 style={styles.sectionTitle}>Quantum Games to Exercise Your Brain</h2>
         
-                {/* ===== MAVJ POSITIVE WORD GAME ===== */}
-        
-        {/* Brian Story */}
-        <div style={{
-          maxWidth: '800px',
-          margin: '0 auto 20px',
-          padding: '20px',
-          background: 'linear-gradient(135deg, rgba(148,0,211,0.15), rgba(255,215,0,0.15))',
-          borderRadius: '16px',
-          border: '2px solid #9400D3',
-          textAlign: 'center',
-          backdropFilter: 'blur(8px)'
-        }}>
-          <h3 style={{ color: '#FFD700', marginBottom: '12px', fontSize: '1.2rem' }}>
-            📖 {t('game.brian_story_title', 'Brian\'s Story')}
-          </h3>
-          <p style={{ color: '#fff', fontSize: '0.9rem', lineHeight: '1.5', marginBottom: '10px' }}>
-            {t('game.brian_story', 'Brian spoke one sentence, and every word carried something other than positive. On the spot, I translated it into a sentence that was completely positive. That moment revealed the power of conscious language. Every word we speak is a frequency.')}
-          </p>
-          <p style={{ color: '#00d4ff', fontSize: '0.8rem' }}>
-            ✨ {t('game.tagline', 'Unscramble. Discover. Elevate.')}
-          </p>
-        </div>
-        
-        {/* Game Header with Stats */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          maxWidth: '700px',
-          margin: '0 auto 20px',
-          padding: '12px 20px',
-          background: 'linear-gradient(135deg, rgba(255,215,0,0.15), rgba(0,212,255,0.15))',
-          border: '2px solid',
-          borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-          borderRadius: '60px',
-          flexWrap: 'wrap',
-          gap: '15px'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '1.3rem' }}>🔥</span>
-            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>{t('game.streak', 'STREAK')}: {positiveGame?.streak || 0}</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '1.3rem' }}>✨</span>
-            <span style={{ color: '#00d4ff', fontWeight: 'bold' }}>{t('game.score', 'SCORE')}: {positiveGame?.score || 0}</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '1.3rem' }}>🪙</span>
-            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>{t('game.coins', 'COINS')}: {positiveGame?.coins || 0}</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '1.3rem' }}>🎯</span>
-            <span style={{ color: '#00d4ff', fontWeight: 'bold' }}>{targetWords.filter(t => t.found).length}/{targetWords.length} {t('game.found', 'found')}</span>
-          </div>
-        </div>
-        
-        {/* Target Words Area */}
-        <div style={{
-          maxWidth: '900px',
-          margin: '0 auto 20px',
-          padding: '20px',
-          background: 'rgba(0,0,0,0.4)',
-          borderRadius: '20px',
-          border: '2px solid #FFD700',
-          backdropFilter: 'blur(4px)'
-        }}>
-          <h3 style={{ color: '#FFD700', textAlign: 'center', marginBottom: '15px', fontSize: '1.1rem' }}>
-            🎯 {t('game.target_words', 'DISCOVER THESE WORDS')}
-          </h3>
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '20px'
-          }}>
-            {targetWords.map((target, idx) => (
-              <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-                <div style={{ display: 'flex', gap: '6px' }}>
+{/* ==================== MAVJ WORD GAME - COMPLETE UI ==================== */}
+<div style={{
+  width: '100%',
+  maxWidth: '1200px',
+  margin: '0 auto',
+  padding: '20px',
+  background: 'radial-gradient(circle at 10% 20%, rgba(255,215,0,0.08) 2px, transparent 2px)',
+  backgroundSize: '40px 40px',
+  backgroundColor: '#0a0a0a',
+  borderRadius: '30px',
+  position: 'relative'
+}}>
+
+  {/* CONFETTI EFFECT */}
+  {showConfettiEffect && (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      pointerEvents: 'none',
+      zIndex: 1000,
+      background: 'radial-gradient(circle, rgba(255,215,0,0.3), transparent)',
+      animation: 'confetti 1s ease-out'
+    }} />
+  )}
+
+  {/* TARGET WORDS SECTION - STATIONARY BOX (NO SCROLLING) */}
+  <div style={{
+    background: 'rgba(0,0,0,0.6)',
+    borderRadius: '20px',
+    padding: '15px',
+    marginBottom: '20px',
+    border: '2px solid rgba(255,215,0,0.3)',
+    minHeight: '180px',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '12px'
+  }}>
+    {/* Group words by length for organized display */}
+    {(() => {
+      const wordsByLength = {};
+      targetWords.forEach(word => {
+        const len = word.word.length;
+        if (!wordsByLength[len]) wordsByLength[len] = [];
+        wordsByLength[len].push(word);
+      });
+      
+      const sortedLengths = Object.keys(wordsByLength).sort((a, b) => a - b);
+      
+      return sortedLengths.map(len => (
+        <div key={len} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {wordsByLength[len].map((target, idx) => (
+              <div key={idx} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                background: target.found ? 'rgba(76,175,80,0.2)' : 'rgba(0,0,0,0.4)',
+                padding: '8px 12px',
+                borderRadius: '12px',
+                border: target.found ? '2px solid #4CAF50' : '2px solid rgba(255,215,0,0.3)',
+                transition: 'all 0.2s ease'
+              }}>
+                <div style={{ display: 'flex', gap: '4px' }}>
                   {target.word.split('').map((letter, i) => (
                     <div key={i} style={{
-                      width: '38px',
-                      height: '38px',
-                      background: target.found ? 'linear-gradient(135deg, #4CAF50, #2E7D32)' : 'rgba(255,215,0,0.1)',
-                      border: target.found ? '2px solid #4CAF50' : '2px solid #FFD700',
-                      borderRadius: '10px',
+                      width: '32px',
+                      height: '32px',
+                      background: target.found ? '#4CAF50' : 'rgba(255,215,0,0.15)',
+                      border: target.found ? '1px solid #4CAF50' : '1px solid rgba(255,215,0,0.4)',
+                      borderRadius: '8px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1.2rem',
+                      fontSize: '0.9rem',
                       fontWeight: 'bold',
-                      color: target.found ? '#fff' : '#FFD700',
-                      boxShadow: target.found ? '0 0 15px #4CAF50' : 'none'
+                      color: target.found ? '#fff' : 'rgba(255,215,0,0.6)'
                     }}>
                       {target.found ? letter : ''}
                     </div>
                   ))}
                 </div>
-                {target.found && <span style={{ color: '#4CAF50', fontSize: '0.7rem' }}>✓</span>}
+                <span style={{ fontSize: '0.6rem', color: target.found ? '#4CAF50' : 'rgba(255,215,0,0.4)', marginTop: '4px' }}>
+                  {target.found ? '✓' : `${target.word.length} letters`}
+                </span>
               </div>
             ))}
           </div>
         </div>
-        
-        {/* Current Word Platform */}
-        <div style={{
-          width: '320px',
-          margin: '0 auto 15px',
-          padding: '12px',
-          background: 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(148,0,211,0.3))',
-          borderRadius: '50px',
-          border: '2px solid #FFD700',
-          textAlign: 'center',
-          boxShadow: '0 0 20px rgba(255,215,0,0.3)'
-        }}>
-          <span style={{ color: '#FFD700', fontSize: '1.3rem', letterSpacing: '6px', fontWeight: 'bold' }}>
-            {selectedWord || '_____'}
-          </span>
+      ));
+    })()}
+  </div>
+
+  {/* THREE-COLUMN LAYOUT */}
+  <div style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '20px',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }}>
+    
+    {/* LEFT SIDE - BRIAN'S STORY */}
+    <div style={{
+      flex: '1',
+      minWidth: '180px',
+      maxWidth: '220px',
+      background: 'linear-gradient(135deg, rgba(148,0,211,0.2), rgba(255,215,0,0.1))',
+      borderRadius: '20px',
+      padding: '20px',
+      border: '1px solid rgba(255,215,0,0.3)',
+      textAlign: 'center'
+    }}>
+      <h3 style={{ color: '#FFD700', fontSize: '1rem', marginBottom: '12px' }}>📖 Brian's Story</h3>
+      <p style={{ color: '#fff', fontSize: '0.75rem', lineHeight: '1.5' }}>
+        "Brian spoke one sentence, and every word carried something other than positive. 
+        On the spot, I translated it into a sentence that was completely positive. 
+        Every word we speak is a frequency."
+      </p>
+      <p style={{ color: '#00d4ff', fontSize: '0.7rem', marginTop: '12px' }}>
+        — MAVJ Foundation
+      </p>
+    </div>
+
+    {/* CENTER - GAME CIRCLE */}
+    <div style={{
+      flex: '2',
+      minWidth: '350px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }}>
+      
+      {/* HEADER WITH STATS */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '10px',
+        padding: '8px 16px',
+        background: 'rgba(0,0,0,0.7)',
+        borderRadius: '40px',
+        marginBottom: '20px',
+        width: '100%',
+        border: '1px solid rgba(255,215,0,0.3)'
+      }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <span style={{ color: '#FFD700', fontSize: '0.7rem' }}>FAMILY</span>
+          <span style={{ color: '#00d4ff', fontWeight: 'bold', fontSize: '0.9rem' }}>{familyMemberNumber || '---'}</span>
         </div>
+        <div style={{ display: 'flex', gap: '15px' }}>
+          <div><span style={{ color: '#FFD700' }}>🔥</span> <span style={{ color: '#fff' }}>{positiveGame?.streak || 0}</span></div>
+          <div><span style={{ color: '#00d4ff' }}>✨</span> <span style={{ color: '#fff' }}>{positiveGame?.score || 0}</span></div>
+          <div><span style={{ color: '#FFD700' }}>🪙</span> <span style={{ color: '#fff' }}>{positiveGame?.coins || 0}</span></div>
+          <div><span style={{ color: '#00d4ff' }}>⭐</span> <span style={{ color: '#fff' }}>LVL {currentLevel}</span></div>
+        </div>
+        <button
+          onClick={() => setShowBrianStory(true)}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#FFD700',
+            fontSize: '0.65rem',
+            cursor: 'pointer',
+            textDecoration: 'underline'
+          }}
+        >
+          Full Story
+        </button>
+      </div>
+
+      {/* CIRCLE CONTAINER */}
+      <div style={{
+        position: 'relative',
+        width: 'min(55vw, 55vh, 380px)',
+        height: 'min(55vw, 55vh, 380px)',
+        margin: '0 auto'
+      }}>
         
-        {/* Letter Circle */}
+        <svg width="100%" height="100%" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="url(#gameGradient)" strokeWidth="2.5" strokeDasharray="4,4" />
+          <defs>
+            <linearGradient id="gameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FFD700" />
+              <stop offset="50%" stopColor="#FF00FF" />
+              <stop offset="100%" stopColor="#00d4ff" />
+            </linearGradient>
+          </defs>
+        </svg>
+        
+        {/* CENTER WORD DISPLAY */}
         <div style={{
-          position: 'relative',
-          width: `${Math.min(450, Math.max(300, shuffledLetters.length * 28))}px`,
-          height: `${Math.min(450, Math.max(300, shuffledLetters.length * 28))}px`,
-          margin: '15px auto'
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '75%',
+          textAlign: 'center',
+          background: 'rgba(0,0,0,0.92)',
+          borderRadius: '40px',
+          padding: '12px',
+          border: '2px solid #FFD700',
+          zIndex: 10
         }}>
-          <svg width="100%" height="100%" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#circleGradient)" strokeWidth="2" strokeDasharray="5,5" />
-            <defs>
-              <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#FFD700" />
-                <stop offset="50%" stopColor="#00d4ff" />
-                <stop offset="100%" stopColor="#FF00FF" />
-              </linearGradient>
-            </defs>
-          </svg>
-          
-          {shuffledLetters.map((letter, i) => {
-            const angle = (i * (360 / shuffledLetters.length)) * Math.PI / 180;
-            const x = 50 + 38 * Math.cos(angle);
-            const y = 50 + 38 * Math.sin(angle);
-            return (
-              <div
-                key={i}
-                onClick={() => setSelectedWord(prev => prev + letter)}
+          {!showEmailInCircle ? (
+            <span style={{
+              color: '#FFD700',
+              fontSize: 'clamp(1rem, 4vw, 1.3rem)',
+              letterSpacing: '3px',
+              fontWeight: 'bold'
+            }}>
+              {selectedWord || '_____'}
+            </span>
+          ) : (
+            <div>
+              <p style={{ color: '#FFD700', fontSize: '0.7rem', marginBottom: '8px' }}>🎉 New Word! 🎉</p>
+              <input 
+                type="email" 
+                placeholder="Your email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
                 style={{
-                  position: 'absolute',
-                  left: `${x}%`,
-                  top: `${y}%`,
-                  transform: 'translate(-50%, -50%)',
-                  width: '48px',
-                  height: '48px',
-                  background: 'radial-gradient(circle, rgba(0,0,0,0.9), rgba(255,215,0,0.2))',
-                  border: '2px solid',
-                  borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  padding: '6px 10px',
+                  borderRadius: '25px',
+                  border: '2px solid #FFD700',
+                  background: '#000',
                   color: '#FFD700',
-                  fontSize: '1.3rem',
+                  width: '90%',
+                  fontSize: '0.7rem',
+                  marginBottom: '8px'
+                }}
+              />
+              <button 
+                onClick={() => {
+                  if (emailInput && emailInput.includes('@')) {
+                    const newFamilyID = generateUniqueFamilyID(emailInput, userIP);
+                    setFamilyMemberNumber(newFamilyID);
+                    setUserEmail(emailInput);
+                    setEmailCaptured(true);
+                    setShowEmailInCircle(false);
+                    
+                    const wordMetadata = generateWordMetadata(pendingNewWord, emailInput, newFamilyID);
+                    addNewWordToDatabase(pendingNewWord, emailInput, userIP, newFamilyID);
+                    const userWords = getUserContributedWords(emailInput, userIP);
+                    
+                    generateCertificate(
+                      newFamilyID,
+                      emailInput,
+                      wordBank.length + 1,
+                      (positiveGame?.score || 0) + 25,
+                      userWords,
+                      wordMetadata
+                    );
+                    
+                    simulateEmailSend(emailInput, newFamilyID, pendingNewWord, wordMetadata);
+                    
+                    setWordBank(prev => [...prev, { word: pendingNewWord, timestamp: Date.now(), metadata: wordMetadata }]);
+                    setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) + 50 }));
+                    
+                    setGameFeedback({ 
+                      type: 'success', 
+                      message: `🎉 Welcome Family #${newFamilyID}! "${pendingNewWord}" added to database!` 
+                    });
+                    setPendingNewWord(null);
+                    setEmailInput('');
+                  } else {
+                    setGameFeedback({ type: 'error', message: 'Valid email required.' });
+                  }
+                }}
+                style={{
+                  padding: '6px 15px',
+                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                  border: 'none',
+                  borderRadius: '25px',
                   fontWeight: 'bold',
                   cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  boxShadow: '0 0 15px rgba(255,215,0,0.5)'
+                  color: '#000',
+                  fontSize: '0.7rem',
+                  width: '90%'
                 }}
               >
-                {letter}
-              </div>
-            );
-          })}
+                Claim Membership! 🎓
+              </button>
+            </div>
+          )}
         </div>
         
-        {/* Action Buttons */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', margin: '15px 0' }}>
-          <button
-            onClick={() => {
-              const matchedTarget = targetWords.find(t => t.word === selectedWord && !t.found);
+        {/* LETTER BUTTONS */}
+        {shuffledLetters.slice(0, 10).map((letter, i) => {
+          const angle = (i * (360 / Math.min(shuffledLetters.length, 10))) * Math.PI / 180;
+          const x = 50 + 40 * Math.cos(angle);
+          const y = 50 + 40 * Math.sin(angle);
+          return (
+            <button
+              key={i}
+              onClick={() => setSelectedWord(prev => prev + letter)}
+              style={{
+                position: 'absolute',
+                left: `${x}%`,
+                top: `${y}%`,
+                transform: 'translate(-50%, -50%)',
+                width: 'clamp(42px, 9vw, 52px)',
+                height: 'clamp(42px, 9vw, 52px)',
+                background: 'radial-gradient(circle, rgba(0,0,0,0.95), rgba(255,215,0,0.3))',
+                border: '2px solid #FFD700',
+                borderRadius: '50%',
+                color: '#FFD700',
+                fontSize: 'clamp(1.1rem, 4vw, 1.5rem)',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                transition: 'all 0.1s ease',
+                boxShadow: '0 0 12px rgba(255,215,0,0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.1)';
+                e.currentTarget.style.background = '#FFD700';
+                e.currentTarget.style.color = '#000';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+                e.currentTarget.style.background = 'radial-gradient(circle, rgba(0,0,0,0.95), rgba(255,215,0,0.3))';
+                e.currentTarget.style.color = '#FFD700';
+              }}
+            >
+              {letter}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ACTION BUTTONS */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '12px',
+        flexWrap: 'wrap',
+        margin: '20px 0 15px 0'
+      }}>
+        <button
+          onClick={() => {
+            if (!selectedWord) {
+              setGameFeedback({ type: 'error', message: 'Select letters first!' });
+              return;
+            }
+
+            const matchedTarget = targetWords.find(t => t.word === selectedWord && !t.found);
+            
+            if (matchedTarget) {
+              // Word is a target - mark as found
+              setTargetWords(prev => prev.map(t => 
+                t.word === selectedWord ? { ...t, found: true } : t
+              ));
               
-              if (matchedTarget) {
-                setTargetWords(prev => prev.map(t => 
-                  t.word === selectedWord ? { ...t, found: true } : t
-                ));
-                setPositiveGame(prev => ({
-                  ...prev,
-                  score: (prev?.score || 0) + 100,
-                  streak: (prev?.streak || 0) + 1,
-                  coins: (prev?.coins || 0) + 10
-                }));
-                setGameFeedback({ type: 'success', message: `🎉 ${selectedWord}! +100 points`, showConfetti: true });
-                setSelectedWord('');
-                
-                const allFound = targetWords.every(t => t.found);
-                if (allFound) {
-                  setGameFeedback({ type: 'success', message: `🏆 ROUND COMPLETE! +50 bonus coins!`, showConfetti: true });
-                  setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) + 50 }));
-                  setTimeout(() => startNewPuzzle(), 2000);
-                }
-              } 
-              else if (selectedWord.length > 0) {
-                const canBeMade = canMakeWordFromLetters(selectedWord, shuffledLetters);
-                
-                if (canBeMade) {
-                  const isAlreadyTarget = targetWords.some(t => t.word === selectedWord);
-                  
-                  if (!isAlreadyTarget) {
-                    setTargetWords(prev => [...prev, { word: selectedWord, found: false }]);
-                    setGameFeedback({ type: 'success', message: `✨ NEW WORD! "${selectedWord}" added! +25 coins` });
-                    setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) + 25 }));
-                  } else {
-                    setGameFeedback({ type: 'info', message: `📚 "${selectedWord}" is already in your list!` });
-                  }
-                } else {
-                  setGameFeedback({ type: 'error', message: `💫 "${selectedWord}" cannot be made from these letters.` });
-                  setPositiveGame(prev => ({ ...prev, streak: 0 }));
-                }
-                setSelectedWord('');
+              const newScore = (positiveGame?.score || 0) + 100;
+              setPositiveGame(prev => ({
+                ...prev,
+                score: newScore,
+                streak: (prev?.streak || 0) + 1,
+                coins: (prev?.coins || 0) + 10
+              }));
+              
+              setGameFeedback({ type: 'success', message: `🎉 ${selectedWord}! +100 points!` });
+              setSelectedWord('');
+              
+              // Check if puzzle is complete
+              const allFound = targetWords.every(t => t.found);
+              if (allFound) {
+                setShowConfettiEffect(true);
+                setGameFeedback({ type: 'success', message: `🏆 LEVEL ${currentLevel} COMPLETE! +100 bonus coins! 🎉` });
+                setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) + 100 }));
+                setTimeout(() => {
+                  setShowConfettiEffect(false);
+                  startNewLevel();
+                }, 3000);
               }
-            }}
-            style={{
-              padding: '12px 28px',
-              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-              border: 'none',
-              borderRadius: '40px',
-              color: '#000',
-              fontSize: '0.9rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              boxShadow: '0 0 20px rgba(255,215,0,0.5)'
-            }}
-          >
-            ✓ {t('game.submit', 'SUBMIT')}
-          </button>
-          <button
-            onClick={() => setSelectedWord('')}
-            style={{
-              padding: '12px 28px',
-              background: 'rgba(255,255,255,0.1)',
-              border: '2px solid #FFD700',
-              borderRadius: '40px',
-              color: '#FFD700',
-              fontSize: '0.9rem',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
-          >
-            ✗ {t('game.clear', 'CLEAR')}
-          </button>
-          <button
-            onClick={() => setShuffledLetters([...shuffledLetters].sort(() => Math.random() - 0.5))}
-            style={{
-              padding: '12px 28px',
-              background: 'linear-gradient(135deg, #00d4ff, #667eea)',
-              border: 'none',
-              borderRadius: '40px',
-              color: '#fff',
-              fontSize: '0.9rem',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
-          >
-            🔄 {t('game.scramble', 'SCRAMBLE')}
-          </button>
-        </div>
-        
-        {/* Feedback Message */}
-        {gameFeedback && (
-          <div style={{
-            marginTop: '15px',
-            padding: '12px',
-            textAlign: 'center',
-            borderRadius: '16px',
-            background: gameFeedback.type === 'success' ? 'rgba(76,175,80,0.2)' : 'rgba(0,212,255,0.2)',
-            border: '1px solid',
-            borderColor: gameFeedback.type === 'success' ? '#4CAF50' : '#00d4ff',
-            color: gameFeedback.type === 'success' ? '#4CAF50' : '#00d4ff',
-            fontSize: '0.9rem',
-            maxWidth: '500px',
-            marginLeft: 'auto',
-            marginRight: 'auto'
-          }}>
-            {gameFeedback.message}
-          </div>
-        )}
-        
-        {/* Word Bank */}
-        <div style={{
-          maxWidth: '700px',
-          margin: '20px auto',
-          padding: '15px',
-          background: 'rgba(0,0,0,0.4)',
-          borderRadius: '16px',
-          border: '2px solid #00d4ff',
-          maxHeight: '130px',
-          overflowY: 'auto'
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>📚 {t('game.word_bank', 'WORD BANK')}</span>
-            <span style={{ color: '#00d4ff', fontSize: '0.75rem' }}>{wordBank.length} {t('game.words', 'words')}</span>
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {wordBank.length === 0 ? (
-              <span style={{ color: '#00d4ff', fontSize: '0.8rem' }}>{t('game.discover_words', 'Words you discover will appear here')}</span>
-            ) : (
-              wordBank.slice(-12).map((item, idx) => (
-                <span key={idx} style={{
-                  padding: '5px 12px',
-                  background: 'rgba(255,215,0,0.15)',
-                  border: '1px solid #FFD700',
-                  borderRadius: '30px',
-                  color: '#FFD700',
-                  fontSize: '0.75rem',
-                  cursor: 'pointer'
-                }}>
-                  {item.word}
-                </span>
-              ))
-            )}
-          </div>
-        </div>
-        
-        {/* Hint and Reset Buttons */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '10px' }}>
-          <button
-            onClick={() => {
-              if ((positiveGame?.coins || 0) >= 3) {
-                const unfound = targetWords.find(t => !t.found);
-                if (unfound) {
-                  setGameFeedback({ type: 'info', message: `💡 Hint: The word starts with "${unfound.word[0]}"` });
-                  setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) - 3 }));
+            } 
+            else if (selectedWord.length > 0 && canMakeWord(selectedWord)) {
+              // Valid word but not a target - add to word bank
+              const wordData = wordExistsInDatabase(selectedWord);
+              if (wordData) {
+                setWordBank(prev => [...prev, { word: selectedWord, timestamp: Date.now(), metadata: wordData }]);
+                setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) + 10 }));
+                setGameFeedback({ type: 'success', message: `✨ "${selectedWord}" is valid! +10 coins` });
+                
+                if (emailCaptured && userEmail) {
+                  saveUserDiscovery(userEmail, selectedWord);
                 }
               } else {
-                setGameFeedback({ type: 'error', message: 'Not enough coins! Complete words to earn more.' });
+                // New word not in database - trigger email capture (ONCE)
+                if (!emailCaptured && !pendingNewWord) {
+                  setPendingNewWord(selectedWord);
+                  setShowEmailInCircle(true);
+                  setGameFeedback({ type: 'info', message: `✨ "${selectedWord}" is a new word! Enter your email to add it to the MAVJ Database!` });
+                } else if (emailCaptured) {
+                  const wordMetadata = generateWordMetadata(selectedWord, userEmail, familyMemberNumber);
+                  addNewWordToDatabase(selectedWord, userEmail, userIP, familyMemberNumber);
+                  setWordBank(prev => [...prev, { word: selectedWord, timestamp: Date.now(), metadata: wordMetadata }]);
+                  setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) + 25 }));
+                  setGameFeedback({ type: 'success', message: `✨ "${selectedWord}" added to MAVJ Database! +25 coins` });
+                } else {
+                  setWordBank(prev => [...prev, { word: selectedWord, timestamp: Date.now() }]);
+                  setGameFeedback({ type: 'info', message: `✨ "${selectedWord}" is valid! Keep discovering!` });
+                }
               }
-            }}
-            style={{
-              padding: '8px 20px',
-              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-              border: 'none',
-              borderRadius: '30px',
-              color: '#000',
-              fontSize: '0.75rem',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
-          >
-            🪙 {t('game.hint_button', 'HINT')} (3)
-          </button>
-          <button
-            onClick={() => startNewPuzzle()}
-            style={{
-              padding: '8px 20px',
-              background: 'linear-gradient(135deg, #00d4ff, #667eea)',
-              border: 'none',
-              borderRadius: '30px',
-              color: '#fff',
-              fontSize: '0.75rem',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
-          >
-            🎲 {t('game.new_puzzle', 'NEW PUZZLE')}
-          </button>
-          <button
-            onClick={() => {
-              const puzzle = gamePuzzles[0];
-              setTargetWords(puzzle.primaryWords.map(word => ({ word, found: false })));
-              setShuffledLetters([...puzzle.letters].sort(() => Math.random() - 0.5));
               setSelectedWord('');
-              setWordBank([]);
-              setGameFeedback(null);
-              setPositiveGame(prev => ({ ...prev, score: 0, streak: 0, coins: 0 }));
-              setEmailCaptured(false);
-            }}
-            style={{
-              padding: '8px 20px',
-              background: 'rgba(255,0,0,0.15)',
-              border: '2px solid #ff6b6b',
-              borderRadius: '30px',
-              color: '#ff6b6b',
-              fontSize: '0.75rem',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
-          >
-            🔄 {t('game.reset', 'RESET')}
-          </button>
+            } else if (selectedWord.length > 0) {
+              setGameFeedback({ type: 'error', message: `"${selectedWord}" cannot be made from these letters.` });
+              setPositiveGame(prev => ({ ...prev, streak: 0 }));
+              setSelectedWord('');
+            }
+          }}
+          style={{
+            padding: '10px 24px',
+            background: 'linear-gradient(135deg, #FFD700, #FF8C00)',
+            border: 'none',
+            borderRadius: '40px',
+            color: '#000',
+            fontSize: '0.85rem',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transition: 'transform 0.1s'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          ✓ SUBMIT
+        </button>
+        
+        <button
+          onClick={() => setSelectedWord('')}
+          style={{
+            padding: '10px 24px',
+            background: 'rgba(255,255,255,0.1)',
+            border: '2px solid #FFD700',
+            borderRadius: '40px',
+            color: '#FFD700',
+            fontSize: '0.85rem',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          ✗ CLEAR
+        </button>
+        
+        <button
+          onClick={() => scrambleLetters()}
+          style={{
+            padding: '10px 24px',
+            background: 'linear-gradient(135deg, #00d4ff, #8b5cf6)',
+            border: 'none',
+            borderRadius: '40px',
+            color: '#fff',
+            fontSize: '0.85rem',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          🔄 SCRAMBLE
+        </button>
+      </div>
+
+      {/* WORD BANK */}
+      <div style={{
+        background: 'rgba(0,0,0,0.5)',
+        borderRadius: '15px',
+        padding: '10px',
+        margin: '10px 0',
+        border: '1px solid rgba(0,212,255,0.3)',
+        maxHeight: '60px',
+        overflowY: 'auto',
+        width: '100%'
+      }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {wordBank.length === 0 ? (
+            <span style={{ color: '#666', fontSize: '0.7rem' }}>✨ Words you discover will appear here ✨</span>
+          ) : (
+            wordBank.slice(-12).map((item, idx) => (
+              <span key={idx} style={{
+                padding: '3px 10px',
+                background: 'rgba(255,215,0,0.15)',
+                border: '1px solid #FFD700',
+                borderRadius: '20px',
+                color: '#FFD700',
+                fontSize: '0.7rem'
+              }}>
+                {item.word}
+              </span>
+            ))
+          )}
         </div>
+      </div>
+
+      {/* HINT & RESET */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '8px' }}>
+        <button
+          onClick={() => {
+            if ((positiveGame?.coins || 0) >= 3) {
+              const unfound = targetWords.find(t => !t.found);
+              if (unfound) {
+                setGameFeedback({ type: 'info', message: `💡 Hint: "${unfound.word[0]}..."` });
+                setPositiveGame(prev => ({ ...prev, coins: (prev?.coins || 0) - 3 }));
+              }
+            } else {
+              setGameFeedback({ type: 'error', message: 'Not enough coins! Keep discovering words!' });
+            }
+          }}
+          style={{
+            padding: '6px 20px',
+            background: 'linear-gradient(135deg, #FFD700, #FF8C00)',
+            border: 'none',
+            borderRadius: '30px',
+            color: '#000',
+            fontSize: '0.7rem',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          🪙 HINT (3)
+        </button>
+        
+        <button
+          onClick={() => startNewLevel()}
+          style={{
+            padding: '6px 20px',
+            background: 'linear-gradient(135deg, #00d4ff, #8b5cf6)',
+            border: 'none',
+            borderRadius: '30px',
+            color: '#fff',
+            fontSize: '0.7rem',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          🎲 NEW LEVEL
+        </button>
+        
+        <button
+          onClick={() => resetGame()}
+          style={{
+            padding: '6px 20px',
+            background: 'rgba(255,0,0,0.2)',
+            border: '2px solid #ff6b6b',
+            borderRadius: '30px',
+            color: '#ff6b6b',
+            fontSize: '0.7rem',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          🔄 RESET
+        </button>
+      </div>
+    </div>
+
+    {/* RIGHT SIDE - INSPIRATIONAL TEXT */}
+    <div style={{
+      flex: '1',
+      minWidth: '180px',
+      maxWidth: '220px',
+      background: 'linear-gradient(135deg, rgba(0,212,255,0.1), rgba(148,0,211,0.1))',
+      borderRadius: '20px',
+      padding: '20px',
+      border: '1px solid rgba(0,212,255,0.3)',
+      textAlign: 'center'
+    }}>
+      <h3 style={{ color: '#00d4ff', fontSize: '1rem', marginBottom: '12px' }}>✨ The Frequency Principle</h3>
+      <p style={{ color: '#fff', fontSize: '0.75rem', lineHeight: '1.5' }}>
+        "Every word carries a frequency. Positive words raise your vibration. 
+        Choose words that heal, uplift, and transform. Your language shapes your reality."
+      </p>
+      <p style={{ color: '#FFD700', fontSize: '0.7rem', marginTop: '12px' }}>
+        — Quantum Linguistics
+      </p>
+    </div>
+  </div>
+
+  {/* FEEDBACK MESSAGES */}
+  {gameFeedback && !showEmailInCircle && (
+    <div style={{
+      marginTop: '15px',
+      padding: '12px',
+      textAlign: 'center',
+      borderRadius: '15px',
+      background: gameFeedback.type === 'success' ? 'rgba(76,175,80,0.2)' : 
+                 gameFeedback.type === 'error' ? 'rgba(255,0,0,0.2)' :
+                 'rgba(0,212,255,0.2)',
+      border: '2px solid',
+      borderColor: gameFeedback.type === 'success' ? '#4CAF50' : 
+                   gameFeedback.type === 'error' ? '#ff4444' : '#00d4ff',
+      color: gameFeedback.type === 'success' ? '#4CAF50' : 
+             gameFeedback.type === 'error' ? '#ff4444' : '#00d4ff',
+      fontSize: '0.8rem'
+    }}>
+      {gameFeedback.message}
+    </div>
+  )}
+</div>
+
+{/* CONFETTI KEYFRAMES */}
+<style>{`
+  @keyframes confetti {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.5); }
+    100% { opacity: 0; transform: scale(0.5); }
+  }
+`}</style>
+
+{/* BRIAN STORY MODAL */}
+{showBrianStory && (
+  <div style={{
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0,0,0,0.95)',
+    backdropFilter: 'blur(10px)',
+    zIndex: 9999,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '20px'
+  }}
+  onClick={() => setShowBrianStory(false)}>
+    <div style={{
+      maxWidth: '450px',
+      width: '100%',
+      background: 'linear-gradient(135deg, #000, #1a0033)',
+      borderRadius: '30px',
+      border: '2px solid transparent',
+      borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF) 1',
+      padding: '30px',
+      position: 'relative'
+    }}
+    onClick={(e) => e.stopPropagation()}>
+      <button
+        onClick={() => setShowBrianStory(false)}
+        style={{
+          position: 'absolute',
+          top: '15px',
+          right: '20px',
+          background: 'none',
+          border: 'none',
+          color: '#FFD700',
+          fontSize: '1.3rem',
+          cursor: 'pointer'
+        }}
+      >
+        ✕
+      </button>
+      <h2 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.3rem' }}>📖 Brian's Story</h2>
+      <p style={{ color: '#fff', lineHeight: '1.5', marginBottom: '12px', fontSize: '0.85rem' }}>
+        Brian spoke one sentence, and every word carried something other than positive. 
+        On the spot, I translated it into a sentence that was completely positive.
+      </p>
+      <p style={{ color: '#fff', lineHeight: '1.5', marginBottom: '12px', fontSize: '0.85rem' }}>
+        That moment revealed the power of conscious language. Every word we speak is a frequency.
+      </p>
+      <p style={{ color: '#FFD700', fontStyle: 'italic', fontSize: '0.85rem' }}>
+        "Your words become your world. Choose frequencies that uplift."
+      </p>
+      <button
+        onClick={() => setShowBrianStory(false)}
+        style={{
+          marginTop: '20px',
+          padding: '10px 30px',
+          background: 'linear-gradient(135deg, #FFD700, #FF8C00)',
+          border: 'none',
+          borderRadius: '40px',
+          color: '#000',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          width: '100%'
+        }}
+      >
+        Continue Your Journey
+      </button>
+    </div>
+  </div>
+)}
         
         {/* GAMES GRID */}
         <div style={styles.gamesGrid}>
@@ -4018,30 +4392,89 @@ const handleLanguageChange = useCallback((lang) => {
         </div>
       </section>
 
-      {/* CONTAINER 9: ST. LUCIAN ARTISANS */}
-      <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>St. Lucian Artisans</h2>
-        
-        <div style={styles.artisansGrid}>
-          {artisans.map((artisan, i) => (
-            <div key={i} style={styles.artisanCard}>
-              <div style={styles.artisanAvatar}>{artisan.emoji}</div>
-              <h3 style={{color: '#FFD700', marginBottom: '6px', fontSize: '0.95rem'}}>{artisan.name}</h3>
-              <div style={{color: '#4ecdc4', fontSize: '0.8rem', marginBottom: '10px'}}>{artisan.specialty}</div>
-              <p style={{fontSize: '0.8rem', marginBottom: '10px'}}>{artisan.description}</p>
-              <div style={{color: '#aaa', fontSize: '0.7rem'}}>{artisan.location}</div>
-              {artisan.image && (
-                <img 
-                  src={artisan.image} 
-                  alt={artisan.name}
-                  style={{width: '100%', height: '90px', objectFit: 'cover', borderRadius: '6px', marginTop: '10px'}}
-                  onError={(e) => { e.target.onerror = null; }}
-                />
-              )}
+  {/* ==================== CONTAINER 9: ST. LUCIAN ARTISANS ==================== */}
+{(() => {
+  const stLucianArtisanPortal = [
+    {
+      name: 'Julian The Coconut Artist',
+      specialty: 'Sculpting beautiful functional art out of Fresh St. Lucian Coconuts',
+      description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.',
+      location: 'Castries Market Arcade, St. Lucia',
+      image: '/images/JulianCoconutArtist.png',
+      workImage: "/Images/JulianBirdFeeders.png"
+    },
+    {
+      name: 'Kurt The Fisherman',
+      specialty: 'Sustainable Traditional Fishing',
+      description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.',
+      location: 'Tou Rouge, Castries, St. Lucia',
+      image: '/images/KurtTheFISHERMAN.png',
+      workImage: '/Innmages/KurtwithSnapper.png'
+    },
+    {
+      name: 'Brittany',
+      specialty: '100% ALL NATURAL Creams and scrubs and Fermetations',
+      description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.',
+      location: 'Washington, DC and Gros Islet St. Lucia',
+      image: '/images/BrittanyCreamsFermentations.png',
+      workImage: "/images/BrittCream.png"
+    },
+    {
+      name: 'Anthony The Barber',
+      specialty: 'Precision Grooming & Self-Cut Artistry',
+      description: 'Expert barbering focused on sharp aesthetics and personal frequency.',
+      location: 'St. Lucia',
+      image: '/images/AnthonyTheBarber.png',
+      workImage: '/images/AnthonyTheBarberSelfCut.png'
+    },
+    {
+      name: 'King Khaled',
+      specialty: 'Rastafarian Organic Farmer',
+      description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.',
+      location: 'Des Barras, St. Lucia',
+      image: '/images/KingKhaled.jpg',
+      workImage: '/images/DesBarras.jpeg'
+    },
+    {
+      name: 'Reggie The Builder',
+      specialty: 'Official Recycle Man & Construction',
+      description: 'Building sustainable structures and leading the recycling movement in Black Mallet.',
+      location: 'Black Mallet, St. Lucia',
+      image: '/images/REGGIE.jpeg',
+      workImage: '/images/ReggieBuilderRecycleMan.png'
+    },
+    {
+      name: 'Simeon',
+      specialty: 'The Horse Trainer',
+      description: 'Managing the sanctuary and training horses at the Rastafarian farm.',
+      location: 'Des Barras, St. Lucia',
+      image: '/images/Simeon.png',
+      workImage: '/images/HorseOnFarm.jpeg'
+    }
+  ];
+
+  return (
+    <section style={{ padding: '80px 20px', background: 'transparent' }}>
+      <h2 style={{ textAlign: 'center', color: '#FFD700', fontSize: '2.5rem', marginBottom: '60px', textTransform: 'uppercase' }}>St. Lucian Artisans</h2>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '40px', maxWidth: '1600px', margin: '0 auto' }}>
+        {stLucianArtisanPortal.map((person, i) => (
+          <div key={i} style={{ width: '320px', background: 'rgba(0, 0, 0, 0.9)', borderRadius: '20px', border: '3px solid #FFD700', overflow: 'hidden' }}>
+            <div style={{ height: '400px', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ flex: 1, backgroundImage: `url(${person.image})`, backgroundSize: 'cover', backgroundPosition: 'center', borderBottom: '2px solid #FFD700' }}></div>
+              <div style={{ flex: 1, backgroundImage: `url(${person.workImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
             </div>
-          ))}
-        </div>
-      </section>
+            <div style={{ padding: '25px', textAlign: 'center' }}>
+              <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 10px 0' }}>{person.name}</h3>
+              <div style={{ color: '#00d4ff', fontSize: '0.9rem', fontWeight: 'bold' }}>{person.specialty}</div>
+              <p style={{ color: '#DDD6B8', fontSize: '0.8rem', marginTop: '10px', lineHeight: '1.5' }}>{person.description}</p>
+              <div style={{ marginTop: '15px', color: '#888', fontSize: '0.7rem' }}>📍 {person.location}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+})()}
 
       {/* CONTAINER 10: 11:11 GLOBAL FREQUENCY CONVERGENCE */}
       <section style={{...styles.section, backgroundImage: 'url(/J2E/images/photos.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
@@ -4454,8 +4887,8 @@ const handleLanguageChange = useCallback((lang) => {
           -moz-osx-font-smoothing: grayscale;
         }
       `}</style>
-    </div>
+        </div>
+    </Layout>
   );
 };
 export default HomePage;
-

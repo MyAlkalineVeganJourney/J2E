@@ -31,7 +31,7 @@ const MAVJStore = () => {
     }
   };
 
-  // FEATURED PRODUCTS - NO SEA MOSS
+  // FEATURED PRODUCTS - VARIETY (NO SEA MOSS)
   const featuredProducts = [
     products.find(p => p.name.includes('Walnut Chews')),
     products.find(p => p.name.includes('Sea Moss Bomb')),
@@ -41,14 +41,14 @@ const MAVJStore = () => {
     products.find(p => p.name.includes('Cookies'))
   ].filter(Boolean);
 
-  // VIOLET SEA MOSS - 8 STRIPE LINKS (4 RAW + 4 GEL)
+  // VIOLET SEA MOSS (CHAPTER 1)
   const violetSeaMoss = {
     name: 'Violet Sea Moss',
     botanical: 'Gracilaria spp.',
     color: '#9370DB',
     rawImage: '/images/RawMossViolet.jpg',
     gelImage: '/images/GelViolet.jpg',
-    benefit: 'Violet vibration activates crown and third eye chakras - enhances spiritual clarity, amplifies intuitive perception, supports thyroid and pineal gland function, promotes deep sleep cycles, and facilitates quantum coherence with higher consciousness.',
+    benefit: 'Violet vibration activates crown and third eye chakras - enhances spiritual clarity, amplifies intuitive perception, supports thyroid and pineal gland function, promotes deep sleep cycles, and facilitates quantum coherence with higher consciousness. Substrate-harvested from St. Lucian volcanic reefs - medicinal grade for the educated connoisseur.',
     raw: [
       products.find(p => p.name.includes('Violet') && p.name.includes('Raw 2oz')),
       products.find(p => p.name.includes('Violet') && p.name.includes('Raw 4oz')),
@@ -56,15 +56,14 @@ const MAVJStore = () => {
       products.find(p => p.name.includes('Violet') && p.name.includes('Raw 16oz'))
     ].filter(Boolean),
     gel: [
-      products.find(p => p.name.includes('Violet') && p.name.includes('Gel 4oz')),
-      products.find(p => p.name.includes('Violet') && p.name.includes('Gel 8oz')),
-      products.find(p => p.name.includes('Violet') && p.name.includes('Gel 16oz')),
-      products.find(p => p.name.includes('Violet') && p.name.includes('Gel 32oz'))
+      products.find(p => p.name.includes('Spectrum') && p.name.includes('Gel 32oz'))
     ].filter(Boolean)
   };
 
+  // CHELATION KIT (CHAPTER 2)
   const chelationKit = products.find(p => p.name.includes('21 Day Reset') || p.name.includes('Detox'));
-  
+
+  // HERBS (CHAPTER 3)
   const herbs = [
     products.find(p => p.name.includes('Panadol')),
     products.find(p => p.name.includes('Blue Vervain')),
@@ -72,8 +71,10 @@ const MAVJStore = () => {
     products.find(p => p.name.includes('Soursop'))
   ].filter(Boolean);
 
+  // CASTOR OIL (CHAPTER 5)
   const castorOil = products.find(p => p.name.includes('Castor Oil'));
 
+  // J2E ACCOMMODATIONS (CHAPTER 7)
   const j2eAccommodations = [
     products.find(p => p.name.includes('J2E Enlightenment Pod (one person)')),
     products.find(p => p.name.includes('J2E Frequency Pod (2 Guests')),
@@ -82,11 +83,12 @@ const MAVJStore = () => {
     products.find(p => p.name.includes('J2E Deluxe Amplification Pod'))
   ].filter(Boolean);
 
+  // CATEGORIES
   const categories = [
     { name: 'Sea Moss', icon: '🌊', color: '#00CED1', link: '/MAVJSeaMoss', image: '/images/SeaMossBanner.jpg', stage: 'FOUNDATION' },
     { name: 'Transformation Kits', icon: '💎', color: '#9400D3', link: '/ProductCatalog#kits', image: '/images/Detox.jpg', stage: 'RESET' },
     { name: 'Sacred Herbs', icon: '🌿', color: '#32CD32', link: '/ProductCatalog#herbs', image: '/images/Panadol.jpg', stage: 'HEALING' },
-    { name: 'Life Seeds', icon: '��', color: '#FFD700', link: '/ProductCatalog#seeds', image: '/images/SeedsBanner.jpg', stage: 'SOVEREIGNTY' },
+    { name: 'Life Seeds', icon: '🌱', color: '#FFD700', link: '/ProductCatalog#seeds', image: '/images/SeedsBanner.jpg', stage: 'SOVEREIGNTY' },
     { name: 'Sacred Oils', icon: '🔥', color: '#FF6B00', link: '/ProductCatalog#oils', image: '/images/CastorOilBanner.jpg', stage: 'INFLAMMATION' },
     { name: 'Alkaline Recipes', icon: '🍽️', color: '#FF69B4', link: '/Recipes', image: '/images/RecipesBanner.png', stage: 'MAINTENANCE' },
     { name: 'Treats', icon: '✨', color: '#FFD700', link: '/ProductCatalog#snacks', image: '/images/WalnutCookies.png', stage: 'CELEBRATION' },
@@ -147,7 +149,7 @@ const MAVJStore = () => {
           ))}
         </div>
         <Link to="/ProductCatalog" onClick={() => window.scrollTo(0, 0)} style={{ display: 'block', textAlign: 'center', padding: 'clamp(15px, 4vw, 20px)', background: 'linear-gradient(135deg, #FFD700, #FFA500)', borderRadius: '15px', textDecoration: 'none' }}>
-          <p style={{ color: '#000', fontSize: 'clamp(1rem, 3vw, 1.3rem)', fontWeight: 'bold', margin: 0 }}>�� VIEW COMPLETE PRODUCT CATALOG →</p>
+          <p style={{ color: '#000', fontSize: 'clamp(1rem, 3vw, 1.3rem)', fontWeight: 'bold', margin: 0 }}>🛒 VIEW COMPLETE PRODUCT CATALOG →</p>
         </Link>
       </div>
 
@@ -169,29 +171,14 @@ const MAVJStore = () => {
               <span style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}>🌊</span>
               <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', color: '#00CED1', margin: 0 }}>Chapter 1: The Foundation</h2>
             </div>
-            
             <p style={{ fontSize: 'clamp(1.1rem, 3vw, 1.4rem)', lineHeight: '1.8', color: '#DDD6B8', marginBottom: '20px' }}>
-              Start here. Before anything else, your body needs minerals. Sea Moss provides approximately 95% of the minerals your body needs daily (Holdt & Kraan, 2011; Teas et al., 2004).
+              Start here. Before anything else, your body needs minerals. Sea Moss was the very first thing I bought outside of myself. It provides approximately 95% of the minerals your body needs daily.
             </p>
-            
-            <div style={{ background: 'rgba(255,215,0,0.1)', padding: 'clamp(20px, 4vw, 30px)', borderRadius: '15px', marginBottom: '25px', border: '2px solid #FFD700' }}>
-              <h3 style={{ color: '#FFD700', fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)', marginBottom: '15px' }}>💎 Mineral Deficiency = Disease State</h3>
-              <p style={{ color: '#DDD6B8', fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.8', marginBottom: '15px' }}>
-                Research by Dr. Alan Goldhamer (TrueNorth Health Center) and Dr. Valter Longo (USC Longevity Institute) confirms: <strong style={{ color: '#FFD700' }}>the absence of ANY mineral puts your body in a disease state.</strong>
-              </p>
-              <p style={{ color: '#00CED1', fontSize: 'clamp(0.95rem, 2.6vw, 1.1rem)', lineHeight: '1.7', fontStyle: 'italic', marginBottom: '10px' }}>
-                "Mineral deficiency disrupts enzymatic processes, hormone production, and cellular communication - creating the foundation for chronic disease." - Dr. Valter Longo, Cell Metabolism, 2014
-              </p>
-              <p style={{ color: '#888', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', lineHeight: '1.6', fontStyle: 'italic' }}>
-                Additional research: Holdt & Kraan, 2011, Journal of Applied Phycology; Teas et al., 2004, Journal of Medicinal Food; Ramnani et al., 2012, Anaerobe
-              </p>
-            </div>
-
             <p style={{ fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.7', color: '#FFD700', fontStyle: 'italic', marginBottom: '25px' }}>
-              The absence of ANY mineral in your body results in disease. Sea Moss creates the homeostasis your body requires.
+              The absence of ANY mineral in your body results in disease.
             </p>
             
-            {/* VIOLET SEA MOSS CARD - 8 STRIPE LINKS (4 RAW + 4 GEL IN 2 COLUMNS) */}
+            {/* VIOLET CARD */}
             <div style={{ background: 'rgba(0,0,0,0.8)', border: `3px solid ${violetSeaMoss.color}`, borderRadius: '20px', overflow: 'hidden', boxShadow: `0 10px 40px ${violetSeaMoss.color}50`, marginBottom: '25px' }}>
               <div style={{ height: '220px', display: 'flex' }}>
                 <div style={{ flex: 1, backgroundImage: `url(${violetSeaMoss.rawImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
@@ -206,42 +193,36 @@ const MAVJStore = () => {
                   <p style={{ color: '#00CED1', fontSize: 'clamp(0.9rem, 2.2vw, 1rem)', lineHeight: '1.7', marginBottom: '10px', fontWeight: 'bold' }}>
                     🌋 Shipped in St. Lucian Volcanic Spring Water
                   </p>
-                  <p style={{ color: '#DDD6B8', fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', lineHeight: '1.6', marginBottom: '10px' }}>
-                    Medicinal-grade substrate-harvested moss prepared with mineral-rich volcanic spring water from the Pitons. Know the difference between rope-grown kitchen-grade and substrate-harvested medicinal moss.
-                  </p>
-                  <p style={{ color: '#888', fontSize: 'clamp(0.75rem, 1.8vw, 0.85rem)', lineHeight: '1.5', fontStyle: 'italic' }}>
-                    Source: Ramnani et al., 2012, Anaerobe; Qin et al., 2020, Marine Drugs
+                  <p style={{ color: '#DDD6B8', fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', lineHeight: '1.6' }}>
+                    Our gel form delivers the FULL St. Lucia experience - substrate-harvested moss prepared with mineral-rich volcanic spring water from the Pitons. This is medicinal-grade Sea Moss for the educated connoisseur. Know the difference between rope-grown kitchen-grade and substrate-harvested medicinal moss.
                   </p>
                 </div>
                 
-                {/* 8 STRIPE LINKS - 4 RAW (LEFT) + 4 GEL (RIGHT) IN 2 COLUMNS */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px' }}>
-                  {/* LEFT COLUMN: RAW (4 LINKS) */}
-                  <div>
-                    <h4 style={{ color: '#FFD700', fontSize: 'clamp(1rem, 2.4vw, 1.2rem)', marginBottom: '10px', fontWeight: 'bold' }}>Raw:</h4>
-                    <div style={{ display: 'grid', gap: '8px' }}>
-                      {violetSeaMoss.raw.map((product, i) => product && (
-                        <button key={i} onClick={() => handleBuyNow(product.url)} style={{ padding: '10px', background: `${violetSeaMoss.color}20`, border: `2px solid ${violetSeaMoss.color}`, borderRadius: '8px', color: violetSeaMoss.color, fontSize: 'clamp(0.8rem, 1.9vw, 0.9rem)', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span>{product.name.match(/\d+oz/)?.[0]}</span>
-                          <span>${product.price}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* RIGHT COLUMN: GEL (4 LINKS) */}
-                  <div>
-                    <h4 style={{ color: '#FFD700', fontSize: 'clamp(1rem, 2.4vw, 1.2rem)', marginBottom: '10px', fontWeight: 'bold' }}>Gel:</h4>
-                    <div style={{ display: 'grid', gap: '8px' }}>
-                      {violetSeaMoss.gel.map((product, i) => product && (
-                        <button key={i} onClick={() => handleBuyNow(product.url)} style={{ padding: '10px', background: `${violetSeaMoss.color}20`, border: `2px solid ${violetSeaMoss.color}`, borderRadius: '8px', color: violetSeaMoss.color, fontSize: 'clamp(0.8rem, 1.9vw, 0.9rem)', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span>{product.name.match(/\d+oz/)?.[0]}</span>
-                          <span>${product.price}</span>
-                        </button>
-                      ))}
-                    </div>
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ color: '#FFD700', fontSize: 'clamp(1.1rem, 2.6vw, 1.3rem)', marginBottom: '12px', fontWeight: 'bold' }}>Raw:</h4>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+                    {violetSeaMoss.raw.map((product, i) => product && (
+                      <button key={i} onClick={() => handleBuyNow(product.url)} style={{ padding: '12px 8px', background: `${violetSeaMoss.color}20`, border: `2px solid ${violetSeaMoss.color}`, borderRadius: '10px', color: violetSeaMoss.color, fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                        <span>{product.name.match(/\d+oz/)?.[0]}</span>
+                        <span style={{ fontSize: 'clamp(1rem, 2.4vw, 1.2rem)' }}>${product.price}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
+
+                {violetSeaMoss.gel.length > 0 && (
+                  <div style={{ marginBottom: '20px' }}>
+                    <h4 style={{ color: '#FFD700', fontSize: 'clamp(1.1rem, 2.6vw, 1.3rem)', marginBottom: '12px', fontWeight: 'bold' }}>Gel (with Volcanic Water):</h4>
+                    <div style={{ display: 'grid', gap: '10px' }}>
+                      {violetSeaMoss.gel.map((product, i) => product && (
+                        <button key={i} onClick={() => handleBuyNow(product.url)} style={{ padding: '12px', background: `${violetSeaMoss.color}20`, border: `2px solid ${violetSeaMoss.color}`, borderRadius: '10px', color: violetSeaMoss.color, fontSize: 'clamp(0.9rem, 2.2vw, 1rem)', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span>{product.name.match(/\d+oz/)?.[0]}</span>
+                          <span style={{ fontSize: 'clamp(1.1rem, 2.6vw, 1.3rem)' }}>${product.price}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 <Link to="/MAVJSeaMoss" onClick={() => window.scrollTo(0, 0)} style={{ display: 'block', padding: '14px', background: 'transparent', border: `2px solid ${violetSeaMoss.color}`, borderRadius: '12px', color: violetSeaMoss.color, textAlign: 'center', textDecoration: 'none', fontSize: 'clamp(1rem, 2.4vw, 1.1rem)', fontWeight: 'bold', transition: 'all 0.3s' }}>
                   View All Sea Moss Colors, Sizes & Scientific Details →
@@ -251,11 +232,8 @@ const MAVJStore = () => {
 
             <div style={{ background: 'rgba(255,107,0,0.1)', padding: 'clamp(20px, 4vw, 30px)', borderRadius: '15px', border: '2px solid #FF6B00', marginTop: '25px' }}>
               <h3 style={{ color: '#FF6B00', fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)', marginBottom: '15px' }}>🪸 Coral Reef Restoration Mission</h3>
-              <p style={{ color: '#DDD6B8', fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.8', marginBottom: '10px' }}>
-                While harvesting sea moss, our dive team actively restores dying coral reefs. Sea moss and coral have a symbiotic relationship - the moss protects the substrate while encouraging coral growth. We work with both vital coral and ghost coral, replanting with sea moss to restore St. Lucia's volcanic reefs.
-              </p>
-              <p style={{ color: '#888', fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', lineHeight: '1.6', fontStyle: 'italic' }}>
-                Source: Caribbean marine biology research studies, 2018-2023
+              <p style={{ color: '#DDD6B8', fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.8' }}>
+                While harvesting sea moss, our dive team actively restores dying coral reefs. Sea moss and coral have a symbiotic relationship - the moss protects the substrate while encouraging coral growth. We work with both vital coral and ghost coral, replanting with sea moss to restore St. Lucia's volcanic reefs. Every jar you purchase supports this mission.
               </p>
             </div>
           </div>
@@ -269,7 +247,7 @@ const MAVJStore = () => {
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '25px', flexWrap: 'wrap' }}>
               <span style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}>💎</span>
-              <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', color: '#9400D3', margin: 0 }}>Chapter 2: The Reset</h2>
+              <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', color: '#9400D3', margin: 0 }}>Chapter 2: The Reset - Your Ultimate Goal</h2>
             </div>
             <p style={{ fontSize: 'clamp(1.1rem, 3vw, 1.4rem)', lineHeight: '1.8', color: '#DDD6B8', marginBottom: '20px' }}>
               The 21-day distilled water reset: Stem cell regeneration in 3 complete cycles. Growth hormone activation. Visceral fat ERADICATED. Mental clarity returns. Chronic pain disappears.
@@ -281,7 +259,7 @@ const MAVJStore = () => {
             <div style={{ background: 'rgba(148,0,211,0.2)', padding: 'clamp(20px, 4vw, 30px)', borderRadius: '15px', marginBottom: '25px' }}>
               <h3 style={{ color: '#FFD700', fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)', marginBottom: '15px' }}>💉 Chelation: Heavy Metal Removal</h3>
               <p style={{ color: '#DDD6B8', fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.8', marginBottom: '15px' }}>
-                Disease hides behind heavy metals. When you think you have flushed your system but heavy metals remain, you are still transporting disease. To remove disease and all its remnants, you MUST remove the heavy metals, then replenish.
+                Disease hides behind heavy metals. When you think you've flushed your system but heavy metals remain, you're still transporting disease. To remove disease and all its remnants, you MUST remove the heavy metals, then replenish.
               </p>
               <p style={{ color: '#00CED1', fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.8', marginBottom: '15px' }}>
                 Our Chelation Detox Kit provides Dr. Sebi's all-natural heavy metal removal formula PLUS complete replenishment - everything you need in one kit.
@@ -349,7 +327,7 @@ const MAVJStore = () => {
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '25px', flexWrap: 'wrap' }}>
               <span style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}>🌱</span>
-              <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', color: '#FFD700', margin: 0 }}>Chapter 4: Plant Your Future</h2>
+              <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', color: '#FFD700', margin: 0 }}>Chapter 4: Plant Your Future - True Sovereignty</h2>
             </div>
             <p style={{ fontSize: 'clamp(1.1rem, 3vw, 1.4rem)', lineHeight: '1.8', color: '#DDD6B8', marginBottom: '20px' }}>
               While preparing for reset, I planted my garden. True sovereignty begins in the soil.
@@ -361,7 +339,7 @@ const MAVJStore = () => {
                 Since 1990 when we were first exposed to seedless fruits, I started warning people: START SAVING YOUR SEEDS. This has been a campaign for My Alkaline Vegan Journey from the very beginning.
               </p>
               <p style={{ color: '#00CED1', fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.8' }}>
-                If we are not directly planting seeds from the fruits we consume, we are saving them. Now that we have land, we plant directly - but it is still wise to put some aside. Seeds are sovereignty. Your garden is freedom.
+                If we're not directly planting seeds from the fruits we consume, we're saving them. Now that we have land, we plant directly - but it's still wise to put some aside. Seeds are sovereignty. Your garden is freedom.
               </p>
             </div>
             
@@ -388,10 +366,10 @@ const MAVJStore = () => {
             <div style={{ background: 'rgba(255,107,0,0.2)', padding: 'clamp(20px, 4vw, 30px)', borderRadius: '15px', marginBottom: '25px' }}>
               <h3 style={{ color: '#FFD700', fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)', marginBottom: '15px' }}>🌞 Genesis Batch: Sacred Solar-Lunar Process</h3>
               <p style={{ color: '#DDD6B8', fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.8', marginBottom: '15px' }}>
-                Castor seeds roasted in St. Lucian sun for 90+ days. Crushed using live electrical coconut in a homemade St. Lucian clay pot - completely holistic, high-vibrational ceremony using all-natural earth-based tools. This Genesis Batch is more expensive than most castor oil - but the process from seed to bottle creates exponential healing energy.
+                Castor seeds roasted in St. Lucian sun for 90+ days. Crushed with live electrical coconut oil in a completely holistic, high-vibrational ceremony. This Genesis Batch is more expensive than most castor oil - but the process from seed to bottle creates exponential healing energy.
               </p>
               <p style={{ color: '#00CED1', fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', lineHeight: '1.8' }}>
-                Sun and moon fermentation charges the oil with both solar life force and lunar regenerative frequencies. Black seed + oregano infusion = ultimate powerhouse combination. 100% pure castor oil - all natural, all from the Earth.
+                Sun and moon fermentation charges the oil with both solar life force and lunar regenerative frequencies. Black seed + oregano infusion = ultimate powerhouse combination.
               </p>
             </div>
             
@@ -453,18 +431,18 @@ const MAVJStore = () => {
         </div>
       </div>
 
-      {/* CHAPTER 7: CONVERGENCE + J2E (TRIPLE PHOTO + ALL 5 ACCOMMODATIONS) */}
+      {/* CHAPTER 7: CONVERGENCE + J2E (TRIPLE PHOTO) */}
       <div style={{ maxWidth: '1200px', margin: '0 auto 80px', padding: '0 20px' }}>
         <div style={{ background: 'linear-gradient(135deg, rgba(0,206,209,0.1), rgba(148,0,211,0.1))', border: '3px solid', borderImage: 'linear-gradient(45deg,violet,indigo,blue,green,yellow,orange,red) 1', borderRadius: '20px', padding: 'clamp(30px, 6vw, 50px)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '25px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}>🏝️</span>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', background: 'linear-gradient(135deg, #00CED1, #9400D3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', margin: 0 }}>Chapter 7: Convergence</h2>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', background: 'linear-gradient(135deg, #00CED1, #9400D3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', margin: 0 }}>Chapter 7: Convergence - Match Frequencies</h2>
           </div>
           <p style={{ fontSize: 'clamp(1.1rem, 3vw, 1.4rem)', lineHeight: '1.8', color: '#DDD6B8', marginBottom: '20px' }}>
-            Once you have completed your reset, you want to be around people elevated in frequency like yourself. 100K TikTok family. The Smile Game changed lives. Now we converge.
+            Once you've completed your reset, you want to be around people elevated in frequency like yourself. 100K TikTok family. The Smile Game changed lives. Now we converge.
           </p>
           
-          {/* J2E CARD WITH TRIPLE PHOTO + ALL 5 ACCOMMODATIONS */}
+          {/* J2E CARD WITH TRIPLE PHOTO */}
           <div style={{ background: 'linear-gradient(135deg, rgba(0,206,209,0.2), rgba(148,0,211,0.2))', border: '3px solid', borderImage: 'linear-gradient(45deg,violet,indigo,blue,green,yellow,orange,red) 1', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 15px 50px rgba(0,206,209,0.5)', marginBottom: '25px' }}>
             <div style={{ height: '280px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
               <div style={{ backgroundImage: 'url(/images/J2EPod.jpeg)', backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
@@ -480,7 +458,7 @@ const MAVJStore = () => {
               
               <h3 style={{ color: '#FFD700', fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginBottom: '20px' }}>Choose Your Accommodation:</h3>
               <div style={{ display: 'grid', gap: '15px', marginBottom: '25px' }}>
-                {j2eAccommodations.map((acc, i) => acc && (
+                {j2eAccommodations.map((acc, i) => (
                   <button key={i} onClick={() => handleBuyNow(acc.url)} style={{ padding: '18px 25px', background: 'rgba(0,206,209,0.2)', border: '2px solid #00CED1', borderRadius: '12px', color: '#00CED1', fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', fontWeight: 'bold', cursor: 'pointer', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.3s' }}>
                     <span>{acc.name.replace('J2E ', '')}</span>
                     <span style={{ color: '#FFD700' }}>${acc.price}</span>

@@ -2169,7 +2169,6 @@ const handleLanguageChange = useCallback((lang) => {
       borderTop: '1px solid rgba(255, 215, 0, 0.1)',
       minHeight: '32px'
     },
-
     // CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES)
     titleSection: {
       position: "fixed",
@@ -2322,6 +2321,7 @@ const handleLanguageChange = useCallback((lang) => {
       textShadow: "0 0 8px rgba(0,212,255,0.7)",
       whiteSpace: "nowrap"
     },
+
 
     // CONTAINER 3: QUANTUM JOURNEY
     section: {
@@ -2987,7 +2987,7 @@ const handleLanguageChange = useCallback((lang) => {
     setVideoLoading(prev => ({ ...prev, [videoId]: true }));
   }, []);
 
-  // ==================== RENDER ====================
+   // ==================== RENDER ====================
   
   return (
     <div style={styles.mainContainer}>
@@ -3111,225 +3111,7 @@ const handleLanguageChange = useCallback((lang) => {
         <span style={{ color: '#FFD700', fontSize: '0.75rem', flexShrink: 0, opacity: 0.6, userSelect: 'none', pointerEvents: 'none' }}>▶</span>
       </nav>
     
-{/* CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES) */}
-<section style={{
-  position: 'sticky',
-  top: '45px',
-  zIndex: 1900,
-  width: '100%',
-  minHeight: '180px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: '20px 20px 30px 20px',
-  overflow: 'visible',
-  backgroundColor: '#000',
-  backgroundImage: `url(/images/star-pattern.png)`,
-  backgroundSize: '100px',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'repeat',
-  borderBottom: '3px solid',
-  borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
-  borderImageSlice: 1
-}}>
-  <div style={{
-    display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    width: '100%',
-    padding: '8px 18px 4px',
-    gap: '12px',
-    flex: 1
-  }}>
 
-    {/* LEFT TEXT BOX — hangs below container border */}
-    <div style={{
-      background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
-      borderRadius: '4px',
-      padding: '2px',
-      flexShrink: 0,
-      alignSelf: 'flex-end',
-      position: 'relative',
-      bottom: '-10px'
-    }}>
-      <div style={{
-        background: 'rgba(0, 0, 0, 0.95)',
-        borderRadius: '3px',
-        padding: '10px 14px',
-        fontSize: '0.72rem',
-        fontWeight: '800',
-        color: '#FFD700',
-        lineHeight: '1.6',
-        textAlign: 'center',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.quantum", "QUANTUM BASED")}<br />
-        {t("title.scientific", "SCIENTIFICALLY BACKED")}<br />
-        {t("title.frequency", "FREQUENCY FOCUSED")}
-      </div>
-    </div>
-
-    {/* LEFT LOGO — middle height, close to company name */}
-    <div style={{
-      width: '110px',
-      height: '110px',
-      borderRadius: '50%',
-      border: '3px solid #FFD700',
-      overflow: 'hidden',
-      background: 'transparent',
-      boxShadow: '0 0 24px rgba(255,215,0,0.95)',
-      animation: 'heartbeat 1.4s ease-in-out infinite',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      alignSelf: 'center'
-    }}>
-      <img
-        src="/images/MAVJLogo.jpg"
-        alt="MAVJ Logo"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          borderRadius: '50%'
-        }}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = '/J2E/images/photos.png';
-        }}
-      />
-    </div>
-
-    {/* CENTER — Company name + tagline directly beneath */}
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      flex: 1,
-      alignSelf: 'flex-start',
-      paddingTop: '6px',
-      gap: '6px'
-    }}>
-      <h1 style={{
-        fontFamily: "'Georgia','Times New Roman',serif",
-        fontSize: 'clamp(1.5rem,3vw,2.2rem)',
-        fontWeight: '900',
-        color: '#FFD700',
-        textAlign: 'center',
-        margin: 0,
-        letterSpacing: '1.5px',
-        textShadow: '0 0 18px rgba(255,215,0,0.95)',
-        lineHeight: '1.1',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.companyName", "My Alkaline Vegan Journey")}
-      </h1>
-      <div style={{
-        color: '#00d4ff',
-        fontSize: 'clamp(0.65rem,1.3vw,0.85rem)',
-        fontWeight: '800',
-        letterSpacing: '0.7px',
-        textTransform: 'uppercase',
-        textAlign: 'center',
-        textShadow: '0 0 10px rgba(0,212,255,0.85)',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.tagline", "SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION")}
-      </div>
-    </div>
-
-    {/* RIGHT LOGO — mirrors left logo */}
-    <div style={{
-      width: '110px',
-      height: '110px',
-      borderRadius: '50%',
-      border: '3px solid #FFD700',
-      overflow: 'hidden',
-      background: 'transparent',
-      boxShadow: '0 0 24px rgba(255,215,0,0.95)',
-      animation: 'heartbeat 1.4s ease-in-out infinite',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      alignSelf: 'center'
-    }}>
-      <img
-        src="/images/MAVJLogo.jpg"
-        alt="MAVJ Logo"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          borderRadius: '50%'
-        }}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = '/J2E/images/photos.png';
-        }}
-      />
-    </div>
-
-    {/* RIGHT TEXT BOX — mirrors left text box */}
-    <div style={{
-      background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
-      borderRadius: '4px',
-      padding: '2px',
-      flexShrink: 0,
-      alignSelf: 'flex-end',
-      position: 'relative',
-      bottom: '-10px'
-    }}>
-      <div style={{
-        background: 'rgba(0, 0, 0, 0.95)',
-        borderRadius: '3px',
-        padding: '10px 14px',
-        fontSize: '0.72rem',
-        fontWeight: '800',
-        color: '#FFD700',
-        lineHeight: '1.6',
-        textAlign: 'center',
-        whiteSpace: 'nowrap'
-      }}>
-        {t("title.quantum_physics", "WHERE QUANTUM PHYSICS")}<br />
-        {t("title.ancient_wisdom", "MEETS ANCIENT WISDOM")}<br />
-        {t("title.nutrition", "AND NUTRITION")}
-      </div>
-    </div>
-  </div>
-
-  {/* PAGE TITLE — sits on bottom border, enlarged */}
-  <div style={{
-    background: 'linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)',
-    borderRadius: '5px',
-    padding: '2px',
-    display: 'inline-flex',
-    position: 'absolute',
-    bottom: '-20px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    zIndex: 1901,
-    whiteSpace: 'nowrap'
-  }}>
-    <div style={{
-      background: 'rgba(0, 0, 0, 0.97)',
-      borderRadius: '4px',
-      padding: '6px 28px',
-      fontSize: '1.15rem',
-      fontWeight: '900',
-      color: '#00d4ff',
-      textAlign: 'center',
-      textTransform: 'uppercase',
-      letterSpacing: '2.5px',
-      textShadow: '0 0 14px rgba(0,212,255,0.9)'
-    }}>
-      {t("title.pageTitle", "YOU ARE HOME")}
-    </div>
-  </div>
-</section>
 
 {/* THE ANNOUNCEMENT PORTALS */}
 <div style={{
