@@ -20,7 +20,7 @@ const MAVJSeaMoss = () => {
       frequency: '741 Hz',
       primaryCompounds: ['Carrageenan', 'Iodine', 'Iron', 'Zinc', 'Magnesium', 'Calcium', 'Potassium'],
       benefits: [
-        'Complete mineral replenishment - 92 of 102 minerals',
+        'Complete mineral replenishment - 95 per cent minerals',
         'Full endocrine system support',
         'DNA repair and cellular regeneration',
         'Immune system modulation',

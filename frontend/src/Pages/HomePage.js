@@ -4392,7 +4392,7 @@ const handleLanguageChange = useCallback((lang) => {
         </div>
       </section>
 
-  {/* ==================== CONTAINER 9: ST. LUCIAN ARTISANS ==================== */}
+  {/* ==================== CONTAINER 9: ST. LUCIAN ARTISANS (FINAL VETTED) ==================== */}
 {(() => {
   const stLucianArtisanPortal = [
     {
@@ -4416,8 +4416,8 @@ const handleLanguageChange = useCallback((lang) => {
       specialty: '100% ALL NATURAL Creams and scrubs and Fermetations',
       description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.',
       location: 'Washington, DC and Gros Islet St. Lucia',
-      image: '/images/BrittanyCreamsFermentations.png',
-      workImage: "/images/BrittCream.png"
+      image: '/images/Brittany.png',
+      workImage: "/images/BrittanyCreamsFermentations.png"
     },
     {
       name: 'Anthony The Barber',
@@ -4454,15 +4454,53 @@ const handleLanguageChange = useCallback((lang) => {
   ];
 
   return (
-    <section style={{ padding: '80px 20px', background: 'transparent' }}>
-      <h2 style={{ textAlign: 'center', color: '#FFD700', fontSize: '2.5rem', marginBottom: '60px', textTransform: 'uppercase' }}>St. Lucian Artisans</h2>
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '40px', maxWidth: '1600px', margin: '0 auto' }}>
+    <section id="artisan-section" style={{ padding: '80px 20px', background: 'transparent' }}>
+      <h2 style={{ 
+        textAlign: 'center', 
+        color: '#FFD700', 
+        fontSize: '2.5rem', 
+        marginBottom: '60px', 
+        textTransform: 'uppercase',
+        letterSpacing: '2px' 
+      }}>
+        St. Lucian Artisans
+      </h2>
+      
+      <div style={{ 
+        display: 'flex', 
+        flexWrap: 'wrap', 
+        justifyContent: 'center', 
+        gap: '40px', 
+        maxWidth: '1600px', 
+        margin: '0 auto' 
+      }}>
         {stLucianArtisanPortal.map((person, i) => (
-          <div key={i} style={{ width: '320px', background: 'rgba(0, 0, 0, 0.9)', borderRadius: '20px', border: '3px solid #FFD700', overflow: 'hidden' }}>
+          <div key={i} style={{ 
+            width: '320px', 
+            background: 'rgba(0, 0, 0, 0.9)', 
+            borderRadius: '20px', 
+            border: '3px solid #FFD700', 
+            overflow: 'hidden',
+            boxShadow: '0 10px 40px rgba(0, 206, 209, 0.3)'
+          }}>
+            {/* DUAL PHOTO EXPOSURE STACK: 400px Total Height */}
             <div style={{ height: '400px', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ flex: 1, backgroundImage: `url(${person.image})`, backgroundSize: 'cover', backgroundPosition: 'center', borderBottom: '2px solid #FFD700' }}></div>
-              <div style={{ flex: 1, backgroundImage: `url(${person.workImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <div style={{ 
+                flex: 1, 
+                backgroundImage: `url(${person.image})`, 
+                backgroundSize: 'cover', 
+                backgroundPosition: 'center',
+                borderBottom: '2px solid #FFD700' 
+              }}></div>
+              <div style={{ 
+                flex: 1, 
+                backgroundImage: `url(${person.workImage})`, 
+                backgroundSize: 'cover', 
+                backgroundPosition: 'center' 
+              }}></div>
             </div>
+
+            {/* ARTISAN TEXT CONTENT */}
             <div style={{ padding: '25px', textAlign: 'center' }}>
               <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 10px 0' }}>{person.name}</h3>
               <div style={{ color: '#00d4ff', fontSize: '0.9rem', fontWeight: 'bold' }}>{person.specialty}</div>
@@ -4475,7 +4513,6 @@ const handleLanguageChange = useCallback((lang) => {
     </section>
   );
 })()}
-
       {/* CONTAINER 10: 11:11 GLOBAL FREQUENCY CONVERGENCE */}
       <section style={{...styles.section, backgroundImage: 'url(/J2E/images/photos.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
         <div style={styles.convergenceContent}>
