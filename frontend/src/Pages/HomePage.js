@@ -19,8 +19,8 @@ const HomePage = () => {
       specialty: 'Functional Coconut Art & Birdfeeders',
       description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.',
       location: 'Castries Market Arcade, St. Lucia',
-      image: '/images/Julian The Coconut Artist.png',
-      workImage: "/images/Julian's Coconut BirdFeeders.png"
+      image: '/images/JulianCoconutArtist.png',
+      workImage: "/images/JulianCoconutBirdFeeders.png"
     },
     {
       name: 'Kurt The Fisherman',
@@ -28,15 +28,15 @@ const HomePage = () => {
       description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.',
       location: 'Tou Rouge, Castries, St. Lucia',
       image: '/images/KurtTheFISHERMAN.png',
-      workImage: '/images/Kurt the Fisherman with Red Snapper catch.png'
+      workImage: '/images/KurtwithSnapper.png'
     },
     {
       name: 'Brittany',
       specialty: '100% All-Natural Creams & Fermentations',
       description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.',
       location: 'Washington, DC & Gros Islet, St. Lucia',
-      image: '/images/Brittany Creams and fermentations.png',
-      workImage: "/images/Brittany's Cream.png"
+      image: '/images/Brittany.png',
+      workImage: "/images/BrittanyCreamsFermentations.png"
     },
     {
       name: 'Anthony The Barber',
@@ -60,7 +60,7 @@ const HomePage = () => {
       description: 'Building sustainable structures and leading the recycling movement.',
       location: 'Black Mallet, St. Lucia',
       image: '/images/REGGIE.jpeg',
-      workImage: '/images/ReggieTheBuilder and OfficialRecycleMan.png'
+      workImage: '/images/ReggieBuilderRecycleMan.png'
     },
     {
       name: 'Simeon',

@@ -18,7 +18,7 @@ const Layout = ({ children, pageTitle }) => {
   // ================================================================
   // 18-LANGUAGE TRANSLATION TABLE
   // Keys: co (company), tl (tagline), l1-l3 (left box), r1-r3 (right box),
-  //       n0-n9 (nav labels), foot (footer), pt (page title)
+  //       n0-n11 (nav labels), foot (footer), pt (page title)
   // ================================================================
   const TR = useMemo(() => ({
     English: {
@@ -29,6 +29,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJHome', n1:'The Journey', n2:'MAVJStore', n3:'Journey 2 Enlightenment',
       n4:'Vibrational Intelligence', n5:'Align With Us', n6:'MAVJSearch',
       n7:'Live Broadcast', n8:'PodCast/Vlog', n9:'Contact Us',
+      n10:'Recipes', n11:'Illnesses',
       foot:'EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL',
       pt: 'YOU ARE HOME'
     },
@@ -40,6 +41,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJInicio', n1:'El Viaje', n2:'MAVJTienda', n3:'Viaje a la Iluminación',
       n4:'Inteligencia Vibratoria', n5:'Alíneate Con Nosotros', n6:'MAVJBúsqueda',
       n7:'Transmisión en Vivo', n8:'PodCast/Vlog', n9:'Contáctenos',
+      n10:'Recetas', n11:'Enfermedades',
       foot:'SOLO PROPÓSITOS EDUCATIVOS • CONSULTE A UN PROFESIONAL DE SALUD',
       pt: 'ESTÁS EN CASA'
     },
@@ -51,6 +53,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJAccueil', n1:'Le Voyage', n2:'MAVJBoutique', n3:"Voyage vers l'Éveil",
       n4:'Intelligence Vibratoire', n5:'Aligner avec Nous', n6:'MAVJRecherche',
       n7:'Diffusion en Direct', n8:'PodCast/Vlog', n9:'Contactez-Nous',
+      n10:'Recettes', n11:'Maladies',
       foot:'À DES FINS ÉDUCATIVES UNIQUEMENT • CONSULTEZ UN PROFESSIONNEL DE SANTÉ',
       pt: 'VOUS ÊTES CHEZ VOUS'
     },
@@ -62,6 +65,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJStartseite', n1:'Die Reise', n2:'MAVJGeschäft', n3:'Reise zur Erleuchtung',
       n4:'Schwingungsintelligenz', n5:'Mit uns ausrichten', n6:'MAVJSuche',
       n7:'Live-Übertragung', n8:'PodCast/Vlog', n9:'Kontaktieren Sie uns',
+      n10:'Rezepte', n11:'Krankheiten',
       foot:'NUR FÜR BILDUNGSZWECKE • FACHMANN KONSULTIEREN',
       pt: 'DU BIST ZU HAUSE'
     },
@@ -73,6 +77,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJHome', n1:'Il Viaggio', n2:'MAVJNegozio', n3:"Viaggio verso l'Illuminazione",
       n4:'Intelligenza Vibrazionale', n5:'Allineati con Noi', n6:'MAVJRicerca',
       n7:'Trasmissione in Diretta', n8:'PodCast/Vlog', n9:'Contattaci',
+      n10:'Ricette', n11:'Malattie',
       foot:'SOLO A SCOPO EDUCATIVO • CONSULTARE UN PROFESSIONISTA SANITARIO',
       pt: 'SEI A CASA'
     },
@@ -84,6 +89,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJ首页', n1:'旅程', n2:'MAVJ商店', n3:'启蒙之旅',
       n4:'振动智能', n5:'与我们结盟', n6:'MAVJ搜索',
       n7:'直播', n8:'播客/视频', n9:'联系我们',
+      n10:'食谱', n11:'疾病',
       foot:'仅供教育目的 • 请咨询医疗专业人士',
       pt: '你在家'
     },
@@ -95,6 +101,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJ首頁', n1:'旅程', n2:'MAVJ商店', n3:'啟蒙之旅',
       n4:'振動智慧', n5:'佮咱結盟', n6:'MAVJ搜尋',
       n7:'現場直播', n8:'播客/影片', n9:'聯絡阮',
+      n10:'食譜', n11:'疾病',
       foot:'僅供教育目的 • 請諮詢醫療專業人士',
       pt: '你佇厝'
     },
@@ -106,6 +113,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJቤት', n1:'ጉዞው', n2:'MAVJሱቅ', n3:'ወደ ማብራት ጉዞ',
       n4:'የድምፅ ኢንተለጀንስ', n5:'ከእኛ ጋር ይያዙ', n6:'MAVJፍለጋ',
       n7:'ቀጥታ ስርጭት', n8:'ፖድካስት/ቭሎግ', n9:'አግኙን',
+      n10:'የምግብ አዘገጃጀት', n11:'በሽታዎች',
       foot:'ለትምህርታዊ ዓላማ ብቻ • የጤና ባለሙያ ያማክሩ',
       pt: 'ቤት ነህ'
     },
@@ -117,6 +125,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJالرئيسية', n1:'الرحلة', n2:'MAVJالمتجر', n3:'رحلة إلى التنوير',
       n4:'الذكاء الاهتزازي', n5:'انضم إلينا', n6:'MAVJالبحث',
       n7:'البث المباشر', n8:'بودكاست/فيديو', n9:'اتصل بنا',
+      n10:'وصفات', n11:'الأمراض',
       foot:'لأغراض تعليمية فقط • استشر متخصصاً في الرعاية الصحية',
       pt: 'أنت في المنزل'
     },
@@ -128,6 +137,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJNyumbani', n1:'Safari', n2:'MAVJDuka', n3:'Safari ya Kuelimika',
       n4:'Akili ya Mtetemo', n5:'Oanisha Nasi', n6:'MAVJUtafutaji',
       n7:'Moja kwa Moja', n8:'Podcast/Vlog', n9:'Wasiliana Nasi',
+      n10:'Mapishi', n11:'Magonjwa',
       foot:'KWA MADHUMUNI YA ELIMU TU • WASILIANA NA MTAALAMU WA AFYA',
       pt: 'U KO NYUMBANI'
     },
@@ -139,6 +149,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJLakay', n1:'Vwayaj la', n2:'MAVJMagazen', n3:'Vwayaj pou Limyè',
       n4:'Entèlijans Vibwasyon', n5:'Aliyen avèk Nou', n6:'MAVJRéchèch',
       n7:'An dirèk', n8:'Podcast/Vlog', n9:'Kontakte Nou',
+      n10:'Resèt', n11:'Maladi',
       foot:'POU REZON EDIKASYON SÈLMAN • KONSILTE PWOFESYONÈL SANTE',
       pt: 'OU LAKAY'
     },
@@ -150,6 +161,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'ܒܝܬܐ ܕܡܐܒܝ', n1:'ܡܥܒܪܢܘܬܐ', n2:'ܚܢܘܬܐ ܕܡܐܒܝ', n3:'ܡܥܒܪܢܘܬܐ ܠܢܘܗܪܐ',
       n4:'ܚܟܡܬܐ ܕܙܘܥܐ', n5:'ܫܘܬܦܘ ܥܡܢ', n6:'ܒܥܝܬܐ ܕܡܐܒܝ',
       n7:'ܦܘܫܩܐ ܓܝܪܐ', n8:'ܩܪܝܢܐ ܥܠ ܢܗܪܐ', n9:'ܡܠܠ ܥܡܢ',
+      n10:'ܩܪܝܢܐ ܕܒܘܫܠܐ', n11:'ܟܘܪܗܢܐ',
       foot:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ',
       pt: 'ܐܢܬ ܒܒܝܬܟ'
     },
@@ -161,6 +173,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'ܒܝܼܬܐ ܕܡܲܝܟܵܐ', n1:'ܡܲܥܒܪܵܢܘܼܬܼܵܐ', n2:'ܚܵܢܘܼܬܼܵܐ ܕܡܲܝܟܵܐ', n3:'ܡܲܥܒܪܵܢܘܼܬܼܵܐ ܠܢܘܼܗܪܵܐ',
       n4:'ܚܸܟܼܡܬܵܐ ܕܙܵܘܥܵܐ', n5:'ܫܘܼܬܵܦܘܼ ܥܲܡܲܢ', n6:'ܒܘܼܨܝܵܐ ܕܡܲܝܟܵܐ',
       n7:'ܦܘܼܫܩܵܐ ܓܲܝܵܐ', n8:'ܦܘܼܕܩܵܣܬܼ', n9:'ܡܲܠܵܠܘܼ ܥܲܡܲܢ',
+      n10:'ܩܪܵܝܬܵܐ ܕܒܘܼܫܵܠܵܐ', n11:'ܟܘܼܪܗܵܢܹ̈ܐ',
       foot:'ܠܫܘܼܡܠܵܝܵܐ ܕܝܵܠܦܵܢܵܐ ܒܠܚܘܼܕ̥ • ܫܵܐܠ ܐܵܣܝܵܐ ܡܗܝܼܡܵܢܵܐ',
       pt: 'ܐܲܢ݇ܬ ܒܒܹܝܬܘܼܟ݂'
     },
@@ -172,6 +185,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'ܒܹܝܬܐ ܕܡܵܒܝ', n1:'ܡܥܰܒܪܢܘܬܐ', n2:'ܚܢܘܬܐ ܕܡܵܒܝ', n3:'ܡܥܰܒܪܢܘܬܐ ܠܢܘܗܪܐ ܪܘܚܢܐ',
       n4:'ܚܰܟܡܬܐ ܕܙܘܥܐ ܡܫܝܚܝܐ', n5:'ܫܘܬܦܘ ܥܡܢ ܒܪܘܚܐ', n6:'ܒܘܨܝܐ ܕܡܵܒܝ',
       n7:'ܦܘܫܩܐ ܩܕܝܫܐ', n8:'ܩܪܝܢܐ ܩܕܝܫܐ', n9:'ܩܪܘ ܠܢ',
+      n10:'ܩܪܝܢܐ ܕܒܘܫܠܐ ܩܕܝܫܐ', n11:'ܟܘܪܗܢܐ ܩܕܝܫܐ',
       foot:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܩܕܝܫܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ',
       pt: 'ܐܢܬ ܒܒܝܬܐ ܩܕܝܫܐ'
     },
@@ -183,6 +197,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJבית', n1:'המסע', n2:'MAVJחנות', n3:'מסע להארה',
       n4:'אינטליגנציה ויברציונית', n5:'התיישרו איתנו', n6:'MAVJחיפוש',
       n7:'שידור חי', n8:'פודקאסט/וולוג', n9:'צור קשר',
+      n10:'מתכונים', n11:'מחלות',
       foot:'למטרות חינוכיות בלבד • התייעץ עם איש מקצוע בתחום הבריאות',
       pt: 'אתה בבית'
     },
@@ -194,6 +209,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJΑρχική', n1:'Το Ταξίδι', n2:'MAVJΚατάστημα', n3:'Ταξίδι προς Φωτισμό',
       n4:'Δονητική Νοημοσύνη', n5:'Ευθυγραμμιστείτε Μαζί Μας', n6:'MAVJΑναζήτηση',
       n7:'Ζωντανή Μετάδοση', n8:'Podcast/Vlog', n9:'Επικοινωνήστε Μαζί Μας',
+      n10:'Συνταγές', n11:'Ασθένειες',
       foot:'ΜΟΝΟ ΓΙΑ ΕΚΠΑΙΔΕΥΤΙΚΟΥΣ ΣΚΟΠΟΥΣ • ΣΥΜΒΟΥΛΕΥΤΕΙΤΕ ΕΠΑΓΓΕΛΜΑΤΙΑ ΥΓΕΙΑΣ',
       pt: 'ΕΙΣΑΙ ΣΠΙΤΙ'
     },
@@ -205,6 +221,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJDomus', n1:'Iter', n2:'MAVJTaberna', n3:'Iter ad Illuminationem',
       n4:'Intelligentia Vibrationis', n5:'Coniunge te Nobiscum', n6:'MAVJQuaerere',
       n7:'Vivum Iactum', n8:'PodCast/Vlog', n9:'Contactare Nos',
+      n10:'Recipes', n11:'Morbi',
       foot:'AD FINES EDUCATIONIS SOLUM • CONSULERE PROFESSIONALEM SANITATIS',
       pt: 'DOMI ES'
     },
@@ -216,6 +233,7 @@ const Layout = ({ children, pageTitle }) => {
       n0:'MAVJगृहम्', n1:'यात्रा', n2:'MAVJविक्रयस्थानम्', n3:'प्रबोधनयात्रा',
       n4:'कम्पनबुद्धि', n5:'अस्माभिः सह संलग्न्यन्ताम्', n6:'MAVJअन्वेषणम्',
       n7:'सजीवप्रसारणम्', n8:'पोड्कास्ट्/व्लॉग्', n9:'सम्पर्क कुरुत',
+      n10:'पाककला', n11:'रोगाः',
       foot:'केवल शैक्षिक उद्देश्यों के लिए • स्वास्थ्य पेशेवर से परामर्श करें',
       pt: 'गृहे असि'
     }
@@ -240,9 +258,11 @@ const Layout = ({ children, pageTitle }) => {
   // Nav items built from active T, so they translate instantly
   // LANGUAGE SELECTOR IS NOW FIRST (left side)
   const navItems = useMemo(() => [
-    { icon: '🌐', label: 'Language', type: 'dropdown' },  // ← FIRST (left side)
+    { icon: '🌐', label: 'Language', type: 'dropdown' },  // FIRST (left side)
     { path: '/', icon: '🏠', label: T.n0, type: 'nav' },
     { path: '/TheJourney', icon: '🌱', label: T.n1, type: 'nav' },
+    { path: '/Recipes', icon: '🥗', label: T.n10, type: 'nav' },      // ADDED
+    { path: '/Illnesses', icon: '🩺', label: T.n11, type: 'nav' },    // ADDED
     { path: '/MAVJStore', icon: '🛒', label: T.n2, type: 'nav' },
     { path: '/Journey2Enlightenment', icon: '✨', label: T.n3, type: 'nav' },
     { path: '/VibrationalIntelligence', icon: '🔮', label: T.n4, type: 'nav' },
@@ -264,7 +284,7 @@ const Layout = ({ children, pageTitle }) => {
   // Otherwise, use the passed pageTitle (for other pages)
   const displayTitle = pageTitle === 'HOME' ? T.pt : pageTitle;
 
-  // Shared style for all nav buttons - FIXED WIDTH for consistency
+  // Shared style for all nav buttons - FIXED WIDTH so they don't resize
   const btnStyle = (active) => ({
     color: '#FFD700',
     fontSize: '0.7rem',
@@ -311,7 +331,6 @@ const Layout = ({ children, pageTitle }) => {
         backdropFilter: 'blur(10px)', boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
         height: '45px', display: 'flex', alignItems: 'center', gap: '4px'
       }}>
-
         {/* Left scroll indicator */}
         <span style={{ color:'#FFD700', fontSize:'0.75rem', flexShrink:0, opacity:0.55, userSelect:'none', pointerEvents:'none' }}>◀</span>
 
