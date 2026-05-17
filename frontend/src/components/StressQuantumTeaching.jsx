@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from '../hooks/useTranslation';
+// import { useTranslation } from '../hooks/useTranslation';
 
 export default function StressQuantumTeaching({ onClose }) {
   const { stressQuantumExplanation, getWord } = useTranslation();

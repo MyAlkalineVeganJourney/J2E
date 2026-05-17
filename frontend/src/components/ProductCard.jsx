@@ -17,7 +17,7 @@ const ProductCard = ({ product, compact = false }) => {
     if (product.url) {
       window.open(product.url, '_blank');
     } else {
-      alert('Stripe link coming soon!');
+      aler'TRANSLATE';
     }
   };
 

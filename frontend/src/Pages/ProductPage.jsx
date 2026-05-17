@@ -1,14 +1,13 @@
 // src/Pages/ProductPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import PageLayout from '../components/PageLayout';
 import products from '../data/products';
 import '../styles/ProductPage.css';
 
 const ProductPage = () => {
   const { productId } = useParams();
-  const { t } = useTranslation();
+  // Translation handled by PageLayout
   const [activeTab, setActiveTab] = useState('overview');
   
   // Find product by ID

@@ -14,7 +14,7 @@ const ProductCatalog = () => {
         window.focus();
       }, 100);
     } else {
-      alert('Stripe link coming soon for this product!');
+      alert('TRANSLATE');
     }
   };
 

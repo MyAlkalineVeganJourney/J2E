@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import PageLayout from '../components/PageLayout';
 import VIBreadcrumbs from '../components/VIBreadcrumbs';
 
 const TheJourney = () => {
-  const { t } = useTranslation();
+  // Translation handled by PageLayout
   const [activeYear, setActiveYear] = useState(2020);
 
   // Timeline data

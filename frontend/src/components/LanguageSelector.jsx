@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from '../hooks/useTranslation';
+// import { useTranslation } from '../hooks/useTranslation';
 
 export default function LanguageSelector({ className = '' }) {
   const { currentLanguage, setCurrentLanguage, getAvailableLanguages } = useTranslation();

@@ -1,12 +1,11 @@
 // src/components/PaymentForm.js
 import React, { useState, useContext } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { useTranslation } from 'react-i18next';
 import { CartContext } from '../context/CartContext';
 import './PaymentForm.css';
 
 const PaymentForm = ({ onSuccess }) => {
-  const { t } = useTranslation();
+  // Translation handled by PageLayout
   const stripe = useStripe();
   const elements = useElements();
   const { cartItems, getCartTotal, clearCart } = useContext(CartContext);

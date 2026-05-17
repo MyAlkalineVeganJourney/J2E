@@ -1,8 +1,7 @@
 // Temporary helper to use both old and new systems
-import { useTranslation } from 'react-i18next';
 
 export const useI18n = () => {
-  const { t, i18n } = useTranslation();
+  // Translation handled by PageLayout
   
   // Function to get translations from the old system temporarily
   const getOldTranslation = (key) => {

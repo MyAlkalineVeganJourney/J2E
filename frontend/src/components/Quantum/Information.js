@@ -1,84 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { TranslationContext } from '../PageLayout';
 
 const QuantumPhysicsInfo = () => {
-  const [language, setLanguage] = useState('en');
+  const { T, currentLang, setCurrentLang } = useContext(TranslationContext);
   const [activeSection, setActiveSection] = useState('basics');
 
-  const translations = {
-    en: {
-      title: 'Quantum Physics & Human Reset',
-      subtitle: 'The Science of Cellular Recalibration Through Quantum Mechanics',
-      basics: 'Quantum Basics',
-      biology: 'Quantum Biology',
-      reset: 'Quantum Reset',
-      research: 'Peer-Reviewed Research'
-    },
-    es: { title: 'Física Cuántica y Reinicio Humano', subtitle: 'La Ciencia de la Recalibración Celular a Través de la Mecánica Cuántica', basics: 'Fundamentos Cuánticos', biology: 'Biología Cuántica', reset: 'Reinicio Cuántico', research: 'Investigación Revisada por Pares' },
-    fr: { title: 'Physique Quantique et Réinitialisation Humaine', subtitle: 'La Science de la Recalibration Cellulaire par la Mécanique Quantique', basics: 'Bases Quantiques', biology: 'Biologie Quantique', reset: 'Réinitialisation Quantique', research: 'Recherche Évaluée par les Pairs' }
+  const t = (key, fallback) => {
+    const keys = key.split('.');
+    let value = T;
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        return fallback;
+      }
+    }
+    return typeof value === 'string' ? value : fallback;
   };
-
-  const t = translations[language];
 
   const peerReviewedArticles = [
     {
-      title: "Quantum coherence in human consciousness",
+      title: t('quantum.article1.title', "Quantum coherence in human consciousness"),
       authors: "Hameroff, S., & Penrose, R.",
       journal: "Physics of Life Reviews",
       year: "2014",
       doi: "10.1016/j.plrev.2014.10.002",
       link: "https://doi.org/10.1016/j.plrev.2014.10.002",
-      summary: "Proposes quantum coherence in microtubules as basis for consciousness"
+      summary: t('quantum.article1.summary', "Proposes quantum coherence in microtubules as basis for consciousness")
     },
     {
-      title: "Quantum biology of photosynthesis",
+      title: t('quantum.article2.title', "Quantum biology of photosynthesis"),
       authors: "Engel, G. S., et al.",
       journal: "Nature",
       year: "2007",
       doi: "10.1038/nature05678",
       link: "https://doi.org/10.1038/nature05678",
-      summary: "Evidence for quantum coherence in photosynthetic light harvesting"
+      summary: t('quantum.article2.summary', "Evidence for quantum coherence in photosynthetic light harvesting")
     },
     {
-      title: "Quantum effects in biology",
+      title: t('quantum.article3.title', "Quantum effects in biology"),
       authors: "McFadden, J., & Al-Khalili, J.",
       journal: "Proceedings of the Royal Society B",
       year: "2018",
       doi: "10.1098/rspb.2018.0644",
       link: "https://doi.org/10.1098/rspb.2018.0644",
-      summary: "Review of quantum effects in biological systems"
+      summary: t('quantum.article3.summary', "Review of quantum effects in biological systems")
     },
     {
-      title: "Fasting triggers stem cell regeneration",
+      title: t('quantum.article4.title', "Fasting triggers stem cell regeneration"),
       authors: "Cheng, C. W., et al.",
       journal: "Cell Stem Cell",
       year: "2014",
       doi: "10.1016/j.stem.2014.04.014",
       link: "https://doi.org/10.1016/j.stem.2014.04.014",
-      summary: "Prolonged fasting induces cellular reset at molecular level"
+      summary: t('quantum.article4.summary', "Prolonged fasting induces cellular reset at molecular level")
     }
   ];
 
   const quantumConcepts = [
     {
-      term: "Quantum Entanglement",
-      definition: "When two particles become connected so that actions performed on one affect the other, regardless of distance.",
-      application: "Cells may use entanglement for instantaneous communication across biological systems."
+      term: t('quantum.concept1.term', "Quantum Entanglement"),
+      definition: t('quantum.concept1.definition', "When two particles become connected so that actions performed on one affect the other, regardless of distance."),
+      application: t('quantum.concept1.application', "Cells may use entanglement for instantaneous communication across biological systems.")
     },
     {
-      term: "Superposition",
-      definition: "A quantum system can exist in multiple states simultaneously until measured.",
-      application: "Cellular decision-making processes might utilize quantum superposition."
+      term: t('quantum.concept2.term', "Superposition"),
+      definition: t('quantum.concept2.definition', "A quantum system can exist in multiple states simultaneously until measured."),
+      application: t('quantum.concept2.application', "Cellular decision-making processes might utilize quantum superposition.")
     },
     {
-      term: "Quantum Tunneling",
-      definition: "Particles passing through barriers that classical physics says are impossible.",
-      application: "Enzymes use quantum tunneling to accelerate biochemical reactions by 1000x."
+      term: t('quantum.concept3.term', "Quantum Tunneling"),
+      definition: t('quantum.concept3.definition', "Particles passing through barriers that classical physics says are impossible."),
+      application: t('quantum.concept3.application', "Enzymes use quantum tunneling to accelerate biochemical reactions by 1000x.")
     },
     {
-      term: "Wave Function Collapse",
-      definition: "When a quantum system's wave function reduces to a single state upon observation.",
-      application: "Conscious observation may influence physical reality at cellular level."
+      term: t('quantum.concept4.term', "Wave Function Collapse"),
+      definition: t('quantum.concept4.definition', "When a quantum system's wave function reduces to a single state upon observation."),
+      application: t('quantum.concept4.application', "Conscious observation may influence physical reality at cellular level.")
     }
+  ];
+
+  // Language selector buttons
+  const languages = [
+    { code: 'en', flag: '🇺🇸', name: 'English' },
+    { code: 'es', flag: '🇪🇸', name: 'Spanish' },
+    { code: 'fr', flag: '🇫🇷', name: 'French' }
   ];
 
   return (
@@ -87,14 +93,14 @@ const QuantumPhysicsInfo = () => {
       <nav style={styles.navbar}>
         <div style={styles.navContent}>
           <div style={styles.flagContainer}>
-            {['en', 'es', 'fr'].map(lang => (
+            {languages.map(lang => (
               <button
-                key={lang}
-                style={{ ...styles.flagBtn, ...(language === lang ? styles.flagActive : {}) }}
-                onClick={() => setLanguage(lang)}
-                title={lang === 'en' ? 'English' : lang === 'es' ? 'Español' : 'Français'}
+                key={lang.code}
+                style={{ ...styles.flagBtn, ...(currentLang === lang.name ? styles.flagActive : {}) }}
+                onClick={() => setCurrentLang(lang.name)}
+                title={lang.name}
               >
-                {lang === 'en' ? '🇺🇸' : lang === 'es' ? '🇪🇸' : '🇫🇷'}
+                {lang.flag}
               </button>
             ))}
           </div>
@@ -103,25 +109,25 @@ const QuantumPhysicsInfo = () => {
               onClick={() => setActiveSection('basics')}
               style={{ ...styles.navBtn, ...(activeSection === 'basics' ? styles.navBtnActive : {}) }}
             >
-              ⚛️ {t.basics}
+              ⚛️ {t('quantum.basics', 'Quantum Basics')}
             </button>
             <button 
               onClick={() => setActiveSection('biology')}
               style={{ ...styles.navBtn, ...(activeSection === 'biology' ? styles.navBtnActive : {}) }}
             >
-              🧬 {t.biology}
+              🧬 {t('quantum.biology', 'Quantum Biology')}
             </button>
             <button 
               onClick={() => setActiveSection('reset')}
               style={{ ...styles.navBtn, ...(activeSection === 'reset' ? styles.navBtnActive : {}) }}
             >
-              🔄 {t.reset}
+              🔄 {t('quantum.reset', 'Quantum Reset')}
             </button>
             <button 
               onClick={() => setActiveSection('research')}
               style={{ ...styles.navBtn, ...(activeSection === 'research' ? styles.navBtnActive : {}) }}
             >
-              📚 {t.research}
+              📚 {t('quantum.research', 'Peer-Reviewed Research')}
             </button>
           </div>
         </div>
@@ -129,8 +135,8 @@ const QuantumPhysicsInfo = () => {
 
       {/* Title Section */}
       <div style={styles.titleSection}>
-        <h1 style={styles.mainTitle}>⚛️ {t.title} ⚛️</h1>
-        <p style={styles.subtitle}>{t.subtitle}</p>
+        <h1 style={styles.mainTitle}>⚛️ {t('quantum.title', 'Quantum Physics & Human Reset')} ⚛️</h1>
+        <p style={styles.subtitle}>{t('quantum.subtitle', 'The Science of Cellular Recalibration Through Quantum Mechanics')}</p>
         <div style={styles.logoCircle}>
           <img src="/MAVJLogo.jpg" alt="MAVJ Logo" style={styles.logoImg} />
         </div>
@@ -141,26 +147,26 @@ const QuantumPhysicsInfo = () => {
         
         {activeSection === 'basics' && (
           <div style={styles.section}>
-            <h2 style={styles.sectionTitle}>⚛️ Quantum Physics Fundamentals</h2>
+            <h2 style={styles.sectionTitle}>⚛️ {t('quantum.basicsTitle', 'Quantum Physics Fundamentals')}</h2>
             
             <div style={styles.timeline}>
               <div style={styles.timelineItem}>
                 <div style={styles.timelineDot}>1</div>
                 <div style={styles.timelineContent}>
-                  <h3>🔄 The Atomic Foundation</h3>
-                  <p><strong>Atoms:</strong> Basic units of matter composed of:</p>
+                  <h3>🔄 {t('quantum.atomicFoundation', 'The Atomic Foundation')}</h3>
+                  <p><strong>{t('quantum.atoms', 'Atoms')}:</strong> {t('quantum.atomsDesc', 'Basic units of matter composed of:')}</p>
                   <ul style={styles.list}>
-                    <li><strong>Protons:</strong> Positive charge, determines element</li>
-                    <li><strong>Neutrons:</strong> Neutral charge, provides stability</li>
-                    <li><strong>Electrons:</strong> Negative charge, quantum particles</li>
+                    <li><strong>{t('quantum.protons', 'Protons')}:</strong> {t('quantum.protonsDesc', 'Positive charge, determines element')}</li>
+                    <li><strong>{t('quantum.neutrons', 'Neutrons')}:</strong> {t('quantum.neutronsDesc', 'Neutral charge, provides stability')}</li>
+                    <li><strong>{t('quantum.electrons', 'Electrons')}:</strong> {t('quantum.electronsDesc', 'Negative charge, quantum particles')}</li>
                   </ul>
-                  <p><strong>Quantum Scale:</strong> At atomic level, particles behave as both waves AND particles.</p>
+                  <p><strong>{t('quantum.quantumScale', 'Quantum Scale')}:</strong> {t('quantum.quantumScaleDesc', 'At atomic level, particles behave as both waves AND particles.')}</p>
                   <div style={styles.videoEmbed}>
                     <iframe 
                       width="100%" 
                       height="315" 
                       src="https://www.youtube.com/embed/_7MkqL2N_0s" 
-                      title="Quantum Physics for Beginners"
+                      title={t('quantum.videoTitle', 'Quantum Physics for Beginners')}
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     ></iframe>
@@ -171,22 +177,22 @@ const QuantumPhysicsInfo = () => {
               <div style={styles.timelineItem}>
                 <div style={styles.timelineDot}>2</div>
                 <div style={styles.timelineContent}>
-                  <h3>🌀 Wave-Particle Duality</h3>
-                  <p><strong>Key Principle:</strong> All quantum objects exhibit both particle-like and wave-like properties.</p>
-                  <p><strong>Double-Slit Experiment:</strong> Demonstrates that electrons create interference patterns (wave behavior) until measured (particle behavior).</p>
-                  <p><strong>Human Application:</strong> Your cells may use this duality for energy transfer and communication.</p>
+                  <h3>🌀 {t('quantum.waveParticleDuality', 'Wave-Particle Duality')}</h3>
+                  <p><strong>{t('quantum.keyPrinciple', 'Key Principle')}:</strong> {t('quantum.waveParticleDesc', 'All quantum objects exhibit both particle-like and wave-like properties.')}</p>
+                  <p><strong>{t('quantum.doubleSlit', 'Double-Slit Experiment')}:</strong> {t('quantum.doubleSlitDesc', 'Demonstrates that electrons create interference patterns (wave behavior) until measured (particle behavior).')}</p>
+                  <p><strong>{t('quantum.humanApplication', 'Human Application')}:</strong> {t('quantum.waveParticleHuman', 'Your cells may use this duality for energy transfer and communication.')}</p>
                 </div>
               </div>
 
               <div style={styles.timelineItem}>
                 <div style={styles.timelineDot}>3</div>
                 <div style={styles.timelineContent}>
-                  <h3>🔗 Quantum Entanglement</h3>
-                  <p><strong>Definition:</strong> When particles become linked so that actions on one instantly affect the other, regardless of distance.</p>
-                  <p><strong>Einstein:</strong> Called it "spooky action at a distance."</p>
-                  <p><strong>Biological Significance:</strong> May explain instant cellular communication and coherence in living systems.</p>
+                  <h3>🔗 {t('quantum.entanglement', 'Quantum Entanglement')}</h3>
+                  <p><strong>{t('quantum.definition', 'Definition')}:</strong> {t('quantum.entanglementDesc', 'When particles become linked so that actions on one instantly affect the other, regardless of distance.')}</p>
+                  <p><strong>{t('quantum.einstein', 'Einstein')}:</strong> {t('quantum.einsteinQuote', 'Called it "spooky action at a distance."')}</p>
+                  <p><strong>{t('quantum.biologicalSignificance', 'Biological Significance')}:</strong> {t('quantum.entanglementBio', 'May explain instant cellular communication and coherence in living systems.')}</p>
                   <div style={styles.citation}>
-                    <strong>Reference:</strong> Aspect, A. (1982). Experimental test of Bell's inequalities. <em>Physical Review Letters</em>, 49(2), 91–94.
+                    <strong>{t('quantum.reference', 'Reference')}:</strong> Aspect, A. (1982). Experimental test of Bell's inequalities. <em>Physical Review Letters</em>, 49(2), 91–94.
                   </div>
                 </div>
               </div>
@@ -194,10 +200,10 @@ const QuantumPhysicsInfo = () => {
               <div style={styles.timelineItem}>
                 <div style={styles.timelineDot}>4</div>
                 <div style={styles.timelineContent}>
-                  <h3>🎯 Superposition</h3>
-                  <p><strong>Quantum State:</strong> Particles can exist in multiple states simultaneously until observed.</p>
-                  <p><strong>Schrödinger's Cat:</strong> Famous thought experiment illustrating superposition.</p>
-                  <p><strong>Biological Implication:</strong> Cellular processes might utilize superposition for optimal decision-making.</p>
+                  <h3>🎯 {t('quantum.superposition', 'Superposition')}</h3>
+                  <p><strong>{t('quantum.quantumState', 'Quantum State')}:</strong> {t('quantum.superpositionDesc', 'Particles can exist in multiple states simultaneously until observed.')}</p>
+                  <p><strong>{t('quantum.schrodinger', "Schrödinger's Cat")}:</strong> {t('quantum.schrodingerDesc', 'Famous thought experiment illustrating superposition.')}</p>
+                  <p><strong>{t('quantum.biologicalImplication', 'Biological Implication')}:</strong> {t('quantum.superpositionBio', 'Cellular processes might utilize superposition for optimal decision-making.')}</p>
                 </div>
               </div>
             </div>
@@ -208,7 +214,7 @@ const QuantumPhysicsInfo = () => {
                   <h4 style={styles.conceptTitle}>{concept.term}</h4>
                   <p style={styles.conceptDefinition}>{concept.definition}</p>
                   <div style={styles.applicationBox}>
-                    <strong>Human Application:</strong> {concept.application}
+                    <strong>{t('quantum.humanApplication', 'Human Application')}:</strong> {concept.application}
                   </div>
                 </div>
               ))}
@@ -218,18 +224,18 @@ const QuantumPhysicsInfo = () => {
 
         {activeSection === 'biology' && (
           <div style={styles.section}>
-            <h2 style={styles.sectionTitle}>🧬 Quantum Biology: Where Physics Meets Life</h2>
+            <h2 style={styles.sectionTitle}>🧬 {t('quantum.quantumBiology', 'Quantum Biology: Where Physics Meets Life')}</h2>
             
             <div style={styles.infoCard}>
-              <h3>🌿 Photosynthesis: Nature's Quantum Computer</h3>
-              <p><strong>Discovery:</strong> Plants use quantum coherence to achieve near-perfect energy transfer efficiency in photosynthesis.</p>
-              <p><strong>Research:</strong> Engel et al. (2007) demonstrated quantum effects in photosynthetic complexes at room temperature.</p>
+              <h3>🌿 {t('quantum.photosynthesis', 'Photosynthesis: Nature\'s Quantum Computer')}</h3>
+              <p><strong>{t('quantum.discovery', 'Discovery')}:</strong> {t('quantum.photosynthesisDesc', 'Plants use quantum coherence to achieve near-perfect energy transfer efficiency in photosynthesis.')}</p>
+              <p><strong>{t('quantum.research', 'Research')}:</strong> {t('quantum.photosynthesisResearch', 'Engel et al. (2007) demonstrated quantum effects in photosynthetic complexes at room temperature.')}</p>
               <div style={styles.videoEmbed}>
                 <iframe 
                   width="100%" 
                   height="315" 
                   src="https://www.youtube.com/embed/yDh6G-zar8Y" 
-                  title="Quantum Biology"
+                  title={t('quantum.quantumBiologyVideo', 'Quantum Biology')}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
@@ -237,45 +243,45 @@ const QuantumPhysicsInfo = () => {
             </div>
 
             <div style={styles.infoCard}>
-              <h3>👃 Quantum Sense of Smell</h3>
-              <p><strong>Vibration Theory:</strong> Your nose may detect molecular vibrations through quantum tunneling, not just shape recognition.</p>
-              <p><strong>Evidence:</strong> Fruit flies can distinguish between molecules with identical shapes but different vibrations.</p>
+              <h3>👃 {t('quantum.smell', 'Quantum Sense of Smell')}</h3>
+              <p><strong>{t('quantum.vibrationTheory', 'Vibration Theory')}:</strong> {t('quantum.smellDesc', 'Your nose may detect molecular vibrations through quantum tunneling, not just shape recognition.')}</p>
+              <p><strong>{t('quantum.evidence', 'Evidence')}:</strong> {t('quantum.smellEvidence', 'Fruit flies can distinguish between molecules with identical shapes but different vibrations.')}</p>
               <div style={styles.citation}>
-                <strong>Reference:</strong> Turin, L. (1996). A spectroscopic mechanism for primary olfactory reception. <em>Chemical Senses</em>, 21(6), 773–791.
+                <strong>{t('quantum.reference', 'Reference')}:</strong> Turin, L. (1996). A spectroscopic mechanism for primary olfactory reception. <em>Chemical Senses</em>, 21(6), 773–791.
               </div>
             </div>
 
             <div style={styles.infoCard}>
-              <h3>🧠 Brain as Quantum Computer</h3>
-              <p><strong>Orchestrated Objective Reduction (Orch-OR):</strong> Theory proposing quantum processes in microtubules create consciousness.</p>
-              <p><strong>Microtubules:</strong> Protein structures in neurons that may maintain quantum coherence.</p>
+              <h3>🧠 {t('quantum.brain', 'Brain as Quantum Computer')}</h3>
+              <p><strong>{t('quantum.orchOr', 'Orchestrated Objective Reduction (Orch-OR)')}:</strong> {t('quantum.orchOrDesc', 'Theory proposing quantum processes in microtubules create consciousness.')}</p>
+              <p><strong>{t('quantum.microtubules', 'Microtubules')}:</strong> {t('quantum.microtubulesDesc', 'Protein structures in neurons that may maintain quantum coherence.')}</p>
               <div style={styles.citation}>
-                <strong>Reference:</strong> Hameroff, S., & Penrose, R. (2014). Consciousness in the universe: A review of the 'Orch OR' theory. <em>Physics of Life Reviews</em>, 11(1), 39–78.
+                <strong>{t('quantum.reference', 'Reference')}:</strong> Hameroff, S., & Penrose, R. (2014). Consciousness in the universe: A review of the 'Orch OR' theory. <em>Physics of Life Reviews</em>, 11(1), 39–78.
               </div>
             </div>
 
             <div style={styles.diagram}>
-              <h4>🌐 Quantum Biological Processes in Human Cells</h4>
+              <h4>🌐 {t('quantum.bioProcesses', 'Quantum Biological Processes in Human Cells')}</h4>
               <div style={styles.diagramGrid}>
                 <div style={styles.diagramItem}>
                   <div style={styles.diagramIcon}>🧬</div>
-                  <strong>DNA Repair</strong>
-                  <p>Quantum tunneling in enzymes</p>
+                  <strong>{t('quantum.dnaRepair', 'DNA Repair')}</strong>
+                  <p>{t('quantum.dnaRepairDesc', 'Quantum tunneling in enzymes')}</p>
                 </div>
                 <div style={styles.diagramItem}>
                   <div style={styles.diagramIcon}>💫</div>
-                  <strong>Energy Production</strong>
-                  <p>Coherence in mitochondria</p>
+                  <strong>{t('quantum.energyProduction', 'Energy Production')}</strong>
+                  <p>{t('quantum.energyProductionDesc', 'Coherence in mitochondria')}</p>
                 </div>
                 <div style={styles.diagramItem}>
                   <div style={styles.diagramIcon}>🧠</div>
-                  <strong>Neural Processing</strong>
-                  <p>Quantum cognition theories</p>
+                  <strong>{t('quantum.neuralProcessing', 'Neural Processing')}</strong>
+                  <p>{t('quantum.neuralProcessingDesc', 'Quantum cognition theories')}</p>
                 </div>
                 <div style={styles.diagramItem}>
                   <div style={styles.diagramIcon}>🛡️</div>
-                  <strong>Immune Response</strong>
-                  <p>Quantum recognition</p>
+                  <strong>{t('quantum.immuneResponse', 'Immune Response')}</strong>
+                  <p>{t('quantum.immuneResponseDesc', 'Quantum recognition')}</p>
                 </div>
               </div>
             </div>
@@ -284,30 +290,30 @@ const QuantumPhysicsInfo = () => {
 
         {activeSection === 'reset' && (
           <div style={styles.section}>
-            <h2 style={styles.sectionTitle}>🔄 Quantum Human Reset Protocol</h2>
+            <h2 style={styles.sectionTitle}>🔄 {t('quantum.quantumReset', 'Quantum Human Reset Protocol')}</h2>
             
             <div style={styles.resetSteps}>
               <div style={styles.stepCard}>
                 <div style={styles.stepNumber}>1</div>
-                <h3>🌊 Cellular De-coherence Reset</h3>
-                <p><strong>Process:</strong> Fasting allows cells to clear quantum noise and restore natural coherence.</p>
-                <p><strong>Mechanism:</strong> Autophagy (cellular cleanup) removes damaged organelles, resetting quantum states.</p>
+                <h3>🌊 {t('quantum.decoherence', 'Cellular De-coherence Reset')}</h3>
+                <p><strong>{t('quantum.process', 'Process')}:</strong> {t('quantum.decoherenceDesc', 'Fasting allows cells to clear quantum noise and restore natural coherence.')}</p>
+                <p><strong>{t('quantum.mechanism', 'Mechanism')}:</strong> {t('quantum.autophagy', 'Autophagy (cellular cleanup) removes damaged organelles, resetting quantum states.')}</p>
                 <div style={styles.citation}>
-                  <strong>Research:</strong> Mizushima, N., & Komatsu, M. (2011). Autophagy: renovation of cells and tissues. <em>Cell</em>, 147(4), 728–741.
+                  <strong>{t('quantum.reference', 'Reference')}:</strong> Mizushima, N., & Komatsu, M. (2011). Autophagy: renovation of cells and tissues. <em>Cell</em>, 147(4), 728–741.
                 </div>
               </div>
 
               <div style={styles.stepCard}>
                 <div style={styles.stepNumber}>2</div>
-                <h3>⚡ Mitochondrial Quantum Tuning</h3>
-                <p><strong>Process:</strong> Dry fasting forces mitochondria to optimize quantum tunneling in electron transport chain.</p>
-                <p><strong>Result:</strong> Increased ATP production efficiency through enhanced quantum coherence.</p>
+                <h3>⚡ {t('quantum.mitochondrial', 'Mitochondrial Quantum Tuning')}</h3>
+                <p><strong>{t('quantum.process', 'Process')}:</strong> {t('quantum.mitochondrialDesc', 'Dry fasting forces mitochondria to optimize quantum tunneling in electron transport chain.')}</p>
+                <p><strong>{t('quantum.result', 'Result')}:</strong> {t('quantum.mitochondrialResult', 'Increased ATP production efficiency through enhanced quantum coherence.')}</p>
                 <div style={styles.videoEmbed}>
                   <iframe 
                     width="100%" 
                     height="315" 
                     src="https://www.youtube.com/embed/L9F4Mt2vjDM" 
-                    title="Mitochondrial Function"
+                    title={t('quantum.mitochondrialVideo', 'Mitochondrial Function')}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   ></iframe>
@@ -316,42 +322,42 @@ const QuantumPhysicsInfo = () => {
 
               <div style={styles.stepCard}>
                 <div style={styles.stepNumber}>3</div>
-                <h3>🌀 Entanglement Restoration</h3>
-                <p><strong>Process:</strong> Removing toxins and electromagnetic interference restores natural quantum entanglement between cells.</p>
-                <p><strong>Evidence:</strong> Cells in healthy tissue show higher degrees of quantum coherence than diseased tissue.</p>
+                <h3>🌀 {t('quantum.entanglementRestoration', 'Entanglement Restoration')}</h3>
+                <p><strong>{t('quantum.process', 'Process')}:</strong> {t('quantum.entanglementDesc', 'Removing toxins and electromagnetic interference restores natural quantum entanglement between cells.')}</p>
+                <p><strong>{t('quantum.evidence', 'Evidence')}:</strong> {t('quantum.entanglementEvidence', 'Cells in healthy tissue show higher degrees of quantum coherence than diseased tissue.')}</p>
               </div>
 
               <div style={styles.stepCard}>
                 <div style={styles.stepNumber}>4</div>
-                <h3>🌌 Consciousness Field Alignment</h3>
-                <p><strong>Process:</strong> Meditation during reset aligns personal consciousness field with universal quantum field.</p>
-                <p><strong>Quantum Basis:</strong> Penrose-Hameroff theory suggests consciousness arises from quantum processes in microtubules.</p>
+                <h3>🌌 {t('quantum.consciousnessField', 'Consciousness Field Alignment')}</h3>
+                <p><strong>{t('quantum.process', 'Process')}:</strong> {t('quantum.consciousnessDesc', 'Meditation during reset aligns personal consciousness field with universal quantum field.')}</p>
+                <p><strong>{t('quantum.quantumBasis', 'Quantum Basis')}:</strong> {t('quantum.penroseHameroff', 'Penrose-Hameroff theory suggests consciousness arises from quantum processes in microtubules.')}</p>
                 <div style={styles.citation}>
-                  <strong>Reference:</strong> Penrose, R. (1994). <em>Shadows of the Mind: A Search for the Missing Science of Consciousness</em>. Oxford University Press.
+                  <strong>{t('quantum.reference', 'Reference')}:</strong> Penrose, R. (1994). <em>Shadows of the Mind: A Search for the Missing Science of Consciousness</em>. Oxford University Press.
                 </div>
               </div>
             </div>
 
             <div style={styles.timelineReset}>
-              <h3>📅 40-Day Quantum Reset Timeline</h3>
+              <h3>📅 {t('quantum.timeline', '40-Day Quantum Reset Timeline')}</h3>
               <div style={styles.timelineGrid}>
                 <div style={styles.timelinePhase}>
-                  <h4>Phase 1: Decoherence (Days 1-3)</h4>
-                  <p>• Dry fasting initiates quantum state clearance</p>
-                  <p>• Cellular autophagy begins</p>
-                  <p>• Mitochondrial optimization starts</p>
+                  <h4>{t('quantum.phase1', 'Phase 1: Decoherence (Days 1-3)')}</h4>
+                  <p>• {t('quantum.phase1a', 'Dry fasting initiates quantum state clearance')}</p>
+                  <p>• {t('quantum.phase1b', 'Cellular autophagy begins')}</p>
+                  <p>• {t('quantum.phase1c', 'Mitochondrial optimization starts')}</p>
                 </div>
                 <div style={styles.timelinePhase}>
-                  <h4>Phase 2: Quantum Tuning (Days 4-21)</h4>
-                  <p>• Water fasting maintains coherence</p>
-                  <p>• Stem cell activation begins</p>
-                  <p>• Quantum entanglement restoration</p>
+                  <h4>{t('quantum.phase2', 'Phase 2: Quantum Tuning (Days 4-21)')}</h4>
+                  <p>• {t('quantum.phase2a', 'Water fasting maintains coherence')}</p>
+                  <p>• {t('quantum.phase2b', 'Stem cell activation begins')}</p>
+                  <p>• {t('quantum.phase2c', 'Quantum entanglement restoration')}</p>
                 </div>
                 <div style={styles.timelinePhase}>
-                  <h4>Phase 3: Re-coherence (Days 22-40)</h4>
-                  <p>• Cellular quantum states reset</p>
-                  <p>• New coherence patterns established</p>
-                  <p>• Consciousness field alignment</p>
+                  <h4>{t('quantum.phase3', 'Phase 3: Re-coherence (Days 22-40)')}</h4>
+                  <p>• {t('quantum.phase3a', 'Cellular quantum states reset')}</p>
+                  <p>• {t('quantum.phase3b', 'New coherence patterns established')}</p>
+                  <p>• {t('quantum.phase3c', 'Consciousness field alignment')}</p>
                 </div>
               </div>
             </div>
@@ -360,10 +366,10 @@ const QuantumPhysicsInfo = () => {
 
         {activeSection === 'research' && (
           <div style={styles.section}>
-            <h2 style={styles.sectionTitle}>📚 Peer-Reviewed Scientific Research</h2>
+            <h2 style={styles.sectionTitle}>📚 {t('quantum.peerReviewed', 'Peer-Reviewed Scientific Research')}</h2>
             
             <div style={styles.researchHeader}>
-              <p>All claims on this page are supported by published scientific literature from reputable journals.</p>
+              <p>{t('quantum.researchHeader', 'All claims on this page are supported by published scientific literature from reputable journals.')}</p>
             </div>
 
             <div style={styles.researchGrid}>
@@ -371,7 +377,7 @@ const QuantumPhysicsInfo = () => {
                 <div key={index} style={styles.researchCard}>
                   <div style={styles.researchBadge}>DOI: {article.doi}</div>
                   <h4 style={styles.researchTitle}>{article.title}</h4>
-                  <p style={styles.researchAuthors}><strong>Authors:</strong> {article.authors}</p>
+                  <p style={styles.researchAuthors}><strong>{t('quantum.authors', 'Authors')}:</strong> {article.authors}</p>
                   <p style={styles.researchJournal}><em>{article.journal}</em> ({article.year})</p>
                   <p style={styles.researchSummary}>{article.summary}</p>
                   <a 
@@ -380,40 +386,40 @@ const QuantumPhysicsInfo = () => {
                     rel="noopener noreferrer" 
                     style={styles.doiLink}
                   >
-                    🔗 Access Full Article
+                    🔗 {t('quantum.accessArticle', 'Access Full Article')}
                   </a>
                 </div>
               ))}
             </div>
 
             <div style={styles.resourcesSection}>
-              <h3>🔬 Additional Scientific Resources</h3>
+              <h3>🔬 {t('quantum.additionalResources', 'Additional Scientific Resources')}</h3>
               <div style={styles.resourceLinks}>
                 <a href="https://www.nature.com/subjects/quantum-biology" target="_blank" rel="noopener noreferrer" style={styles.resourceLink}>
-                  🌿 Nature: Quantum Biology
+                  🌿 Nature: {t('quantum.quantumBiology', 'Quantum Biology')}
                 </a>
                 <a href="https://www.sciencedirect.com/topics/neuroscience/quantum-consciousness" target="_blank" rel="noopener noreferrer" style={styles.resourceLink}>
-                  🧠 ScienceDirect: Quantum Consciousness
+                  🧠 ScienceDirect: {t('quantum.quantumConsciousness', 'Quantum Consciousness')}
                 </a>
                 <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4327968/" target="_blank" rel="noopener noreferrer" style={styles.resourceLink}>
-                  🩺 NIH: Fasting and Cellular Regeneration
+                  🩺 NIH: {t('quantum.fastingRegeneration', 'Fasting and Cellular Regeneration')}
                 </a>
                 <a href="https://www.quantumbiology.org/" target="_blank" rel="noopener noreferrer" style={styles.resourceLink}>
-                  ⚛️ Quantum Biology Institute
+                  ⚛️ {t('quantum.quantumBiologyInstitute', 'Quantum Biology Institute')}
                 </a>
               </div>
             </div>
 
             <div style={styles.scientificMethod}>
-              <h3>🔍 The Scientific Method in Quantum Biology</h3>
+              <h3>🔍 {t('quantum.scientificMethod', 'The Scientific Method in Quantum Biology')}</h3>
               <ol style={styles.methodList}>
-                <li><strong>Observation:</strong> Quantum effects observed in biological systems</li>
-                <li><strong>Hypothesis:</strong> Quantum processes enhance biological function</li>
-                <li><strong>Prediction:</strong> Quantum coherence improves cellular efficiency</li>
-                <li><strong>Experiment:</strong> Testing quantum effects at physiological temperatures</li>
-                <li><strong>Analysis:</strong> Statistical verification of quantum biological claims</li>
-                <li><strong>Peer Review:</strong> Publication in scientific journals</li>
-                <li><strong>Replication:</strong> Independent verification by other labs</li>
+                <li><strong>{t('quantum.observation', 'Observation')}:</strong> {t('quantum.observationDesc', 'Quantum effects observed in biological systems')}</li>
+                <li><strong>{t('quantum.hypothesis', 'Hypothesis')}:</strong> {t('quantum.hypothesisDesc', 'Quantum processes enhance biological function')}</li>
+                <li><strong>{t('quantum.prediction', 'Prediction')}:</strong> {t('quantum.predictionDesc', 'Quantum coherence improves cellular efficiency')}</li>
+                <li><strong>{t('quantum.experiment', 'Experiment')}:</strong> {t('quantum.experimentDesc', 'Testing quantum effects at physiological temperatures')}</li>
+                <li><strong>{t('quantum.analysis', 'Analysis')}:</strong> {t('quantum.analysisDesc', 'Statistical verification of quantum biological claims')}</li>
+                <li><strong>{t('quantum.peerReview', 'Peer Review')}:</strong> {t('quantum.peerReviewDesc', 'Publication in scientific journals')}</li>
+                <li><strong>{t('quantum.replication', 'Replication')}:</strong> {t('quantum.replicationDesc', 'Independent verification by other labs')}</li>
               </ol>
             </div>
           </div>
@@ -421,29 +427,29 @@ const QuantumPhysicsInfo = () => {
 
         {/* Call to Action */}
         <div style={styles.ctaSection}>
-          <h3>🚀 Ready for Your Quantum Reset?</h3>
-          <p>Experience the cellular recalibration that bridges ancient wisdom with quantum science.</p>
+          <h3>🚀 {t('quantum.ready', 'Ready for Your Quantum Reset?')}</h3>
+          <p>{t('quantum.readyDesc', 'Experience the cellular recalibration that bridges ancient wisdom with quantum science.')}</p>
           <div style={styles.ctaButtons}>
-            <a href="/reset" style={styles.ctaButton}>📅 Book Your Reset</a>
-            <a href="/research" style={styles.ctaButtonSecondary}>📚 Deep Dive Research</a>
+            <a href="/reset" style={styles.ctaButton}>📅 {t('quantum.bookReset', 'Book Your Reset')}</a>
+            <a href="/research" style={styles.ctaButtonSecondary}>📚 {t('quantum.deepDive', 'Deep Dive Research')}</a>
           </div>
         </div>
       </div>
 
       {/* Footer */}
       <div style={styles.footer}>
-        <p style={styles.footerCopy}>© 2025 My Alkaline Vegan Journey. Quantum Physics Information Portal.</p>
+        <p style={styles.footerCopy}>© 2025 My Alkaline Vegan Journey. {t('quantum.footer', 'Quantum Physics Information Portal')}</p>
         <div style={styles.socialLinks}>
-          <a href="/" style={styles.socialLink}>🏠 Home</a>
-          <a href="/research" style={styles.socialLink}>📚 Research</a>
-          <a href="/contact" style={styles.socialLink}>☎️ Contact</a>
+          <a href="/" style={styles.socialLink}>🏠 {t('common.home', 'Home')}</a>
+          <a href="/research" style={styles.socialLink}>📚 {t('common.research', 'Research')}</a>
+          <a href="/contact" style={styles.socialLink}>☎️ {t('common.contact', 'Contact')}</a>
         </div>
       </div>
     </div>
   );
 };
 
-// Styles matching your existing design
+// Styles
 const styles = {
   container: {
     background: '#0a0a15',
@@ -870,14 +876,5 @@ const styles = {
     fontWeight: '600'
   }
 };
-
-// Add to existing styles for animation
-const styleSheet = document.styleSheets[0];
-styleSheet.insertRule(`
-  @keyframes twinkle {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-`, styleSheet.cssRules.length);
 
 export default QuantumPhysicsInfo;

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import PageLayout from '../components/PageLayout';
 import VIBreadcrumbs from '../components/VIBreadcrumbs';
 
 const TheJourney = () => {
-  const { t } = useTranslation();
+  // Translation handled by PageLayout
   const [activeYear, setActiveYear] = useState(2020);
 
   // Timeline data
@@ -46,7 +45,7 @@ const TheJourney = () => {
       title: t('journey.timeline.2023.title', 'Building Community'),
       events: [
         { title: t('journey.timeline.2023.event1.title', 'Discovering the Artisans'), description: t('journey.timeline.2023.event1.desc', 'The residents of St. Lucia are incredibly resourceful. Many had ideas that only needed financial backing and administrative support.'), icon: '🤝' },
-        { title: t('journey.timeline.2023.event2.title', 'The MAVJ Family Grows'), description: t('journey.timeline.2023.event2.desc', '100,000+ members on social media. We did resets together. We transformed together.'), icon: '��‍👩‍👧‍👦' },
+        { title: t('journey.timeline.2023.event2.title', 'The MAVJ Family Grows'), description: t('journey.timeline.2023.event2.desc', '100,000+ members on social media. We did resets together. We transformed together.'), icon: '👨‍👩‍👧‍👦' },
         { title: t('journey.timeline.2023.event3.title', 'The Annual Convergence'), description: t('journey.timeline.2023.event3.desc', '3,000+ people across the planet resetting their systems in unison. The buddy system. Before and after photos.'), icon: '🌍' }
       ]
     },

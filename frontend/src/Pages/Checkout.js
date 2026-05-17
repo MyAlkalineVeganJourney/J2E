@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useTranslation } from 'react-i18next';
 import PageLayout from '../components/PageLayout';
 import PaymentForm from '../components/PaymentForm';
 import { CartContext } from '../context/CartContext';
@@ -13,7 +12,7 @@ import '../styles/info.css';
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY || 'pk_test_YOUR_KEY_HERE');
 
 const Checkout = () => {
-  const { t } = useTranslation();
+  // Translation handled by PageLayout
   const navigate = useNavigate();
   const { cartItems, getCartTotal } = useContext(CartContext);
 

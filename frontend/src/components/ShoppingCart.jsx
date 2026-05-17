@@ -1,13 +1,12 @@
 // src/components/ShoppingCart.jsx
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import PageLayout from './PageLayout';
 import { CartContext } from '../context/CartContext';
 import './ShoppingCart.css';
 
 const ShoppingCart = () => {
-  const { t } = useTranslation();
+  // Translation handled by PageLayout
   const { cartItems, removeFromCart, updateQuantity, clearCart, getCartTotal } = useContext(CartContext);
 
   if (cartItems.length === 0) {

@@ -1,6 +1,7 @@
 // src/pages/Recipes.jsx
 import React from 'react';
 import '../styles/info.css';
+import PageLayout from '../components/PageLayout';
 
 const Recipes = () => {
   return (

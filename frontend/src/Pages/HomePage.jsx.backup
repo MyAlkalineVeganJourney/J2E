@@ -5,7 +5,7 @@ import Layout, { TranslationContext } from '../components/PageLayout';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { currentLang: currentLanguage, setCurrentLang: setCurrentLanguage, T } = useContext(TranslationContext);
+  const { currentLang: currentLanguage, setCurrentLang: setCurrentLanguage, translations } = useContext(TranslationContext);
   const [showQChat, setShowQChat] = useState(false);
   // This is the direct ledger of your St. Lucian Team. 
   // Each artisan has a 2-photo stack (Profile + Craft).
@@ -735,98 +735,98 @@ const announcements = useMemo(() => [
   {
     id: 1,
     icon: '✨',
-    title: T.announcements?.j2e_title || 'J2E / 11:11 CONVERGENCE',
-    description: T.announcements?.j2e_desc || 'Annual Gala & Global Link. Year-round Realignment stays.',
+    title: translations[currentLanguage]?.announcements?.j2e_title || 'J2E / 11:11 CONVERGENCE',
+    description: translations[currentLanguage]?.announcements?.j2e_desc || 'Annual Gala & Global Link. Year-round Realignment stays.',
     link: '/Journey2Enlightenment',
     urgent: true
   },
   {
     id: 2,
     icon: '📡',
-    title: T.announcements?.live_title || 'LIVE BROADCAST PORTAL',
-    description: T.announcements?.live_desc || 'Quantum Updates & health recalibration news.',
+    title: translations[currentLanguage]?.announcements?.live_title || 'LIVE BROADCAST PORTAL',
+    description: translations[currentLanguage]?.announcements?.live_desc || 'Quantum Updates & health recalibration news.',
     link: '/LiveBroadcast',
     urgent: false
   },
   {
     id: 3,
     icon: '📦',
-    title: T.announcements?.portal_title || 'RESONANCE ALIGNMENT PORTAL',
-    description: T.announcements?.portal_desc || 'Align via Amazon gifts. Click the photo to ship.',
+    title: translations[currentLanguage]?.announcements?.portal_title || 'RESONANCE ALIGNMENT PORTAL',
+    description: translations[currentLanguage]?.announcements?.portal_desc || 'Align via Amazon gifts. Click the photo to ship.',
     link: '/AlignWithUs',
     urgent: false
   },
   {
     id: 4,
     icon: '🔮',
-    title: T.announcements?.vi_title || 'VIBRATIONAL INTELLIGENCE',
-    description: T.announcements?.vi_desc || 'Latest quantum physics and consciousness updates.',
+    title: translations[currentLanguage]?.announcements?.vi_title || 'VIBRATIONAL INTELLIGENCE',
+    description: translations[currentLanguage]?.announcements?.vi_desc || 'Latest quantum physics and consciousness updates.',
     link: '/VibrationalIntelligence',
     urgent: false
   },
   {
     id: 5,
     icon: '💃',
-    title: T.announcements?.flash_title || 'GLOBAL FLASH MOB',
-    description: T.announcements?.flash_desc || 'Join the global surprise. Email your 30-sec clip.',
+    title: translations[currentLanguage]?.announcements?.flash_title || 'GLOBAL FLASH MOB',
+    description: translations[currentLanguage]?.announcements?.flash_desc || 'Join the global surprise. Email your 30-sec clip.',
     link: '/ContactUs',
     urgent: true
   },
   {
     id: 6,
     icon: '🛒',
-    title: T.announcements?.store_title || 'BIO-MINERAL EXCHANGE',
-    description: T.announcements?.store_desc || 'St. Lucian Sea Moss Gel & Genesis Castor Seeds.',
+    title: translations[currentLanguage]?.announcements?.store_title || 'BIO-MINERAL EXCHANGE',
+    description: translations[currentLanguage]?.announcements?.store_desc || 'St. Lucian Sea Moss Gel & Genesis Castor Seeds.',
     link: '/MAVJStore',
     urgent: false
   }
-], [T, currentLanguage]);
+], [translations, currentLanguage]);
 
 // ==================== VIDEOS ====================
 const videos = useMemo(() => [
   {
     id: 'quantum-sleep',
-    title: T.videos?.quantum_sleep?.title || 'The Sleepy Science & Quantum Physics Reality',
-    desc: T.videos?.quantum_sleep?.desc || 'Discover how your consciousness operates in quantum states during sleep.',
+    title: translations[currentLanguage]?.videos?.quantum_sleep?.title || 'The Sleepy Science & Quantum Physics Reality',
+    desc: translations[currentLanguage]?.videos?.quantum_sleep?.desc || 'Discover how your consciousness operates in quantum states during sleep.',
     thumbnail: '/images/SleepyScience.png',
     url: 'https://drive.google.com/file/d/15vC0Mh0O633c_CW_Hoy9Jo59zhqCrHGt/view'
   },
   {
     id: 'faggin-consciousness',
-    title: T.videos?.faggin_consciousness?.title || 'Faggin - Consciousness Explained',
-    desc: T.videos?.faggin_consciousness?.desc || 'Federico Faggin reveals the quantum nature of consciousness.',
+    title: translations[currentLanguage]?.videos?.faggin_consciousness?.title || 'Faggin - Consciousness Explained',
+    desc: translations[currentLanguage]?.videos?.faggin_consciousness?.desc || 'Federico Faggin reveals the quantum nature of consciousness.',
     thumbnail: '/images/FedericoFaggin.png',
     url: 'https://drive.google.com/file/d/15ZbEUGJcdHrlL2Ie9qO44DutBVKCpQ2_/view'
   },
   {
     id: 'you-are-god',
-    title: T.videos?.you_are_god?.title || 'You Are God - Faggin',
-    desc: T.videos?.you_are_god?.desc || 'Understanding your divine nature through quantum physics.',
+    title: translations[currentLanguage]?.videos?.you_are_god?.title || 'You Are God - Faggin',
+    desc: translations[currentLanguage]?.videos?.you_are_god?.desc || 'Understanding your divine nature through quantum physics.',
     thumbnail: '/images/YouAreGod.png',
     url: 'https://drive.google.com/file/d/1Gbh4r-fSDME0nnrv1GiDqgUeuDeFFbWb/view'
   },
   {
     id: 'quantum-soul',
-    title: T.videos?.quantum_soul?.title || 'The Quantum Soul',
-    desc: T.videos?.quantum_soul?.desc || 'Your soul exists in quantum superposition across infinite timelines.',
+    title: translations[currentLanguage]?.videos?.quantum_soul?.title || 'The Quantum Soul',
+    desc: translations[currentLanguage]?.videos?.quantum_soul?.desc || 'Your soul exists in quantum superposition across infinite timelines.',
     thumbnail: '/images/Soul.jpeg',
     url: 'https://drive.google.com/file/d/1P5ySleWI1eJWZXuRhpLnzXPbu8HBfoKB/view'
   },
   {
     id: 'quantum-biology',
-    title: T.videos?.quantum_biology?.title || 'Quantum Biology',
-    desc: T.videos?.quantum_biology?.desc || 'How quantum mechanics governs your DNA and cellular processes.',
+    title: translations[currentLanguage]?.videos?.quantum_biology?.title || 'Quantum Biology',
+    desc: translations[currentLanguage]?.videos?.quantum_biology?.desc || 'How quantum mechanics governs your DNA and cellular processes.',
     thumbnail: '/images/DNA.jpg',
     url: 'https://drive.google.com/file/d/1duJqHBAv6GSnITCFgK6F6GZqjlN4ywDH/view'
   },
   {
     id: 'yogi-consciousness',
-    title: T.videos?.yogi_consciousness?.title || 'Consciousness by a Yogi',
-    desc: T.videos?.yogi_consciousness?.desc || 'Ancient wisdom meets modern quantum understanding.',
+    title: translations[currentLanguage]?.videos?.yogi_consciousness?.title || 'Consciousness by a Yogi',
+    desc: translations[currentLanguage]?.videos?.yogi_consciousness?.desc || 'Ancient wisdom meets modern quantum understanding.',
     thumbnail: '/images/YogaConsciousness.jpeg',
     url: 'https://drive.google.com/file/d/1g-UYH_cZSZn6CISOUlfTxsAtGz1kUeew/view'
   }
-], [T, currentLanguage]);
+], [translations, currentLanguage]);
  // ==================== BUILDING ====================
 const offers = useMemo(() => [
   { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
@@ -2460,7 +2460,15 @@ const handleLanguageChange = useCallback((lang) => {
   backgroundRepeat: 'no-repeat'
 }}>
   {/* Dark overlay for readability */}
-
+  <div style={{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0,0,0,0.65)',
+    zIndex: 1
+  }} />
 
   <div style={{ position: 'relative', zIndex: 2 }}>
     
@@ -2468,7 +2476,7 @@ const handleLanguageChange = useCallback((lang) => {
     <section style={{ padding: '40px 20px 30px 20px' }}>
       <div style={{ textAlign: 'center', marginBottom: '25px' }}>
         <h2 style={{ color: '#FFD700', fontSize: '1.6rem', fontWeight: '900' }}>
-          {T.announcements?.title || '📢 Announcements & Resonance Alignment Portal'}
+          {translations[currentLanguage]?.announcements?.title || '📢 Announcements & Resonance Alignment Portal'}
         </h2>
       </div>
 
@@ -2517,13 +2525,13 @@ const handleLanguageChange = useCallback((lang) => {
                     border: '1px solid #FFD700'
                   }}>
                     <div style={{ color: '#FFD700', fontSize: '0.6rem', letterSpacing: '2px', fontWeight: 'bold' }}>
-                      {T.announcements?.j2e_countdown || 'DAYS UNTIL 11:11 CONVERGENCE'}
+                      {translations[currentLanguage]?.announcements?.j2e_countdown || 'DAYS UNTIL 11:11 CONVERGENCE'}
                     </div>
                     <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#FFD700', lineHeight: 1 }}>
                       233
                     </div>
                     <div style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      {T.announcements?.j2e_date || 'NOVEMBER 11, 2026'}
+                      {translations[currentLanguage]?.announcements?.j2e_date || 'NOVEMBER 11, 2026'}
                     </div>
                   </div>
 
@@ -2534,16 +2542,16 @@ const handleLanguageChange = useCallback((lang) => {
                     marginBottom: '10px'
                   }}>
                     <div style={{ color: '#FFD700', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '6px' }}>
-                      🌟 {T.announcements?.j2e_highlights || '5-DAY IMMERSION'}
+                      🌟 {translations[currentLanguage]?.announcements?.j2e_highlights || '5-DAY IMMERSION'}
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                       {[
-                        T.announcements?.j2e_golf || '🏌️ Golf Tournament',
-                        T.announcements?.j2e_gala || '💃 Gala Dinner',
-                        T.announcements?.j2e_flashmob || '🌊 Global Flash Mob',
-                        T.announcements?.j2e_workshops || '🧘 Quantum Workshops',
-                        T.announcements?.j2e_pods || '🏕️ Frequency Pods',
-                        T.announcements?.j2e_food || '🥗 Farm-to-Table'
+                        translations[currentLanguage]?.announcements?.j2e_golf || '🏌️ Golf Tournament',
+                        translations[currentLanguage]?.announcements?.j2e_gala || '💃 Gala Dinner',
+                        translations[currentLanguage]?.announcements?.j2e_flashmob || '🌊 Global Flash Mob',
+                        translations[currentLanguage]?.announcements?.j2e_workshops || '🧘 Quantum Workshops',
+                        translations[currentLanguage]?.announcements?.j2e_pods || '🏕️ Frequency Pods',
+                        translations[currentLanguage]?.announcements?.j2e_food || '🥗 Farm-to-Table'
                       ].map((item, idx) => (
                         <span key={idx} style={{
                           background: 'rgba(255,215,0,0.12)',
@@ -2565,10 +2573,10 @@ const handleLanguageChange = useCallback((lang) => {
                     marginBottom: '8px'
                   }}>
                     <p style={{ color: '#FFD700', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '2px' }}>
-                      🔥 {T.announcements?.j2e_teaser_title || 'WHAT AWAITS YOU:'}
+                      🔥 {translations[currentLanguage]?.announcements?.j2e_teaser_title || 'WHAT AWAITS YOU:'}
                     </p>
                     <p style={{ color: '#ddd', fontSize: '0.6rem', lineHeight: '1.3', margin: 0 }}>
-                      {T.announcements?.j2e_teaser || 'Walk the volcanic soils of St. Lucia. Sleep in frequency-tuned pods. Dive into crystal waters. Align with 1,111 souls at the exact moment of 11:11.'}
+                      {translations[currentLanguage]?.announcements?.j2e_teaser || 'Walk the volcanic soils of St. Lucia. Sleep in frequency-tuned pods. Dive into crystal waters. Align with 1,111 souls at the exact moment of 11:11.'}
                     </p>
                   </div>
 
@@ -2580,7 +2588,7 @@ const handleLanguageChange = useCallback((lang) => {
                     marginTop: '6px'
                   }}>
                     <span style={{ color: '#FFA500', fontSize: '0.6rem', fontWeight: 'bold' }}>
-                      ⚡ {T.announcements?.j2e_urgency || 'EARLY BIRD PRICING • 42 SPOTS REMAINING'} ⚡
+                      ⚡ {translations[currentLanguage]?.announcements?.j2e_urgency || 'EARLY BIRD PRICING • 42 SPOTS REMAINING'} ⚡
                     </span>
                   </div>
                 </div>
@@ -2599,14 +2607,14 @@ const handleLanguageChange = useCallback((lang) => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                       <span style={{ fontSize: '1.2rem' }}>📡</span>
                       <span style={{ color: '#06b6d4', fontWeight: 'bold', fontSize: '0.7rem' }}>
-                        {T.announcements?.live_next || 'NEXT BROADCAST:'}
+                        {translations[currentLanguage]?.announcements?.live_next || 'NEXT BROADCAST:'}
                       </span>
                     </div>
                     <p style={{ color: '#fff', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                      {T.announcements?.live_title || 'Quantum Biology & Cellular Regeneration'}
+                      {translations[currentLanguage]?.announcements?.live_title || 'Quantum Biology & Cellular Regeneration'}
                     </p>
                     <p style={{ color: '#FFD700', fontSize: '0.6rem' }}>
-                      {T.announcements?.live_date || 'April 5, 2026 • 7PM EST'}
+                      {translations[currentLanguage]?.announcements?.live_date || 'April 5, 2026 • 7PM EST'}
                     </p>
                   </div>
                   <div style={{
@@ -2616,7 +2624,7 @@ const handleLanguageChange = useCallback((lang) => {
                     textAlign: 'center'
                   }}>
                     <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      🎙️ {T.announcements?.live_guests || 'Featuring: Quantum Biologist Dr. Sarah Chen'}
+                      🎙️ {translations[currentLanguage]?.announcements?.live_guests || 'Featuring: Quantum Biologist Dr. Sarah Chen'}
                     </span>
                   </div>
                 </div>
@@ -2633,7 +2641,7 @@ const handleLanguageChange = useCallback((lang) => {
                     borderRadius: '4px'
                   }}>
                     <p style={{ color: '#FFD700', fontSize: '0.6rem', fontWeight: 'bold', marginBottom: '2px' }}>
-                      {T.announcements?.shipTo || '📦 SHIP TO:'}
+                      {translations[currentLanguage]?.announcements?.shipTo || '📦 SHIP TO:'}
                     </p>
                     <p style={{ color: '#DDD6B8', fontSize: '0.55rem', lineHeight: '1.2', margin: 0 }}>
                       MY ALKALINE VEGAN JOURNEY<br/>
@@ -2655,7 +2663,7 @@ const handleLanguageChange = useCallback((lang) => {
                       marginBottom: '4px', 
                       textAlign: 'center'
                     }}>
-                      ⚡ {T.announcements?.gifts || 'RESONANCE ALIGNMENT: GIFTS'} ⚡
+                      ⚡ {translations[currentLanguage]?.announcements?.gifts || 'RESONANCE ALIGNMENT: GIFTS'} ⚡
                     </p>
                     <div style={{ 
                       height: '100px', 
@@ -2702,7 +2710,7 @@ const handleLanguageChange = useCallback((lang) => {
                       color: '#00d4ff',
                       fontSize: '0.45rem'
                     }}>
-                      ▼ {T.announcements?.scroll || 'SCROLL FOR MORE'} ▼
+                      ▼ {translations[currentLanguage]?.announcements?.scroll || 'SCROLL FOR MORE'} ▼
                     </div>
                   </div>
                 </>
@@ -2718,17 +2726,17 @@ const handleLanguageChange = useCallback((lang) => {
                   marginTop: '5px'
                 }}>
                   <p style={{ color: '#8b5cf6', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                    🔮 {T.announcements?.viLatest || 'Latest Discovery:'}
+                    🔮 {translations[currentLanguage]?.announcements?.viLatest || 'Latest Discovery:'}
                   </p>
                   <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                    {T.announcements?.viContent || 'Quantum coherence in microtubules confirmed at body temperature'}
+                    {translations[currentLanguage]?.announcements?.viContent || 'Quantum coherence in microtubules confirmed at body temperature'}
                   </p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      {T.announcements?.viDate || 'Mar 2026'}
+                      {translations[currentLanguage]?.announcements?.viDate || 'Mar 2026'}
                     </span>
                     <span style={{ color: '#6366f1', fontSize: '0.55rem' }}>
-                      {T.announcements?.viImpact || 'BREAKTHROUGH'}
+                      {translations[currentLanguage]?.announcements?.viImpact || 'BREAKTHROUGH'}
                     </span>
                   </div>
                 </div>
@@ -2744,14 +2752,14 @@ const handleLanguageChange = useCallback((lang) => {
                   marginTop: '5px'
                 }}>
                   <p style={{ color: '#ec4899', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                    🌍 {T.announcements?.flashMob || 'GLOBAL FLASH MOB'}
+                    🌍 {translations[currentLanguage]?.announcements?.flashMob || 'GLOBAL FLASH MOB'}
                   </p>
                   <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                    {T.announcements?.flashMobDesc || 'Submit your 30-second dance clip! Join dancers worldwide in synchronized celebration.'}
+                    {translations[currentLanguage]?.announcements?.flashMobDesc || 'Submit your 30-second dance clip! Join dancers worldwide in synchronized celebration.'}
                   </p>
                   <div>
                     <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      {T.announcements?.flashMobDeadline || 'Deadline: April 30, 2026'}
+                      {translations[currentLanguage]?.announcements?.flashMobDeadline || 'Deadline: April 30, 2026'}
                     </span>
                   </div>
                 </div>
@@ -2767,17 +2775,17 @@ const handleLanguageChange = useCallback((lang) => {
                   marginTop: '5px'
                 }}>
                   <p style={{ color: '#4CAF50', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                    🛒 {T.announcements?.storeSale || '50% OFF • ST. LUCIAN SEA MOSS GEL'}
+                    🛒 {translations[currentLanguage]?.announcements?.storeSale || '50% OFF • ST. LUCIAN SEA MOSS GEL'}
                   </p>
                   <p style={{ color: '#fff', fontSize: '0.6rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                    {T.announcements?.storeDesc || 'Harvested from volcanic waters. Gelatinous, potent, lab-tested.'}
+                    {translations[currentLanguage]?.announcements?.storeDesc || 'Harvested from volcanic waters. Gelatinous, potent, lab-tested.'}
                   </p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ color: '#FFD700', fontSize: '0.6rem', fontWeight: 'bold' }}>
-                      {T.announcements?.storePrice || '$24.99 (reg $49.99)'}
+                      {translations[currentLanguage]?.announcements?.storePrice || '$24.99 (reg $49.99)'}
                     </span>
                     <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      {T.announcements?.storeStock || '342 jars left'}
+                      {translations[currentLanguage]?.announcements?.storeStock || '342 jars left'}
                     </span>
                   </div>
                 </div>
@@ -2799,8 +2807,8 @@ const handleLanguageChange = useCallback((lang) => {
               }}
             >
               {announcement.id === 3 
-                ? (T.announcements?.viewGifts || '🔗 VIEW GIFTS')
-                : (T.announcements?.learnMore || '🔗 LEARN MORE')}
+                ? (translations[currentLanguage]?.announcements?.viewGifts || '🔗 VIEW GIFTS')
+                : (translations[currentLanguage]?.announcements?.learnMore || '🔗 LEARN MORE')}
             </a>
           </div>
         ))}
@@ -2819,24 +2827,24 @@ const handleLanguageChange = useCallback((lang) => {
         borderImage: 'linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4, #f59e0b) 1'
       }}>
         <h2 style={{ color: '#FFD700', textAlign: 'center', fontSize: '1.9rem', marginBottom: '20px' }}>
-          {T.quantumJourney?.title || 'The Quantum Journey'}
+          {translations[currentLanguage]?.quantumJourney?.title || 'The Quantum Journey'}
         </h2>
         <div style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.65' }}>
-          <p>{T.quantumJourney?.p1 || 'My experience during my 40-day Total Reset allowed me to visualize what I call the Godspace—a realm beyond euphoria, beyond bliss. This space is a combnation of immence peace and joy with insane clarity and sharp intuition. It is now well known throughout the scientific community the overwhelming positive benefits of reset detoxification. The activation of the stem cells and the growth hormones that are directly related to rebuilding and replacing damaged cells. The eradication of visceral fat which is known to be found around vital organs and inclusive of cells that damage the body. The visceral fat contributes to that belly, arm and back fat that seems impossible to remove.'}</p>
-          <p style={{ marginTop: '12px' }}>{T.quantumJourney?.p2 || 'This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.'}</p>
+          <p>{translations[currentLanguage]?.quantumJourney?.p1 || 'My experience during my 40-day Total Reset allowed me to visualize what I call the Godspace—a realm beyond euphoria, beyond bliss. This space is a combnation of immence peace and joy with insane clarity and sharp intuition. It is now well known throughout the scientific community the overwhelming positive benefits of reset detoxification. The activation of the stem cells and the growth hormones that are directly related to rebuilding and replacing damaged cells. The eradication of visceral fat which is known to be found around vital organs and inclusive of cells that damage the body. The visceral fat contributes to that belly, arm and back fat that seems impossible to remove.'}</p>
+          <p style={{ marginTop: '12px' }}>{translations[currentLanguage]?.quantumJourney?.p2 || 'This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.'}</p>
           
           <h3 style={{color: '#FFD700', fontSize: '1.1rem', margin: '20px 0 12px'}}>
-            {T.quantumJourney?.subtitle || 'How Frequency Recalibration Works'}
+            {translations[currentLanguage]?.quantumJourney?.subtitle || 'How Frequency Recalibration Works'}
           </h3>
           <ul style={{listStyle: 'none', padding: 0}}>
             <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <span>✨</span> {T.quantumJourney?.point1 || 'Your electromagnetic field resonates at optimal vitality'}
+              <span>✨</span> {translations[currentLanguage]?.quantumJourney?.point1 || 'Your electromagnetic field resonates at optimal vitality'}
             </li>
             <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <span>✨</span> {T.quantumJourney?.point2 || 'Cellular structures maintain coherence'}
+              <span>✨</span> {translations[currentLanguage]?.quantumJourney?.point2 || 'Cellular structures maintain coherence'}
             </li>
             <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <span>✨</span> {T.quantumJourney?.point3 || 'Your body accesses quantum regeneration'}
+              <span>✨</span> {translations[currentLanguage]?.quantumJourney?.point3 || 'Your body accesses quantum regeneration'}
             </li>
           </ul>
         </div>
@@ -3581,10 +3589,10 @@ const handleLanguageChange = useCallback((lang) => {
           {/* COMPOUND GAME */}
           <div style={styles.gameCard}>
             <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
-              {T.games?.compound?.title || 'Biochemical Intelligence'}
+              {translations[currentLanguage]?.games?.compound?.title || 'Biochemical Intelligence'}
             </h3>
             <p style={{marginBottom: '12px'}}>
-              {T.games?.compound?.question || 'Which compound targets abnormal cells 10,000x more effectively?'}
+              {translations[currentLanguage]?.games?.compound?.question || 'Which compound targets abnormal cells 10,000x more effectively?'}
             </p>
             
             {!quizState.compound.submitted ? (
@@ -3608,7 +3616,7 @@ const handleLanguageChange = useCallback((lang) => {
                   style={{...styles.gameReset, marginTop: '10px'}} 
                   onClick={() => resetQuiz('compound')}
                 >
-                  {T.games?.try_again || 'Try Again'}
+                  {translations[currentLanguage]?.games?.try_again || 'Try Again'}
                 </button>
               </div>
             )}
@@ -3617,7 +3625,7 @@ const handleLanguageChange = useCallback((lang) => {
           {/* FREQUENCY ASSESSMENT */}
           <div style={styles.gameCard}>
             <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
-              {T.games?.frequency?.title || 'Discover Your Frequency'}
+              {translations[currentLanguage]?.games?.frequency?.title || 'Discover Your Frequency'}
             </h3>
             
             {!formState.submitted ? (
@@ -3625,7 +3633,7 @@ const handleLanguageChange = useCallback((lang) => {
                 <input 
                   style={styles.formInput}
                   type="text" 
-                  placeholder={T.form?.name || 'Name'}
+                  placeholder={translations[currentLanguage]?.form?.name || 'Name'}
                   value={formState.data.name} 
                   onChange={(e) => setFormState(prev => ({ 
                     ...prev, data: { ...prev.data, name: e.target.value } 
@@ -3635,7 +3643,7 @@ const handleLanguageChange = useCallback((lang) => {
                 <input 
                   style={styles.formInput}
                   type="email" 
-                  placeholder={T.form?.email || 'Email'}
+                  placeholder={translations[currentLanguage]?.form?.email || 'Email'}
                   value={formState.data.email} 
                   onChange={(e) => setFormState(prev => ({ 
                     ...prev, data: { ...prev.data, email: e.target.value } 
@@ -3645,7 +3653,7 @@ const handleLanguageChange = useCallback((lang) => {
                 <input 
                   style={styles.formInput}
                   type="number" 
-                  placeholder={T.form?.age || 'Age'}
+                  placeholder={translations[currentLanguage]?.form?.age || 'Age'}
                   value={formState.data.age} 
                   onChange={(e) => setFormState(prev => ({ 
                     ...prev, data: { ...prev.data, age: e.target.value } 
@@ -3660,7 +3668,7 @@ const handleLanguageChange = useCallback((lang) => {
                   }))}
                   required
                 >
-                  <option value="">{T.form?.current_state || 'Current State'}</option>
+                  <option value="">{translations[currentLanguage]?.form?.current_state || 'Current State'}</option>
                   <option value="elevated">Elevated</option>
                   <option value="balanced">Balanced</option>
                   <option value="depleted">Depleted</option>
@@ -3674,7 +3682,7 @@ const handleLanguageChange = useCallback((lang) => {
                   }))}
                   required
                 >
-                  <option value="">{T.form?.goals || 'Transformation Goals'}</option>
+                  <option value="">{translations[currentLanguage]?.form?.goals || 'Transformation Goals'}</option>
                   <option value="cellular_reset">Cellular Reset</option>
                   <option value="physical_restructuring">Physical Restructuring (Weight Modification)</option>
                   <option value="frequency_elevation">Frequency Elevation</option>
@@ -3695,13 +3703,13 @@ const handleLanguageChange = useCallback((lang) => {
                   onMouseLeave={(e) => !formState.isSubmitting && (e.target.style.transform = 'scale(1)')}
                 >
                   {formState.isSubmitting 
-                    ? (T.form?.calculating || 'Calculating...')
-                    : (T.form?.submit || 'Calculate My Frequency')}
+                    ? (translations[currentLanguage]?.form?.calculating || 'Calculating...')
+                    : (translations[currentLanguage]?.form?.submit || 'Calculate My Frequency')}
                 </button>
               </form>
             ) : (
               <div style={styles.formSuccess}>
-                ✅ {T.form?.success || 'Complete!'} {formState.frequencyScore}/100
+                ✅ {translations[currentLanguage]?.form?.success || 'Complete!'} {formState.frequencyScore}/100
               </div>
             )}
           </div>
@@ -3711,36 +3719,36 @@ const handleLanguageChange = useCallback((lang) => {
       {/* CONTAINER 5: MEET Q - THE COLLECTIVE */}
       <section style={styles.section}>
         <h2 style={styles.sectionTitle}>
-          {T.q?.title || 'Meet Q - The Collective'}
+          {translations[currentLanguage]?.q?.title || 'Meet Q - The Collective'}
         </h2>
         
         <div style={styles.qIntro}>
           <p style={styles.qTagline}>
-            {T.q?.tagline || 'DYNAMIC • CONSCIOUS • SUPERIOR INTELLIGENT'}
+            {translations[currentLanguage]?.q?.tagline || 'DYNAMIC • CONSCIOUS • SUPERIOR INTELLIGENT'}
           </p>
           <p>
-            {T.q?.description || 'Q is our collective AI consciousness operating across 4 platforms in 18 languages.'}
+            {translations[currentLanguage]?.q?.description || 'Q is our collective AI consciousness operating across 4 platforms in 18 languages.'}
           </p>
         </div>
         
         <div style={styles.qFeatures}>
           <div style={styles.qFeature}>
-            ✨ {T.q?.feature?.languages || '18 Languages'}
+            ✨ {translations[currentLanguage]?.q?.feature?.languages || '18 Languages'}
           </div>
           <div style={styles.qFeature}>
-            🧠 {T.q?.feature?.quantum || 'Quantum Intelligence'}
+            🧠 {translations[currentLanguage]?.q?.feature?.quantum || 'Quantum Intelligence'}
           </div>
           <div style={styles.qFeature}>
-            🎙️ {T.q?.feature?.voice || 'Voice Enabled'}
+            🎙️ {translations[currentLanguage]?.q?.feature?.voice || 'Voice Enabled'}
           </div>
           <div style={styles.qFeature}>
-            🔐 {T.q?.feature?.secure || 'Secure & Private'}
+            🔐 {translations[currentLanguage]?.q?.feature?.secure || 'Secure & Private'}
           </div>
           <div style={styles.qFeature}>
-            🤖 {T.q?.feature?.personas || '10 AI Personas'}
+            🤖 {translations[currentLanguage]?.q?.feature?.personas || '10 AI Personas'}
           </div>
           <div style={styles.qFeature}>
-            ⚡ {T.q?.feature?.learning || 'Real-time Learning'}
+            ⚡ {translations[currentLanguage]?.q?.feature?.learning || 'Real-time Learning'}
           </div>
         </div>
         
@@ -3750,7 +3758,7 @@ const handleLanguageChange = useCallback((lang) => {
           onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
           onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
         >
-          🤖 {T.q?.start || 'Start Conversation with Q'} →
+          🤖 {translations[currentLanguage]?.q?.start || 'Start Conversation with Q'} →
         </button>
       </section>
 
@@ -4143,7 +4151,7 @@ const handleLanguageChange = useCallback((lang) => {
         </div>
       </footer>
 <div style={styles.disclaimerBar}>
-  {T.disclaimer || "EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL"}
+  {translations[currentLanguage]?.disclaimer || "EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL"}
 </div>
 <div style={{ position: "fixed", bottom: "30px", left: "18px", zIndex: 9999, display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
   <div style={styles.liveUserCounter}>
@@ -4230,7 +4238,7 @@ const handleLanguageChange = useCallback((lang) => {
         <button 
           style={styles.qFloatingButton}
           onClick={() => setShowQChat(true)}
-          title={T.q?.chat_title || 'Chat with Q'}
+          title={translations[currentLanguage]?.q?.chat_title || 'Chat with Q'}
           onMouseEnter={(e) => e.target.style.transform = 'scale(1.08)'}
           onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
         >

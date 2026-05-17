@@ -86,7 +86,7 @@ const Journey2EnlightenmentAccommodations = () => {
 
   // GRATITUDE CONFIRMATION
   const handleConfirmation = () => {
-    alert('🎉 ABUNDANT SELECTION! Your frequency container is being prepared with love and light! 🎉');
+    alert('TRANSLATE');
   };
 
   return (

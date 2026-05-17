@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 const I18nTest = () => {
-  const { t, i18n } = useTranslation();
+  // Translation handled by PageLayout
   const [showTest, setShowTest] = useState(false);
   
   const changeLanguage = (lng) => {

@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
 const VIBreadcrumbs = ({ currentPage, currentPageKey, parentPage, parentPageKey }) => {
-  const { t } = useTranslation();
+  // Translation handled by PageLayout
 
   const breadcrumbs = [
     { path: '/', label: t('common.home', 'Home'), icon: '🏠', linkable: true },
