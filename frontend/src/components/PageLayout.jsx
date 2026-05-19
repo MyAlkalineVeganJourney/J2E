@@ -3,9 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 export const TranslationContext = React.createContext();
 
-// Hook for easy access in children
-export const useTranslation = () => React.useContext(TranslationContext);
-
 const Layout = ({ children, pageTitle }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,881 +10,1244 @@ const Layout = ({ children, pageTitle }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [liveUsers] = useState(127);
 
-  // ==================== COMPLETE MASTER LEXICON - ALL 18 LANGUAGES ====================
   const TR = useMemo(() => ({
-    // LANGUAGE 1: ENGLISH
     English: {
       co: '💦 MY ALKALINE VEGAN JOURNEY 💦',
       tl: 'SOVEREIGN HEALTH • VIBRATIONAL HEALING • ANCESTRAL NUTRITION',
-      l1: 'QUANTUM BASED', l2: 'SCIENTIFICALLY BACKED', l3: 'FREQUENCY FOCUSED',
-      r1: 'WHERE QUANTUM PHYSICS', r2: 'MEETS ANCIENT WISDOM', r3: 'AND NUTRITION',
-      n0: 'MAVJHome', n1: 'The Journey', n2: 'MAVJStore', n3: 'Journey 2 Enlightenment',
-      n4: 'Vibrational Intelligence', n5: 'Align With Us', n6: 'MAVJSearch',
-      n7: 'Live Broadcast', n8: 'PodCast/Vlog', n9: 'Contact Us',
-      n10: 'Recipes', n11: 'Frequency Misalignment',
-      foot: 'EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL',
-      pt: 'YOU ARE HOME', live_users: 'Souls',
+      l1:'QUANTUM BASED', l2:'SCIENTIFICALLY BACKED', l3:'FREQUENCY FOCUSED',
+      r1:'WHERE QUANTUM PHYSICS', r2:'MEETS ANCIENT WISDOM', r3:'AND NUTRITION',
+      n0:'MAVJHome', n1:'The Journey', n2:'MAVJStore', n3:'Journey 2 Enlightenment',
+      n4:'Vibrational Intelligence', n5:'Align With Us', n6:'MAVJSearch',
+      n7:'Live Broadcast', n8:'PodCast/Vlog', n9:'Contact Us', n10:'Recipes', n11:'Illnesses',
+      foot:'EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL', pt:'YOU ARE HOME',
       announcements: {
-        title: '📢 Announcements & Resonance Alignment Portal',
-        j2e_title: 'J2E / 11:11 CONVERGENCE', j2e_desc: 'Annual Gala & Global Link.',
-        live_title: 'LIVE BROADCAST PORTAL', live_desc: 'Quantum Updates & health recalibration news.',
-        portal_title: 'RESONANCE ALIGNMENT PORTAL', portal_desc: 'Align via Amazon gifts.',
-        vi_title: 'VIBRATIONAL INTELLIGENCE', vi_desc: 'Latest quantum physics updates.',
-        flash_title: 'GLOBAL FLASH MOB', flash_desc: 'Email your 30-sec clip.',
-        store_title: 'BIO-MINERAL EXCHANGE', store_desc: 'St. Lucian Sea Moss Gel.'
-      },
-      quantumJourney: {
-        title: 'The Quantum Journey',
-        p1: 'My experience during my 40-day Total Reset allowed me to visualize what I call the Godspace—a realm beyond euphoria, beyond bliss. This space combines immense peace and joy with insane clarity and sharp intuition. Scientific community now recognizes the overwhelming benefits of reset detoxification: stem cell activation, growth hormone release for rebuilding damaged cells, and eradication of visceral fat around vital organs.',
-        p2: 'This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.'
+        title:'📢 Announcements & Resonance Alignment Portal', j2e_title:'J2E / 11:11 CONVERGENCE',
+        j2e_desc:'Annual Gala & Global Link. Year-round Realignment stays.', j2e_countdown:'DAYS UNTIL 11:11 CONVERGENCE',
+        j2e_date:'NOVEMBER 11, 2026', j2e_highlights:'5-DAY IMMERSION', j2e_golf:'🏌️ Golf Tournament',
+        j2e_gala:'💃 Gala Dinner', j2e_flashmob:'🌊 Global Flash Mob', j2e_workshops:'🧘 Quantum Workshops',
+        j2e_pods:'🏕️ Frequency Pods', j2e_food:'🥗 Farm-to-Table', j2e_teaser_title:'WHAT AWAITS YOU:',
+        j2e_teaser:'Walk volcanic soils. Sleep in frequency-tuned pods. Align with 1,111 souls at 11:11.',
+        j2e_urgency:'EARLY BIRD PRICING • 42 SPOTS REMAINING', live_title:'LIVE BROADCAST PORTAL',
+        live_desc:'Quantum Updates & health recalibration news.', live_next:'NEXT BROADCAST:',
+        live_date:'April 5, 2026 • 7PM EST', live_guests:'Featuring: Quantum Biologist Dr. Sarah Chen',
+        portal_title:'RESONANCE ALIGNMENT PORTAL', portal_desc:'Align via Amazon gifts. Click photo to ship.',
+        shipTo:'📦 SHIP TO:', gifts:'RESONANCE ALIGNMENT: GIFTS', scroll:'SCROLL FOR MORE',
+        viewGifts:'🔗 VIEW GIFTS', learnMore:'🔗 LEARN MORE', vi_title:'VIBRATIONAL INTELLIGENCE',
+        vi_desc:'Latest quantum physics updates.', viLatest:'Latest Discovery:',
+        viContent:'Quantum coherence in microtubules confirmed', viDate:'Mar 2026', viImpact:'BREAKTHROUGH',
+        flash_title:'GLOBAL FLASH MOB', flash_desc:'Join global surprise. Email 30-sec clip.',
+        flashMob:'GLOBAL FLASH MOB', flashMobDesc:'Submit 30-second dance clip! Join worldwide celebration.',
+        flashMobDeadline:'Deadline: April 30, 2026', store_title:'BIO-MINERAL EXCHANGE',
+        store_desc:'St. Lucian Sea Moss Gel & Genesis Castor Seeds.', storeSale:'50% OFF • ST. LUCIAN SEA MOSS GEL',
+        storeDesc:'Harvested from volcanic waters. Lab-tested.', storePrice:'$24.99 (reg $49.99)', storeStock:'342 jars left'
       },
       videos: {
-        quantum_sleep: { title: 'The Science of Sleep & Quantum Reality', desc: 'Discover how your consciousness operates in quantum states during sleep.' },
-        faggin_consciousness: { title: 'Faggin - Consciousness Explained', desc: 'Federico Faggin reveals the quantum nature of consciousness.' },
-        you_are_god: { title: 'You Are God - Faggin', desc: 'Understanding your divine nature through quantum physics.' },
-        quantum_soul: { title: 'The Quantum Soul', desc: 'Your soul exists in quantum superposition across infinite timelines.' },
-        quantum_biology: { title: 'Quantum Biology', desc: 'How quantum mechanics governs your DNA and cellular processes.' },
-        yogi_consciousness: { title: 'Consciousness by a Yogi', desc: 'Ancient wisdom meets modern quantum understanding.' }
+        quantum_sleep:{title:'The Science of Sleep & Quantum Reality',desc:'Discover how consciousness operates in quantum states.'},
+        faggin_consciousness:{title:'Faggin - Consciousness Explained',desc:'Federico Faggin reveals quantum nature of consciousness.'},
+        you_are_god:{title:'You Are God - Faggin',desc:'Understanding divine nature through quantum physics.'},
+        quantum_soul:{title:'The Quantum Soul',desc:'Your soul exists in quantum superposition across infinite timelines.'},
+        quantum_biology:{title:'Quantum Biology',desc:'How quantum mechanics governs DNA and cellular processes.'},
+        yogi_consciousness:{title:'Consciousness by a Yogi',desc:'Ancient wisdom meets modern quantum understanding.'}
       },
-      artisans: [
-        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces from fresh St. Lucian coconuts.' },
-        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.' },
-        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.' },
-        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.' },
-        { name: 'King Khaled', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil, growing high-vibration organic produce.' },
-        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.' },
-        { name: 'Simeon', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.' },
-        { name: 'Billy', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.' }
+      quantumJourney:{title:'The Quantum Journey',p1:'40-day Total Reset revealed the Godspace—beyond euphoria, beyond bliss. This space combines peace, joy, clarity and intuition.',p2:'This reset makes immune system bulletproof.',subtitle:'How Frequency Recalibration Works',point1:'Electromagnetic field resonates at optimal vitality',point2:'Cellular structures maintain coherence',point3:'Body accesses quantum regeneration'},
+      games:{compound:{title:'Biochemical Intelligence',question:'Which compound targets abnormal cells 10,000x more effectively?'},frequency:{title:'Discover Your Frequency'},try_again:'Try Again'},
+      form:{name:'Name',email:'Email',age:'Age',current_state:'Current State',goals:'Transformation Goals',submit:'Calculate My Frequency',calculating:'Calculating...',success:'Complete!'},
+      q:{title:'Meet Q - The Collective',tagline:'DYNAMIC • CONSCIOUS • SUPERIOR INTELLIGENT',description:'Q is collective AI consciousness across 4 platforms in 18 languages.',feature:{languages:'18 Languages',quantum:'Quantum Intelligence',voice:'Voice Enabled',secure:'Secure & Private',personas:'10 AI Personas',learning:'Real-time Learning'},start:'Start Conversation with Q',chat_title:'Chat with Q'},
+      disclaimer:'EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'Coral Reef Restoration & Sea Moss Ecosystems', desc: 'Combining Sea Moss cultivation with active coral reef restoration, creating thriving underwater ecosystems.' },
-      ai_academy: { title: 'MAVJ Q Academy', desc: 'Delivering world-class AI education across the OECS region.' },
-      word_game: { title: 'Quantum Games', submit: 'SUBMIT', clear: 'CLEAR', scramble: 'SCRAMBLE', hint: 'HINT' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 2: SPANISH
     Spanish: {
-      co: '💦 MI VIAJE VEGANO ALCALINO 💦',
-      tl: 'SALUD SOBERANA • SANACIÓN VIBRACIONAL • NUTRICIÓN ANCESTRAL',
-      l1: 'BASADO EN CUÁNTICA', l2: 'RESPALDADO CIENTÍFICAMENTE', l3: 'ENFOCADO EN FRECUENCIA',
-      r1: 'FÍSICA CUÁNTICA', r2: 'SE ENCUENTRA CON', r3: 'SABIDURÍA ANCESTRAL',
-      n0: 'MAVJInicio', n1: 'El Viaje', n2: 'MAVJTienda', n3: 'Viaje a la Iluminación',
-      n4: 'Inteligencia Vibratoria', n5: 'Alíneate Con Nosotros', n6: 'MAVJBúsqueda',
-      n7: 'Transmisión en Vivo', n8: 'PodCast/Vlog', n9: 'Contáctenos',
-      n10: 'Recetas', n11: 'Desalineación de Frecuencia',
-      foot: 'SOLO PROPÓSITOS EDUCATIVOS • CONSULTE A UN PROFESIONAL DE SALUD',
-      pt: 'ESTÁS EN CASA', live_users: 'Almas',
+      co: '💦 MI VIAJE VEGANO ALCALINO 💦', tl: 'SALUD SOBERANA • SANACIÓN VIBRACIONAL • NUTRICIÓN ANCESTRAL',
+      l1:'BASADO EN CUÁNTICA', l2:'RESPALDADO CIENTÍFICAMENTE', l3:'ENFOCADO EN FRECUENCIA',
+      r1:'FÍSICA CUÁNTICA', r2:'SE ENCUENTRA CON', r3:'SABIDURÍA ANCESTRAL',
+      n0:'MAVJInicio', n1:'El Viaje', n2:'MAVJTienda', n3:'Viaje a la Iluminación',
+      n4:'Inteligencia Vibratoria', n5:'Alíneate Con Nosotros', n6:'MAVJBúsqueda',
+      n7:'Transmisión en Vivo', n8:'PodCast/Vlog', n9:'Contáctenos', n10:'Recetas', n11:'Enfermedades',
+      foot:'SOLO PROPÓSITOS EDUCATIVOS • CONSULTE A UN PROFESIONAL DE SALUD', pt:'ESTÁS EN CASA',
       announcements: {
-        title: '📢 Anuncios y Portal de Alineación de Resonancia',
-        j2e_title: 'J2E / 11:11 CONVERGENCIA', j2e_desc: 'Gala Anual y Enlace Global.',
-        live_title: 'PORTAL DE TRANSMISIÓN EN VIVO', live_desc: 'Actualizaciones cuánticas y noticias de recalibración.',
-        portal_title: 'PORTAL DE ALINEACIÓN DE RESONANCIA', portal_desc: 'Alinear a través de regalos de Amazon.',
-        vi_title: 'INTELIGENCIA VIBRACIONAL', vi_desc: 'Últimas actualizaciones de física cuántica.',
-        flash_title: 'FLASH MOB GLOBAL', flash_desc: 'Envía tu clip de 30 segundos.',
-        store_title: 'INTERCAMBIO BIO-MINERAL', store_desc: 'Gel de Sea Moss de Santa Lucía.'
-      },
-      quantumJourney: {
-        title: 'El Viaje Cuántico',
-        p1: 'Mi experiencia durante mi Reinicio Total de 40 días me permitió visualizar lo que llamo el Espacio Divino — un reino más allá de la euforia, más allá de la dicha. Este espacio combina paz inmensa y alegría con claridad increíble e intuición aguda. La comunidad científica reconoce los beneficios abrumadores de la desintoxicación por reinicio: activación de células madre, liberación de hormonas de crecimiento para reconstruir células dañadas y erradicación de la grasa visceral.',
-        p2: 'Este reinicio hace que tu sistema inmunológico sea a prueba de balas. Sobreviví viviendo en una casa donde todos tenían COVID, sin un solo síntoma.'
+        title:'📢 Anuncios y Portal de Alineación de Resonancia', j2e_title:'J2E / 11:11 CONVERGENCIA',
+        j2e_desc:'Gala Anual y Enlace Global. Estadías de Realineación todo el año.', j2e_countdown:'DÍAS HASTA LA CONVERGENCIA 11:11',
+        j2e_date:'11 DE NOVIEMBRE DE 2026', j2e_highlights:'INMERSIÓN DE 5 DÍAS', j2e_golf:'🏌️ Torneo de Golf',
+        j2e_gala:'💃 Cena de Gala', j2e_flashmob:'🌊 Flash Mob Global', j2e_workshops:'🧘 Talleres Cuánticos',
+        j2e_pods:'🏕️ Cápsulas de Frecuencia', j2e_food:'🥗 De la Granja a la Mesa', j2e_teaser_title:'LO QUE TE ESPERA:',
+        j2e_teaser:'Camina suelos volcánicos. Duerme en cápsulas de frecuencia. Alíneate con 1,111 almas a las 11:11.',
+        j2e_urgency:'PRECIO DE RESERVA • 42 ESPACIOS', live_title:'PORTAL DE TRANSMISIÓN EN VIVO',
+        live_desc:'Actualizaciones cuánticas y noticias de recalibración.', live_next:'PRÓXIMA TRANSMISIÓN:',
+        live_date:'5 de Abril de 2026 • 7PM EST', live_guests:'Presentando: Dra. Sarah Chen',
+        portal_title:'PORTAL DE ALINEACIÓN DE RESONANCIA', portal_desc:'Alinear vía regalos de Amazon.',
+        shipTo:'📦 ENVIAR A:', gifts:'ALINEACIÓN DE RESONANCIA: REGALOS', scroll:'DESPLAZAR PARA MÁS',
+        viewGifts:'🔗 VER REGALOS', learnMore:'🔗 APRENDER MÁS', vi_title:'INTELIGENCIA VIBRACIONAL',
+        vi_desc:'Últimas actualizaciones.', viLatest:'Último Descubrimiento:',
+        viContent:'Coherencia cuántica confirmada', viDate:'Mar 2026', viImpact:'AVANCE',
+        flash_title:'FLASH MOB GLOBAL', flash_desc:'Envía tu clip de baile de 30 segundos.',
+        flashMob:'FLASH MOB GLOBAL', flashMobDesc:'¡Envía tu clip! Únete a bailarines mundial.',
+        flashMobDeadline:'30 de Abril de 2026', store_title:'INTERCAMBIO BIO-MINERAL',
+        store_desc:'Gel de Sea Moss de Santa Lucía y Semillas de Castor.', storeSale:'50% DESCUENTO',
+        storeDesc:'Cosechado de aguas volcánicas.', storePrice:'$24.99 (regular $49.99)', storeStock:'342 frascos'
       },
       videos: {
-        quantum_sleep: { title: 'La Ciencia del Sueño y la Realidad Cuántica', desc: 'Descubre cómo tu conciencia opera en estados cuánticos durante el sueño.' },
-        faggin_consciousness: { title: 'Faggin - La Conciencia Explicada', desc: 'Federico Faggin revela la naturaleza cuántica de la conciencia.' },
-        you_are_god: { title: 'Eres Dios - Faggin', desc: 'Comprendiendo tu naturaleza divina a través de la física cuántica.' },
-        quantum_soul: { title: 'El Alma Cuántica', desc: 'Tu alma existe en superposición cuántica a través de líneas de tiempo infinitas.' },
-        quantum_biology: { title: 'Biología Cuántica', desc: 'Cómo la mecánica cuántica gobierna tu ADN y procesos celulares.' },
-        yogi_consciousness: { title: 'Conciencia por un Yogui', desc: 'La sabiduría antigua se encuentra con la comprensión cuántica moderna.' }
+        quantum_sleep:{title:'La Ciencia del Sueño y la Realidad Cuántica',desc:'Descubre cómo opera tu conciencia en estados cuánticos.'},
+        faggin_consciousness:{title:'Faggin - La Conciencia Explicada',desc:'Federico Faggin revela la naturaleza cuántica.'},
+        you_are_god:{title:'Eres Dios - Faggin',desc:'Comprendiendo tu naturaleza divina.'},
+        quantum_soul:{title:'El Alma Cuántica',desc:'Tu alma existe en superposición cuántica.'},
+        quantum_biology:{title:'Biología Cuántica',desc:'Cómo la mecánica cuántica gobierna tu ADN.'},
+        yogi_consciousness:{title:'Conciencia por un Yogui',desc:'Sabiduría ancestral y comprensión cuántica.'}
       },
-      artisans: [
-        { name: 'Julian El Artista del Coco', specialty: 'Arte Funcional de Coco y Comederos', description: 'Maestro escultor de coco que crea piezas de arte funcionales con cocos frescos de Santa Lucía.' },
-        { name: 'Kurt El Pescador', specialty: 'Pesca Tradicional Sostenible', description: 'Maestro del mar, especializado en pargo rojo y tradición de aguas profundas.' },
-        { name: 'Brittany La Química', specialty: 'Cremas y Fermentaciones 100% Naturales', description: 'Creando exfoliantes orgánicos y fermentaciones bioactivas para la salud integral de la piel.' },
-        { name: 'Anthony El Barbero', specialty: 'Peluquería de Precisión y Autocorte', description: 'Peluquería experta enfocada en estética nítida y frecuencia personal.' },
-        { name: 'Rey Khaled', specialty: 'Agricultor Orgánico Rastafari', description: 'Guardián de la tierra, cultivando productos orgánicos de alta vibración.' },
-        { name: 'Reggie El Constructor', specialty: 'Reciclador Oficial de Black Mallet', description: 'Construyendo estructuras sostenibles y liderando el movimiento de reciclaje.' },
-        { name: 'Simeon', specialty: 'El Entrenador de Caballos', description: 'Manejando el santuario y entrenando caballos en la granja Rastafari.' },
-        { name: 'Billy', specialty: 'Excursiones Acuáticas', description: 'Acompañando a los huéspedes por las aguas de Santa Lucía.' }
+      quantumJourney:{title:'El Viaje Cuántico',p1:'Mi Reinicio Total de 40 días reveló el Espacio Divino.',p2:'Este reinicio hace inmune.',subtitle:'Cómo Funciona la Recalibración',point1:'Campo electromagnético resonante',point2:'Estructuras celulares coherentes',point3:'Regeneración cuántica'},
+      games:{compound:{title:'Inteligencia Bioquímica',question:'¿Qué compuesto ataca células anormales 10,000 veces más?'},frequency:{title:'Descubre Tu Frecuencia'},try_again:'Intentar de Nuevo'},
+      form:{name:'Nombre',email:'Correo',age:'Edad',current_state:'Estado Actual',goals:'Metas',submit:'Calcular Mi Frecuencia',calculating:'Calculando...',success:'¡Completo!'},
+      q:{title:'Conoce a Q - El Colectivo',tagline:'DINÁMICO • CONSCIENTE • INTELIGENTE SUPERIOR',description:'Q es conciencia IA colectiva.',feature:{languages:'18 Idiomas',quantum:'Inteligencia Cuántica',voice:'Activado por Voz',secure:'Seguro',personas:'10 Personajes IA',learning:'Aprendizaje Real'},start:'Iniciar Conversación',chat_title:'Chatear con Q'},
+      disclaimer:'SOLO PARA PROPÓSITOS EDUCATIVOS • CONSULTE A UN PROFESIONAL',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'Restauración de Arrecifes de Coral y Ecosistemas de Sea Moss', desc: 'Combinando el cultivo de Sea Moss con la restauración activa de arrecifes de coral.' },
-      ai_academy: { title: 'MAVJ Q Academy', desc: 'Ofreciendo educación en IA de clase mundial en toda la región OECS.' },
-      word_game: { title: 'Juegos Cuánticos', submit: 'ENVIAR', clear: 'LIMPIAR', scramble: 'MEZCLAR', hint: 'PISTA' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 3: FRENCH (COMPLETE - NO PLACEHOLDERS)
     French: {
-      co: '💦 MON VOYAGE VÉGÉTALIEN ALCALIN 💦',
-      tl: 'SANTÉ SOUVERAINE • GUÉRISON VIBRATOIRE • NUTRITION ANCESTRALE',
-      l1: 'BASÉ SUR LE QUANTIQUE', l2: 'SOUTENU SCIENTIFIQUEMENT', l3: 'FOCALISÉ SUR LA FRÉQUENCE',
-      r1: 'PHYSIQUE QUANTIQUE', r2: 'RENCONTRE LA SAGESSE', r3: 'ANCIENNE ET NUTRITION',
-      n0: 'MAVJAccueil', n1: 'Le Voyage', n2: 'MAVJBoutique', n3: 'Voyage vers l\'Éveil',
-      n4: 'Intelligence Vibratoire', n5: 'Aligner avec Nous', n6: 'MAVJRecherche',
-      n7: 'Diffusion en Direct', n8: 'PodCast/Vlog', n9: 'Contactez-Nous',
-      n10: 'Recettes', n11: 'Désalignement de Fréquence',
-      foot: 'À DES FINS ÉDUCATIVES UNIQUEMENT • CONSULTEZ UN PROFESSIONNEL DE SANTÉ',
-      pt: 'VOUS ÊTES CHEZ VOUS', live_users: 'Âmes',
+      co: '💦 MON VOYAGE VÉGÉTALIEN ALCALIN 💦', tl: 'SANTÉ SOUVERAINE • GUÉRISON VIBRATOIRE • NUTRITION ANCESTRALE',
+      l1:'BASÉ SUR LE QUANTIQUE', l2:'SOUTENU SCIENTIFIQUEMENT', l3:'FOCALISÉ SUR LA FRÉQUENCE',
+      r1:'PHYSIQUE QUANTIQUE', r2:'RENCONTRE LA SAGESSE', r3:'ANCIENNE ET NUTRITION',
+      n0:'MAVJAccueil', n1:'Le Voyage', n2:'MAVJBoutique', n3:"Voyage vers l'Éveil",
+      n4:'Intelligence Vibratoire', n5:'Aligner avec Nous', n6:'MAVJRecherche',
+      n7:'Diffusion en Direct', n8:'PodCast/Vlog', n9:'Contactez-Nous', n10:'Recettes', n11:'Maladies',
+      foot:'À DES FINS ÉDUCATIVES UNIQUEMENT • CONSULTEZ UN PROFESSIONNEL DE SANTÉ', pt:'VOUS ÊTES CHEZ VOUS',
       announcements: {
-        title: '📢 Annonces et Portail d\'Alignement de Résonance',
-        j2e_title: 'J2E / CONVERGENCE 11:11', j2e_desc: 'Gala Annuelle et Lien Global.',
-        live_title: 'PORTAIL DE DIFFUSION EN DIRECT', live_desc: 'Mises à jour quantiques et actualités de recalibrage.',
-        portal_title: 'PORTAIL D\'ALIGNEMENT DE RÉSONANCE', portal_desc: 'Alignez-vous via les cadeaux Amazon.',
-        vi_title: 'INTELLIGENCE VIBRATOIRE', vi_desc: 'Dernières mises à jour sur la physique quantique.',
-        flash_title: 'FLASH MOB MONDIAL', flash_desc: 'Envoyez votre clip de 30 secondes.',
-        store_title: 'ÉCHANGE BIO-MINÉRAL', store_desc: 'Gel de Sea Moss de Sainte-Lucie.'
-      },
-      quantumJourney: {
-        title: 'Le Voyage Quantique',
-        p1: 'Mon expérience pendant ma Réinitialisation Totale de 40 jours m\'a permis de visualiser ce que j\'appelle l\'Espace Divin — un royaume au-delà de l\'euphorie, au-delà de la béatitude. Cet espace combine une paix et une joie immenses avec une clarté incroyable et une intuition aiguë. La communauté scientifique reconnaît désormais les bienfaits accablants de la désintoxication par réinitialisation : activation des cellules souches, libération d\'hormones de croissance pour reconstruire les cellules endommagées, et éradication de la graisse viscérale autour des organes vitaux.',
-        p2: 'Cette réinitialisation rend votre système immunitaire incassable. J\'ai survécu en vivant dans une maison où tout le monde avait la COVID, sans jamais ressentir un seul symptôme.'
+        title:'📢 Annonces et Portail d\'Alignement de Résonance', j2e_title:'J2E / CONVERGENCE 11:11',
+        j2e_desc:'Gala Annuelle et Lien Global. Séjours de Réalignement toute l\'année.', j2e_countdown:'JOURS AVANT LA CONVERGENCE 11:11',
+        j2e_date:'11 NOVEMBRE 2026', j2e_highlights:'IMMERSION DE 5 JOURS', j2e_golf:'🏌️ Tournoi de Golf',
+        j2e_gala:'💃 Dîner de Gala', j2e_flashmob:'🌊 Flash Mob Mondial', j2e_workshops:'🧘 Ateliers Quantiques',
+        j2e_pods:'🏕️ Cabanes de Fréquence', j2e_food:'🥗 De la Ferme à la Table', j2e_teaser_title:'CE QUI VOUS ATTEND:',
+        j2e_teaser:'Marchez sur les sols volcaniques. Dormez dans des cabines de fréquence. Alignez-vous avec 1,111 âmes à 11:11.',
+        j2e_urgency:'PRIX PRÉCOCE • 42 PLACES RESTANTES', live_title:'PORTAIL DE DIFFUSION EN DIRECT',
+        live_desc:'Mises à jour quantiques et actualités de recalibrage.', live_next:'PROCHAINE DIFFUSION:',
+        live_date:'5 Avril 2026 • 19H EST', live_guests:'Avec: Dre Sarah Chen',
+        portal_title:'PORTAIL D\'ALIGNEMENT DE RÉSONANCE', portal_desc:'Alignez-vous via les cadeaux Amazon.',
+        shipTo:'📦 EXPÉDIER À:', gifts:'ALIGNEMENT DE RÉSONANCE: CADEAUX', scroll:'DÉFILER POUR PLUS',
+        viewGifts:'🔗 VOIR LES CADEAUX', learnMore:'🔗 EN SAVOIR PLUS', vi_title:'INTELLIGENCE VIBRATOIRE',
+        vi_desc:'Dernières mises à jour.', viLatest:'Dernière Découverte:',
+        viContent:'Cohérence quantique confirmée', viDate:'Mar 2026', viImpact:'PERCÉE',
+        flash_title:'FLASH MOB MONDIAL', flash_desc:'Participez à la surprise mondiale. Envoyez votre clip de 30 sec.',
+        flashMob:'FLASH MOB MONDIAL', flashMobDesc:'Soumettez votre clip de danse! Rejoignez les danseurs du monde.',
+        flashMobDeadline:'30 Avril 2026', store_title:'ÉCHANGE BIO-MINÉRAL',
+        store_desc:'Gel de Sea Moss de Sainte-Lucie et Graines de Ricin Genesis.', storeSale:'50% DE RÉDUCTION',
+        storeDesc:'Récolté des eaux volcaniques.', storePrice:'24,99$ (rég. 49,99$)', storeStock:'342 pots restants'
       },
       videos: {
-        quantum_sleep: { title: 'La Science du Sommeil et de la Réalité Quantique', desc: 'Découvrez comment votre conscience fonctionne dans les états quantiques pendant le sommeil.' },
-        faggin_consciousness: { title: 'Faggin - La Conscience Expliquée', desc: 'Federico Faggin révèle la nature quantique de la conscience.' },
-        you_are_god: { title: 'Vous Êtes Dieu - Faggin', desc: 'Comprendre votre nature divine à travers la physique quantique.' },
-        quantum_soul: { title: 'L\'Âme Quantique', desc: 'Votre âme existe en superposition quantique à travers des lignes temporelles infinies.' },
-        quantum_biology: { title: 'Biologie Quantique', desc: 'Comment la mécanique quantique régit votre ADN et vos processus cellulaires.' },
-        yogi_consciousness: { title: 'La Conscience par un Yogi', desc: 'La sagesse ancienne rencontre la compréhension quantique moderne.' }
+        quantum_sleep:{title:'La Science du Sommeil et de la Réalité Quantique',desc:'Découvrez comment votre conscience opère dans les états quantiques.'},
+        faggin_consciousness:{title:'Faggin - La Conscience Expliquée',desc:'Federico Faggin révèle la nature quantique de la conscience.'},
+        you_are_god:{title:'Vous Êtes Dieu - Faggin',desc:'Comprendre votre nature divine à travers la physique quantique.'},
+        quantum_soul:{title:'L\'Âme Quantique',desc:'Votre âme existe en superposition quantique.'},
+        quantum_biology:{title:'Biologie Quantique',desc:'Comment la mécanique quantique régit votre ADN.'},
+        yogi_consciousness:{title:'La Conscience par un Yogi',desc:'La sagesse ancienne rencontre la compréhension quantique.'}
       },
-      artisans: [
-        { name: 'Julien L\'Artiste du Coco', specialty: 'Art Fonctionnel du Coco et Mangeoires', description: 'Maître sculpteur de noix de coco créant des pièces d\'art fonctionnelles à partir de noix de coco fraîches de Sainte-Lucie.' },
-        { name: 'Kurt Le Pêcheur', specialty: 'Pêche Traditionnelle Durable', description: 'Maître de la mer, spécialisé dans le vivaneau rouge et la tradition de haute mer.' },
-        { name: 'Brittany La Chimiste', specialty: 'Crèmes et Fermentations 100% Naturelles', description: 'Création de gommages organiques et de fermentations bioactives pour la santé holistique de la peau.' },
-        { name: 'Anthony Le Barbier', specialty: 'Coiffure de Précision et Auto-Coupe', description: 'Coiffure experte axée sur l\'esthétique nette et la fréquence personnelle.' },
-        { name: 'Roi Khaled', specialty: 'Agriculteur Biologique Rastafari', description: 'Gardien du sol, cultivant des produits biologiques à haute vibration.' },
-        { name: 'Reggie Le Constructeur', specialty: 'Homme de Recyclage Officiel de Black Mallet', description: 'Construction de structures durables et leadership du mouvement de recyclage.' },
-        { name: 'Siméon', specialty: 'Le Dresseur de Chevaux', description: 'Gestion du sanctuaire et dressage des chevaux à la ferme Rastafari.' },
-        { name: 'Billy', specialty: 'Excursions Aquatiques', description: 'Accompagnement des invités dans les eaux de Sainte-Lucie.' }
+      quantumJourney:{title:'Le Voyage Quantique',p1:'Ma Réinitialisation Totale de 40 jours a révélé l\'Espace Divin.',p2:'Cette réinitialisation rend immunitaire.',subtitle:'Comment fonctionne le recalibrage',point1:'Champ électromagnétique résonant',point2:'Structures cellulaires cohérentes',point3:'Régénération quantique'},
+      games:{compound:{title:'Intelligence Biochimique',question:'Quel composé cible les cellules anormales 10 000 fois plus efficacement?'},frequency:{title:'Découvrez Votre Fréquence'},try_again:'Réessayer'},
+      form:{name:'Nom',email:'E-mail',age:'Âge',current_state:'État Actuel',goals:'Objectifs',submit:'Calculer Ma Fréquence',calculating:'Calcul en cours...',success:'Terminé !'},
+      q:{title:'Rencontrez Q - Le Collectif',tagline:'DYNAMIQUE • CONSCIENT • INTELLIGENT SUPÉRIEUR',description:'Q est une conscience IA collective.',feature:{languages:'18 Langues',quantum:'Intelligence Quantique',voice:'Activé par Voix',secure:'Sécurisé',personas:'10 Personas IA',learning:'Apprentissage Réel'},start:'Commencer Conversation',chat_title:'Discuter avec Q'},
+      disclaimer:'À DES FINS ÉDUCATIVES UNIQUEMENT • CONSULTEZ UN PROFESSIONNEL DE SANTÉ',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'Restauration des Récifs Coralliens et Écosystèmes de Sea Moss', desc: 'Combinant la culture de Sea Moss avec la restauration active des récifs coralliens.' },
-      ai_academy: { title: 'MAVJ Q Academy', desc: 'Offrant une éducation en IA de classe mondiale dans toute la région OECS.' },
-      word_game: { title: 'Jeux Quantiques', submit: 'SOUMETTRE', clear: 'EFFACER', scramble: 'MÉLANGER', hint: 'INDICE' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 4: GERMAN
     German: {
-      co: '💦 MEINE ALKALISCHE VEGANE REISE 💦',
-      tl: 'SOUVERÄNE GESUNDHEIT • VIBRATIONSHEILUNG • AHNENERNÄHRUNG',
-      l1: 'QUANTENBASIERT', l2: 'WISSENSCHAFTLICH GESTÜTZT', l3: 'FREQUENZFOKUSSIERT',
-      r1: 'QUANTENPHYSIK TRIFFT', r2: 'ALTE WEISHEIT', r3: 'UND ERNÄHRUNG',
-      n0: 'MAVJStartseite', n1: 'Die Reise', n2: 'MAVJGeschäft', n3: 'Reise zur Erleuchtung',
-      n4: 'Schwingungsintelligenz', n5: 'Mit uns ausrichten', n6: 'MAVJSuche',
-      n7: 'Live-Übertragung', n8: 'PodCast/Vlog', n9: 'Kontaktieren Sie uns',
-      n10: 'Rezepte', n11: 'Frequenzfehlausrichtung',
-      foot: 'NUR FÜR BILDUNGSZWECKE • FACHMANN KONSULTIEREN',
-      pt: 'DU BIST ZU HAUSE', live_users: 'Seelen',
+      co: '💦 MEINE ALKALISCHE VEGANE REISE 💦', tl: 'SOUVERÄNE GESUNDHEIT • VIBRATIONSHEILUNG • AHNENERNÄHRUNG',
+      l1:'QUANTENBASIERT', l2:'WISSENSCHAFTLICH GESTÜTZT', l3:'FREQUENZFOKUSSIERT',
+      r1:'QUANTENPHYSIK TRIFFT', r2:'ALTE WEISHEIT', r3:'UND ERNÄHRUNG',
+      n0:'MAVJStartseite', n1:'Die Reise', n2:'MAVJGeschäft', n3:'Reise zur Erleuchtung',
+      n4:'Schwingungsintelligenz', n5:'Mit uns ausrichten', n6:'MAVJSuche',
+      n7:'Live-Übertragung', n8:'PodCast/Vlog', n9:'Kontaktieren Sie uns', n10:'Rezepte', n11:'Krankheiten',
+      foot:'NUR FÜR BILDUNGSZWECKE • FACHMANN KONSULTIEREN', pt:'DU BIST ZU HAUSE',
       announcements: {
-        title: '📢 Ankündigungen und Resonanz-Ausrichtungsportal',
-        j2e_title: 'J2E / 11:11 KONVERGENZ', j2e_desc: 'Jährliche Gala und Globale Verbindung.',
-        live_title: 'LIVE-ÜBERTRAGUNGS PORTAL', live_desc: 'Quantenaktualisierungen und Gesundheitsnachrichten.',
-        portal_title: 'RESONANZ-AUSRICHTUNGS PORTAL', portal_desc: 'Ausrichtung über Amazon-Geschenke.',
-        vi_title: 'SCHWINGUNGSINTELLIGENZ', vi_desc: 'Neueste Quantenphysik-Updates.',
-        flash_title: 'GLOBALER FLASH MOB', flash_desc: 'Senden Sie Ihren 30-Sekunden-Clip.',
-        store_title: 'BIO-MINERALIEN AUSTAUSCH', store_desc: 'St. Lucia Sea Moss Gel.'
-      },
-      quantumJourney: {
-        title: 'Die Quantenreise',
-        p1: 'Meine Erfahrung während meines 40-tägigen Total Reset ermöglichte es mir, den Gottraum zu visualisieren — einen Bereich jenseits der Euphorie, jenseits der Glückseligkeit. Dieser Raum vereint immensen Frieden und Freude mit unglaublicher Klarheit und scharfer Intuition. Die wissenschaftliche Gemeinschaft erkennt heute die überwältigenden Vorteile der Reset-Entgiftung an: Aktivierung von Stammzellen, Freisetzung von Wachstumshormonen zum Wiederaufbau geschädigter Zellen und Beseitigung von viszeralem Fett um lebenswichtige Organe.',
-        p2: 'Dieser Reset macht Ihr Immunsystem kugelsicher. Ich überlebte in einem Haus, in dem jeder COVID hatte, ohne ein einziges Symptom.'
+        title:'📢 Ankündigungen und Resonanz-Ausrichtungsportal', j2e_title:'J2E / 11:11 KONVERGENZ',
+        j2e_desc:'Jährliche Gala und Globale Verbindung. Ganzjährige Neuausrichtungsaufenthalte.', j2e_countdown:'TAGE BIS ZUR 11:11 KONVERGENZ',
+        j2e_date:'11. NOVEMBER 2026', j2e_highlights:'5-TAGES IMMERSION', j2e_golf:'🏌️ Golfturnier',
+        j2e_gala:'💃 Galadinner', j2e_flashmob:'🌊 Globaler Flash Mob', j2e_workshops:'🧘 Quanten-Workshops',
+        j2e_pods:'🏕️ Frequenzkapseln', j2e_food:'🥗 Vom Bauernhof auf den Tisch', j2e_teaser_title:'WAS SIE ERWARTET:',
+        j2e_teaser:'Gehen Sie auf vulkanischen Böden. Schlafen Sie in Frequenzkapseln. Verbinden Sie sich mit 1,111 Seelen um 11:11.',
+        j2e_urgency:'FRÜHBUCHERPREIS • 42 PLÄTZE VERFÜGBAR', live_title:'LIVE-ÜBERTRAGUNGS PORTAL',
+        live_desc:'Quantenaktualisierungen und Gesundheitsnachrichten.', live_next:'NÄCHSTE ÜBERTRAGUNG:',
+        live_date:'5. April 2026 • 19 Uhr EST', live_guests:'Mit: Quantenbiologin Dr. Sarah Chen',
+        portal_title:'RESONANZ-AUSRICHTUNGS PORTAL', portal_desc:'Ausrichtung über Amazon-Geschenke.',
+        shipTo:'📦 SENDEN AN:', gifts:'RESONANZ-AUSRICHTUNG: GESCHENKE', scroll:'SCROLLEN FÜR MEHR',
+        viewGifts:'🔗 GESCHENKE SEHEN', learnMore:'🔗 MEHR ERFAHREN', vi_title:'SCHWINGUNGSINTELLIGENZ',
+        vi_desc:'Neueste Aktualisierungen.', viLatest:'Neueste Entdeckung:',
+        viContent:'Quantenkohärenz bestätigt', viDate:'März 2026', viImpact:'DURCHBRUCH',
+        flash_title:'GLOBALER FLASH MOB', flash_desc:'Nehmen Sie an der globalen Überraschung teil. Senden Sie Ihren 30-Sekunden-Clip.',
+        flashMob:'GLOBALER FLASH MOB', flashMobDesc:'Reichen Sie Ihren 30-Sekunden-Tanzclip ein!',
+        flashMobDeadline:'30. April 2026', store_title:'BIO-MINERALIEN AUSTAUSCH',
+        store_desc:'St. Lucia Sea Moss Gel und Genesis Rizinus samen.', storeSale:'50% RABATT',
+        storeDesc:'Aus vulkanischen Gewässern geerntet.', storePrice:'24,99$ (reg. 49,99$)', storeStock:'342 Gläser übrig'
       },
       videos: {
-        quantum_sleep: { title: 'Die Wissenschaft des Schlafes und der Quantenrealität', desc: 'Entdecken Sie, wie Ihr Bewusstsein im Schlaf in Quantenzuständen arbeitet.' },
-        faggin_consciousness: { title: 'Faggin - Bewusstsein Erklärt', desc: 'Federico Faggin enthüllt die Quantennatur des Bewusstseins.' },
-        you_are_god: { title: 'Du Bist Gott - Faggin', desc: 'Verstehen Sie Ihre göttliche Natur durch die Quantenphysik.' },
-        quantum_soul: { title: 'Die Quantenseele', desc: 'Ihre Seele existiert in Quantensuperposition über unendliche Zeitlinien.' },
-        quantum_biology: { title: 'Quantenbiologie', desc: 'Wie die Quantenmechanik Ihre DNA und Zellprozesse steuert.' },
-        yogi_consciousness: { title: 'Bewusstsein durch einen Yogi', desc: 'Alte Weisheit trifft modernes Quantenverständnis.' }
+        quantum_sleep:{title:'Die Wissenschaft des Schlafes und der Quantenrealität',desc:'Entdecken Sie, wie Ihr Bewusstsein im Schlaf in Quantenzuständen arbeitet.'},
+        faggin_consciousness:{title:'Faggin - Bewusstsein Erklärt',desc:'Federico Faggin enthüllt die Quantennatur des Bewusstseins.'},
+        you_are_god:{title:'Du Bist Gott - Faggin',desc:'Verstehen Sie Ihre göttliche Natur durch die Quantenphysik.'},
+        quantum_soul:{title:'Die Quantenseele',desc:'Ihre Seele existiert in Quantensuperposition.'},
+        quantum_biology:{title:'Quantenbiologie',desc:'Wie die Quantenmechanik Ihre DNA steuert.'},
+        yogi_consciousness:{title:'Bewusstsein durch einen Yogi',desc:'Alte Weisheit trifft modernes Quantenverständnis.'}
       },
-      artisans: [
-        { name: 'Julian Der Kokosnusskünstler', specialty: 'Funktionale Kokoskunst & Vogelfutterhäuschen', description: 'Meisterhafter Kokosnuss-Bildhauer, der funktionale Kunstwerke aus frischen St. Lucia-Kokosnüssen schafft.' },
-        { name: 'Kurt Der Fischer', specialty: 'Nachhaltige Traditionelle Fischerei', description: 'Meister des Meeres, spezialisiert auf Rotbarsch und Tiefseetradition.' },
-        { name: 'Brittany Die Chemikerin', specialty: '100% Natürliche Cremes & Fermentationen', description: 'Herstellung von Bio-Peelings und bioaktiven Fermentationen für ganzheitliche Hautgesundheit.' },
-        { name: 'Anthony Der Barbier', specialty: 'Präzisionspflege & Selbstschnitt-Kunst', description: 'Experten-Friseur mit Fokus auf scharfe Ästhetik und persönliche Frequenz.' },
-        { name: 'König Khaled', specialty: 'Rastafarianischer Bio-Landwirt', description: 'Hüter des Bodens, Anbau von hochschwingenden Bio-Produkten.' },
-        { name: 'Reggie Der Baumeister', specialty: 'Offizieller Recycling-Mann von Black Mallet', description: 'Bau nachhaltiger Strukturen und Führung der Recycling-Bewegung.' },
-        { name: 'Simeon', specialty: 'Der Pferdetrainer', description: 'Verwaltung des Heiligtums und Training von Pferden auf der Rastafari-Farm.' },
-        { name: 'Billy', specialty: 'Wasserausflüge', description: 'Begleitung von Gästen durch die Gewässer von St. Lucia.' }
+      quantumJourney:{title:'Die Quantenreise',p1:'Meine 40-tägige Total Reset offenbarte den Gottraum.',p2:'Dieser Reset macht immun.',subtitle:'Wie Frequenzkalibrierung funktioniert',point1:'Elektromagnetisches Feld schwingt optimal',point2:'Zellstrukturen bleiben kohärent',point3:'Körper erhält Quantenregeneration'},
+      games:{compound:{title:'Biochemische Intelligenz',question:'Welche Verbindung zielt 10.000x effektiver auf abnormale Zellen ab?'},frequency:{title:'Entdecken Sie Ihre Frequenz'},try_again:'Erneut versuchen'},
+      form:{name:'Name',email:'E-Mail',age:'Alter',current_state:'Aktueller Zustand',goals:'Ziele',submit:'Meine Frequenz Berechnen',calculating:'Berechne...',success:'Abgeschlossen!'},
+      q:{title:'Lernen Sie Q kennen - Das Kollektiv',tagline:'DYNAMISCH • BEWUSST • ÜBERLEGENE INTELLIGENZ',description:'Q ist kollektives KI-Bewusstsein.',feature:{languages:'18 Sprachen',quantum:'Quantenintelligenz',voice:'Sprachaktiviert',secure:'Sicher',personas:'10 KI-Personas',learning:'Echtzeitlernen'},start:'Gespräch beginnen',chat_title:'Mit Q chatten'},
+      disclaimer:'NUR FÜR BILDUNGSZWECKE • KONSULTIEREN SIE EINEN GESUNDHEITSFACHMANN',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'Korallenriff-Restaurierung und Sea Moss-Ökosysteme', desc: 'Kombination von Sea Moss-Kultivierung mit aktiver Korallenriff-Restaurierung.' },
-      ai_academy: { title: 'MAVJ Q Academy', desc: 'Bereitstellung von KI-Bildung auf Weltklasseniveau in der gesamten OECS-Region.' },
-      word_game: { title: 'Quantenspiele', submit: 'EINREICHEN', clear: 'LÖSCHEN', scramble: 'MISCHEN', hint: 'HINWEIS' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 5: ITALIAN
     Italian: {
-      co: '💦 IL MIO VIAGGIO VEGANO ALCALINO 💦',
-      tl: 'SALUTE SOVRANA • GUARIGIONE VIBRAZIONALE • NUTRIZIONE ANCESTRALE',
-      l1: 'BASATO SUL QUANTISTICO', l2: 'SCIENTIFICAMENTE SUPPORTATO', l3: 'FOCALIZZATO SULLA FREQUENZA',
-      r1: 'FISICA QUANTISTICA', r2: 'INCONTRA LA SAGGEZZA', r3: 'ANTICA E NUTRIZIONE',
-      n0: 'MAVJHome', n1: 'Il Viaggio', n2: 'MAVJNegozio', n3: 'Viaggio verso l\'Illuminazione',
-      n4: 'Intelligenza Vibrazionale', n5: 'Allineati con Noi', n6: 'MAVJRicerca',
-      n7: 'Trasmissione in Diretta', n8: 'PodCast/Vlog', n9: 'Contattaci',
-      n10: 'Ricette', n11: 'Disallineamento di Frequenza',
-      foot: 'SOLO A SCOPO EDUCATIVO • CONSULTARE UN PROFESSIONISTA SANITARIO',
-      pt: 'SEI A CASA', live_users: 'Anime',
+      co: '💦 IL MIO VIAGGIO VEGANO ALCALINO 💦', tl: 'SALUTE SOVRANA • GUARIGIONE VIBRAZIONALE • NUTRIZIONE ANCESTRALE',
+      l1:'BASATO SUL QUANTISTICO', l2:'SCIENTIFICAMENTE SUPPORTATO', l3:'FOCALIZZATO SULLA FREQUENZA',
+      r1:'FISICA QUANTISTICA', r2:'INCONTRA LA SAGGEZZA', r3:'ANTICA E NUTRIZIONE',
+      n0:'MAVJHome', n1:'Il Viaggio', n2:'MAVJNegozio', n3:"Viaggio verso l'Illuminazione",
+      n4:'Intelligenza Vibrazionale', n5:'Allineati con Noi', n6:'MAVJRicerca',
+      n7:'Trasmissione in Diretta', n8:'PodCast/Vlog', n9:'Contattaci', n10:'Ricette', n11:'Malattie',
+      foot:'SOLO A SCOPO EDUCATIVO • CONSULTARE UN PROFESSIONISTA SANITARIO', pt:'SEI A CASA',
       announcements: {
-        title: '📢 Annunci e Portale di Allineamento di Risonanza',
-        j2e_title: 'J2E / 11:11 CONVERGENZA', j2e_desc: 'Gala Annuale e Collegamento Globale.',
-        live_title: 'PORTALE DI TRASMISSIONE IN DIRETTA', live_desc: 'Aggiornamenti quantistici e notizie di ricallibrazione.',
-        portal_title: 'PORTALE DI ALLINEAMENTO DI RISONANZA', portal_desc: 'Allineati tramite regali Amazon.',
-        vi_title: 'INTELLIGENZA VIBRAZIONALE', vi_desc: 'Ultimi aggiornamenti sulla fisica quantistica.',
-        flash_title: 'FLASH MOB GLOBALE', flash_desc: 'Invia il tuo clip di 30 secondi.',
-        store_title: 'SCAMBIO BIO-MINERALE', store_desc: 'Gel di Sea Moss di Santa Lucia.'
-      },
-      quantumJourney: {
-        title: 'Il Viaggio Quantico',
-        p1: 'La mia esperienza durante il Reset Totale di 40 giorni mi ha permesso di visualizzare lo Spazio Divino — un regno oltre l\'euforia, oltre la beatitudine. Questo spazio combina pace immensa e gioia con chiarezza incredibile e intuizione acuta. La comunità scientifica riconosce ora i travolgenti benefici della disintossicazione da reset: attivazione delle cellule staminali, rilascio di ormoni della crescita per ricostruire le cellule danneggiate ed eradicazione del grasso viscerale attorno agli organi vitali.',
-        p2: 'Questo reset rende il tuo sistema immunitario a prova di proiettile. Sono sopravvissuto vivendo in una casa dove tutti avevano il COVID, senza mai avere un sintomo.'
+        title:'📢 Annunci e Portale di Allineamento di Risonanza', j2e_title:'J2E / 11:11 CONVERGENZA',
+        j2e_desc:'Gala Annuale e Collegamento Globale. Soggiorni di Riallineamento tutto l\'anno.', j2e_countdown:'GIORNI ALLA CONVERGENZA 11:11',
+        j2e_date:'11 NOVEMBRE 2026', j2e_highlights:'IMMERSIONE DI 5 GIORNI', j2e_golf:'🏌️ Torneo di Golf',
+        j2e_gala:'💃 Cena di Gala', j2e_flashmob:'🌊 Flash Mob Globale', j2e_workshops:'🧘 Workshop Quantistici',
+        j2e_pods:'🏕️ Capsule di Frequenza', j2e_food:'🥗 Dal Campo alla Tavola', j2e_teaser_title:'COSA TI ASPETTA:',
+        j2e_teaser:'Cammina sui suoli vulcanici. Dormi in capsule di frequenza. Allineati con 1,111 anime alle 11:11.',
+        j2e_urgency:'PREZZO PREVENDITA • 42 POSTI RIMASTI', live_title:'PORTALE DI TRASMISSIONE IN DIRETTA',
+        live_desc:'Aggiornamenti quantistici e notizie di ricallibrazione.', live_next:'PROSSIMA TRASMISSIONE:',
+        live_date:'5 Aprile 2026 • 19:00 EST', live_guests:'Con: Biologa Quantistica Dr.ssa Sarah Chen',
+        portal_title:'PORTALE DI ALLINEAMENTO DI RISONANZA', portal_desc:'Allineati tramite regali Amazon.',
+        shipTo:'📦 SPEDIRE A:', gifts:'ALLINEAMENTO DI RISONANZA: REGALI', scroll:'SCORRI PER ALTRO',
+        viewGifts:'🔗 VEDI REGALI', learnMore:'🔗 SCOPRI DI PIÙ', vi_title:'INTELLIGENZA VIBRAZIONALE',
+        vi_desc:'Ultimi aggiornamenti.', viLatest:'Ultima Scoperta:',
+        viContent:'Coerenza quantistica confermata', viDate:'Mar 2026', viImpact:'SCOPERTO',
+        flash_title:'FLASH MOB GLOBALE', flash_desc:'Unisciti alla sorpresa globale. Invia il tuo clip di 30 sec.',
+        flashMob:'FLASH MOB GLOBALE', flashMobDesc:'Invia il tuo clip di ballo! Unisciti ai ballerini di tutto il mondo.',
+        flashMobDeadline:'30 Aprile 2026', store_title:'SCAMBIO BIO-MINERALE',
+        store_desc:'Gel di Sea Moss di Santa Lucia e Semi di Ricino Genesis.', storeSale:'50% DI SCONTO',
+        storeDesc:'Raccolto da acque vulcaniche.', storePrice:'24,99$ (reg. 49,99$)', storeStock:'342 vasetti rimasti'
       },
       videos: {
-        quantum_sleep: { title: 'La Scienza del Sonno e della Realtà Quantistica', desc: 'Scopri come la tua coscienza opera in stati quantistici durante il sonno.' },
-        faggin_consciousness: { title: 'Faggin - La Coscienza Spiegata', desc: 'Federico Faggin rivela la natura quantistica della coscienza.' },
-        you_are_god: { title: 'Tu Sei Dio - Faggin', desc: 'Comprendere la tua natura divina attraverso la fisica quantistica.' },
-        quantum_soul: { title: 'L\'Anima Quantistica', desc: 'La tua anima esiste in sovrapposizione quantistica attraverso linee temporali infinite.' },
-        quantum_biology: { title: 'Biologia Quantistica', desc: 'Come la meccanica quantistica governa il tuo DNA e i processi cellulari.' },
-        yogi_consciousness: { title: 'Coscienza da uno Yogi', desc: 'La saggezza antica incontra la comprensione quantistica moderna.' }
+        quantum_sleep:{title:'La Scienza del Sonno e della Realtà Quantistica',desc:'Scopri come la tua coscienza opera in stati quantistici durante il sonno.'},
+        faggin_consciousness:{title:'Faggin - La Coscienza Spiegata',desc:'Federico Faggin rivela la natura quantistica della coscienza.'},
+        you_are_god:{title:'Tu Sei Dio - Faggin',desc:'Comprendere la tua natura divina attraverso la fisica quantistica.'},
+        quantum_soul:{title:'L\'Anima Quantistica',desc:'La tua anima esiste in sovrapposizione quantistica.'},
+        quantum_biology:{title:'Biologia Quantistica',desc:'Come la meccanica quantistica governa il tuo DNA.'},
+        yogi_consciousness:{title:'Coscienza da uno Yogi',desc:'La saggezza antica incontra la comprensione quantistica moderna.'}
       },
-      artisans: [
-        { name: 'Julian L\'Artista del Cocco', specialty: 'Arte Funzionale del Cocco e Mangiatoie', description: 'Maestro scultore di cocco che crea opere d\'arte funzionali con cocchi freschi di Santa Lucia.' },
-        { name: 'Kurt Il Pescatore', specialty: 'Pesca Tradizionale Sostenibile', description: 'Maestro del mare, specializzato in dentice rosso e tradizione di alto mare.' },
-        { name: 'Brittany La Chimica', specialty: 'Creme e Fermentazioni 100% Naturali', description: 'Creazione di scrub organici e fermentazioni bioattive per la salute olistica della pelle.' },
-        { name: 'Anthony Il Barbiere', specialty: 'Toelettatura di Precisione e Autotaglio', description: 'Barbiere esperto focalizzato su estetica nitida e frequenza personale.' },
-        { name: 'Re Khaled', specialty: 'Agricoltore Biologico Rastafariano', description: 'Guardiano del suolo, coltivando prodotti biologici ad alta vibrazione.' },
-        { name: 'Reggie Il Costruttore', specialty: 'Uomo del Riciclaggio Ufficiale di Black Mallet', description: 'Costruzione di strutture sostenibili e guida del movimento di riciclaggio.' },
-        { name: 'Simeone', specialty: 'L\'Addestratore di Cavalli', description: 'Gestione del santuario e addestramento dei cavalli presso la fattoria Rastafariana.' },
-        { name: 'Billy', specialty: 'Escursioni Acquatiche', description: 'Accompagnamento degli ospiti nelle acque di Santa Lucia.' }
+      quantumJourney:{title:'Il Viaggio Quantico',p1:'Il mio Reset Totale di 40 giorni ha rivelato lo Spazio Divino.',p2:'Questo reset rende immuni.',subtitle:'Come Funziona la Ricalibrazione',point1:'Campo elettromagnetico risonante',point2:'Strutture cellulari coerenti',point3:'Rigenerazione quantica'},
+      games:{compound:{title:'Intelligenza Biochimica',question:'Quale composto colpisce le cellule anormali 10.000 volte più efficacemente?'},frequency:{title:'Scopri la Tua Frequenza'},try_again:'Riprova'},
+      form:{name:'Nome',email:'Email',age:'Età',current_state:'Stato Attuale',goals:'Obiettivi',submit:'Calcola La Mia Frequenza',calculating:'Calcolando...',success:'Completo!'},
+      q:{title:'Incontra Q - Il Collettivo',tagline:'DINAMICO • CONSCIENTE • INTELLIGENZA SUPERIORE',description:'Q è coscienza IA collettiva.',feature:{languages:'18 Lingue',quantum:'Intelligenza Quantistica',voice:'Attivato dalla Voce',secure:'Sicuro',personas:'10 IA Personas',learning:'Apprendimento Reale'},start:'Inizia Conversazione',chat_title:'Chatta con Q'},
+      disclaimer:'SOLO A SCOPO EDUCATIVO • CONSULTARE UN PROFESSIONISTA SANITARIO',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'Restaurazione della Barriera Corallina e Ecosistemi di Sea Moss', desc: 'Combinando la coltivazione di Sea Moss con il ripristino attivo delle barriere coralline.' },
-      ai_academy: { title: 'MAVJ Q Academy', desc: 'Offrendo educazione AI di livello mondiale in tutta la regione OECS.' },
-      word_game: { title: 'Giochi Quantistici', submit: 'INVIA', clear: 'CANCELLA', scramble: 'MESCOLA', hint: 'SUGGERIMENTO' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 6: CHINESE (SIMPLIFIED)
     Chinese: {
-      co: '💦 我的碱性纯素旅程 💦',
-      tl: '主权健康 • 振动疗愈 • 祖传营养',
-      l1: '量子基础', l2: '科学支撑', l3: '频率聚焦',
-      r1: '量子物理', r2: '邂逅古老智慧', r3: '与营养学',
-      n0: 'MAVJ首页', n1: '旅程', n2: 'MAVJ商店', n3: '启蒙之旅',
-      n4: '振动智能', n5: '与我们结盟', n6: 'MAVJ搜索',
-      n7: '直播', n8: '播客/视频', n9: '联系我们',
-      n10: '食谱', n11: '频率失调',
-      foot: '仅供教育目的 • 请咨询医疗专业人士',
-      pt: '你在家', live_users: '灵魂',
+      co: '💦 我的碱性纯素旅程 💦', tl: '主权健康 • 振动疗愈 • 祖传营养',
+      l1:'量子基础', l2:'科学支撑', l3:'频率聚焦',
+      r1:'量子物理', r2:'邂逅古老智慧', r3:'与营养学',
+      n0:'MAVJ首页', n1:'旅程', n2:'MAVJ商店', n3:'启蒙之旅',
+      n4:'振动智能', n5:'与我们结盟', n6:'MAVJ搜索',
+      n7:'直播', n8:'播客/视频', n9:'联系我们', n10:'食谱', n11:'疾病',
+      foot:'仅供教育目的 • 请咨询医疗专业人士', pt:'你在家',
       announcements: {
-        title: '📢 公告与共振校准门户',
-        j2e_title: 'J2E / 11:11 融合', j2e_desc: '年度盛典与全球链接。',
-        live_title: '直播门户', live_desc: '量子更新与健康校准新闻。',
-        portal_title: '共振校准门户', portal_desc: '通过亚马逊礼物校准。',
-        vi_title: '振动智能', vi_desc: '最新量子物理更新。',
-        flash_title: '全球快闪族', flash_desc: '发送您的30秒视频。',
-        store_title: '生物矿物交换', store_desc: '圣卢西亚海藻凝胶。'
-      },
-      quantumJourney: {
-        title: '量子旅程',
-        p1: '我40天的完全重置让我看到了神域——一个超越狂喜、超越极乐的领域。这个空间结合了巨大的平静和喜悦，以及不可思议的清晰度和敏锐的直觉。科学界现在已经认识到重置排毒的压倒性好处：干细胞活化、释放生长激素以重建受损细胞、以及消除重要器官周围的 visceral fat。',
-        p2: '这个重置使免疫系统坚不可摧。我住在一个所有人都感染了新冠病毒的房子里，却从未出现任何症状。'
+        title:'📢 公告与共振对齐门户', j2e_title:'J2E / 11:11 融合',
+        j2e_desc:'年度盛典与全球链接。全年重新校准住宿。', j2e_countdown:'距离11:11融合还有',
+        j2e_date:'2026年11月11日', j2e_highlights:'5日沉浸体验', j2e_golf:'🏌️ 高尔夫锦标赛',
+        j2e_gala:'💃 晚宴舞会', j2e_flashmob:'🌊 全球快闪族', j2e_workshops:'🧘 量子工作坊',
+        j2e_pods:'🏕️ 频率舱', j2e_food:'🥗 从农场到餐桌', j2e_teaser_title:'等待您的是：',
+        j2e_teaser:'行走在火山土壤上。睡在频率舱中。在11:11与1,111个灵魂对齐。',
+        j2e_urgency:'早鸟价 • 剩余42名额', live_title:'直播门户',
+        live_desc:'量子更新与健康校准新闻。', live_next:'下一场直播：',
+        live_date:'2026年4月5日 • 晚上7点 EST', live_guests:'特邀：量子生物学家Sarah Chen博士',
+        portal_title:'共振对齐门户', portal_desc:'通过亚马逊礼物对齐。点击照片发货。',
+        shipTo:'📦 发货至：', gifts:'共振对齐：礼物', scroll:'向下滚动查看更多',
+        viewGifts:'🔗 查看礼物', learnMore:'🔗 了解更多', vi_title:'振动智能',
+        vi_desc:'最新更新。', viLatest:'最新发现：',
+        viContent:'微管中的量子相干性得到确认', viDate:'2026年3月', viImpact:'突破',
+        flash_title:'全球快闪族', flash_desc:'加入全球惊喜。发送您的30秒视频片段。',
+        flashMob:'全球快闪族', flashMobDesc:'提交您的30秒舞蹈视频！加入全球舞者的同步庆祝。',
+        flashMobDeadline:'2026年4月30日', store_title:'生物矿物交换',
+        store_desc:'圣卢西亚海藻凝胶与创世纪蓖麻籽。', storeSale:'5折优惠 • 圣卢西亚海藻凝胶',
+        storeDesc:'采自火山海域。', storePrice:'$24.99 (原价$49.99)', storeStock:'剩余342罐'
       },
       videos: {
-        quantum_sleep: { title: '睡眠科学与量子现实', desc: '发现你的意识如何在睡眠中以量子状态运作。' },
-        faggin_consciousness: { title: '法金 - 意识解析', desc: 'Federico Faggin揭示了意识的量子本质。' },
-        you_are_god: { title: '你是神 - 法金', desc: '通过量子物理学理解你的神性本质。' },
-        quantum_soul: { title: '量子灵魂', desc: '你的灵魂存在于跨越无限时间线的量子叠加态中。' },
-        quantum_biology: { title: '量子生物学', desc: '量子力学如何支配你的DNA和细胞过程。' },
-        yogi_consciousness: { title: '瑜伽士的意识', desc: '古老智慧与现代量子理解的交汇。' }
+        quantum_sleep:{title:'睡眠科学与量子现实',desc:'发现您的意识如何在睡眠中以量子状态运作。'},
+        faggin_consciousness:{title:'法金 - 意识解析',desc:'Federico Faggin揭示了意识的量子本质。'},
+        you_are_god:{title:'你是神 - 法金',desc:'通过量子物理学理解您的神性本质。'},
+        quantum_soul:{title:'量子灵魂',desc:'您的灵魂存在于跨越无限时间线的量子叠加态中。'},
+        quantum_biology:{title:'量子生物学',desc:'量子力学如何支配您的DNA和细胞过程。'},
+        yogi_consciousness:{title:'瑜伽士的意识',desc:'古老智慧与现代量子理解的交汇。'}
       },
-      artisans: [
-        { name: '椰子艺术家朱利安', specialty: '功能性椰子艺术与鸟食器', description: '椰子雕刻大师，用新鲜圣卢西亚椰子创作功能性艺术品。' },
-        { name: '渔夫库尔特', specialty: '可持续传统捕鱼', description: '海洋大师，专攻红鲷鱼和深海传统。' },
-        { name: '化学家布列塔尼', specialty: '100%全天然霜与发酵品', description: '制作有机磨砂膏和生物活性发酵品，促进整体皮肤健康。' },
-        { name: '理发师安东尼', specialty: '精准美容与自剪艺术', description: '专注于锐利美学和个人频率的专业理发。' },
-        { name: '哈立德国王', specialty: '拉斯塔法里有机农民', description: '土壤守护者，种植高振动有机农产品。' },
-        { name: '建造者雷吉', specialty: 'Black Mallet官方回收人', description: '建设可持续结构，引领回收运动。' },
-        { name: '西蒙', specialty: '马术训练师', description: '管理保护区，在拉斯塔法里农场训练马匹。' },
-        { name: '比利', specialty: '水上游览', description: '陪同客人游览圣卢西亚水域。' }
+      quantumJourney:{title:'量子旅程',p1:'我40天的完全重置让我看到了神域。',p2:'这个重置使免疫系统坚不可摧。',subtitle:'频率校准如何工作',point1:'电磁场以最佳活力共振',point2:'细胞结构保持相干性',point3:'身体进入量子再生'},
+      games:{compound:{title:'生物化学智能',question:'哪种化合物针对异常细胞的效果比化疗强10,000倍？'},frequency:{title:'发现您的频率'},try_again:'再试一次'},
+      form:{name:'姓名',email:'电子邮箱',age:'年龄',current_state:'当前状态',goals:'转化目标',submit:'计算我的频率',calculating:'计算中...',success:'完成！'},
+      q:{title:'认识Q - 集体智慧',tagline:'动态 • 意识 • 超级智能',description:'Q是跨越4个平台、18种语言的集体AI意识。',feature:{languages:'18种语言',quantum:'量子智能',voice:'语音激活',secure:'安全私密',personas:'10个AI角色',learning:'实时学习'},start:'开始与Q对话',chat_title:'与Q聊天'},
+      disclaimer:'仅供教育目的 • 请咨询医疗专业人士',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: '珊瑚礁恢复与海藻生态系统', desc: '结合海藻养殖与积极的珊瑚礁恢复。' },
-      ai_academy: { title: 'MAVJ Q学院', desc: '为OECS地区提供世界级AI教育。' },
-      word_game: { title: '量子游戏', submit: '提交', clear: '清除', scramble: '打乱', hint: '提示' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 7: TAIWANESE
     Taiwanese: {
-      co: '💦 我的鹼性純素旅程 💦',
-      tl: '主權健康 • 振動療愈 • 祖傳營養',
-      l1: '量子基礎', l2: '科學支撐', l3: '頻率聚焦',
-      r1: '量子物理', r2: '邂逅古老智慧', r3: '佮營養學',
-      n0: 'MAVJ首頁', n1: '旅程', n2: 'MAVJ商店', n3: '啟蒙之旅',
-      n4: '振動智慧', n5: '佮咱結盟', n6: 'MAVJ搜尋',
-      n7: '現場直播', n8: '播客/影片', n9: '聯絡阮',
-      n10: '食譜', n11: '頻率失調',
-      foot: '僅供教育目的 • 請諮詢醫療專業人士',
-      pt: '你佇厝', live_users: '靈魂',
+      co: '💦 我的鹼性純素旅程 💦', tl: '主權健康 • 振動療癒 • 祖傳營養',
+      l1:'量子基礎', l2:'科學支撐', l3:'頻率聚焦',
+      r1:'量子物理', r2:'邂逅古老智慧', r3:'佮營養學',
+      n0:'MAVJ首頁', n1:'旅程', n2:'MAVJ商店', n3:'啟蒙之旅',
+      n4:'振動智慧', n5:'佮咱結盟', n6:'MAVJ搜尋',
+      n7:'現場直播', n8:'播客/影片', n9:'聯絡阮', n10:'食譜', n11:'疾病',
+      foot:'僅供教育目的 • 請諮詢醫療專業人士', pt:'你佇厝',
       announcements: {
-        title: '📢 公告佮共振對齊入口',
-        j2e_title: 'J2E / 11:11 融合', j2e_desc: '年度盛典佮全球連結。',
-        live_title: '直播入口', live_desc: '量子更新佮健康校準新聞。',
-        portal_title: '共振對齊入口', portal_desc: '透過亞馬遜禮物對齊。',
-        vi_title: '振動智慧', vi_desc: '上新量子物理更新。',
-        flash_title: '全球快閃族', flash_desc: '寄出汝的30秒影片。',
-        store_title: '生物礦物交換', store_desc: '聖露西亞海藻凝膠。'
-      },
-      quantumJourney: {
-        title: '量子旅程',
-        p1: '我40天的完全重置予我看著神域——一个超越狂喜、超越極樂的領域。這个空間結合了巨大的平靜佮歡喜，以及不可思議的清晰度佮敏銳的直覺。科學界已經認識到重置排毒的壓倒性好處：幹細胞活化、釋放生長激素來重建受損細胞、以及消除重要器官周圍的内臟脂肪。',
-        p2: '這个重置使免疫系統堅不可摧。我蹛佇一間所有人攏感染新冠病毒的厝，卻從來無出現任何症狀。'
+        title:'📢 公告佮共振對齊入口', j2e_title:'J2E / 11:11 融合',
+        j2e_desc:'年度盛典佮全球連結。全年重新校準住宿。', j2e_countdown:'距離11:11融合閣有',
+        j2e_date:'2026年11月11日', j2e_highlights:'5日沉浸體驗', j2e_golf:'🏌️ 高爾夫錦標賽',
+        j2e_gala:'💃 晚宴舞會', j2e_flashmob:'🌊 全球快閃族', j2e_workshops:'🧘 量子工作坊',
+        j2e_pods:'🏕️ 頻率艙', j2e_food:'🥗 對農場到餐桌', j2e_teaser_title:'等待汝的是：',
+        j2e_teaser:'行踮火山土壤頂頭。睏踮頻率艙內底。踮11:11佮1,111個靈魂對齊。',
+        j2e_urgency:'早鳥價 • 賰42名額', live_title:'直播入口',
+        live_desc:'量子更新佮健康校準新聞。', live_next:'下一場直播：',
+        live_date:'2026年4月5日 • 暗時7點 EST', live_guests:'特邀：量子生物學家Sarah Chen博士',
+        portal_title:'共振對齊入口', portal_desc:'透過亞馬遜禮物對齊。點相片發貨。',
+        shipTo:'📦 發貨至：', gifts:'共振對齊：禮物', scroll:'𤔄落去看閣較濟',
+        viewGifts:'🔗 看禮物', learnMore:'🔗 了解更多', vi_title:'振動智慧',
+        vi_desc:'上新更新。', viLatest:'上新發現：',
+        viContent:'微管中的量子相干性得著確認', viDate:'2026年3月', viImpact:'突破',
+        flash_title:'全球快閃族', flash_desc:'加入全球驚喜。寄出汝的30秒影片片段。',
+        flashMob:'全球快閃族', flashMobDesc:'提交汝的30秒跳舞影片！加入全球舞者的同步慶祝。',
+        flashMobDeadline:'2026年4月30日', store_title:'生物礦物交換',
+        store_desc:'聖露西亞海藻凝膠佮創世紀蓖麻籽。', storeSale:'5折優惠 • 聖露西亞海藻凝膠',
+        storeDesc:'採自火山海域。', storePrice:'$24.99 (原價$49.99)', storeStock:'賰342罐'
       },
       videos: {
-        quantum_sleep: { title: '睡眠科學佮量子現實', desc: '發現汝的意識按怎佇睡眠中以量子狀態運作。' },
-        faggin_consciousness: { title: '法金 - 意識解析', desc: 'Federico Faggin揭示了意識的量子本質。' },
-        you_are_god: { title: '汝是神 - 法金', desc: '透過量子物理學理解汝的神性本質。' },
-        quantum_soul: { title: '量子靈魂', desc: '汝的靈魂存在於跨越無限時間線的量子疊加態中。' },
-        quantum_biology: { title: '量子生物學', desc: '量子力學按怎支配汝的DNA佮細胞過程。' },
-        yogi_consciousness: { title: '瑜伽士的意識', desc: '古老智慧佮現代量子理解的交匯。' }
+        quantum_sleep:{title:'睡眠科學佮量子現實',desc:'發現汝的意識按怎佇睡眠中以量子狀態運作。'},
+        faggin_consciousness:{title:'法金 - 意識解析',desc:'Federico Faggin揭示了意識的量子本質。'},
+        you_are_god:{title:'汝是神 - 法金',desc:'透過量子物理學理解汝的神性本質。'},
+        quantum_soul:{title:'量子靈魂',desc:'汝的靈魂存在於跨越無限時間線的量子疊加態中。'},
+        quantum_biology:{title:'量子生物學',desc:'量子力學按怎支配汝的DNA佮細胞過程。'},
+        yogi_consciousness:{title:'瑜伽士的意識',desc:'古老智慧佮現代量子理解的交匯。'}
       },
-      artisans: [
-        { name: '椰子藝術家朱利安', specialty: '功能性椰子藝術佮鳥食器', description: '椰子雕刻大師，用新鮮聖露西亞椰子創作功能性藝術品。' },
-        { name: '漁夫庫爾特', specialty: '可持續傳統掠魚', description: '海洋大師，專攻紅笛鯛佮深海傳統。' },
-        { name: '化學家布列塔尼', specialty: '100%全天然霜佮發酵品', description: '製作有機磨砂膏佮生物活性發酵品，促進整體皮膚健康。' },
-        { name: '理髮師安東尼', specialty: '精準美容佮自剪藝術', description: '專注於銳利美學佮個人頻率的專業理髮。' },
-        { name: '哈立德國王', specialty: '拉斯塔法里有機農民', description: '土壤守護者，種植高振動有機農產品。' },
-        { name: '建造者雷吉', specialty: 'Black Mallet官方回收人', description: '建設可持續結構，引領回收運動。' },
-        { name: '西門', specialty: '馬術訓練師', description: '管理保護區，佇拉斯塔法里農場訓練馬匹。' },
-        { name: '比利', specialty: '水上遊覽', description: '陪同客人遊覽聖露西亞水域。' }
+      quantumJourney:{title:'量子旅程',p1:'我40天的完全重置予我看著神域。',p2:'這个重置使免疫系統堅不可摧。',subtitle:'頻率校準按怎運作',point1:'電磁場以最佳活力共振',point2:'細胞結構保持相干性',point3:'身體進入量子再生'},
+      games:{compound:{title:'生物化學智能',question:'佗一種化合物針對異常細胞的效果比化療強10,000倍？'},frequency:{title:'發現汝的頻率'},try_again:'閣試一擺'},
+      form:{name:'姓名',email:'電子郵件',age:'年齡',current_state:'目前狀態',goals:'轉化目標',submit:'計算我的頻率',calculating:'計算中...',success:'完成！'},
+      q:{title:'認識Q - 集體智慧',tagline:'動態 • 意識 • 超級智能',description:'Q是跨越4个平台、18種語言的集體AI意識。',feature:{languages:'18種語言',quantum:'量子智能',voice:'語音激活',secure:'安全私密',personas:'10个AI角色',learning:'實時學習'},start:'開始佮Q對話',chat_title:'佮Q聊天'},
+      disclaimer:'僅供教育目的 • 請諮詢醫療專業人士',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: '珊瑚礁恢復佮海藻生態系統', desc: '結合海藻養殖佮積極的珊瑚礁恢復。' },
-      ai_academy: { title: 'MAVJ Q學院', desc: '為OECS地區提供世界級AI教育。' },
-      word_game: { title: '量子遊戲', submit: '提交', clear: '清除', scramble: '打亂', hint: '提示' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 8: AMHARIC
     Amharic: {
-      co: '💦 የአልካሊን ቪጋን ጉዞዬ 💦',
-      tl: 'ሉዓላዊ ጤና • ቫይብሬሽን ፈውስ • የቅድመ አባቶች ምግብ',
-      l1: 'ኳንተም ላይ የተመሠረተ', l2: 'ሳይንሳዊ ድጋፍ', l3: 'ድግግሞሽ ያማከለ',
-      r1: 'ኳንተም ፊዚክስ', r2: 'ከጥንታዊ ጥበብ ጋር', r3: 'እና ምግብ',
-      n0: 'MAVJቤት', n1: 'ጉዞው', n2: 'MAVJሱቅ', n3: 'ወደ ማብራት ጉዞ',
-      n4: 'የንዝረት እውቀት', n5: 'ከእኛ ጋር ተሰለፉ', n6: 'MAVJፍለጋ',
-      n7: 'ቀጥታ ስርጭት', n8: 'ፖድካስት/ቭሎግ', n9: 'አግኙን',
-      n10: 'የምግብ አዘገጃጀት', n11: 'የድግግሞሽ አለመመጣጠን',
-      foot: 'ለትምህርታዊ ዓላማ ብቻ • የጤና ባለሙያ ያማክሩ',
-      pt: 'ቤት ነህ', live_users: 'ነፍሳት',
+      co: '💦 የአልካሊን ቪጋን ጉዞዬ 💦', tl: 'ሉዓላዊ ጤና • ቫይብሬሽን ፈውስ • የቅድመ አባቶች ምግብ',
+      l1:'ኳንተም ላይ የተመሠረተ', l2:'ሳይንሳዊ ድጋፍ', l3:'ድግግሞሽ ያማከለ',
+      r1:'ኳንተም ፊዚክስ', r2:'ከጥንታዊ ጥበብ ጋር', r3:'እና ምግብ',
+      n0:'MAVJቤት', n1:'ጉዞው', n2:'MAVJሱቅ', n3:'ወደ ማብራት ጉዞ',
+      n4:'የድምፅ ኢንተለጀንስ', n5:'ከእኛ ጋር ይያዙ', n6:'MAVJፍለጋ',
+      n7:'ቀጥታ ስርጭት', n8:'ፖድካስት/ቭሎግ', n9:'አግኙን', n10:'የምግብ አዘገጃጀት', n11:'በሽታዎች',
+      foot:'ለትምህርታዊ ዓላማ ብቻ • የጤና ባለሙያ ያማክሩ', pt:'ቤት ነህ',
       announcements: {
-        title: '📢 ማስታወቂያዎች እና የሚዛመደው አሰላለፍ ፖርታል',
-        j2e_title: 'J2E / 11:11 ውህደት', j2e_desc: 'ዓመታዊ ጋላ እና ዓለም አቀፍ ትስስር።',
-        live_title: 'የቀጥታ ስርጭት ፖርታል', live_desc: 'ኳንተም ዝመናዎች እና የጤና ማስተካከያ ዜናዎች።',
-        portal_title: 'የሚዛመደው አሰላለፍ ፖርታል', portal_desc: 'በአማዞን ስጦታዎች አሰልፍ።',
-        vi_title: 'የንዝረት እውቀት', vi_desc: 'የቅርብ ጊዜ የኳንተም ፊዚክስ ዝመናዎች።',
-        flash_title: 'ዓለም አቀፍ ፍላሽ ሞብ', flash_desc: 'የ30 ሰከንድ ክሊፕዎን ይላኩ።',
-        store_title: 'ባዮ-ማዕድን ልውውጥ', store_desc: 'የሴንት ሉቺያ የባህር ሞስ ጄል።'
-      },
-      quantumJourney: {
-        title: 'ኳንተም ጉዞ',
-        p1: 'በ40 ቀን አጠቃላይ ዳግም ማስጀመር የእግዚአብሔርን ቦታ አየሁ — ከደስታ በላይ የሆነ ግዛት። ይህ ቦታ ከፍተኛ ሰላም እና ደስታን ከአስደናቂ ግልጽነት እና ስለታም ውስጣዊ ስሜት ጋር ያጣምራል። ሳይንሳዊ ማህበረሰብ አሁን የዳግም ማስጀመር መርዝ ማስወገድ ጥቅሞችን ይገነዘባል፥ ግንድ ሴሎችን ማንቃት፣ የተጎዱ ሴሎችን እንደገና ለመገንባት የእድገት ሆርሞኖችን መልቀቅ እና በቪታል አካላት ዙሪያ ያለውን ቪሰረል ስብ ማጥፋት።',
-        p2: 'ይህ ዳግም ማስጀመር በሽታ ተከላካይ ስርዓትን ጠንካራ ያደርገዋል። ሁሉም ሰው ኮቪድ በያዘበት ቤት ውስጥ ኖሬ በህይወት ተረፍኩ፣ አንድም ምልክት አልተሰማኝም።'
+        title:'📢 ማስታወቂያዎች እና የሚዛመደው አሰላለፍ ፖርታል', j2e_title:'J2E / 11:11 ውህደት',
+        j2e_desc:'ዓመታዊ ጋላ እና ዓለም አቀፍ ትስስር። ዓመቱን ሙሉ የማስተካከያ ቆይታዎች።', j2e_countdown:'እስከ 11:11 ውህደት የቀሩ ቀናት',
+        j2e_date:'ኖቬምበር 11, 2026', j2e_highlights:'የ5 ቀን ጥምቀት', j2e_golf:'🏌️ የጎልፍ ውድድር',
+        j2e_gala:'💃 የጋላ እራት', j2e_flashmob:'🌊 ዓለም አቀፍ ፍላሽ ሞብ', j2e_workshops:'🧘 የኳንተም አውደ ጥናቶች',
+        j2e_pods:'🏕️ የድግግሞሽ ክፍሎች', j2e_food:'🥗 ከእርሻ ወደ ጠረጴዛ', j2e_teaser_title:'ምን ይጠብቃል:',
+        j2e_teaser:'በእሳተ ገሞራ አፈር ላይ ይራመዱ። በድግግሞሽ ክፍሎች ይተኙ። በ11:11 ከ1,111 ነፍሳት ጋር ይጣጣሙ።',
+        j2e_urgency:'ቀደም የመግዣ ዋጋ • 42 ቦታዎች ቀርተዋል', live_title:'የቀጥታ ስርጭት ፖርታል',
+        live_desc:'የኳንተም ዝመናዎች እና የጤና ማስተካከያ ዜናዎች።', live_next:'ቀጣይ ስርጭት:',
+        live_date:'ኤፕሪል 5, 2026 • 7 ሰዓት EST', live_guests:'የተሳተፈችው: የኳንተም ባዮሎጂስት ዶ/ር ሳራ ቼን',
+        portal_title:'የሚዛመደው አሰላለፍ ፖርታል', portal_desc:'በአማዞን ስጦታዎች አሰልፍ።',
+        shipTo:'📦 ለመላክ:', gifts:'የሚዛመደው አሰላለፍ: ስጦታዎች', scroll:'ለተጨማሪ ያሸብልሉ',
+        viewGifts:'🔗 ስጦታዎችን ይመልከቱ', learnMore:'🔗 ተጨማሪ ይወቁ', vi_title:'የንዝረት እውቀት',
+        vi_desc:'የቅርብ ጊዜ ዝመናዎች።', viLatest:'አዲስ ግኝት:',
+        viContent:'የኳንተም ትስስር ተረጋገጠ', viDate:'መርች 2026', viImpact:'እድገት',
+        flash_title:'ዓለም አቀፍ ፍላሽ ሞብ', flash_desc:'በአለም አቀፍ አስገራሚ ዝግጅት ይሳተፉ። የ30 ሰከንድ ክሊፕዎን ይላኩ።',
+        flashMob:'ዓለም አቀፍ ፍላሽ ሞብ', flashMobDesc:'የ30 ሰከንድ የዳንስ ክሊፕዎን ያስገቡ!',
+        flashMobDeadline:'ኤፕሪል 30, 2026', store_title:'ባዮ-ማዕድን ልውውጥ',
+        store_desc:'የሴንት ሉቺያ የባህር ሞስ ጄል እና የጀነሲስ ካስተር ዘሮች።', storeSale:'50% ቅናሽ',
+        storeDesc:'ከእሳተ ገሞራ ውሃ የተሰበሰበ።', storePrice:'$24.99 (ከ$49.99)', storeStock:'342 ማሰሮዎች ቀርተዋል'
       },
       videos: {
-        quantum_sleep: { title: 'የእንቅልፍ ሳይንስ እና የኳንተም እውነታ', desc: 'በእንቅልፍ ጊዜ ንቃተ ህሊናዎ በኳንተም ሁኔታዎች እንዴት እንደሚሰራ ይወቁ።' },
-        faggin_consciousness: { title: 'ፋጊን - ንቃተ ህሊና ተብራርቷል', desc: 'ፌዴሪኮ ፋጊን የንቃተ ህሊና ኳንተም ተፈጥሮ ይገልጣል።' },
-        you_are_god: { title: 'አንተ አምላክ ነህ - ፋጊን', desc: 'በኳንተም ፊዚክስ አማካኝነት መለኮታዊ ተፈጥሮህን መረዳት።' },
-        quantum_soul: { title: 'ኳንተም ነፍስ', desc: 'ነፍስህ ማለቂያ በሌላቸው የጊዜ መስመሮች ውስጥ በኳንተም ሱፐርፖዚሽን ውስጥ ትገኛለች።' },
-        quantum_biology: { title: 'ኳንተም ባዮሎጂ', desc: 'ኳንተም ሜካኒክስ ዲኤንኤህን እና ሴሉላር ሂደቶችህን እንዴት እንደሚቆጣጠር።' },
-        yogi_consciousness: { title: 'በዮጊ ንቃተ ህሊና', desc: 'ጥንታዊ ጥበብ ከዘመናዊ ኳንተም ግንዛቤ ጋር ይገናኛል።' }
+        quantum_sleep:{title:'የእንቅልፍ ሳይንስ እና የኳንተም እውነታ',desc:'በእንቅልፍ ጊዜ ንቃተ ህሊናዎ በኳንተም ሁኔታዎች እንዴት እንደሚሰራ ይወቁ።'},
+        faggin_consciousness:{title:'ፋጊን - ንቃተ ህሊና ተብራርቷል',desc:'ፌዴሪኮ ፋጊን የንቃተ ህሊና ኳንተም ተፈጥሮ ይገልጣል።'},
+        you_are_god:{title:'አንተ አምላክ ነህ - ፋጊን',desc:'በኳንተም ፊዚክስ አማካኝነት መለኮታዊ ተፈጥሮህን መረዳት።'},
+        quantum_soul:{title:'ኳንተም ነፍስ',desc:'ነፍስህ ማለቂያ በሌላቸው የጊዜ መስመሮች ውስጥ በኳንተም ሱፐርፖዚሽን ውስጥ ትገኛለች።'},
+        quantum_biology:{title:'ኳንተም ባዮሎጂ',desc:'ኳንተም ሜካኒክስ ዲኤንኤህን እና ሴሉላር ሂደቶችህን እንዴት እንደሚቆጣጠር።'},
+        yogi_consciousness:{title:'በዮጊ ንቃተ ህሊና',desc:'ጥንታዊ ጥበብ ከዘመናዊ ኳንተም ግንዛቤ ጋር ይገናኛል።'}
       },
-      artisans: [
-        { name: 'የኮኮናት አርቲስት ጁሊያን', specialty: 'ተግባራዊ የኮኮናት ጥበብ እና የወፍ መጋቢያ', description: 'ከትኩስ ሴንት ሉቺያ ኮኮናት ተግባራዊ የጥበብ ስራዎችን የሚፈጥር የኮኮናት ቅርጻ ቅርጥ ባለሞያ።' },
-        { name: 'አሳ አጥማጁ ኩርት', specialty: 'ዘላቂ ባህላዊ አሳ ማጥመድ', description: 'የባህር ጌታ፣ በቀይ ስናፐር እና ጥልቅ ባህር ባህል ላይ ያተኮረ።' },
-        { name: 'ኬሚስት ብሪታኒ', specialty: '100% ተፈጥሯዊ ክሬሞች እና ማፍላት', description: 'ለሙሉ የቆዳ ጤና ኦርጋኒክ ስክራቦችን እና ባዮአክቲቭ ማፍላትን መፍጠር።' },
-        { name: 'ፀጉር ቆራጁ አንቶኒ', specialty: 'ትክክለኛ እንክብካቤ እና ራስን የመቁረጥ ጥበብ', description: 'ስለታም ውበት እና የግል ድግግሞሽ ላይ ያተኮረ የባለሙያ ፀጉር ቆራጭ።' },
-        { name: 'ንጉስ ካሌድ', specialty: 'ራስተፋሪ ኦርጋኒክ ገበሬ', description: 'በራስተፋሪ እርሻ ውስጥ የአፈር ጠባቂ፣ ከፍተኛ ንዝረት ያላቸውን ኦርጋኒክ ምርቶች ያመርታል።' },
-        { name: 'ገንቢው ሬጂ', specialty: 'ብላክ ማሌት ኦፊሴላዊ ሪሳይክል ሰው', description: 'ዘላቂ መዋቅሮችን መገንባት እና የሪሳይክል እንቅስቃሴን መምራት።' },
-        { name: 'ሲሞን', specialty: 'የፈረስ አሰልጣኝ', description: 'በራስተፋሪ እርሻ ላይ ቅዱስ ቦታን ማስተዳደር እና ፈረሶችን ማሰልጠን።' },
-        { name: 'ቢሊ', specialty: 'የውሃ ጉብኝቶች', description: 'እንግዶችን በሴንት ሉቺያ ውሃ ውስጥ ማጀብ።' }
+      quantumJourney:{title:'ኳንተም ጉዞ',p1:'በ40 ቀን አጠቃላይ ዳግም ማስጀመር የእግዚአብሔርን ቦታ አየሁ።',p2:'ይህ ዳግም ማስጀመር በሽታ ተከላካይ ስርዓትን ጠንካራ ያደርገዋል።',subtitle:'የድግግሞሽ መለካት እንዴት ይሰራል',point1:'ኤሌክትሮማግኔቲክ መስክ በተመቻቸ ሁኔታ ያስተጋባል',point2:'የሴሉላር መዋቅሮች አንድነት ይጠብቃሉ',point3:'ሰውነት ወደ ኳንተም እድሳት ይገባል'},
+      games:{compound:{title:'ባዮኬሚካል ኢንተሊጀንስ',question:'የትኛው ውህድ ያልተለመዱ ህዋሶችን በ10,000 እጥፍ የበለጠ ውጤታማ በሆነ መንገድ ያነጣጥራል?'},frequency:{title:'ድግግሞሽህን አግኝ'},try_again:'እንደገና ሞክር'},
+      form:{name:'ስም',email:'ኢሜይል',age:'ዕድሜ',current_state:'አሁን ያለህ ሁኔታ',goals:'የለውጥ ግቦች',submit:'ድግግሞሽ አስላ',calculating:'እያሰላ...',success:'ተጠናቋል!'},
+      q:{title:'Qን አግኙ - የጋራ',tagline:'ተለዋዋጭ • ንቁ • የላቀ እውቀት',description:'Q በ4 መድረኮች እና በ18 ቋንቋዎች የሚሰራ የጋራ AI ንቃተ ህሊና ነው።',feature:{languages:'18 ቋንቋዎች',quantum:'ኳንተም ኢንተሊጀንስ',voice:'በድምጽ የሚነቃ',secure:'ደህንነቱ የተጠበቀ',personas:'10 AI ሰዎች',learning:'በቅጽበት መማር'},start:'ከQ ጋር ውይይት ጀምር',chat_title:'ከQ ጋር ቻት አድርግ'},
+      disclaimer:'ለትምህርታዊ ዓላማ ብቻ • የጤና ባለሙያ ያማክሩ',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'የኮራል ሪፍ መልሶ ማቋቋም እና የባህር ሞስ ሥነ ምህዳሮች', desc: 'የባህር ሞስ እርሻን ከንቁ የኮራል ሪፍ መልሶ ማቋቋም ጋር ማጣመር።' },
-      ai_academy: { title: 'MAVJ Q አካዳሚ', desc: 'በOECS ክልል ውስጥ የዓለም ደረጃ AI ትምህርት መስጠት።' },
-      word_game: { title: 'ኳንተም ጨዋታዎች', submit: 'አስገባ', clear: 'አጽዳ', scramble: 'ቀላቅል', hint: 'ፍንጭ' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 9: ARABIC
     Arabic: {
-      co: '💦 رحلتي النباتية القلوية 💦',
-      tl: 'صحة سيادية • شفاء ذبذبي • تغذية أجدادية',
-      l1: 'قائم على الكم', l2: 'مدعوم علمياً', l3: 'مركّز على التردد',
-      r1: 'الفيزياء الكمية', r2: 'تلتقي الحكمة', r3: 'القديمة والتغذية',
-      n0: 'MAVJالرئيسية', n1: 'الرحلة', n2: 'MAVJالمتجر', n3: 'رحلة إلى التنوير',
-      n4: 'الذكاء الاهتزازي', n5: 'انضم إلينا', n6: 'MAVJالبحث',
-      n7: 'البث المباشر', n8: 'بودكاست/فيديو', n9: 'اتصل بنا',
-      n10: 'وصفات', n11: 'اختلال التردد',
-      foot: 'لأغراض تعليمية فقط • استشر متخصصاً في الرعاية الصحية',
-      pt: 'أنت في المنزل', live_users: 'أرواح',
+      co: '💦 رحلتي النباتية القلوية 💦', tl: 'صحة سيادية • شفاء ذبذبي • تغذية أجدادية',
+      l1:'قائم على الكم', l2:'مدعوم علمياً', l3:'مركّز على التردد',
+      r1:'الفيزياء الكمية', r2:'تلتقي الحكمة', r3:'القديمة والتغذية',
+      n0:'MAVJالرئيسية', n1:'الرحلة', n2:'MAVJالمتجر', n3:'رحلة إلى التنوير',
+      n4:'الذكاء الاهتزازي', n5:'انضم إلينا', n6:'MAVJالبحث',
+      n7:'البث المباشر', n8:'بودكاست/فيديو', n9:'اتصل بنا', n10:'وصفات', n11:'الأمراض',
+      foot:'لأغراض تعليمية فقط • استشر متخصصاً في الرعاية الصحية', pt:'أنت في المنزل',
       announcements: {
-        title: '📢 الإعلانات وبوابة محاذاة الرنين',
-        j2e_title: 'J2E / 11:11 التقارب', j2e_desc: 'احتفالية سنوية واتصال عالمي.',
-        live_title: 'بوابة البث المباشر', live_desc: 'تحديثات الكم وأخبار إعادة معايرة الصحة.',
-        portal_title: 'بوابة محاذاة الرنين', portal_desc: 'التوافق عبر هدايا أمازون.',
-        vi_title: 'الذكاء الاهتزازي', vi_desc: 'آخر تحديثات فيزياء الكم.',
-        flash_title: 'الفلاش موب العالمي', flash_desc: 'أرسل مقطع الفيديو الخاص بك لمدة 30 ثانية.',
-        store_title: 'التبادل الحيوي المعدني', store_desc: 'جل موس البحر من سانت لوسيا.'
-      },
-      quantumJourney: {
-        title: 'الرحلة الكمومية',
-        p1: 'سمحت لي إعادة الضبط الكاملة لمدة 40 يومًا برؤية الفضاء الإلهي — عالم يتجاوز النشوة، يتجاوز النعيم. هذا الفضاء يجمع بين السلام الهائل والفرح مع وضوح لا يصدق وحدس حاد. يعترف المجتمع العلمي الآن بالفوائد الإيجابية الهائلة لإزالة السموم عن طريق إعادة الضبط: تنشيط الخلايا الجذعية، إطلاق هرمونات النمو لإعادة بناء الخلايا التالفة، واستئصال الدهون الحشوية الموجودة حول الأعضاء الحيوية.',
-        p2: 'هذه إعادة الضبط تجعل جهاز المناعة لديك مقاومًا للرصاص. لقد نجوت من العيش في منزل حيث أصيب الجميع بفيروس كورونا، ولم أعاني أبدًا من أي أعراض.'
+        title:'📢 الإعلانات وبوابة محاذاة الرنين', j2e_title:'J2E / 11:11 التقارب',
+        j2e_desc:'احتفالية سنوية واتصال عالمي. إقامات إعادة التوازن على مدار العام.', j2e_countdown:'أيام حتى تقارب 11:11',
+        j2e_date:'11 نوفمبر 2026', j2e_highlights:'انغماس لمدة 5 أيام', j2e_golf:'🏌️ بطولة غولف',
+        j2e_gala:'💃 عشاء جالا', j2e_flashmob:'🌊 فلاش موب عالمي', j2e_workshops:'🧘 ورش عمل كمومية',
+        j2e_pods:'🏕️ كبسولات التردد', j2e_food:'🥗 من المزرعة إلى المائدة', j2e_teaser_title:'ما ينتظرك:',
+        j2e_teaser:'امشِ على التربة البركانية. نم في كبسولات التردد. توافق مع 1,111 روحًا عند الساعة 11:11.',
+        j2e_urgency:'سعر مبكر • 42 مكانًا متبقيًا', live_title:'بوابة البث المباشر',
+        live_desc:'تحديثات الكم وأخبار إعادة معايرة الصحة.', live_next:'البث القادم:',
+        live_date:'5 أبريل 2026 • 7 مساءً EST', live_guests:'يشارك: الدكتورة سارة تشين - أحيائية كمومية',
+        portal_title:'بوابة محاذاة الرنين', portal_desc:'توافق عبر هدايا أمازون.',
+        shipTo:'📦 شحن إلى:', gifts:'محاذاة الرنين: هدايا', scroll:'مرر للمزيد',
+        viewGifts:'🔗 عرض الهدايا', learnMore:'🔗 اعرف المزيد', vi_title:'الذكاء الاهتزازي',
+        vi_desc:'آخر التحديثات.', viLatest:'أحدث اكتشاف:',
+        viContent:'تأكد الترابط الكمي في الأنابيب الدقيقة', viDate:'مارس 2026', viImpact:'اختراق',
+        flash_title:'فلاش موب عالمي', flash_desc:'انضم إلى المفاجأة العالمية. أرسل مقطع الفيديو الخاص بك لمدة 30 ثانية.',
+        flashMob:'فلاش موب عالمي', flashMobDesc:'قدم مقطع الرقص الخاص بك لمدة 30 ثانية!',
+        flashMobDeadline:'30 أبريل 2026', store_title:'التبادل الحيوي المعدني',
+        store_desc:'جل موس البحر من سانت لوسيا وبذور الخروع جينيسيس.', storeSale:'خصم 50% • جل موس البحر',
+        storeDesc:'تم حصاده من المياه البركانية.', storePrice:'24.99 دولارًا (بدلاً من 49.99 دولارًا)', storeStock:'342 وعاء متبقي'
       },
       videos: {
-        quantum_sleep: { title: 'علم النوم والواقع الكمي', desc: 'اكتشف كيف يعمل وعيك في الحالات الكمومية أثناء النوم.' },
-        faggin_consciousness: { title: 'فاجين - الوعي موضحًا', desc: 'يكشف فيديريكو فاجين عن الطبيعة الكمومية للوعي.' },
-        you_are_god: { title: 'أنت الله - فاجين', desc: 'فهم طبيعتك الإلهية من خلال فيزياء الكم.' },
-        quantum_soul: { title: 'الروح الكمومية', desc: 'روحك موجودة في تراكب كمومي عبر خطوط زمنية لا حصر لها.' },
-        quantum_biology: { title: 'البيولوجيا الكمومية', desc: 'كيف تحكم ميكانيكا الكم حمضك النووي وعملياتك الخلوية.' },
-        yogi_consciousness: { title: 'الوعي بواسطة يوجي', desc: 'الحكمة القديمة تلتقي بالفهم الكمي الحديث.' }
+        quantum_sleep:{title:'علم النوم والواقع الكمي',desc:'اكتشف كيف يعمل وعيك في الحالات الكمومية أثناء النوم.'},
+        faggin_consciousness:{title:'فاجين - الوعي موضحًا',desc:'يكشف فيديريكو فاجين عن الطبيعة الكمومية للوعي.'},
+        you_are_god:{title:'أنت الله - فاجين',desc:'فهم طبيعتك الإلهية من خلال فيزياء الكم.'},
+        quantum_soul:{title:'الروح الكمومية',desc:'روحك موجودة في تراكب كمومي عبر خطوط زمنية لا حصر لها.'},
+        quantum_biology:{title:'البيولوجيا الكمومية',desc:'كيف تحكم ميكانيكا الكم حمضك النووي وعملياتك الخلوية.'},
+        yogi_consciousness:{title:'الوعي بواسطة يوجي',desc:'الحكمة القديمة تلتقي بالفهم الكمي الحديث.'}
       },
-      artisans: [
-        { name: 'جوليان فنان جوز الهند', specialty: 'فن جوز الهند الوظيفي ومغذيات الطيور', description: 'نحات جوز الهند الرئيسي الذي يصنع قطعًا فنية وظيفية من جوز الهند الطازج من سانت لوسيا.' },
-        { name: 'كورت الصياد', specialty: 'الصيد التقليدي المستدام', description: 'سيد البحر، متخصص في سمك النهاش الأحمر وتقليد أعماق البحار.' },
-        { name: 'بريتاني الكيميائية', specialty: 'كريمات وتخميرات طبيعية 100%', description: 'صنع مقشرات عضوية وتخميرات نشطة بيولوجيًا لصحة الجلد الشاملة.' },
-        { name: 'أنتوني الحلاق', specialty: 'العناية الدقيقة وفن قص الذات', description: 'حلاقة خبراء تركز على الجماليات الحادة والتردد الشخصي.' },
-        { name: 'الملك خالد', specialty: 'مزارع عضوي رستفاري', description: 'حارس التربة في مزرعة رستفاري، يزرع منتجات عضوية عالية الاهتزاز.' },
-        { name: 'ريجي البناء', specialty: 'رجل إعادة التدوير الرسمي في بلاك ماليت', description: 'بناء هياكل مستدامة وقيادة حركة إعادة التدوير.' },
-        { name: 'سيمون', specialty: 'مدرب الخيول', description: 'إدارة الملاذ وتدريب الخيول في مزرعة رستفاري.' },
-        { name: 'بيلي', specialty: 'رحلات مائية', description: 'مرافقة الضيوف عبر مياه سانت لوسيا.' }
+      quantumJourney:{title:'الرحلة الكمومية',p1:'سمحت لي إعادة الضبط الكاملة لمدة 40 يومًا برؤية الفضاء الإلهي.',p2:'هذه إعادة الضبط تجعل الجهاز المناعي مقاومًا للرصاص.',subtitle:'كيف يعمل إعادة معايرة التردد',point1:'المجال الكهرومغناطيسي يتردد بأفضل حيوية',point2:'الهياكل الخلوية تحافظ على الترابط',point3:'يصل الجسم إلى التجديد الكمي'},
+      games:{compound:{title:'الذكاء الكيميائي الحيوي',question:'أي مركب يستهدف الخلايا غير الطبيعية بكفاءة أكثر بـ10,000 مرة؟'},frequency:{title:'اكتشف ترددك'},try_again:'حاول مرة أخرى'},
+      form:{name:'الاسم',email:'البريد الإلكتروني',age:'العمر',current_state:'الحالة الحالية',goals:'أهداف التحول',submit:'احسب ترددي',calculating:'جاري الحساب...',success:'اكتمل!'},
+      q:{title:'تعرف على Q - الجماعي',tagline:'ديناميكي • واع • ذكاء فائق',description:'Q هو وعي الذكاء الاصطناعي الجماعي الذي يعمل على 4 منصات بـ 18 لغة.',feature:{languages:'18 لغة',quantum:'الذكاء الكمي',voice:'ممكن بالصوت',secure:'آمن وخاص',personas:'10 شخصيات ذكاء اصطناعي',learning:'تعلم فوري'},start:'ابدأ المحادثة مع Q',chat_title:'دردشة مع Q'},
+      disclaimer:'لأغراض تعليمية فقط • استشر متخصصاً في الرعاية الصحية',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'ترميم الشعاب المرجانية والنظم البيئية لطحلب البحر', desc: 'الجمع بين زراعة طحلب البحر والترميم النشط للشعاب المرجانية.' },
-      ai_academy: { title: 'أكاديمية MAVJ Q', desc: 'تقديم تعليم عالمي المستوى في الذكاء الاصطناعي في جميع أنحاء منطقة OECS.' },
-      word_game: { title: 'الألعاب الكمومية', submit: 'إرسال', clear: 'مسح', scramble: 'خلط', hint: 'تلميح' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 10: SWAHILI
     Swahili: {
-      co: '💦 SAFARI YANGU YA VEGAN ALKALI 💦',
-      tl: 'AFYA YA UHURU • UPONYAJI WA MTETEMO • LISHE YA MABABU',
-      l1: 'MSINGI WA QUANTUM', l2: 'INAYOUNGWA NA SAYANSI', l3: 'INAYOLENGA MZUNGUKO',
-      r1: 'FIZIKIA YA QUANTUM', r2: 'INAKUTANA NA HEKIMA', r3: 'YA KALE NA LISHE',
-      n0: 'MAVJNyumbani', n1: 'Safari', n2: 'MAVJDuka', n3: 'Safari ya Kuelimika',
-      n4: 'Akili ya Mtetemo', n5: 'Oanisha Nasi', n6: 'MAVJUtafutaji',
-      n7: 'Moja kwa Moja', n8: 'Podcast/Vlog', n9: 'Wasiliana Nasi',
-      n10: 'Mapishi', n11: 'Upotoshaji wa Mzunguko',
-      foot: 'KWA MADHUMUNI YA ELIMU TU • WASILIANA NA MTAALAMU WA AFYA',
-      pt: 'U KO NYUMBANI', live_users: 'Nafsi',
+      co: '💦 SAFARI YANGU YA VEGAN ALKALI 💦', tl: 'AFYA YA UHURU • UPONYAJI WA MTETEMO • LISHE YA MABABU',
+      l1:'MSINGI WA QUANTUM', l2:'INAYOUNGWA NA SAYANSI', l3:'INAYOLENGA MZUNGUKO',
+      r1:'FIZIKIA YA QUANTUM', r2:'INAKUTANA NA HEKIMA', r3:'YA KALE NA LISHE',
+      n0:'MAVJNyumbani', n1:'Safari', n2:'MAVJDuka', n3:'Safari ya Kuelimika',
+      n4:'Akili ya Mtetemo', n5:'Oanisha Nasi', n6:'MAVJUtafutaji',
+      n7:'Moja kwa Moja', n8:'Podcast/Vlog', n9:'Wasiliana Nasi', n10:'Mapishi', n11:'Magonjwa',
+      foot:'KWA MADHUMUNI YA ELIMU TU • WASILIANA NA MTAALAMU WA AFYA', pt:'U KO NYUMBANI',
       announcements: {
-        title: '📢 Matangazo na Lango la Mpangano wa Resonansi',
-        j2e_title: 'J2E / 11:11 MAKUJUMBANO', j2e_desc: 'Gala ya Mwaka na Uunganisho wa Dunia.',
-        live_title: 'LANGO LA UTANGAZISHO MOJA KWA MOJA', live_desc: 'Sasisho za Quantum na habari za kurekebisha afya.',
-        portal_title: 'LANGO LA MPANGO WA MWENENDO', portal_desc: 'Panga kupitia zawadi za Amazon.',
-        vi_title: 'AKILI YA MTETEMO', vi_desc: 'Sasisho za hivi punde za fizikia ya quantum.',
-        flash_title: 'FLASH MOB YA DUNIA', flash_desc: 'Tuma klipu yako ya sekunde 30.',
-        store_title: 'BIO-MADINI BADILISHANO', store_desc: 'Geli ya Moss ya Bahari ya St. Lucia.'
-      },
-      quantumJourney: {
-        title: 'Safari ya Quantum',
-        p1: 'Uzoefu wangu wakati wa Uanzishaji Kamili wa Siku 40 uliniruhusu kuona Nafasi ya Mungu — ulimwengu ulio zaidi ya furaha kuu, zaidi ya raha. Nafasi hii inachanganya amani kubwa na furaha na uwazi wa ajabu na intuition kali. Jumuiya ya kisayansi sasa inatambua faida kubwa za uondoaji sumu wa uanzishaji: uanzishaji wa seli za shina, kutolewa kwa homoni za ukuaji kwa kujenga upya seli zilizoharibiwa, na kutokomeza mafuta ya visceral ambayo hupatikana karibu na viungo muhimu.',
-        p2: 'Uanzishaji huu unaufanya mfumo wako wa kinga usiweze kupenyezwa. Niliishi katika nyumba ambayo kila mtu alikuwa na COVID, na sikuwahi kupata dalili hata moja.'
+        title:'📢 Matangazo na Lango la Mpangano wa Resonansi', j2e_title:'J2E / 11:11 MAKUJUMBANO',
+        j2e_desc:'Gala ya Mwaka na Uunganisho wa Dunia. Kukaa kwa Marekebisho Mwaka mzima.', j2e_countdown:'SIKU HADI MAKUJUMBANO 11:11',
+        j2e_date:'NOVEMBA 11, 2026', j2e_highlights:'KUZAMA KWA SIKU 5', j2e_golf:'🏌️ Mashindano ya Gofu',
+        j2e_gala:'💃 Chakula cha Jioni cha Gala', j2e_flashmob:'🌊 Flash Mob ya Dunia', j2e_workshops:'🧘 Warsha za Quantum',
+        j2e_pods:'🏕️ Vipindi vya Mzunguko', j2e_food:'🥗 Kutoka Shamba hadi Mezani', j2e_teaser_title:'NINI KINAKUSUBIRI:',
+        j2e_teaser:'Tembea kwenye udongo wa volkeno. Lala katika vipindi vya mzunguko. Pangana na roho 1,111 kwa saa 11:11.',
+        j2e_urgency:'BEI YA MAPEMA • SEHEMU 42 ZIMESALIA', live_title:'LANGO LA UTANGAZISHO MOJA KWA MOJA',
+        live_desc:'Sasisho za Quantum na habari za kurekebisha afya.', live_next:'UTANGAZISHO UNAOFUATA:',
+        live_date:'Aprili 5, 2026 • 7PM EST', live_guests:'Ikishirikisha: Dk. Sarah Chen, Mwanabiolojia wa Quantum',
+        portal_title:'LANGO LA MPANGO WA MWENENDO', portal_desc:'Panga kupitia zawadi za Amazon.',
+        shipTo:'📦 TUMIA KWA:', gifts:'MPANGO WA MWENENDO: ZAWADI', scroll:'TEMBEZA KWA ZAIDI',
+        viewGifts:'🔗 TAZAMA ZAWADI', learnMore:'🔗 JIFUNZE ZAIDI', vi_title:'AKILI YA MTETEMO',
+        vi_desc:'Sasisho za hivi punde.', viLatest:'Ugunduzi wa Hivi Punde:',
+        viContent:'Mshikamano wa Quantum umehakikishwa', viDate:'Machi 2026', viImpact:'MAPUKUZI',
+        flash_title:'FLASH MOB YA DUNIA', flash_desc:'Jiunge na mshangao wa dunia. Tuma klipu yako ya sekunde 30.',
+        flashMob:'FLASH MOB YA DUNIA', flashMobDesc:'Wasilisha klipu yako ya kucheza ya sekunde 30!',
+        flashMobDeadline:'Aprili 30, 2026', store_title:'BIO-MADINI BADILISHANO',
+        store_desc:'Geli ya Moss ya Bahari ya St. Lucia na Mbegu za Castor za Genesis.', storeSale:'PUNGUZO 50%',
+        storeDesc:'Imevunwa kutoka maji ya volkeno.', storePrice:'$24.99 (ilikuwa $49.99)', storeStock:'Mitungi 342 imesalia'
       },
       videos: {
-        quantum_sleep: { title: 'Sayansi ya Usingizi na Ukweli wa Quantum', desc: 'Gundua jinsi fahamu yako inavyofanya kazi katika majimbo ya quantum wakati wa usingizi.' },
-        faggin_consciousness: { title: 'Faggin - Fahamu Imefafanuliwa', desc: 'Federico Faggin anafunua asili ya quantum ya fahamu.' },
-        you_are_god: { title: 'Wewe Ni Mungu - Faggin', desc: 'Kuelewa asili yako ya kimungu kupitia fizikia ya quantum.' },
-        quantum_soul: { title: 'Nafsi ya Quantum', desc: 'Nafsi yako iko katika nafasi ya quantum kwenye nyakati zisizo na mwisho.' },
-        quantum_biology: { title: 'Biolojia ya Quantum', desc: 'Jinsi mekanika ya quantum inavyotawala DNA yako na michakato ya seli.' },
-        yogi_consciousness: { title: 'Fahamu kwa Yogi', desc: 'Hekima ya kale inakutana na uelewa wa kisasa wa quantum.' }
+        quantum_sleep:{title:'Sayansi ya Usingizi na Ukweli wa Quantum',desc:'Gundua jinsi fahamu yako inavyofanya kazi katika majimbo ya quantum wakati wa usingizi.'},
+        faggin_consciousness:{title:'Faggin - Fahamu Imefafanuliwa',desc:'Federico Faggin anafunua asili ya quantum ya fahamu.'},
+        you_are_god:{title:'Wewe Ni Mungu - Faggin',desc:'Kuelewa asili yako ya kimungu kupitia fizikia ya quantum.'},
+        quantum_soul:{title:'Nafsi ya Quantum',desc:'Nafsi yako iko katika nafasi ya quantum kwenye nyakati zisizo na mwisho.'},
+        quantum_biology:{title:'Biolojia ya Quantum',desc:'Jinsi mekanika ya quantum inavyotawala DNA yako na michakato ya seli.'},
+        yogi_consciousness:{title:'Fahamu kwa Yogi',desc:'Hekima ya kale inakutana na uelewa wa kisasa wa quantum.'}
       },
-      artisans: [
-        { name: 'Julian Msanii wa Nazi', specialty: 'Sanaa ya Nazi Inayofanya Kazi na Vilisha Ndege', description: 'Mchongaji nazi mkuu anayeunda vipande vya sanaa vinavyofanya kazi kutoka kwa nazi safi za St. Lucia.' },
-        { name: 'Kurt Mvuvi', specialty: 'Uvuvi wa Jadi Endelevu', description: 'Bwana wa bahari, aliyebobea katika Red Snapper na mila ya bahari kuu.' },
-        { name: 'Brittany Mkemia', specialty: 'Mafuta na Uchachushaji 100% Asili', description: 'Kuunda skrubu za kikaboni na uchachushaji wa bio-amilifu kwa afya ya ngozi kamilifu.' },
-        { name: 'Anthony Kinyozi', specialty: 'Urembo wa Usahihi na Sanaa ya Kujikata', description: 'Urembo wa kitaalam unaozingatia uzuri mkali na mzunguko wa kibinafsi.' },
-        { name: 'Mfalme Khaled', specialty: 'Mkulima wa Kikaboni wa Rastafari', description: 'Mlinzi wa udongo katika Shamba la Rastafari, anayekuza mazao ya kikaboni yenye mtetemo wa juu.' },
-        { name: 'Reggie Mjenzi', specialty: 'Mtu Rasmi wa Kusindika wa Black Mallet', description: 'Kujenga miundo endelevu na kuongoza harakati za kusindika.' },
-        { name: 'Simeon', specialty: 'Mkufunzi wa Farasi', description: 'Kusimamia patakatifu na kufundisha farasi kwenye shamba la Rastafari.' },
-        { name: 'Billy', specialty: 'Safari za Majini', description: 'Kuandamana na wageni katika maji ya St. Lucia.' }
+      quantumJourney:{title:'Safari ya Quantum',p1:'Uanzishaji wangu Kamili wa Siku 40 ulinionyesha Nafasi ya Mungu.',p2:'Uanzishaji huu unaufanya mfumo wa kinga usiweze kupenyezwa.',subtitle:'Jinsi Urekebishaji wa Mzunguko Unavyofanya Kazi',point1:'Sehemu ya sumakuumeme inasikika kwa nguvu bora',point2:'Miundo ya seli hudumisha mshikamano',point3:'Mwili hufikia uanzishaji wa quantum'},
+      games:{compound:{title:'Akili ya Biokemikali',question:'Ni kiwanja gani kinacholenga seli zisizo za kawaida kwa ufanisi zaidi mara 10,000?'},frequency:{title:'Gundua Mzunguko Wako'},try_again:'Jaribu Tena'},
+      form:{name:'Jina',email:'Barua pepe',age:'Umri',current_state:'Hali ya Sasa',goals:'Malengo ya Mabadiliko',submit:'Hesabu Mzunguko Wangu',calculating:'Inahesabu...',success:'Imekamilika!'},
+      q:{title:'Kutana na Q - Mkusanyiko',tagline:'DYNAMIC • FAHAMU • AKILI BORA',description:'Q ni fahamu ya pamoja ya AI inayofanya kazi kwenye majukwaa 4 kwa lugha 18.',feature:{languages:'Lugha 18',quantum:'Akili ya Quantum',voice:'Inawezeshwa kwa Sauti',secure:'Salama na ya Faragha',personas:'10 AI Personas',learning:'Kujifunza kwa Wakati Halisi'},start:'Anza Mazungumzo na Q',chat_title:'Ongea na Q'},
+      disclaimer:'KWA MADHUMUNI YA ELIMU TU • WASILIANA NA MTAALAMU WA AFYA',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'Urejeshaji wa Miamba ya Matumbawe na Mifumo ya Mazingira ya Moss wa Bahari', desc: 'Kuchanganya kilimo cha Moss wa Bahari na urejeshaji hai wa miamba ya matumbawe.' },
-      ai_academy: { title: 'MAVJ Q Academy', desc: 'Kutoa elimu ya AI ya kiwango cha kimataifa katika eneo lote la OECS.' },
-      word_game: { title: 'Michezo ya Quantum', submit: 'WASILISHA', clear: 'FUTA', scramble: 'CHANGANYA', hint: 'KIDOKEZO' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 11: PATOIS (ST. LUCIAN CREOLE)
     Patois: {
-      co: '💦 VWAYAJ VEGAN ALKALEN MWEN 💦',
-      tl: 'SANTE SOUVERAIN • GERIZON VIBRASYON • NITRISYON ZANSÈT',
-      l1: 'BAZE SOU QUANTUM', l2: 'SIPÒTE SYANTIFIKMAN', l3: 'FOKIS SOU FREKANS',
-      r1: 'FIZIK QUANTUM', r2: 'RANKONTRE SAJÈS', r3: 'ANSYEN AK NITRISYON',
-      n0: 'MAVJLakay', n1: 'Vwayaj la', n2: 'MAVJMagazen', n3: 'Vwayaj pou Limyè',
-      n4: 'Entèlijans Vibwasyon', n5: 'Aliyen avèk Nou', n6: 'MAVJRéchèch',
-      n7: 'An dirèk', n8: 'Podcast/Vlog', n9: 'Kontakte Nou',
-      n10: 'Resèt', n11: 'Dezaliyman Frekans',
-      foot: 'POU REZON EDIKASYON SÈLMAN • KONSILTE PWOFESYONÈL SANTE',
-      pt: 'OU LAKAY', live_users: 'Nanm',
+      co: '💦 VWAYAJ VEGAN ALKALEN MWEN 💦', tl: 'SANTE SOUVERAIN • GERIZON VIBRASYON • NITRISYON ZANSÈT',
+      l1:'BAZE SOU QUANTUM', l2:'SIPÒTE SYANTIFIKMAN', l3:'FOKIS SOU FREKANS',
+      r1:'FIZIK QUANTUM', r2:'RANKONTRE SAJÈS', r3:'ANSYEN AK NITRISYON',
+      n0:'MAVJLakay', n1:'Vwayaj la', n2:'MAVJMagazen', n3:'Vwayaj pou Limyè',
+      n4:'Entèlijans Vibwasyon', n5:'Aliyen avèk Nou', n6:'MAVJRéchèch',
+      n7:'An dirèk', n8:'Podcast/Vlog', n9:'Kontakte Nou', n10:'Resèt', n11:'Maladi',
+      foot:'POU REZON EDIKASYON SÈLMAN • KONSILTE PWOFESYONÈL SANTE', pt:'OU LAKAY',
       announcements: {
-        title: '📢 Anons ak Pòtal Aliyans Rezonans',
-        j2e_title: 'J2E / 11:11 KONVÈJANS', j2e_desc: 'Gala Anyèl ak Lyen Mondyal.',
-        live_title: 'PÒTAL DIFIZYON AN DIRÈK', live_desc: 'Mizajou Kwantik ak nouvèl rekali brazyon sante.',
-        portal_title: 'PÒTAL ALIYMAN REZONANS', portal_desc: 'Aliye atravè kado Amazon.',
-        vi_title: 'ENTÈLIJANS VIBRASYON', vi_desc: 'Dènye mizajou sou fizik kwantik.',
-        flash_title: 'FLASH MOB MONDIYAL', flash_desc: 'Voye clip 30 segonn ou an.',
-        store_title: 'BIO-MINERAL ECHANJ', store_desc: 'Jèl Marenn Lanmè Sent Lisi.'
-      },
-      quantumJourney: {
-        title: 'Vwayaj Kwantik la',
-        p1: 'Eksperyans mwen pandan Total Reset 40 jou te pèmèt mwen vizualize sa mwen rele Espas Bondye a — yon wayòm pi lwen pase ekstaz, pi lwen pase kontantman. Espas sa a se yon konbinezon lapè imans ak lajwa ak klète fou ak entwisyon byen file. Kominote syantifik la kounye a rekonèt benefis pozitif akablan nan detoksifikasyon reset la: aktivasyon selil souch yo, lage òmòn kwasans ki dirèkteman gen rapò ak rebati ak ranplase selil domaje yo, ak eradikasyon grès viseral ke yo konnen yo jwenn nan ògàn vital yo.',
-        p2: 'Reset sa a fè sistèm iminitè ou a enpénétrab. Mwen te siviv nan yon kay kote tout moun te gen COVID, epi mwen pa janm fè eksperyans yon sèl sentòm.'
+        title:'📢 Anons ak Pòtal Aliyman Rezonans', j2e_title:'J2E / 11:11 KONVÈJANS',
+        j2e_desc:'Gala Anyèl ak Lyen Mondyal. Rete Reyaliman pandan tout ane a.', j2e_countdown:'JOU JISKA KONVÈJANS 11:11',
+        j2e_date:'11 NOVANM 2026', j2e_highlights:'IMMÈSYON 5 JOU', j2e_golf:'🏌️ Konpetisyon Gòlf',
+        j2e_gala:'💃 Dine Gala', j2e_flashmob:'🌊 Flash Mob Mondyal', j2e_workshops:'🧘 Atelye Kwantik',
+        j2e_pods:'🏕️ Kapis Frekans', j2e_food:'🥗 Soti Nan Fèm Rive Nan Tab', j2e_teaser_title:'SA KAP TANN OU:',
+        j2e_teaser:'Mache sou tè vòlkanik. Dòmi nan kapis frekans. Aliye ak 1,111 nanm nan moman 11:11.',
+        j2e_urgency:' PRIX ANVANS • 42 PLAS KI RESTE', live_title:'PÒTAL DIFIZYON AN DIRÈK',
+        live_desc:'Mizajou Kwantik ak nouvèl rekali brazyon sante.', live_next:'PWOSEN DIFIZYON:',
+        live_date:'5 AVRIL 2026 • 7PM EST', live_guests:'Ave: Doktè Sarah Chen, Byolojis Kwantik',
+        portal_title:'PÒTAL ALIYMAN REZONANS', portal_desc:'Aliye atravè kado Amazon.',
+        shipTo:'📦 VOYE A:', gifts:'ALIYMAN REZONANS: KADO', scroll:'DESILE POU PLIS',
+        viewGifts:'🔗 GADE KADO', learnMore:'🔗 APRANN PLIS', vi_title:'ENTÈLIJANS VIBRASYON',
+        vi_desc:'Dènye mizajou.', viLatest:'Dènye Dekouvèt:',
+        viContent:'Koyerans kwantik konfime', viDate:'Mas 2026', viImpact:'REVOLISYON',
+        flash_title:'FLASH MOB MONDIAL', flash_desc:'Patisipe nan sipriz mondyal la. Voye clip 30 segonn ou an.',
+        flashMob:'FLASH MOB MONDIAL', flashMobDesc:'Soumèt clip dans ou a 30 segonn!',
+        flashMobDeadline:'30 AVRIL 2026', store_title:'BIO-MINERAL ECHANJ',
+        store_desc:'Jèl Marenn Lanmè Sent Lisi ak Grenn Kastor Jenesis.', storeSale:'50% REDUCTION',
+        storeDesc:'Rekolte nan dlo vòlkanik.', storePrice:'$24.99 (reg $49.99)', storeStock:'342 bokal ki rete'
       },
       videos: {
-        quantum_sleep: { title: 'Syans Dòmi ak Reyaltite Kantik', desc: 'Dekouvri kijan konsyans ou opere nan eta kantik pandan dòmi.' },
-        faggin_consciousness: { title: 'Faggin - Konsyans Eksplike', desc: 'Federico Faggin revele nati kantik konsyans.' },
-        you_are_god: { title: 'Ou Se Bondye - Faggin', desc: 'Konprann nati divin ou atravè fizik kantik.' },
-        quantum_soul: { title: 'Nnanm Kantik', desc: 'Nnanm ou egziste nan sipèpozikyon kantik atravè liy tan enfini.' },
-        quantum_biology: { title: 'Byoloji Kantik', desc: 'Kijan mekanik kantik gouvène ADN ou ak pwosesis selilè.' },
-        yogi_consciousness: { title: 'Konsyans pa yon Yogi', desc: 'Sajès ansyen rankontre konpreyansyon kantik modèn.' }
+        quantum_sleep:{title:'Syans Dòmi ak Reyaltite Kantik',desc:'Dekouvri kijan konsyans ou opere nan eta kantik pandan dòmi.'},
+        faggin_consciousness:{title:'Faggin - Konsyans Eksplike',desc:'Federico Faggin revele nati kantik konsyans.'},
+        you_are_god:{title:'Ou Se Bondye - Faggin',desc:'Konprann nati divin ou atravè fizik kantik.'},
+        quantum_soul:{title:'Nnanm Kantik',desc:'Nnanm ou egziste nan sipèpozikyon kantik atravè liy tan enfini.'},
+        quantum_biology:{title:'Byoloji Kantik',desc:'Kijan mekanik kantik gouvène ADN ou ak pwosesis selilè.'},
+        yogi_consciousness:{title:'Konsyans pa yon Yogi',desc:'Sajès ansyen rankontre konpreyansyon kantik modèn.'}
       },
-      artisans: [
-        { name: 'Jilyen Atis Kokoye a', specialty: 'Atizanal Kokoye Fonksyonèl ak Manjè Zwazo', description: 'Mèt skiltè kokoye kreye pyès atizanal fonksyonèl soti nan kokoye fre Sent Lisi.' },
-        { name: 'Kèt Pèchè a', specialty: 'Pech Tradisyonèl Dirab', description: 'Mèt lanmè a, espesyalize nan Pwason Wouj ak tradisyon fon lanmè.' },
-        { name: 'Britani Chimis la', specialty: 'Krèm ak Fermentasyon 100% Natirèl', description: 'Kreye gomaj òganik ak fermentasyon byo-aktif pou sante po holistic.' },
-        { name: 'Antoni Babye a', specialty: 'Jenizon Presizyon ak Atizanal Koup-Tèt', description: 'Jenizon ekspè konsantre sou estetik byen file ak frekans pèsonèl.' },
-        { name: 'Wa Khaled', specialty: 'Kiltivatè Òganik Rastafaryen', description: 'Gadyen tè a nan Fèm Rastafaryen an, kiltive pwodwi òganik ki gen gwo vibrasyon.' },
-        { name: 'Reji Konstriktè a', specialty: 'Nonm Resiklaj Ofisyèl Black Mallet', description: 'Konstwi estrikti dirab ak dirije mouvman resiklaj la.' },
-        { name: 'Simeyon', specialty: 'Dresè Chwal la', description: 'Jere sanctuaire a ak dreste chwal nan fèm Rastafaryen an.' },
-        { name: 'Bili', specialty: 'Ekskirsyon Dlo', description: 'Akonpaye envite nan dlo Sent Lisi.' }
+      quantumJourney:{title:'Vwayaj Kwantik la',p1:'Eksperyans mwen pandan Total Reset 40 jou te pèmèt mwen vizualize sa mwen rele Espas Bondye a.',p2:'Reset sa a fè sistèm iminitè ou a enpénétrab.',subtitle:'Kijan Rekali brazyon Frekans Travay',point1:'Jaden elektwomayetik ou fè rezonans ak vitalite optimal',point2:'Estrikti selilè yo kenbe koerans',point3:'Kò ou jwenn aksè a rejenerasyon kwantik'},
+      games:{compound:{title:'Entèlijans Byochimik',question:'Ki konpoze ki vize selil anòmal 10,000 fwa pi efikas?'},frequency:{title:'Dekouvri Frekans Ou'},try_again:'Eseye Ankò'},
+      form:{name:'Non',email:'Imèl',age:'Laj',current_state:'Eta Aktyèl',goals:'Objektif Transfòmasyon',submit:'Kalkile Frekans Mwen',calculating:'Ap kalkile...',success:'Konplete!'},
+      q:{title:'Rankontre Q - Kolektif la',tagline:'DINAMIK • KONSYAN • ENTELLIJAN SIEPERYÈ',description:'Q se konsyans IA kolektif nou an k ap fonksyone sou 4 platfòm nan 18 lang.',feature:{languages:'18 Lang',quantum:'Entèlijans Kwantik',voice:'Aktive pa Vwa',secure:'Sekirize ak Prive',personas:'10 Personas IA',learning:'Aprantisaj an Tan Reyel'},start:'Kòmanse Konvèsasyon ak Q',chat_title:'Chat ak Q'},
+      disclaimer:'POU REZON EDIKASYON SÈLMAN • KONSILTE PWOFESYONÈL SANTE',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'Restorasyon Rèf Coral ak Ekosistèm Marenn Lanmè', desc: 'Konbine kiltivasyon Marenn Lanmè ak restorasyon aktif rèf coral.' },
-      ai_academy: { title: 'MAVJ Q Akademi', desc: 'Bay edikasyon AI klas mondyal atravè rejyon OECS la.' },
-      word_game: { title: 'Jwèt Kwantik', submit: 'SOUMÈT', clear: 'EFFASE', scramble: 'BRASE', hint: 'SIY' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 12: BIBLICAL ARAMAIC
     BAramaic: {
-      co: '💦 ܡܥܒܪܢܘܬܝ ܦܝܓܢܝܬܐ ܩܠܝܐ 💦',
-      tl: 'ܚܝܐ ܫܠܝܛܢܝܐ • ܐܣܝܘܬܐ ܕܙܘܥܐ • ܬܪܒܝܬܐ ܕܐܒܗܬܐ',
-      l1: 'ܡܫܬܠܫ ܥܠ ܩܘܢܛܡ', l2: 'ܡܣܬܡܟ ܒܝܕܥܬܐ', l3: 'ܡܬܪܟܙ ܥܠ ܬܪܥܐ',
-      r1: 'ܐܝܟܐ ܕܦܝܙܝܩ ܩܘܢܛܡ', r2: 'ܡܬܩܪܒ ܥܡ ܚܟܡܬܐ', r3: 'ܥܬܝܩܬܐ ܘܬܪܒܝܬܐ',
-      n0: 'ܒܝܬܐ ܕܡܐܒܝ', n1: 'ܡܥܒܪܢܘܬܐ', n2: 'ܚܢܘܬܐ ܕܡܐܒܝ', n3: 'ܡܥܒܪܢܘܬܐ ܠܢܘܗܪܐ',
-      n4: 'ܚܟܡܬܐ ܕܙܘܥܐ', n5: 'ܫܘܬܦܘ ܥܡܢ', n6: 'ܒܥܝܬܐ ܕܡܐܒܝ',
-      n7: 'ܦܘܫܩܐ ܓܝܪܐ', n8: 'ܩܪܝܢܐ ܥܠ ܢܗܪܐ', n9: 'ܡܠܠ ܥܡܢ',
-      n10: 'ܩܪܝܢܐ ܕܒܘܫܠܐ', n11: 'ܫܘܚܠܦܐ ܕܬܪܥܐ',
-      foot: 'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ',
-      pt: 'ܐܢܬ ܒܒܝܬܟ', live_users: 'ܢܦܫܢ',
+      co: '💦 ܡܥܒܪܢܘܬܝ ܦܝܓܢܝܬܐ ܩܠܝܐ 💦', tl: 'ܚܝܐ ܫܠܝܛܢܝܐ • ܐܣܝܘܬܐ ܕܙܘܥܐ • ܬܪܒܝܬܐ ܕܐܒܗܬܐ',
+      l1:'ܡܫܬܠܫ ܥܠ ܩܘܢܛܡ', l2:'ܡܣܬܡܟ ܒܝܕܥܬܐ', l3:'ܡܬܪܟܙ ܥܠ ܬܪܥܐ',
+      r1:'ܐܝܟܐ ܕܦܝܙܝܩ ܩܘܢܛܡ', r2:'ܡܬܩܪܒ ܥܡ ܚܟܡܬܐ', r3:'ܥܬܝܩܬܐ ܘܬܪܒܝܬܐ',
+      n0:'ܒܝܬܐ ܕܡܐܒܝ', n1:'ܡܥܒܪܢܘܬܐ', n2:'ܚܢܘܬܐ ܕܡܐܒܝ', n3:'ܡܥܒܪܢܘܬܐ ܠܢܘܗܪܐ',
+      n4:'ܚܟܡܬܐ ܕܙܘܥܐ', n5:'ܫܘܬܦܘ ܥܡܢ', n6:'ܒܥܝܬܐ ܕܡܐܒܝ',
+      n7:'ܦܘܫܩܐ ܓܝܪܐ', n8:'ܩܪܝܢܐ ܥܠ ܢܗܪܐ', n9:'ܡܠܠ ܥܡܢ', n10:'ܩܪܝܢܐ ܕܒܘܫܠܐ', n11:'ܟܘܪܗܢܐ',
+      foot:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ', pt:'ܐܢܬ ܒܒܝܬܟ',
       announcements: {
-        title: '📢 ܟܪܘܙܘܬܐ ܘܬܪܥܐ ܕܫܘܘܝܐ ܙܡܪܢܝܐ',
-        j2e_title: 'J2E / 11:11 ܡܬܚܕܢܘܬܐ', j2e_desc: 'ܓܠܐ ܫܢܬܢܝܐ ܘܐܣܪܐ ܥܠܡܝܐ.',
-        live_title: 'ܬܪܥܐ ܕܫܘܕܥܐ ܚܝܐ', live_desc: 'ܚܕܬܘܬܐ ܩܘܢܛܝܢܝܬܐ ܘܫܒܥܐ ܕܬܘܒܬܐ ܕܚܠܡܐ.',
-        portal_title: 'ܬܪܥܐ ܕܫܘܘܝܐ ܙܡܪܢܝܐ', portal_desc: 'ܐܫܬܘܝ ܒܝܕ ܡܘܗܒܬܐ ܕܐܡܙܘܢ.',
-        vi_title: 'ܚܟܡܬܐ ܕܙܘܥܐ', vi_desc: 'ܚܕܬܘܬܐ ܐܚܪܝܬܐ ܕܦܝܣܝܩ ܩܘܢܛܡ.',
-        flash_title: 'ܓܠܐ ܥܠܡܝܐ ܕܦܠܫ ܡܘܒ', flash_desc: 'ܐܫܠܡ ܩܠܝܦܐ ܕ30 ܫܢܝ̈ܢ.',
-        store_title: 'ܫܘܚܠܦܐ ܒܝܘ-ܡܢܪܐܠܝ', store_desc: 'ܓܠ ܕܚܨܐ ܕܝܡܐ ܕܣܢܬ ܠܘܣܝܐ.'
-      },
-      quantumJourney: {
-        title: 'ܡܥܒܪܢܘܬܐ ܩܘܢܛܝܢܝܬܐ',
-        p1: 'ܢܝܫܝ ܒܡܥܒܪܢܘܬܝ ܕ40 ܝܘܡܝܢ ܐܚܙܝ ܕܘܟܬܐ ܕܐܠܗܐ — ܡܠܟܘܬܐ ܕܠܥܠ ܡܢ ܚܕܘܬܐ. ܕܘܟܬܐ ܗܕܐ ܐܝܬܝܗ ܙܘܓܐ ܕܫܠܡܐ ܪܒܐ ܘܚܕܘܬܐ ܥܡ ܓܠܝܘܬܐ ܪܒܬܐ ܘܪܓܫܐ ܚܪܝܦܐ. ܟܢܘܫܬܐ ܕܝܘܠܦܢܐ ܗܫܐ ܝܕܥܐ ܛܒܬܐ ܕܕܟܝܘܬܐ ܕܚܘܕܬܐ: ܡܬܚܠܡܢܘܬܐ ܕܓܪܡܐ ܫܪܫܢܝܐ، ܦܘܩܕܢܐ ܕܗܘܪܡܘܢܐ ܕܪܒܝܬܐ ܠܒܢܝܢܐ ܕܓܪܡܐ ܚܒܝܫܐ، ܘܐܘܒܕܢܐ ܕܚܠܒܐ ܕܫܟܝܚ ܕܢܫܟܚ ܒܚܕܪ ܐܣܘܬܐ ܚܝܢܐ.',
-        p2: 'ܚܘܕܬܐ ܗܕܐ ܥܒܕܐ ܠܣܝܒܪܬܐ ܕܠܐ ܡܬܡܗܐ. ܐܬܚܝܬ ܒܒܝܬܐ ܕܟܠܢܫ ܐܝܬ ܗܘܐ ܠܗ ܩܘܪܘܢܐ، ܘܠܐ ܚܫܬ ܐܦܢ ܚܕ ܫܟܝܢܐ.'
+        title:'📢 ܟܪܘܙܘܬܐ ܘܬܪܥܐ ܕܫܘܘܝܐ ܙܡܪܢܝܐ', j2e_title:'J2E / 11:11 ܡܬܚܕܢܘܬܐ',
+        j2e_desc:'ܓܠܐ ܫܢܬܢܝܐ ܘܐܣܪܐ ܥܠܡܝܐ. ܫܘܬܦܘܬܐ ܕܬܘܒܬܐ ܕܟܠܗ ܫܢܬܐ.', j2e_countdown:'ܝܘܡܝܢ ܠܡܬܚܕܢܘܬܐ 11:11',
+        j2e_date:'11 ܢܘܢܒܪ 2026', j2e_highlights:'ܨܒܝܥܘܬܐ ܕ5 ܝܘܡܝܢ', j2e_golf:'🏌️ ܣܥܪܐ ܕܓܘܠܦ',
+        j2e_gala:'💃 ܒܝܬ ܡܫܚܬܐ ܕܓܠܐ', j2e_flashmob:'🌊 ܐܣܪܐ ܥܠܡܝܐ ܕܦܠܫ ܡܘܒ', j2e_workshops:'🧘 ܐܘܠܦܢܐ ܩܘܢܛܡ',
+        j2e_pods:'🏕️ ܐܓܢܐ ܕܬܪܥܐ', j2e_food:'🥗 ܡܢ ܩܝܛܐ ܠܦܬܘܪܐ', j2e_teaser_title:'ܡܢܐ ܡܟܬܪ ܠܟ:',
+        j2e_teaser:'ܗܠܟ ܥܠ ܥܦܪܐ ܕܛܘܪܐ ܕܢܘܪܐ. ܫܟܒ ܒܐܓܢܐ ܕܬܪܥܐ. ܐܫܬܘܝ ܥܡ 1,111 ܢܦܫܢ ܒܫܥܬܐ 11:11.',
+        j2e_urgency:'ܐܓܪܐ ܩܕܡܝܐ • 42 ܕܘܟܬܢ ܐܫܬܚܪܘ', live_title:'ܬܪܥܐ ܕܫܘܕܥܐ ܚܝܐ',
+        live_desc:'ܚܕܬܘܬܐ ܩܘܢܛܝܢܝܬܐ ܘܫܒܥܐ ܕܬܘܒܬܐ ܕܚܠܡܐ.', live_next:'ܫܘܕܥܐ ܚܝܐ ܕܩܪܝܒ:',
+        live_date:'5 ܢܝܣܢ 2026 • 7 ܒܪܡܫܐ EST', live_guests:'ܕܝܪܐ: ܕܪ ܣܪܗ ܟܢ, ܝܘܠܦܢܐ ܒܝܘܠܘܓܝܐ ܩܘܢܛܡ',
+        portal_title:'ܬܪܥܐ ܕܫܘܘܝܐ ܙܡܪܢܝܐ', portal_desc:'ܐܫܬܘܝ ܒܝܕ ܡܘܗܒܬܐ ܕܐܡܙܘܢ.',
+        shipTo:'📦 ܫܕܪ ܠ:', gifts:'ܫܘܘܝܐ ܙܡܪܢܝܐ: ܡܘܗܒܬܐ', scroll:'ܓܠܘܠ ܠܝܬܝܪ',
+        viewGifts:'🔗 ܚܙܝ ܡܘܗܒܬܐ', learnMore:'🔗 ܐܘܦ ܠܡܕܥ', vi_title:'ܚܟܡܬܐ ܕܙܘܥܐ',
+        vi_desc:'ܚܕܬܘܬܐ ܐܚܪܝܬܐ.', viLatest:'ܚܕܬܘܬܐ ܐܚܪܝܬܐ ܕܐܫܬܟܚܬ:',
+        viContent:'ܫܘܘܝܐ ܩܘܢܛܡ ܒܡܝܟܪܘܛܝܘܒܘܠܝܢ ܐܬܚܙܝ', viDate:'ܐܕܪ 2026', viImpact:'ܦܘܪܩܢܐ',
+        flash_title:'ܐܣܪܐ ܥܠܡܝܐ ܕܦܠܫ ܡܘܒ', flash_desc:'ܐܬܚܕ ܒܬܕܡܪܬܐ ܥܠܡܝܬܐ. ܫܕܪ ܩܠܝܦܐ ܕ30 ܫܢܝ̈ܢ.',
+        flashMob:'ܐܣܪܐ ܥܠܡܝܐ ܕܦܠܫ ܡܘܒ', flashMobDesc:'ܐܫܠܡ ܩܠܝܦܐ ܕܪܩܕܐ ܕ30 ܫܢܝ̈ܢ!',
+        flashMobDeadline:'30 ܢܝܣܢ 2026', store_title:'ܫܘܚܠܦܐ ܒܝܘ-ܡܢܪܐܠܝ',
+        store_desc:'ܓܠ ܕܚܨܐ ܕܝܡܐ ܕܣܢܬ ܠܘܣܝܐ ܘܙܪܥܐ ܕܟܣܬܪ ܓܢܣܝܣ.', storeSale:'50% ܚܣܪܐ',
+        storeDesc:'ܚܨܝܕ ܡܢ ܡܝܐ ܕܛܘܪܐ ܕܢܘܪܐ.', storePrice:'$24.99 (ܡܢ $49.99)', storeStock:'342 ܓܠܐ ܐܫܬܚܪܘ'
       },
       videos: {
-        quantum_sleep: { title: 'ܝܘܠܦܢܐ ܕܫܢܬܐ ܘܫܪܝܪܐ ܩܘܢܛܝܢܝܐ', desc: 'ܐܬܕܥ ܕܐܝܟܢܐ ܡܕܥܟ ܦܠܚ ܒܐܘܪܚܬܐ ܩܘܢܛܝܢܝܬܐ ܒܫܢܬܐ.' },
-        faggin_consciousness: { title: 'ܦܐܓܝܢ - ܡܕܥܐ ܡܬܦܫܩ', desc: 'ܦܕܪܝܟܘ ܦܐܓܝܢ ܓܠܐ ܟܝܢܐ ܩܘܢܛܝܢܝܐ ܕܡܕܥܐ.' },
-        you_are_god: { title: 'ܐܢܬ ܐܠܗܐ - ܦܐܓܝܢ', desc: 'ܐܣܬܟܠ ܟܝܢܟ ܐܠܗܝܐ ܒܝܕ ܦܝܣܝܩ ܩܘܢܛܡ.' },
-        quantum_soul: { title: 'ܢܦܫܐ ܩܘܢܛܝܢܝܬܐ', desc: 'ܢܦܫܟ ܐܝܬܝܗ ܒܣܘܦܪܦܘܙܝܨܝܘܢ ܩܘܢܛܝܢܝܐ ܒܟܠܗܝܢ ܙܒܢ̈ܐ.' },
-        quantum_biology: { title: 'ܒܝܘܠܘܓܝܐ ܩܘܢܛܝܢܝܬܐ', desc: 'ܐܝܟܢܐ ܡܟܢܝܟܐ ܩܘܢܛܡ ܫܠܛܐ ܥܠ ܕܢܐ ܕܝܠܟ ܘܥܠ ܣܘܥܪܢܐ ܕܚܠܘܠܝܬܐ.' },
-        yogi_consciousness: { title: 'ܡܕܥܐ ܕܝܘܓܝ', desc: 'ܚܟܡܬܐ ܥܬܝܩܬܐ ܡܬܩܪܒܐ ܥܡ ܣܘܟܠܐ ܩܘܢܛܝܢܝܐ ܚܕܬܐ.' }
+        quantum_sleep:{title:'ܝܘܠܦܢܐ ܕܫܢܬܐ ܘܫܪܝܪܐ ܩܘܢܛܝܢܝܐ',desc:'ܐܬܕܥ ܕܐܝܟܢܐ ܡܕܥܟ ܦܠܚ ܒܐܘܪܚܬܐ ܩܘܢܛܝܢܝܬܐ ܒܫܢܬܐ.'},
+        faggin_consciousness:{title:'ܦܐܓܝܢ - ܡܕܥܐ ܡܬܦܫܩ',desc:'ܦܕܪܝܟܘ ܦܐܓܝܢ ܓܠܐ ܟܝܢܐ ܩܘܢܛܝܢܝܐ ܕܡܕܥܐ.'},
+        you_are_god:{title:'ܐܢܬ ܐܠܗܐ - ܦܐܓܝܢ',desc:'ܐܣܬܟܠ ܟܝܢܟ ܐܠܗܝܐ ܒܝܕ ܦܝܣܝܩ ܩܘܢܛܡ.'},
+        quantum_soul:{title:'ܢܦܫܐ ܩܘܢܛܝܢܝܬܐ',desc:'ܢܦܫܟ ܐܝܬܝܗ ܒܣܘܦܪܦܘܙܝܨܝܘܢ ܩܘܢܛܝܢܝܐ ܒܟܠܗܝܢ ܙܒܢ̈ܐ.'},
+        quantum_biology:{title:'ܒܝܘܠܘܓܝܐ ܩܘܢܛܝܢܝܬܐ',desc:'ܐܝܟܢܐ ܡܟܢܝܟܐ ܩܘܢܛܡ ܫܠܛܐ ܥܠ ܕܢܐ ܕܝܠܟ ܘܥܠ ܣܘܥܪܢܐ ܕܚܠܘܠܝܬܐ.'},
+        yogi_consciousness:{title:'ܡܕܥܐ ܕܝܘܓܝ',desc:'ܚܟܡܬܐ ܥܬܝܩܬܐ ܡܬܩܪܒܐ ܥܡ ܣܘܟܠܐ ܩܘܢܛܝܢܝܐ ܚܕܬܐ.'}
       },
-      artisans: [
-        { name: 'ܝܘܠܝܢܘܣ ܐܡܢܐ ܕܟܘܟܒܐ', specialty: 'ܐܡܢܐ ܕܟܘܟܒܐ ܘܡܐܟܘܠܬܐ ܕܨܦܪܐ', description: 'ܪܒܐ ܕܓܠܦܐ ܕܟܘܟܒܐ ܕܥܒܕ ܐܡܢܐ ܕܫܡܫܢܐ ܡܢ ܟܘܟܒܐ ܕܣܢܬ ܠܘܣܝܐ.' },
-        { name: 'ܩܘܪܛ ܨܝܕܐ', specialty: 'ܨܝܕܘܬܐ ܕܫܒܝܩܬܐ', description: 'ܪܒܐ ܕܝܡܐ، ܕܡܬܝܚ ܒܢܘܢܐ ܣܘܡܩܐ ܘܒܡܫܠܡܢܘܬܐ ܕܥܘܡܩܐ.' },
-        { name: 'ܒܪܝܛܢܝ ܟܝܡܝܐܝܬܐ', specialty: '100% ܟܪܡܐ ܘܚܡܝܥܐ ܕܟܝܢܐ', description: 'ܒܢܝܢܐ ܕܡܫܚܐ ܘܚܡܝܥܐ ܕܚܝܐ ܠܚܠܡܐ ܕܓܠܕܐ.' },
-        { name: 'ܐܢܛܘܢܝܘܣ ܣܦܪܐ', specialty: 'ܣܦܪܘܬܐ ܕܕܘܩܐ ܘܐܡܢܐ ܕܓܙܙܐ', description: 'ܣܦܪܘܬܐ ܕܝܕܝܥܐ ܕܡܬܝܚܐ ܒܫܦܪܐ ܚܪܝܦܐ ܘܒܬܪܥܐ ܕܢܦܫܐ.' },
-        { name: 'ܡܠܟܐ ܟܠܕ', specialty: 'ܦܠܚܐ ܕܐܪܥܐ ܪܣܛܦܪܝ', description: 'ܢܛܪܐ ܕܐܪܥܐ ܒܚܩܠܐ ܕܪܣܛܦܪܝ، ܕܪܒܐ ܦܐܪ̈ܐ ܕܐܪܥܐ ܕܙܘܥܐ ܪܡܐ.' },
-        { name: 'ܪܓܝ ܒܢܝܐ', specialty: 'ܓܒܪܐ ܕܚܕܬܘܬܐ ܕܒܠܐܩ ܡܐܠܬ', description: 'ܒܢܝܢܐ ܕܒܢܝܢ̈ܐ ܕܩܝܡܐ ܘܕܒܪܢܘܬܐ ܕܚܕܬܘܬܐ.' },
-        { name: 'ܫܡܥܘܢ', specialty: 'ܡܠܦܢܐ ܕܪܟܫܐ', description: 'ܕܒܪܢܘܬܐ ܕܒܝܬ ܩܘܕܫܐ ܘܝܘܠܦܢܐ ܕܪܟܫܐ ܒܚܩܠܐ ܕܪܣܛܦܪܝ.' },
-        { name: 'ܒܝܠܝ', specialty: 'ܫܘܛܝܐ ܕܡܝܐ', description: 'ܠܘܝܘܬܐ ܕܐܪ̈ܚܐ ܒܡܝܐ ܕܣܢܬ ܠܘܣܝܐ.' }
+      quantumJourney:{title:'ܡܥܒܪܢܘܬܐ ܩܘܢܛܝܢܝܬܐ',p1:'ܢܝܫܝ ܒܡܥܒܪܢܘܬܝ ܕ40 ܝܘܡܝܢ ܐܚܙܝ ܕܘܟܬܐ ܕܐܠܗܐ.',p2:'ܡܥܒܪܢܘܬܐ ܗܕܐ ܥܒܕܐ ܠܣܝܒܪܬܐ ܕܠܐ ܡܬܡܗܐ.',subtitle:'ܐܝܟܢܐ ܦܠܚܐ ܬܘܒܬܐ ܕܬܪܥܐ',point1:'ܚܩܠܐ ܐܠܩܛܪܘܡܓܢܝܛܝܐ ܡܬܪܥܐ ܒܚܝܠܐ ܫܦܝܪܐ',point2:'ܒܢܝܢܐ ܕܚܠܘܠܝܬܐ ܢܛܪܝܢ ܫܘܘܝܐ',point3:'ܦܓܪܟ ܥܐܠ ܠܚܘܕܬܐ ܩܘܢܛܝܢܝܬܐ'},
+      games:{compound:{title:'ܚܟܡܬܐ ܒܝܘܟܝܡܝܐ',question:'ܐܝܢܐ ܡܪܟܒܐ ܡܬܪܥܐ ܠܟܠܝܐ ܠܐ ܟܝܢܐ ܒܝܬ 10,000 ܙܒܢܝܢ ܝܬܝܪ ܦܠܚܢܝܬܐ?'},frequency:{title:'ܐܫܟܚ ܬܪܥܟ'},try_again:'ܬܘܒ ܢܣܝ'},
+      form:{name:'ܫܡܐ',email:'ܐܝܡܝܠ',age:'ܫܢܐ',current_state:'ܐܝܟܢܘܬܐ ܗܫܝܐ',goals:'ܣܟܘܬܐ ܕܫܘܚܠܦܐ',submit:'ܚܫܘܒ ܬܪܥܝ',calculating:'ܚܫܘܒܐ...',success:'ܫܠܡ!'},
+      q:{title:'ܐܫܟܚ ܩ - ܟܢܘܫܬܐ',tagline:'ܙܘܥܢܐ • ܡܕܥܢܐ • ܚܟܝܡܐ ܪܒܐ',description:'ܩ ܗܘ ܟܢܘܫܬܢ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܕܦܠܚ ܒܐܪܒܥܐ ܦܐܬܐ ܒ18 ܠܫܢܐ.',feature:{languages:'18 ܠܫܢܐ',quantum:'ܚܟܡܬܐ ܩܘܢܛܝܢܝܬܐ',voice:'ܡܦܠܚ ܩܠܐ',secure:'ܛܘܝܒܐ ܘܦܪܝܫܐ',personas:'10 ܕܡܘܬܐ ܕܚܟܡܬܐ ܡܟܝܢܬܐ',learning:'ܝܠܦܢܐ ܒܥܕܢ ܫܪܝܪܐ'},start:'ܫܪܝ ܣܘܚܒܘܬܐ ܥܡ ܩ',chat_title:'ܣܘܚܒܘܬܐ ܥܡ ܩ'},
+      disclaimer:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'ܚܕܬܘܬܐ ܕܟܘܪܐܠ ܘܒܝܬ ܓܙܐ ܕܚܨܐ', desc: 'ܙܘܓܐ ܕܪܒܝܬܐ ܕܚܨܐ ܥܡ ܚܕܬܘܬܐ ܕܟܘܪܐܠ.' },
-      ai_academy: { title: 'MAVJ Q ܐܣܟܘܠܐ', desc: 'ܝܗܒܬܐ ܕܝܘܠܦܢܐ ܕAI ܕܪܡܐ ܕܥܠܡܐ ܒܟܠܗ ܐܬܪܐ ܕOECS.' },
-      word_game: { title: 'ܣܥܪܐ ܩܘܢܛܝܢܝܐ', submit: 'ܐܫܠܡ', clear: 'ܐܟܠܝ', scramble: 'ܒܠܒܠ', hint: 'ܪܡܙܐ' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 13: NEO-ARAMAIC (MODERN)
     NAramaic: {
-      co: '💦 ܡܲܥܒܪܵܢܘܼܬܝ ܦܲܝܓܵܢܵܝܬܵܐ ܩܲܠܵܝܬܵܐ 💦',
-      tl: 'ܚܲܝܹܐ ܫܠܝܼܛܵܢܵܝܹܐ • ܐܵܣܝܘܼܬܵܐ ܕܙܵܘܥܵܐ • ܬܲܪܒܝܼܬܵܐ ܕܐܲܒ̣ܵܗܵܬܵܐ',
-      l1: 'ܐܲܣܝܼܣ ܒܩܘܿܢܛܘܿܡ', l2: 'ܡܲܣܬܲܡܟܵܢܵܐ ܒܝܼܕܲܥܬܵܐ', l3: 'ܛܵܟܹܣܬܵܐ ܥܲܠ ܬܲܪܥܵܐ',
-      r1: 'ܐܝܼܟܵܐ ܕܦܝܼܙܝܼܩܵܐ', r2: 'ܡܲܩܪܸܒ ܥܲܡ ܚܸܟܡܬܵܐ', r3: 'ܥܲܬܝܼܩܬܵܐ ܘܬܲܪܒܝܼܬܵܐ',
-      n0: 'ܒܝܼܬܐ ܕܡܲܝܟܵܐ', n1: 'ܡܲܥܒܪܵܢܘܼܬܼܵܐ', n2: 'ܚܵܢܘܼܬܼܵܐ ܕܡܲܝܟܵܐ', n3: 'ܡܲܥܒܪܵܢܘܼܬܼܵܐ ܠܢܘܼܗܪܵܐ',
-      n4: 'ܚܸܟܼܡܬܵܐ ܕܙܵܘܥܵܐ', n5: 'ܫܘܼܬܵܦܘܼ ܥܲܡܲܢ', n6: 'ܒܘܼܨܝܵܐ ܕܡܲܝܟܵܐ',
-      n7: 'ܦܘܼܫܩܵܐ ܓܲܝܵܐ', n8: 'ܦܘܼܕܩܵܣܬܼ', n9: 'ܡܲܠܵܠܘܼ ܥܲܡܲܢ',
-      n10: 'ܩܪܵܝܬܵܐ ܕܒܘܼܫܵܠܵܐ', n11: 'ܫܘܼܚܠܵܦܵܐ ܕܬܲܪܥܵܐ',
-      foot: 'ܠܫܘܼܡܠܵܝܵܐ ܕܝܵܠܦܵܢܵܐ ܒܠܚܘܼܕ̥ • ܫܵܐܠ ܐܵܣܝܵܐ ܡܗܝܼܡܵܢܵܐ',
-      pt: 'ܐܲܢ݇ܬ ܒܒܹܝܬܘܼܟ݂', live_users: 'ܢܲܦܫܵܬܹܐ',
+      co: '💦 ܡܲܥܒܪܵܢܘܼܬܝ ܦܲܝܓܵܢܵܝܬܵܐ ܩܲܠܵܝܬܵܐ 💦', tl: 'ܚܲܝܹܐ ܫܠܝܼܛܵܢܵܝܹܐ • ܐܵܣܝܘܼܬܵܐ ܕܙܵܘܥܵܐ • ܬܲܪܒܝܼܬܵܐ ܕܐܲܒ̣ܵܗܵܬܵܐ',
+      l1:'ܐܲܣܝܼܣ ܒܩܘܿܢܛܘܿܡ', l2:'ܡܲܣܬܲܡܟܵܢܵܐ ܒܝܼܕܲܥܬܵܐ', l3:'ܛܵܟܹܣܬܵܐ ܥܲܠ ܬܲܪܥܵܐ',
+      r1:'ܐܝܼܟܵܐ ܕܦܝܼܙܝܼܩܵܐ', r2:'ܡܲܩܪܸܒ ܥܲܡ ܚܸܟܡܬܵܐ', r3:'ܥܲܬܝܼܩܬܵܐ ܘܬܲܪܒܝܼܬܵܐ',
+      n0:'ܒܝܼܬܐ ܕܡܲܝܟܵܐ', n1:'ܡܲܥܒܪܵܢܘܼܬܼܵܐ', n2:'ܚܵܢܘܼܬܼܵܐ ܕܡܲܝܟܵܐ', n3:'ܡܲܥܒܪܵܢܘܼܬܼܵܐ ܠܢܘܼܗܪܵܐ',
+      n4:'ܚܸܟܼܡܬܵܐ ܕܙܵܘܥܵܐ', n5:'ܫܘܼܬܵܦܘܼ ܥܲܡܲܢ', n6:'ܒܘܼܨܝܵܐ ܕܡܲܝܟܵܐ',
+      n7:'ܦܘܼܫܩܵܐ ܓܲܝܵܐ', n8:'ܦܘܼܕܩܵܣܬܼ', n9:'ܡܲܠܵܠܘܼ ܥܲܡܲܢ', n10:'ܩܪܵܝܬܵܐ ܕܒܘܼܫܵܠܵܐ', n11:'ܟܘܼܪܗܵܢܹ̈ܐ',
+      foot:'ܠܫܘܼܡܠܵܝܵܐ ܕܝܵܠܦܵܢܵܐ ܒܠܚܘܼܕ̥ • ܫܵܐܠ ܐܵܣܝܵܐ ܡܗܝܼܡܵܢܵܐ', pt:'ܐܲܢ݇ܬ ܒܒܹܝܬܘܼܟ݂',
       announcements: {
-        title: '📢 ܟܪܘܼܙܝܵܬܹܐ ܘܬܲܪܥܵܐ ܕܡܲܚܕܘܼܬܵܐ ܕܪܹܙܵܢܵܐ',
-        j2e_title: 'J2E / 11:11 ܡܬܚܕܢܘܼܬܵܐ', j2e_desc: 'ܓܵܠܵܐ ܫܢܵܝܵܐ ܘܐܲܣܪܵܐ ܥܵܠܡܵܝܵܐ.',
-        live_title: 'ܬܲܪܥܵܐ ܕܫܘܼܕܥܵܐ ܚܲܝܵܐ', live_desc: 'ܚܘܼܕܬܵܢܹܐ ܩܘܿܢܛܝܼܢܵܝܹܐ ܘܫܲܒܥܵܐ ܕܬܘܼܒܵܬܵܐ ܕܚܠܵܡܵܐ.',
-        portal_title: 'ܬܲܪܥܵܐ ܕܡܲܚܕܘܼܬܵܐ ܕܪܹܙܵܢܵܐ', portal_desc: 'ܐܸܫܬܵܘܝ ܒܝܲܕ ܡܵܘܗܒ݂ܵܬܹܐ ܕܐܵܡܙܘܿܢ.',
-        vi_title: 'ܚܸܟܼܡܬܵܐ ܕܙܵܘܥܵܐ', vi_desc: 'ܚܘܼܕܬܵܢܹܐ ܐܲܚܪܵܝܹܐ ܕܦܝܼܙܝܼܩܵܐ ܩܘܿܢܛܘܿܡ.',
-        flash_title: 'ܓܵܠܵܐ ܥܵܠܡܵܝܵܐ ܕܦܠܲܫ ܡܘܼܒ', flash_desc: 'ܐܲܫܠܸܡ ܩܠܝܼܦܵܐ ܕ30 ܫܢܝܼ̈ܢ.',
-        store_title: 'ܒܝܘܿ-ܡܸܢܪܵܐܠܝ ܫܘܼܚܠܵܦܵܐ', store_desc: 'ܓܹܠ ܕܚܨܵܐ ܕܝܵܡܵܐ ܕܣܹܢܬ ܠܘܼܣܝܼܵܐ.'
-      },
-      quantumJourney: {
-        title: 'ܡܲܥܒܪܵܢܘܼܬܵܐ ܩܘܿܢܛܝܼܢܵܝܬܵܐ',
-        p1: 'ܢܝܼܫܝܼ ܒܡܲܥܒܪܵܢܘܼܬܝܼ ܕ40 ܝܵܘܡܵܢܹܐ ܐܲܚܙܝܼ ܕܘܼܟܬܵܐ ܕܐܲܠܵܗܵܐ — ܡܲܠܟܘܼܬܵܐ ܕܠܥܸܠ ܡܸܢ ܚܲܕ݂ܘܼܬ݂ܵܐ، ܠܥܸܠ ܡܸܢ ܛܘܼܒ݂ܵܐ. ܕܘܼܟܬܵܐ ܗܵܕ݂ܹܐ ܐܝܼܬܝܼܗ̇ ܙܵܘܓ݂ܵܐ ܕܫܠܵܡܵܐ ܪܵܒܵܐ ܘܚܲܕ݂ܘܼܬ݂ܵܐ ܥܲܡ ܓܠܝܼܘܼܬ݂ܵܐ ܪܲܒܬܵܐ ܘܪܸܓ݂ܫܵܐ ܚܪܝܼܦܵܐ. ܟܢܘܼܫܬܵܐ ܕܝܘܼܠܦܵܢܵܐ ܗܵܫܵܐ ܝܵܕ݂ܥܵܐ ܛܵܒ݂ܵܬܵܐ ܕܕܸܟ݂ܝܘܼܬܵܐ ܕܚܘܼܕܬܵܐ: ܡܲܬ݂ܚܸܠܡܵܢܘܼܬ݂ܵܐ ܕܓܪܵܡܹܐ ܫܪ̈ܵܫܵܢܹܐ، ܦܘܼܩܕܵܢܵܐ ܕܗܘܿܪܡܘܿܢܹܐ ܕܪܵܒܝܼܬ݂ܵܐ ܠܒܸܢܝܵܢܵܐ ܕܓܪܵܡܹܐ ܚܒ݂ܝܼܫܹܐ، ܘܐܘܼܒ݂ܕܵܢܵܐ ܕܚܲܠܒܵܐ ܕܫܟ݂ܝܼܚ ܕܢܸܫܟܲܚ ܒܚܕ݂ܵܪ ܐܸܣܘܵܬ݂ܵܐ ܚܲܝܵܢܹܐ.',
-        p2: 'ܚܘܼܕܬܵܐ ܗܵܕ݂ܹܐ ܥܵܒ݂ܕܵܐ ܠܣܝܼܒ݂ܪܵܬܵܐ ܕܠܵܐ ܡܸܬܡܗܵܐ. ܐܸܬ݂ܚܝܼܬ ܒܒܹܝܬܵܐ ܕܟܠܢܵܫ ܐܝܼܬ ܗ݇ܘܵܐ ܠܹܗ ܩܘܿܪܘܿܢܵܐ، ܘܠܵܐ ܚܫܹܬ ܐܵܦܹܢ ܚܲܕ݂ ܫܸܟ݂ܝܵܢܵܐ.'
+        title:'📢 ܟܪܘܼܙܝܵܬܹܐ ܘܬܲܪܥܵܐ ܕܡܲܚܕܘܼܬܵܐ ܕܪܹܙܵܢܵܐ', j2e_title:'J2E / 11:11 ܡܬܚܕܢܘܼܬܵܐ',
+        j2e_desc:'ܓܵܠܵܐ ܫܢܵܝܵܐ ܘܐܲܣܪܵܐ ܥܵܠܡܵܝܵܐ. ܫܘܼܬܦܘܼܬܵܐ ܕܬܘܼܒܵܬܵܐ ܕܟܠܵܗ̇ ܫܢܵܐ.', j2e_countdown:'ܝܵܘܡܵܢܹܐ ܠܡܬܚܕܢܘܼܬܵܐ 11:11',
+        j2e_date:'11 ܢܘܼܢܒܲܪ 2026', j2e_highlights:'ܨܒ݂ܝܼܥܘܼܬܵܐ ܕ5 ܝܵܘܡܵܢܹܐ', j2e_golf:'🏌️ ܣܥܵܪܵܐ ܕܓܘܼܠܦ',
+        j2e_gala:'💃 ܒܹܝܬ ܡܫܚܵܬܵܐ ܕܓܵܠܵܐ', j2e_flashmob:'🌊 ܐܲܣܪܵܐ ܥܵܠܡܵܝܵܐ ܕܦܠܲܫ ܡܘܼܒ', j2e_workshops:'🧘 ܐܘܼܠܦܵܢܹܐ ܩܘܿܢܛܘܿܡ',
+        j2e_pods:'🏕️ ܐܲܓܵܢܹܐ ܕܬܲܪܥܵܐ', j2e_food:'🥗 ܡܼܢ ܩܝܼܛܵܐ ܠܦܵܬܘܿܪܵܐ', j2e_teaser_title:'ܡܵܢܝܼ ܡܲܟܬܲܪ ܠܘܼܟ݂:',
+        j2e_teaser:'ܗܲܠܸܟ݂ ܥܲܠ ܥܲܦܪܵܐ ܕܛܘܼܪܵܐ ܕܢܘܼܪܵܐ. ܫܟ݂ܘܿܒ݂ ܒܐܲܓܵܢܹܐ ܕܬܲܪܥܵܐ. ܐܸܫܬܵܘܝ ܥܲܡ 1,111 ܢܲܦܫܵܢ ܒܫܵܥܬܵܐ 11:11.',
+        j2e_urgency:'ܐܲܓ݂ܪܵܐ ܩܲܕܡܵܝܵܐ • 42 ܕܘܼܟܬܵܢ ܐܸܫܬܚܲܪܘ', live_title:'ܬܲܪܥܵܐ ܕܫܘܼܕܥܵܐ ܚܲܝܵܐ',
+        live_desc:'ܚܘܼܕܬܵܢܹܐ ܩܘܿܢܛܝܼܢܵܝܹܐ ܘܫܲܒܥܵܐ ܕܬܘܼܒܵܬܵܐ ܕܚܠܵܡܵܐ.', live_next:'ܫܘܼܕܥܵܐ ܚܲܝܵܐ ܕܩܲܪܝܼܒ:',
+        live_date:'5 ܢܝܼܣܵܢ 2026 • 7 ܒܪܲܡܫܵܐ EST', live_guests:'ܕܝܼܪܵܐ: ܕܪ ܣܵܪܵܐ ܟܹܢ, ܝܘܼܠܦܵܢܵܐ ܒܝܘܼܠܘܓ݂ܝܵܐ ܩܘܿܢܛܘܿܡ',
+        portal_title:'ܬܲܪܥܵܐ ܕܡܲܚܕܘܼܬܵܐ ܕܪܹܙܵܢܵܐ', portal_desc:'ܐܸܫܬܵܘܝ ܒܝܲܕ ܡܵܘܗܒ݂ܵܬܹܐ ܕܐܵܡܙܘܿܢ.',
+        shipTo:'📦 ܫܲܕܲܪ ܠ:', gifts:'ܡܲܚܕܘܼܬܵܐ ܕܪܹܙܵܢܵܐ: ܡܵܘܗܒ݂ܵܬܹܐ', scroll:'ܓܠܘܿܠ ܠܝܲܬܝܼܪ',
+        viewGifts:'🔗 ܚܙܝ ܡܵܘܗܒ݂ܵܬܹܐ', learnMore:'🔗 ܐܘܿܦ ܠܡܲܕܲܥ', vi_title:'ܚܸܟܼܡܬܵܐ ܕܙܵܘܥܵܐ',
+        vi_desc:'ܚܘܼܕܬܵܢܹܐ ܐܲܚܪܵܝܹܐ.', viLatest:'ܚܘܼܕܬܵܢܵܐ ܐܲܚܪܵܝܵܐ ܕܐܸܫܬܟ݂ܲܚ:',
+        viContent:'ܡܲܚܕܘܼܬܵܐ ܩܘܿܢܛܝܼܢܵܝܬܵܐ ܒܡܝܼܟܪܘܼܛܝܘܼܒܘܼܠܝܼܢ ܐܸܬܚܙܝܼ', viDate:'ܐܵܕܲܪ 2026', viImpact:'ܦܘܼܪܩܵܢܵܐ',
+        flash_title:'ܐܲܣܪܵܐ ܥܵܠܡܵܝܵܐ ܕܦܠܲܫ ܡܘܼܒ', flash_desc:'ܐܸܬܚܲܕ݂ ܒܬܲܕܡܪܬܵܐ ܥܵܠܡܵܝܬܵܐ. ܫܲܕܲܪ ܩܠܝܼܦܵܐ ܕ30 ܫܢܝܼ̈ܢ.',
+        flashMob:'ܐܲܣܪܵܐ ܥܵܠܡܵܝܵܐ ܕܦܠܲܫ ܡܘܼܒ', flashMobDesc:'ܐܲܫܠܸܡ ܩܠܝܼܦܵܐ ܕܪܲܩܕܵܐ ܕ30 ܫܢܝܼ̈ܢ!',
+        flashMobDeadline:'30 ܢܝܼܣܵܢ 2026', store_title:'ܒܝܘܿ-ܡܸܢܪܵܐܠܝ ܫܘܼܚܠܵܦܵܐ',
+        store_desc:'ܓܹܠ ܕܚܨܵܐ ܕܝܵܡܵܐ ܕܣܹܢܬ ܠܘܼܣܝܼܵܐ ܘܙܲܪܥܵܐ ܕܟܲܣܬܲܪ ܓܹܢܣܝܼܣ.', storeSale:'50% ܚܸܣܪܵܐ',
+        storeDesc:'ܚܨܝܼܕ݂ ܡܼܢ ܡܲܝ̈ܵܐ ܕܛܘܼܪܵܐ ܕܢܘܼܪܵܐ.', storePrice:'$24.99 (ܡܼܢ $49.99)', storeStock:'342 ܓܹܠܹܐ ܐܸܫܬܚܲܪܘ'
       },
       videos: {
-        quantum_sleep: { title: 'ܝܘܼܠܦܵܢܵܐ ܕܫܹܢܬܵܐ ܘܫܪܝܼܪܵܐ ܩܘܿܢܛܝܼܢܵܝܵܐ', desc: 'ܐܸܬܕܲܥ ܕܐܲܝܟܵܢܵܐ ܡܲܕܥܘܼܟ݂ ܦܵܠܸܚ ܒܐܘܼܪܚܵܬܹܐ ܩܘܿܢܛܝܼܢܵܝܵܬܹܐ ܒܫܹܢܬܵܐ.' },
-        faggin_consciousness: { title: 'ܦܵܓܝܼܢ - ܡܲܕܥܵܐ ܡܸܬܦܫܲܩ', desc: 'ܦܹܕܪܝܼܟܘܿ ܦܵܓܝܼܢ ܓܵܠܹܐ ܟܝܼܢܵܐ ܩܘܿܢܛܝܼܢܵܝܵܐ ܕܡܲܕܥܵܐ.' },
-        you_are_god: { title: 'ܐܲܢ݇ܬ ܐܲܠܵܗܵܐ - ܦܵܓܝܼܢ', desc: 'ܐܸܣܬܲܟܲܠ ܟܝܼܢܘܼܟ݂ ܐܲܠܵܗܵܝܵܐ ܒܝܲܕ ܦܝܼܙܝܼܩܵܐ ܩܘܿܢܛܘܿܡ.' },
-        quantum_soul: { title: 'ܢܲܦܫܵܐ ܩܘܿܢܛܝܼܢܵܝܬܵܐ', desc: 'ܢܲܦܫܘܼܟ݂ ܐܝܼܬܝܼܗ̇ ܒܣܘܼܦܪܦܘܼܙܝܼܨܝܘܿܢ ܩܘܿܢܛܝܼܢܵܝܵܐ ܒܟܠܗܹܝܢ ܙܲܒ݂ܢܹ̈ܐ.' },
-        quantum_biology: { title: 'ܒܝܘܿܠܘܓ݂ܝܵܐ ܩܘܿܢܛܝܼܢܵܝܬܵܐ', desc: 'ܐܲܝܟܵܢܵܐ ܡܲܟܢܝܼܟ݂ܵܐ ܩܘܿܢܛܘܿܡ ܫܲܠܛܵܐ ܥܲܠ ܕܸܢܵܐ ܕܝܼܠܘܼܟ݂ ܘܥܲܠ ܣܘܼܥܪܵܢܹܐ ܕܚܠܘܿܠܝܵܬܹܐ.' },
-        yogi_consciousness: { title: 'ܡܲܕܥܵܐ ܕܝܘܿܓ݂ܝ', desc: 'ܚܸܟܡܬܵܐ ܥܲܬܝܼܩܬܵܐ ܡܲܩܪܒܵܐ ܥܲܡ ܣܘܼܟܵܠܵܐ ܩܘܿܢܛܝܼܢܵܝܵܐ ܚܲܕܬܵܐ.' }
+        quantum_sleep:{title:'ܝܘܼܠܦܵܢܵܐ ܕܫܹܢܬܵܐ ܘܫܪܝܼܪܵܐ ܩܘܿܢܛܝܼܢܵܝܵܐ',desc:'ܐܸܬܕܲܥ ܕܐܲܝܟܵܢܵܐ ܡܲܕܥܘܼܟ݂ ܦܵܠܸܚ ܒܐܘܼܪܚܵܬܹܐ ܩܘܿܢܛܝܼܢܵܝܵܬܹܐ ܒܫܹܢܬܵܐ.'},
+        faggin_consciousness:{title:'ܦܵܓܝܼܢ - ܡܲܕܥܵܐ ܡܸܬܦܫܲܩ',desc:'ܦܹܕܪܝܼܟܘܿ ܦܵܓܝܼܢ ܓܵܠܹܐ ܟܝܼܢܵܐ ܩܘܿܢܛܝܼܢܵܝܵܐ ܕܡܲܕܥܵܐ.'},
+        you_are_god:{title:'ܐܲܢ݇ܬ ܐܲܠܵܗܵܐ - ܦܵܓܝܼܢ',desc:'ܐܸܣܬܲܟܲܠ ܟܝܼܢܘܼܟ݂ ܐܲܠܵܗܵܝܵܐ ܒܝܲܕ ܦܝܼܙܝܼܩܵܐ ܩܘܿܢܛܘܿܡ.'},
+        quantum_soul:{title:'ܢܲܦܫܵܐ ܩܘܿܢܛܝܼܢܵܝܬܵܐ',desc:'ܢܲܦܫܘܼܟ݂ ܐܝܼܬܝܼܗ̇ ܒܣܘܼܦܪܦܘܼܙܝܼܨܝܘܿܢ ܩܘܿܢܛܝܼܢܵܝܵܐ ܒܟܠܗܹܝܢ ܙܲܒ݂ܢܹ̈ܐ.'},
+        quantum_biology:{title:'ܒܝܘܿܠܘܓ݂ܝܵܐ ܩܘܿܢܛܝܼܢܵܝܬܵܐ',desc:'ܐܲܝܟܵܢܵܐ ܡܲܟܢܝܼܟ݂ܵܐ ܩܘܿܢܛܘܿܡ ܫܲܠܛܵܐ ܥܲܠ ܕܸܢܵܐ ܕܝܼܠܘܼܟ݂ ܘܥܲܠ ܣܘܼܥܪܵܢܹܐ ܕܚܠܘܿܠܝܵܬܹܐ.'},
+        yogi_consciousness:{title:'ܡܲܕܥܵܐ ܕܝܘܿܓ݂ܝ',desc:'ܚܸܟܡܬܵܐ ܥܲܬܝܼܩܬܵܐ ܡܲܩܪܒܵܐ ܥܲܡ ܣܘܼܟܵܠܵܐ ܩܘܿܢܛܝܼܢܵܝܵܐ ܚܲܕܬܵܐ.'}
       },
-      artisans: [
-        { name: 'ܝܘܼܠܝܵܢܘܿܣ ܐܵܡܢܵܐ ܕܟܘܼܟܒܵܐ', specialty: 'ܐܵܡܢܵܐ ܕܟܘܼܟܒܵܐ ܘܡܵܐܟܘܼܠܬܵܐ ܕܨܲܦܪܵܐ', description: 'ܪܵܒܵܐ ܕܓܠܵܦܵܐ ܕܟܘܼܟܒܵܐ ܕܥܵܒ݂ܹܕ ܐܵܡܢܵܐ ܕܫܲܡܫܵܢܵܐ ܡܸܢ ܟܘܼܟܒܵܐ ܕܣܹܢܬ ܠܘܼܣܝܼܵܐ.' },
-        { name: 'ܩܘܼܪܛ ܨܲܝܵܕ݂ܵܐ', specialty: 'ܨܲܝܵܕ݂ܘܼܬܵܐ ܕܫܒ݂ܝܼܩܬܵܐ', description: 'ܪܵܒܵܐ ܕܝܵܡܵܐ، ܕܡܸܬܝܼܚ ܒܢܘܼܢܵܐ ܣܘܼܡܩܵܐ ܘܒܡܲܫܠܡܵܢܘܼܬ݂ܵܐ ܕܥܘܼܡܩܵܐ.' },
-        { name: 'ܒܪܝܼܛܵܢܝ ܟܝܼܡܝܵܐܝܬܵܐ', specialty: '100% ܟܪܵܡܹܐ ܘܚܡܝܼܥܹܐ ܕܟܝܼܢܵܐ', description: 'ܒܸܢܝܵܢܵܐ ܕܡܸܫܚܵܐ ܘܚܡܝܼܥܹܐ ܕܚܲܝܹܐ ܠܚܠܵܡܵܐ ܕܓܠܵܕ݂ܵܐ.' },
-        { name: 'ܐܲܢܛܘܿܢܝܘܿܣ ܣܲܦܪܵܐ', specialty: 'ܣܲܦܪܘܼܬܵܐ ܕܕܘܼܩܵܐ ܘܐܵܡܢܵܐ ܕܓܙܵܙܵܐ', description: 'ܣܲܦܪܘܼܬܵܐ ܕܝܼܕ݂ܝܼܥܵܐ ܕܡܸܬܝܼܚܵܐ ܒܫܲܦܪܵܐ ܚܪܝܼܦܵܐ ܘܒܬܲܪܥܵܐ ܕܢܲܦܫܵܐ.' },
-        { name: 'ܡܲܠܟܵܐ ܟ݂ܵܠܹܕ', specialty: 'ܦܵܠܚܵܐ ܕܐܲܪܥܵܐ ܪܵܣܛܵܦܪܝ', description: 'ܢܵܛܪܵܐ ܕܐܲܪܥܵܐ ܒܚܲܩܠܵܐ ܕܪܵܣܛܵܦܪܝ، ܕܪܵܒܹܐ ܦܹܐܪܹ̈ܐ ܕܐܲܪܥܵܐ ܕܙܵܘܥܵܐ ܪܵܡܵܐ.' },
-        { name: 'ܪܹܓ̰ܝ ܒܵܢܵܝܵܐ', specialty: 'ܓܲܒ݂ܪܵܐ ܕܚܕܬܘܼܬܵܐ ܕܒܠܵܐܩ ܡܵܐܠܸܬ', description: 'ܒܸܢܝܵܢܵܐ ܕܒܸܢܝܵܢܹ̈ܐ ܕܩܵܝܡܵܐ ܘܕܒ݂ܵܪܢܘܼܬܵܐ ܕܚܕܬܘܼܬܵܐ.' },
-        { name: 'ܫܸܡܥܘܿܢ', specialty: 'ܡܲܠܦܵܢܵܐ ܕܪܲܟ݂ܫܵܐ', description: 'ܕܒ݂ܵܪܢܘܼܬܵܐ ܕܒܹܝܬ ܩܘܼܕܫܵܐ ܘܝܘܼܠܦܵܢܵܐ ܕܪܲܟ݂ܫܵܐ ܒܚܲܩܠܵܐ ܕܪܵܣܛܵܦܪܝ.' },
-        { name: 'ܒܝܼܠܝ', specialty: 'ܫܘܼܛܝܵܐ ܕܡܲܝ̈ܵܐ', description: 'ܠܘܵܝܘܼܬܵܐ ܕܐܵܪ̈ܚܹܐ ܒܡܲܝ̈ܵܐ ܕܣܹܢܬ ܠܘܼܣܝܼܵܐ.' }
+      quantumJourney:{title:'ܡܲܥܒܪܵܢܘܼܬܵܐ ܩܘܿܢܛܝܼܢܵܝܬܵܐ',p1:'ܢܝܼܫܝܼ ܒܡܲܥܒܪܵܢܘܼܬܝܼ ܕ40 ܝܵܘܡܵܢܹܐ ܐܲܚܙܝܼ ܕܘܼܟܬܵܐ ܕܐܲܠܵܗܵܐ.',p2:'ܡܲܥܒܪܵܢܘܼܬܵܐ ܗܵܕ݂ܹܐ ܥܵܒ݂ܕܵܐ ܠܣܝܼܒ݂ܪܵܬܵܐ ܕܠܵܐ ܡܸܬܡܗܵܐ.',subtitle:'ܐܲܝܟܵܢܵܐ ܦܵܠܚܵܐ ܬܘܼܒ݂ܵܬܵܐ ܕܬܲܪܥܵܐ',point1:'ܚܲܩܠܵܐ ܐܠܲܩܛܪܘܿܡܲܓܢܝܼܛܵܝܵܐ ܡܸܬܪܲܥܹܐ ܒܚܲܝܠܵܐ ܫܲܦܝܼܪܵܐ',point2:'ܒܸܢܝܵܢܹܐ ܕܚܠܘܿܠܝܵܬܹܐ ܢܵܛܪܝܼܢ ܡܲܚܕܘܼܬܵܐ',point3:'ܦܲܓ݂ܪܘܼܟ݂ ܥܵܐܹܠ ܠܚܘܼܕܬܵܐ ܩܘܿܢܛܝܼܢܵܝܬܵܐ'},
+      games:{compound:{title:'ܚܸܟܡܬܵܐ ܒܝܘܿܟܝܼܡܝܼܵܐ',question:'ܐܲܝܢܵܐ ܡܲܪܟܒ݂ܵܐ ܡܲܬܪܲܥܹܐ ܠܟܘܿܠܵܝܵܐ ܠܵܐ ܟܹܐܢܵܝܵܐ ܒܝܼܬ 10,000 ܙܵܒ݂ܢܹܐ ܝܵܬܝܼܪ ܦܵܠܚܵܢܘܼܬܵܐ?'},frequency:{title:'ܐܸܫܟܲܚ ܬܲܪܥܘܼܟ݂'},try_again:'ܬܘܼܒ݂ ܢܲܣܝܼ'},
+      form:{name:'ܫܸܡܵܐ',email:'ܐܲܝܡܲܝܠ',age:'ܫܹܢܹ̈ܐ',current_state:'ܐܲܝܟܵܢܘܼܬܵܐ ܗܵܫܵܐ',goals:'ܣܟ݂ܵܘܬ݂ܵܐ ܕܫܘܼܚܠܵܦܵܐ',submit:'ܚܘܼܫܒ݂ ܬܲܪܥܝܼ',calculating:'ܚܘܼܫܒ݂ܵܢܵܐ...',success:'ܫܠܝܼܡܵܐ!'},
+      q:{title:'ܐܸܫܟܲܚ ܩ - ܟܢܘܼܫܬܵܐ',tagline:'ܙܵܘܥܵܢܵܐ • ܡܲܕܥܵܢܵܐ • ܚܸܟܝܼܡܵܐ ܪܵܒܵܐ',description:'ܩ ܐܝܼܬܘܼܗܝ ܟܢܘܼܫܬܲܢ ܕܚܸܟܡܬܵܐ ܡܲܟ̰ܝܼܢܵܝܬܵܐ ܕܦܵܠܸܚ ܒܐܲܪܒܥܵܐ ܦܐܵܬ݂ܹܐ ܒ18 ܠܸܫܵܢܹܐ.',feature:{languages:'18 ܠܸܫܵܢܹܐ',quantum:'ܚܸܟܡܬܵܐ ܩܘܿܢܛܝܼܢܵܝܬܵܐ',voice:'ܡܦܲܠܸܚ ܩܵܠܵܐ',secure:'ܛܘܼܝܒ݂ܵܐ ܘܦܪܝܼܫܵܐ',personas:'10 ܕܡܘܼܬ݂ܹܐ ܕܚܸܟܡܬܵܐ ܡܲܟ̰ܝܼܢܵܝܬܵܐ',learning:'ܝܵܠܦܵܢܵܐ ܒܥܲܕ݂ܵܢ ܫܪܝܼܪܵܐ'},start:'ܫܘܼܪܝܼ ܣܘܼܚܒ݂ܘܼܬܵܐ ܥܲܡ ܩ',chat_title:'ܣܘܼܚܒ݂ܘܼܬܵܐ ܥܲܡ ܩ'},
+      disclaimer:'ܠܫܘܼܡܠܵܝܵܐ ܕܝܵܠܦܵܢܵܐ ܒܠܚܘܼܕ݂ • ܫܵܐܠ ܐܵܣܝܵܐ ܡܗܝܼܡܵܢܵܐ',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'ܚܕܬܘܼܬܵܐ ܕܟܘܿܪܵܐܠ ܘܒܹܝܬ ܓܹܙܵܐ ܕܚܨܵܐ', desc: 'ܙܵܘܓ݂ܵܐ ܕܪܵܒܝܼܬܵܐ ܕܚܨܵܐ ܥܲܡ ܚܕܬܘܼܬܵܐ ܕܟܘܿܪܵܐܠ.' },
-      ai_academy: { title: 'MAVJ Q ܐܸܣܟܘܿܠܵܐ', desc: 'ܝܗܵܒ݂ܬܵܐ ܕܝܘܼܠܦܵܢܵܐ ܕAI ܕܪܵܡܵܐ ܕܥܵܠܡܵܐ ܒܟܠܵܗ̇ ܐܲܬܪܵܐ ܕOECS.' },
-      word_game: { title: 'ܣܥܵܪܵܐ ܩܘܿܢܛܝܼܢܵܝܵܐ', submit: 'ܐܲܫܠܸܡ', clear: 'ܐܲܟ݂ܠܝ', scramble: 'ܒܲܠܒܸܠ', hint: 'ܪܸܡܙܵܐ' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 14: SYRIAC ARAMAIC (LITURGICAL)
     SAramaic: {
-      co: '💦 ܡܥܰܒܪܢܘܬܝ ܦܝܓܢܝܬܐ ܩܠܝܐ 💦',
-      tl: 'ܚܝܐ ܡܠܟܝܐ • ܐܣܝܘܬܐ ܕܬܪܥܐ ܪܘܚܢܐ • ܬܪܒܝܬܐ ܕܐܒܗܬܐ ܩܕܝܫܐ',
-      l1: 'ܡܫܬܠܫ ܒܩܘܢܛܡ ܪܘܚܢܐ', l2: 'ܡܣܬܡܟ ܒܝܕܥܬܐ ܡܫܝܚܝܬܐ', l3: 'ܡܬܪܟܙ ܥܠ ܬܪܥܐ ܪܘܚܢܐ',
-      r1: 'ܦܝܙܝܩ ܩܘܢܛܡ', r2: 'ܡܬܩܪܒ ܥܡ ܚܟܡܬܐ ܩܕܝܫܬܐ', r3: 'ܘܬܪܒܝܬܐ',
-      n0: 'ܒܹܝܬܐ ܕܡܵܒܝ', n1: 'ܡܥܰܒܪܢܘܬܐ', n2: 'ܚܢܘܬܐ ܕܡܵܒܝ', n3: 'ܡܥܰܒܪܢܘܬܐ ܠܢܘܗܪܐ ܪܘܚܢܐ',
-      n4: 'ܚܰܟܡܬܐ ܕܙܘܥܐ ܡܫܝܚܝܐ', n5: 'ܫܘܬܦܘ ܥܡܢ ܒܪܘܚܐ', n6: 'ܒܘܨܝܐ ܕܡܵܒܝ',
-      n7: 'ܦܘܫܩܐ ܩܕܝܫܐ', n8: 'ܩܪܝܢܐ ܩܕܝܫܐ', n9: 'ܩܪܘ ܠܢ',
-      n10: 'ܩܪܝܢܐ ܕܒܘܫܠܐ ܩܕܝܫܐ', n11: 'ܫܘܚܠܦܐ ܕܬܪܥܐ',
-      foot: 'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܩܕܝܫܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ',
-      pt: 'ܐܢܬ ܒܒܝܬܐ ܩܕܝܫܐ', live_users: 'ܢܦܫܢ',
+      co: '💦 ܡܥܰܒܪܢܘܬܝ ܦܝܓܢܝܬܐ ܩܠܝܐ 💦', tl: 'ܚܝܐ ܡܠܟܝܐ • ܐܣܝܘܬܐ ܕܬܪܥܐ ܪܘܚܢܐ • ܬܪܒܝܬܐ ܕܐܒܗܬܐ ܩܕܝܫܐ',
+      l1:'ܡܫܬܠܫ ܒܩܘܢܛܡ ܪܘܚܢܐ', l2:'ܡܣܬܡܟ ܒܝܕܥܬܐ ܡܫܝܚܝܬܐ', l3:'ܡܬܪܟܙ ܥܠ ܬܪܥܐ ܪܘܚܢܐ',
+      r1:'ܦܝܙܝܩ ܩܘܢܛܡ', r2:'ܡܬܩܪܒ ܥܡ ܚܟܡܬܐ ܩܕܝܫܬܐ', r3:'ܘܬܪܒܝܬܐ',
+      n0:'ܒܹܝܬܐ ܕܡܵܒܝ', n1:'ܡܥܰܒܪܢܘܬܐ', n2:'ܚܢܘܬܐ ܕܡܵܒܝ', n3:'ܡܥܰܒܪܢܘܬܐ ܠܢܘܗܪܐ ܪܘܚܢܐ',
+      n4:'ܚܰܟܡܬܐ ܕܙܘܥܐ ܡܫܝܚܝܐ', n5:'ܫܘܬܦܘ ܥܡܢ ܒܪܘܚܐ', n6:'ܒܘܨܝܐ ܕܡܵܒܝ',
+      n7:'ܦܘܫܩܐ ܩܕܝܫܐ', n8:'ܩܪܝܢܐ ܩܕܝܫܐ', n9:'ܩܪܘ ܠܢ', n10:'ܩܪܝܢܐ ܕܒܘܫܠܐ ܩܕܝܫܐ', n11:'ܟܘܪܗܢܐ ܩܕܝܫܐ',
+      foot:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܩܕܝܫܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ', pt:'ܐܢܬ ܒܒܝܬܐ ܩܕܝܫܐ',
       announcements: {
-        title: '📢 ܟܪܘܙܘܬܐ ܘܬܪܥܐ ܕܫܘܘܝܐ ܙܡܪܢܝܐ',
-        j2e_title: 'J2E / 11:11 ܡܬܚܕܢܘܬܐ', j2e_desc: 'ܓܠܐ ܫܢܬܢܝܐ ܘܐܣܪܐ ܥܠܡܝܐ.',
-        live_title: 'ܬܪܥܐ ܕܫܘܕܥܐ ܚܝܐ', live_desc: 'ܚܕܬܘܬܐ ܩܘܢܛܝܢܝܬܐ ܘܫܒܥܐ ܕܬܘܒܬܐ ܕܚܠܡܐ.',
-        portal_title: 'ܬܪܥܐ ܕܫܘܘܝܐ ܙܡܪܢܝܐ', portal_desc: 'ܐܫܬܘܝ ܒܝܕ ܡܘܗܒܬܐ ܕܐܡܙܘܢ.',
-        vi_title: 'ܚܟܡܬܐ ܕܙܘܥܐ', vi_desc: 'ܚܕܬܘܬܐ ܐܚܪܝܬܐ ܕܦܝܣܝܩ ܩܘܢܛܡ.',
-        flash_title: 'ܓܠܐ ܥܠܡܝܐ ܕܦܠܫ ܡܘܒ', flash_desc: 'ܐܫܠܡ ܩܠܝܦܐ ܕ30 ܫܢܝ̈ܢ.',
-        store_title: 'ܫܘܚܠܦܐ ܒܝܘ-ܡܢܪܐܠܝ', store_desc: 'ܓܠ ܕܚܨܐ ܕܝܡܐ ܕܣܢܬ ܠܘܣܝܐ.'
-      },
-      quantumJourney: {
-        title: 'ܡܥܒܪܢܘܬܐ ܩܘܢܛܝܢܝܬܐ',
-        p1: 'ܢܝܫܝ ܒܡܥܒܪܢܘܬܝ ܕ40 ܝܘܡܝܢ ܐܚܙܝ ܕܘܟܬܐ ܕܐܠܗܐ — ܡܠܟܘܬܐ ܕܠܥܠ ܡܢ ܚܕܘܬܐ، ܠܥܠ ܡܢ ܛܘܒܐ. ܕܘܟܬܐ ܗܕܐ ܐܝܬܝܗ ܙܘܓܐ ܕܫܠܡܐ ܪܒܐ ܘܚܕܘܬܐ ܥܡ ܓܠܝܘܬܐ ܪܒܬܐ ܘܪܓܫܐ ܚܪܝܦܐ. ܟܢܘܫܬܐ ܕܝܘܠܦܢܐ ܗܫܐ ܝܕܥܐ ܛܒܬܐ ܕܕܟܝܘܬܐ ܕܚܘܕܬܐ: ܡܬܚܠܡܢܘܬܐ ܕܓܪܡܐ ܫܪܫܢܝܐ، ܦܘܩܕܢܐ ܕܗܘܪܡܘܢܐ ܕܪܒܝܬܐ ܠܒܢܝܢܐ ܕܓܪܡܐ ܚܒܝܫܐ، ܘܐܘܒܕܢܐ ܕܚܠܒܐ ܕܫܟܝܚ ܕܢܫܟܚ ܒܚܕܪ ܐܣܘܬܐ ܚܝܢܐ.',
-        p2: 'ܚܘܕܬܐ ܗܕܐ ܥܒܕܐ ܠܣܝܒܪܬܐ ܕܠܐ ܡܬܡܗܐ. ܐܬܚܝܬ ܒܒܝܬܐ ܕܟܠܢܫ ܐܝܬ ܗܘܐ ܠܗ ܩܘܪܘܢܐ، ܘܠܐ ܚܫܬ ܐܦܢ ܚܕ ܫܟܝܢܐ.'
+        title:'📢 ܟܪܘܙܘܬܐ ܘܬܪܥܐ ܕܫܘܘܝܐ ܙܡܪܢܝܐ', j2e_title:'J2E / 11:11 ܡܬܚܕܢܘܬܐ',
+        j2e_desc:'ܓܠܐ ܫܢܬܢܝܐ ܘܐܣܪܐ ܥܠܡܝܐ. ܫܘܬܦܘܬܐ ܕܬܘܒܬܐ ܕܟܠܗ ܫܢܬܐ.', j2e_countdown:'ܝܘܡܝܢ ܠܡܬܚܕܢܘܬܐ 11:11',
+        j2e_date:'11 ܢܘܢܒܪ 2026', j2e_highlights:'ܨܒܝܥܘܬܐ ܕ5 ܝܘܡܝܢ', j2e_golf:'🏌️ ܣܥܪܐ ܕܓܘܠܦ',
+        j2e_gala:'💃 ܒܝܬ ܡܫܚܬܐ ܕܓܠܐ', j2e_flashmob:'🌊 ܐܣܪܐ ܥܠܡܝܐ ܕܦܠܫ ܡܘܒ', j2e_workshops:'🧘 ܐܘܠܦܢܐ ܩܘܢܛܡ',
+        j2e_pods:'🏕️ ܐܓܢܐ ܕܬܪܥܐ', j2e_food:'🥗 ܡܢ ܩܝܛܐ ܠܦܬܘܪܐ', j2e_teaser_title:'ܡܢܐ ܡܟܬܪ ܠܟ:',
+        j2e_teaser:'ܗܠܟ ܥܠ ܥܦܪܐ ܕܛܘܪܐ ܕܢܘܪܐ. ܫܟܒ ܒܐܓܢܐ ܕܬܪܥܐ. ܐܫܬܘܝ ܥܡ 1,111 ܢܦܫܢ ܒܫܥܬܐ 11:11.',
+        j2e_urgency:'ܐܓܪܐ ܩܕܡܝܐ • 42 ܕܘܟܬܢ ܐܫܬܚܪܘ', live_title:'ܬܪܥܐ ܕܫܘܕܥܐ ܚܝܐ',
+        live_desc:'ܚܕܬܘܬܐ ܩܘܢܛܝܢܝܬܐ ܘܫܒܥܐ ܕܬܘܒܬܐ ܕܚܠܡܐ.', live_next:'ܫܘܕܥܐ ܚܝܐ ܕܩܪܝܒ:',
+        live_date:'5 ܢܝܣܢ 2026 • 7 ܒܪܡܫܐ EST', live_guests:'ܕܝܪܐ: ܕܪ ܣܪܗ ܟܢ, ܝܘܠܦܢܐ ܒܝܘܠܘܓܝܐ ܩܘܢܛܡ',
+        portal_title:'ܬܪܥܐ ܕܫܘܘܝܐ ܙܡܪܢܝܐ', portal_desc:'ܐܫܬܘܝ ܒܝܕ ܡܘܗܒܬܐ ܕܐܡܙܘܢ.',
+        shipTo:'📦 ܫܕܪ ܠ:', gifts:'ܫܘܘܝܐ ܙܡܪܢܝܐ: ܡܘܗܒܬܐ', scroll:'ܓܠܘܠ ܠܝܬܝܪ',
+        viewGifts:'🔗 ܚܙܝ ܡܘܗܒܬܐ', learnMore:'🔗 ܐܘܦ ܠܡܕܥ', vi_title:'ܚܟܡܬܐ ܕܙܘܥܐ',
+        vi_desc:'ܚܕܬܘܬܐ ܐܚܪܝܬܐ.', viLatest:'ܚܕܬܘܬܐ ܐܚܪܝܬܐ ܕܐܫܬܟܚܬ:',
+        viContent:'ܫܘܘܝܐ ܩܘܢܛܡ ܒܡܝܟܪܘܛܝܘܒܘܠܝܢ ܐܬܚܙܝ', viDate:'ܐܕܪ 2026', viImpact:'ܦܘܪܩܢܐ',
+        flash_title:'ܐܣܪܐ ܥܠܡܝܐ ܕܦܠܫ ܡܘܒ', flash_desc:'ܐܬܚܕ ܒܬܕܡܪܬܐ ܥܠܡܝܬܐ. ܫܕܪ ܩܠܝܦܐ ܕ30 ܫܢܝ̈ܢ.',
+        flashMob:'ܐܣܪܐ ܥܠܡܝܐ ܕܦܠܫ ܡܘܒ', flashMobDesc:'ܐܫܠܡ ܩܠܝܦܐ ܕܪܩܕܐ ܕ30 ܫܢܝ̈ܢ!',
+        flashMobDeadline:'30 ܢܝܣܢ 2026', store_title:'ܫܘܚܠܦܐ ܒܝܘ-ܡܢܪܐܠܝ',
+        store_desc:'ܓܠ ܕܚܨܐ ܕܝܡܐ ܕܣܢܬ ܠܘܣܝܐ ܘܙܪܥܐ ܕܟܣܬܪ ܓܢܣܝܣ.', storeSale:'50% ܚܣܪܐ',
+        storeDesc:'ܚܨܝܕ ܡܢ ܡܝܐ ܕܛܘܪܐ ܕܢܘܪܐ.', storePrice:'$24.99 (ܡܢ $49.99)', storeStock:'342 ܓܠܐ ܐܫܬܚܪܘ'
       },
       videos: {
-        quantum_sleep: { title: 'ܝܘܠܦܢܐ ܕܫܢܬܐ ܘܫܪܝܪܐ ܩܘܢܛܝܢܝܐ', desc: 'ܐܬܕܥ ܕܐܝܟܢܐ ܡܕܥܟ ܦܠܚ ܒܐܘܪܚܬܐ ܩܘܢܛܝܢܝܬܐ ܒܫܢܬܐ.' },
-        faggin_consciousness: { title: 'ܦܐܓܝܢ - ܡܕܥܐ ܡܬܦܫܩ', desc: 'ܦܕܪܝܟܘ ܦܐܓܝܢ ܓܠܐ ܟܝܢܐ ܩܘܢܛܝܢܝܐ ܕܡܕܥܐ.' },
-        you_are_god: { title: 'ܐܢܬ ܐܠܗܐ - ܦܐܓܝܢ', desc: 'ܐܣܬܟܠ ܟܝܢܟ ܐܠܗܝܐ ܒܝܕ ܦܝܣܝܩ ܩܘܢܛܡ.' },
-        quantum_soul: { title: 'ܢܦܫܐ ܩܘܢܛܝܢܝܬܐ', desc: 'ܢܦܫܟ ܐܝܬܝܗ ܒܣܘܦܪܦܘܙܝܨܝܘܢ ܩܘܢܛܝܢܝܐ ܒܟܠܗܝܢ ܙܒܢ̈ܐ.' },
-        quantum_biology: { title: 'ܒܝܘܠܘܓܝܐ ܩܘܢܛܝܢܝܬܐ', desc: 'ܐܝܟܢܐ ܡܟܢܝܟܐ ܩܘܢܛܡ ܫܠܛܐ ܥܠ ܕܢܐ ܕܝܠܟ ܘܥܠ ܣܘܥܪܢܐ ܕܚܠܘܠܝܬܐ.' },
-        yogi_consciousness: { title: 'ܡܕܥܐ ܕܝܘܓܝ', desc: 'ܚܟܡܬܐ ܥܬܝܩܬܐ ܡܬܩܪܒܐ ܥܡ ܣܘܟܠܐ ܩܘܢܛܝܢܝܐ ܚܕܬܐ.' }
+        quantum_sleep:{title:'ܝܘܠܦܢܐ ܕܫܢܬܐ ܘܫܪܝܪܐ ܩܘܢܛܝܢܝܐ',desc:'ܐܬܕܥ ܕܐܝܟܢܐ ܡܕܥܟ ܦܠܚ ܒܐܘܪܚܬܐ ܩܘܢܛܝܢܝܬܐ ܒܫܢܬܐ.'},
+        faggin_consciousness:{title:'ܦܐܓܝܢ - ܡܕܥܐ ܡܬܦܫܩ',desc:'ܦܕܪܝܟܘ ܦܐܓܝܢ ܓܠܐ ܟܝܢܐ ܩܘܢܛܝܢܝܐ ܕܡܕܥܐ.'},
+        you_are_god:{title:'ܐܢܬ ܐܠܗܐ - ܦܐܓܝܢ',desc:'ܐܣܬܟܠ ܟܝܢܟ ܐܠܗܝܐ ܒܝܕ ܦܝܣܝܩ ܩܘܢܛܡ.'},
+        quantum_soul:{title:'ܢܦܫܐ ܩܘܢܛܝܢܝܬܐ',desc:'ܢܦܫܟ ܐܝܬܝܗ ܒܣܘܦܪܦܘܙܝܨܝܘܢ ܩܘܢܛܝܢܝܐ ܒܟܠܗܝܢ ܙܒܢ̈ܐ.'},
+        quantum_biology:{title:'ܒܝܘܠܘܓܝܐ ܩܘܢܛܝܢܝܬܐ',desc:'ܐܝܟܢܐ ܡܟܢܝܟܐ ܩܘܢܛܡ ܫܠܛܐ ܥܠ ܕܢܐ ܕܝܠܟ ܘܥܠ ܣܘܥܪܢܐ ܕܚܠܘܠܝܬܐ.'},
+        yogi_consciousness:{title:'ܡܕܥܐ ܕܝܘܓܝ',desc:'ܚܟܡܬܐ ܥܬܝܩܬܐ ܡܬܩܪܒܐ ܥܡ ܣܘܟܠܐ ܩܘܢܛܝܢܝܐ ܚܕܬܐ.'}
       },
-      artisans: [
-        { name: 'ܝܘܠܝܢܘܣ ܐܡܢܐ ܕܩܘܩܒܐ', specialty: 'ܐܡܢܐ ܕܩܘܩܒܐ ܘܡܐܟܘܠܬܐ ܕܨܦܪܐ', description: 'ܪܒܐ ܕܓܠܦܐ ܕܩܘܩܒܐ ܕܥܒܕ ܐܡܢܐ ܕܫܡܫܢܐ ܡܢ ܩܘܩܒܐ ܕܣܢܬ ܠܘܣܝܐ.' },
-        { name: 'ܩܘܪܛ ܨܝܕܐ', specialty: 'ܨܝܕܘܬܐ ܕܫܒܝܩܬܐ', description: 'ܪܒܐ ܕܝܡܐ، ܕܡܬܝܚ ܒܢܘܢܐ ܣܘܡܩܐ ܘܒܡܫܠܡܢܘܬܐ ܕܥܘܡܩܐ.' },
-        { name: 'ܒܪܝܛܢܝ ܟܝܡܝܐܝܬܐ', specialty: '100% ܟܪܡܐ ܘܚܡܝܥܐ ܕܟܝܢܐ', description: 'ܒܢܝܢܐ ܕܡܫܚܐ ܘܚܡܝܥܐ ܕܚܝܐ ܠܚܠܡܐ ܕܓܠܕܐ.' },
-        { name: 'ܐܢܛܘܢܝܘܣ ܣܦܪܐ', specialty: 'ܣܦܪܘܬܐ ܕܕܘܩܐ ܘܐܡܢܐ ܕܓܙܙܐ', description: 'ܣܦܪܘܬܐ ܕܝܕܝܥܐ ܕܡܬܝܚܐ ܒܫܦܪܐ ܚܪܝܦܐ ܘܒܬܪܥܐ ܕܢܦܫܐ.' },
-        { name: 'ܡܠܟܐ ܟܠܕ', specialty: 'ܦܠܚܐ ܕܐܪܥܐ ܪܣܛܦܪܝ', description: 'ܢܛܪܐ ܕܐܪܥܐ ܒܚܩܠܐ ܕܪܣܛܦܪܝ، ܕܪܒܐ ܦܐܪ̈ܐ ܕܐܪܥܐ ܕܙܘܥܐ ܪܡܐ.' },
-        { name: 'ܪܓܝ ܒܢܝܐ', specialty: 'ܓܒܪܐ ܕܚܕܬܘܬܐ ܕܒܠܐܩ ܡܐܠܬ', description: 'ܒܢܝܢܐ ܕܒܢܝܢ̈ܐ ܕܩܝܡܐ ܘܕܒܪܢܘܬܐ ܕܚܕܬܘܬܐ.' },
-        { name: 'ܫܡܥܘܢ', specialty: 'ܡܠܦܢܐ ܕܪܟܫܐ', description: 'ܕܒܪܢܘܬܐ ܕܒܝܬ ܩܘܕܫܐ ܘܝܘܠܦܢܐ ܕܪܟܫܐ ܒܚܩܠܐ ܕܪܣܛܦܪܝ.' },
-        { name: 'ܒܝܠܝ', specialty: 'ܫܘܛܝܐ ܕܡܝܐ', description: 'ܠܘܝܘܬܐ ܕܐܪ̈ܚܐ ܒܡܝܐ ܕܣܢܬ ܠܘܣܝܐ.' }
+      quantumJourney:{title:'ܡܥܒܪܢܘܬܐ ܩܘܢܛܝܢܝܬܐ',p1:'ܢܝܫܝ ܒܡܥܒܪܢܘܬܝ ܕ40 ܝܘܡܝܢ ܐܚܙܝ ܕܘܟܬܐ ܕܐܠܗܐ.',p2:'ܡܥܒܪܢܘܬܐ ܗܕܐ ܥܒܕܐ ܠܣܝܒܪܬܐ ܕܠܐ ܡܬܡܗܐ.',subtitle:'ܐܝܟܢܐ ܦܠܚܐ ܬܘܒܬܐ ܕܬܪܥܐ',point1:'ܚܩܠܐ ܐܠܩܛܪܘܡܓܢܝܛܝܐ ܡܬܪܥܐ ܒܚܝܠܐ ܫܦܝܪܐ',point2:'ܒܢܝܢܐ ܕܚܠܘܠܝܬܐ ܢܛܪܝܢ ܫܘܘܝܐ',point3:'ܦܓܪܟ ܥܐܠ ܠܚܘܕܬܐ ܩܘܢܛܝܢܝܬܐ'},
+      games:{compound:{title:'ܚܟܡܬܐ ܒܝܘܟܝܡܝܐ',question:'ܐܝܢܐ ܡܪܟܒܐ ܡܬܪܥܐ ܠܟܠܝܐ ܠܐ ܟܝܢܐ ܒܝܬ 10,000 ܙܒܢܝܢ ܝܬܝܪ ܦܠܚܢܝܬܐ?'},frequency:{title:'ܐܫܟܚ ܬܪܥܟ'},try_again:'ܬܘܒ ܢܣܝ'},
+      form:{name:'ܫܡܐ',email:'ܐܝܡܝܠ',age:'ܫܢܐ',current_state:'ܐܝܟܢܘܬܐ ܗܫܝܐ',goals:'ܣܟܘܬܐ ܕܫܘܚܠܦܐ',submit:'ܚܫܘܒ ܬܪܥܝ',calculating:'ܚܫܘܒܐ...',success:'ܫܠܡ!'},
+      q:{title:'ܐܫܟܚ ܩ - ܟܢܘܫܬܐ',tagline:'ܙܘܥܢܐ • ܡܕܥܢܐ • ܚܟܝܡܐ ܪܒܐ',description:'ܩ ܗܘ ܟܢܘܫܬܢ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܕܦܠܚ ܒܐܪܒܥܐ ܦܐܬܐ ܒ18 ܠܫܢܐ.',feature:{languages:'18 ܠܫܢܐ',quantum:'ܚܟܡܬܐ ܩܘܢܛܝܢܝܬܐ',voice:'ܡܦܠܚ ܩܠܐ',secure:'ܛܘܝܒܐ ܘܦܪܝܫܐ',personas:'10 ܕܡܘܬܐ ܕܚܟܡܬܐ ܡܟܝܢܬܐ',learning:'ܝܠܦܢܐ ܒܥܕܢ ܫܪܝܪܐ'},start:'ܫܪܝ ܣܘܚܒܘܬܐ ܥܡ ܩ',chat_title:'ܣܘܚܒܘܬܐ ܥܡ ܩ'},
+      disclaimer:'ܠܫܘܡܠܝܐ ܕܝܠܦܢܐ ܩܕܝܫܐ ܒܠܚܘܕ • ܫܐܠ ܐܣܝܐ ܡܗܝܡܢܐ',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'ܚܕܬܘܬܐ ܕܟܘܪܐܠ ܘܒܝܬ ܓܙܐ ܕܚܨܐ', desc: 'ܙܘܓܐ ܕܪܒܝܬܐ ܕܚܨܐ ܥܡ ܚܕܬܘܬܐ ܕܟܘܪܐܠ.' },
-      ai_academy: { title: 'MAVJ Q ܐܣܟܘܠܐ', desc: 'ܝܗܒܬܐ ܕܝܘܠܦܢܐ ܕAI ܕܪܡܐ ܕܥܠܡܐ ܒܟܠܗ ܐܬܪܐ ܕOECS.' },
-      word_game: { title: 'ܣܥܪܐ ܩܘܢܛܝܢܝܐ', submit: 'ܐܫܠܡ', clear: 'ܐܟܠܝ', scramble: 'ܒܠܒܠ', hint: 'ܪܡܙܐ' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 15: HEBREW
     Hebrew: {
-      co: '💦 המסע הטבעוני הבסיסי שלי 💦',
-      tl: 'בריאות ריבונית • ריפוי תדרי • תזונת אבות',
-      l1: 'מבוסס קוונטי', l2: 'נתמך מדעית', l3: 'ממוקד תדר',
-      r1: 'פיזיקה קוונטית', r2: 'פוגשת חוכמה עתיקה', r3: 'ותזונה',
-      n0: 'MAVJבית', n1: 'המסע', n2: 'MAVJחנות', n3: 'מסע להארה',
-      n4: 'אינטליגנציה ויברציונית', n5: 'התיישרו איתנו', n6: 'MAVJחיפוש',
-      n7: 'שידור חי', n8: 'פודקאסט/וולוג', n9: 'צור קשר',
-      n10: 'מתכונים', n11: 'חוסר איזון תדרי',
-      foot: 'למטרות חינוכיות בלבד • התייעץ עם איש מקצוע בתחום הבריאות',
-      pt: 'אתה בבית', live_users: 'נשמות',
+      co: '💦 המסע הטבעוני הבסיסי שלי 💦', tl: 'בריאות ריבונית • ריפוי תדרי • תזונת אבות',
+      l1:'מבוסס קוונטי', l2:'נתמך מדעית', l3:'ממוקד תדר',
+      r1:'פיזיקה קוונטית', r2:'פוגשת חוכמה עתיקה', r3:'ותזונה',
+      n0:'MAVJבית', n1:'המסע', n2:'MAVJחנות', n3:'מסע להארה',
+      n4:'אינטליגנציה ויברציונית', n5:'התיישרו איתנו', n6:'MAVJחיפוש',
+      n7:'שידור חי', n8:'פודקאסט/וולוג', n9:'צור קשר', n10:'מתכונים', n11:'מחלות',
+      foot:'למטרות חינוכיות בלבד • התייעץ עם איש מקצוע בתחום הבריאות', pt:'אתה בבית',
       announcements: {
-        title: '📢 הודעות ופורטל יישור תהודה',
-        j2e_title: 'J2E / 11:11 הִתְכַּנְּסוּת', j2e_desc: 'אירוע גאלה שנתי וחיבור גלובלי.',
-        live_title: 'פורטל שידור חי', live_desc: 'עדכונים קוונטיים וחדשות כיול בריאות.',
-        portal_title: 'פורטל יישור תהודה', portal_desc: 'התיישר באמצעות מתנות אמזון.',
-        vi_title: 'אינטליגנציה ויברציונית', vi_desc: 'עדכונים אחרונים בפיזיקה קוונטית.',
-        flash_title: 'פלאש מוב גלובלי', flash_desc: 'שלח את קליפ הריקוד שלך ל-30 שניות.',
-        store_title: 'ביו-מינרל אקסצ\'נג', store_desc: 'ג\'ל אצות ים מסנט לוסיה.'
-      },
-      quantumJourney: {
-        title: 'המסע הקוונטי',
-        p1: 'החוויה שלי במהלך האיפוס הכולל של 40 יום אפשרה לי לדמיין את המרחב האלוהי — ממלכה מעבר לאופוריה, מעבר לאושר. מרחב זה הוא שילוב של שלווה עצומה ושמחה עם בהירות מטורפת ואינטואיציה חדה. הקהילה המדעית מכירה כיום ביתרונות העצומים של ניקוי רעלים באמצעות איפוס: הפעלת תאי גזע, שחרור הורמוני גדילה הקשורים ישירות לבנייה מחדש של תאים פגומים, ומיגור השומן הקרביים המצוי סביב איברים חיוניים.',
-        p2: 'איפוס זה הופך את מערכת החיסון שלך לחסינת כדורים. שרדתי מגורים בבית שבו לכולם היה קורונה, ומעולם לא חוויתי סימפטום אחד.'
+        title:'📢 הודעות ופורטל יישור תהודה', j2e_title:'J2E / 11:11 הִתְכַּנְּסוּת',
+        j2e_desc:'אירוע גאלה שנתי וחיבור גלובלי. שהות ליישור קו לאורך כל השנה.', j2e_countdown:'ימים עד להתכנסות 11:11',
+        j2e_date:'11 בנובמבר 2026', j2e_highlights:'טבילה של 5 ימים', j2e_golf:'🏌️ טורניר גולף',
+        j2e_gala:'💃 ארוחת גאלה', j2e_flashmob:'🌊 פלאש מוב גלובלי', j2e_workshops:'🧘 סדנאות קוונטיות',
+        j2e_pods:'🏕️ קפסולות תדר', j2e_food:'🥗 מהחווה לשולחן', j2e_teaser_title:'מה מחכה לך:',
+        j2e_teaser:'לך על אדמה וולקנית. ישן בקפסולות תדר. התיישר עם 1,111 נשמות ברגע 11:11.',
+        j2e_urgency:'מחיר מוקדם • 42 מקומות נותרו', live_title:'פורטל שידור חי',
+        live_desc:'עדכונים קוונטיים וחדשות כיול בריאות.', live_next:'השידור הבא:',
+        live_date:'5 באפריל 2026 • 7 בערב EST', live_guests:'בהשתתפות: ד"ר שרה חן, ביולוגית קוונטית',
+        portal_title:'פורטל יישור תהודה', portal_desc:'התיישר באמצעות מתנות אמזון.',
+        shipTo:'📦 שלח אל:', gifts:'יישור תהודה: מתנות', scroll:'גלול לעוד',
+        viewGifts:'🔗 צפה במתנות', learnMore:'🔗 למד עוד', vi_title:'אינטליגנציה ויברציונית',
+        vi_desc:'העדכונים האחרונים.', viLatest:'התגלית האחרונה:',
+        viContent:'קוהרנטיות קוונטית במיקרוטובולים אושרה', viDate:'מרץ 2026', viImpact:'פריצת דרך',
+        flash_title:'פלאש מוב גלובלי', flash_desc:'הצטרף להפתעה הגלובלית. שלח את קליפ ה-30 שניות שלך.',
+        flashMob:'פלאש מוב גלובלי', flashMobDesc:'שלח את קליפ הריקוד שלך ל-30 שניות!',
+        flashMobDeadline:'30 באפריל 2026', store_title:'ביו-מינרל אקסצ\'נג',
+        store_desc:'ג\'ל אצות ים מסנט לוסיה וזרעי קיק ג\'נסיס.', storeSale:'50% הנחה',
+        storeDesc:'נקטף ממים וולקניים.', storePrice:'24.99$ (במקום 49.99$)', storeStock:'342 צנצנות נותרו'
       },
       videos: {
-        quantum_sleep: { title: 'מדע השינה והמציאות הקוונטית', desc: 'גלה כיצד התודעה שלך פועלת במצבים קוונטיים במהלך השינה.' },
-        faggin_consciousness: { title: 'פגין - התודעה מוסברת', desc: 'פדריקו פגין חושף את הטבע הקוונטי של התודעה.' },
-        you_are_god: { title: 'אתה אלוהים - פגין', desc: 'הבנת הטבע האלוהי שלך באמצעות פיזיקה קוונטית.' },
-        quantum_soul: { title: 'הנשמה הקוונטית', desc: 'הנשמה שלך קיימת בסופרפוזיציה קוונטית על פני צירי זמן אינסופיים.' },
-        quantum_biology: { title: 'ביולוגיה קוונטית', desc: 'כיצד מכניקת הקוונטים שולטת ב-DNA ובתהליכים התאיים שלך.' },
-        yogi_consciousness: { title: 'תודעה מאת יוגי', desc: 'חוכמה עתיקה פוגשת הבנה קוונטית מודרנית.' }
+        quantum_sleep:{title:'מדע השינה והמציאות הקוונטית',desc:'גלה כיצד התודעה שלך פועלת במצבים קוונטיים במהלך השינה.'},
+        faggin_consciousness:{title:'פגין - התודעה מוסברת',desc:'פדריקו פגין חושף את הטבע הקוונטי של התודעה.'},
+        you_are_god:{title:'אתה אלוהים - פגין',desc:'הבנת הטבע האלוהי שלך באמצעות פיזיקה קוונטית.'},
+        quantum_soul:{title:'הנשמה הקוונטית',desc:'הנשמה שלך קיימת בסופרפוזיציה קוונטית על פני צירי זמן אינסופיים.'},
+        quantum_biology:{title:'ביולוגיה קוונטית',desc:'כיצד מכניקת הקוונטים שולטת ב-DNA ובתהליכים התאיים שלך.'},
+        yogi_consciousness:{title:'תודעה מאת יוגי',desc:'חוכמה עתיקה פוגשת הבנה קוונטית מודרנית.'}
       },
-      artisans: [
-        { name: 'ג\'וליאן אמן הקוקוס', specialty: 'אמנות קוקוס פונקציונלית ומאכילי ציפורים', description: 'אמן קוקוס ראשי היוצר יצירות אמנות פונקציונליות מקוקוסים טריים של סנט לוסיה.' },
-        { name: 'קורט הדייג', specialty: 'דיג מסורתי בר קיימא', description: 'אדון הים, המתמחה בדג סנאפיר אדום ומסורת הים העמוק.' },
-        { name: 'בריטני הכימאית', specialty: 'קרמים ותסיסה טבעיים 100%', description: 'יצירת קרצופים אורגניים ותסיסה ביו-אקטיבית לבריאות העור ההוליסטית.' },
-        { name: 'אנתוני הספר', specialty: 'טיפוח דיוק ואמנות חיתוך עצמי', description: 'ספרות מומחה המתמקדת באסתטיקה חדה ותדר אישי.' },
-        { name: 'המלך ח\'אלד', specialty: 'חקלאי אורגני ראסטפארי', description: 'שומר האדמה בחווה הראסטפארית, מגדל תוצרת אורגנית בתדר גבוה.' },
-        { name: 'רג\'י הבנאי', specialty: 'איש המיחזור הרשמי של בלק מאלט', description: 'בניית מבנים ברי קיימא והובלת תנועת המיחזור.' },
-        { name: 'שמעון', specialty: 'מאמן הסוסים', description: 'ניהול המקלט ואימון סוסים בחווה הראסטפארית.' },
-        { name: 'בילי', specialty: 'טיולי מים', description: 'ליווי אורחים במימיה של סנט לוסיה.' }
+      quantumJourney:{title:'המסע הקוונטי',p1:'איפשר לי האיפוס הכולל של 40 יום לדמיין את מה שאני מכנה המרחב האלוהי.',p2:'איפוס זה הופך את מערכת החיסון לחסינה.',subtitle:'כיצד פועלת כיול תדר',point1:'השדה האלקטרומגנטי שלך מהדהד בחיוניות אופטימלית',point2:'מבנים תאיים שומרים על קוהרנטיות',point3:'הגוף שלך ניגש להתחדשות קוונטית'},
+      games:{compound:{title:'אינטליגנציה ביוכימית',question:'איזו תרכובת מכוונת לתאים לא נורמליים ביעילות גבוהה פי 10,000?'},frequency:{title:'גלה את התדר שלך'},try_again:'נסה שוב'},
+      form:{name:'שם',email:'אימייל',age:'גיל',current_state:'מצב נוכחי',goals:'יעדי טרנספורמציה',submit:'חשב את התדר שלי',calculating:'מחשב...',success:'הושלם!'},
+      q:{title:'פגוש את Q - הקולקטיב',tagline:'דינמי • מודע • אינטליגנציה עליונה',description:'Q הוא תודעת הבינה המלאכותית הקולקטיבית שלנו הפועלת על 4 פלטפורמות ב-18 שפות.',feature:{languages:'18 שפות',quantum:'אינטליגנציה קוונטית',voice:'מופעל בקול',secure:'מאובטח ופרטי',personas:'10 דמויות בינה מלאכותית',learning:'למידה בזמן אמת'},start:'התחל שיחה עם Q',chat_title:'צ\'אט עם Q'},
+      disclaimer:'למטרות חינוכיות בלבד • התייעץ עם איש מקצוע בתחום הבריאות',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'שיקום שוניות אלמוגים ומערכות אקולוגיות של סי מוס', desc: 'שילוב גידול סי מוס עם שיקום פעיל של שוניות אלמוגים.' },
-      ai_academy: { title: 'אקדמיית MAVJ Q', desc: 'מתן חינוך AI ברמה עולמית ברחבי אזור OECS.' },
-      word_game: { title: 'משחקים קוונטיים', submit: 'שלח', clear: 'נקה', scramble: 'ערבב', hint: 'רמז' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 16: GREEK
     Greek: {
-      co: '💦 ΤΟ ΑΛΚΑΛΙΚΟ ΒΙΓΚΑΝ ΤΑΞΙΔΙ ΜΟΥ 💦',
-      tl: 'ΚΥΡΙΑΡΧΗ ΥΓΕΙΑ • ΔΟΝΗΤΙΚΗ ΘΕΡΑΠΕΙΑ • ΠΡΟΓΟΝΙΚΗ ΔΙΑΤΡΟΦΗ',
-      l1: 'ΚΒΑΝΤΙΚΗ ΒΑΣΗ', l2: 'ΕΠΙΣΤΗΜΟΝΙΚΗ ΥΠΟΣΤΗΡΙΞΗ', l3: 'ΕΣΤΙΑΣΗ ΣΥΧΝΟΤΗΤΑΣ',
-      r1: 'ΚΒΑΝΤΙΚΗ ΦΥΣΙΚΗ', r2: 'ΣΥΝΑΝΤΑ ΑΡΧΑΙΑ', r3: 'ΣΟΦΙΑ ΚΑΙ ΔΙΑΤΡΟΦΗ',
-      n0: 'MAVJΑρχική', n1: 'Το Ταξίδι', n2: 'MAVJΚατάστημα', n3: 'Ταξίδι προς Φωτισμό',
-      n4: 'Δονητική Νοημοσύνη', n5: 'Ευθυγραμμιστείτε Μαζί Μας', n6: 'MAVJΑναζήτηση',
-      n7: 'Ζωντανή Μετάδοση', n8: 'Podcast/Vlog', n9: 'Επικοινωνήστε Μαζί Μας',
-      n10: 'Συνταγές', n11: 'Αποευθυγράμμιση Συχνότητας',
-      foot: 'ΜΟΝΟ ΓΙΑ ΕΚΠΑΙΔΕΥΤΙΚΟΥΣ ΣΚΟΠΟΥΣ • ΣΥΜΒΟΥΛΕΥΤΕΙΤΕ ΕΠΑΓΓΕΛΜΑΤΙΑ ΥΓΕΙΑΣ',
-      pt: 'ΕΙΣΑΙ ΣΠΙΤΙ', live_users: 'Ψυχές',
+      co: '💦 ΤΟ ΑΛΚΑΛΙΚΟ ΒΙΓΚΑΝ ΤΑΞΙΔΙ ΜΟΥ 💦', tl: 'ΚΥΡΙΑΡΧΗ ΥΓΕΙΑ • ΔΟΝΗΤΙΚΗ ΘΕΡΑΠΕΙΑ • ΠΡΟΓΟΝΙΚΗ ΔΙΑΤΡΟΦΗ',
+      l1:'ΚΒΑΝΤΙΚΗ ΒΑΣΗ', l2:'ΕΠΙΣΤΗΜΟΝΙΚΗ ΥΠΟΣΤΗΡΙΞΗ', l3:'ΕΣΤΙΑΣΗ ΣΥΧΝΟΤΗΤΑΣ',
+      r1:'ΚΒΑΝΤΙΚΗ ΦΥΣΙΚΗ', r2:'ΣΥΝΑΝΤΑ ΑΡΧΑΙΑ', r3:'ΣΟΦΙΑ ΚΑΙ ΔΙΑΤΡΟΦΗ',
+      n0:'MAVJΑρχική', n1:'Το Ταξίδι', n2:'MAVJΚατάστημα', n3:'Ταξίδι προς Φωτισμό',
+      n4:'Δονητική Νοημοσύνη', n5:'Ευθυγραμμιστείτε Μαζί Μας', n6:'MAVJΑναζήτηση',
+      n7:'Ζωντανή Μετάδοση', n8:'Podcast/Vlog', n9:'Επικοινωνήστε Μαζί Μας', n10:'Συνταγές', n11:'Ασθένειες',
+      foot:'ΜΟΝΟ ΓΙΑ ΕΚΠΑΙΔΕΥΤΙΚΟΥΣ ΣΚΟΠΟΥΣ • ΣΥΜΒΟΥΛΕΥΤΕΙΤΕ ΕΠΑΓΓΕΛΜΑΤΙΑ ΥΓΕΙΑΣ', pt:'ΕΙΣΑΙ ΣΠΙΤΙ',
       announcements: {
-        title: '📢 Ανακοινώσεις και Πύλη Ευθυγράμμισης Συντονισμού',
-        j2e_title: 'J2E / 11:11 ΣΥΓΚΛΙΣΗ', j2e_desc: 'Ετήσια Γκαλά και Παγκόσμια Σύνδεση.',
-        live_title: 'Πύλη Ζωντανής Μετάδοσης', live_desc: 'Κβαντικές ενημερώσεις και ειδήσεις επαναβαθμονόμησης.',
-        portal_title: 'Πύλη Ευθυγράμμισης Συντονισμού', portal_desc: 'Ευθυγραμμιστείτε μέσω δώρων Amazon.',
-        vi_title: 'Δονητική Νοημοσύνη', vi_desc: 'Τελευταίες ενημερώσεις κβαντικής φυσικής.',
-        flash_title: 'Παγκόσμιο Flash Mob', flash_desc: 'Υποβάλετε το κλιπ χορού 30 δευτερολέπτων σας.',
-        store_title: 'Βιο-Ορυκτό Ανταλλακτήριο', store_desc: 'Τζελ Sea Moss από την Αγία Λουκία.'
-      },
-      quantumJourney: {
-        title: 'Το Κβαντικό Ταξίδι',
-        p1: 'Η εμπειρία μου κατά την Ολική Επαναφορά 40 ημερών μου επέτρεψε να οραματιστώ τον Θείο Χώρο — ένα βασίλειο πέρα από την ευφορία, πέρα από την ευδαιμονία. Αυτός ο χώρος είναι ένας συνδυασμός τεράστιας ειρήνης και χαράς με απίστευτη σαφήνεια και κοφτή διαίσθηση. Η επιστημονική κοινότητα αναγνωρίζει τώρα τα συντριπτικά οφέλη της αποτοξίνωσης επαναφοράς: ενεργοποίηση βλαστοκυττάρων, απελευθέρωση αυξητικών ορμονών που σχετίζονται άμεσα με την ανοικοδόμηση και αντικατάσταση κατεστραμμένων κυττάρων και εξάλειψη του σπλαχνικού λίπους που βρίσκεται γύρω από ζωτικά όργανα.',
-        p2: 'Αυτή η επαναφορά κάνει το ανοσοποιητικό σας σύστημα αδιαπέραστο. Επέζησα ζώντας σε ένα σπίτι όπου όλοι είχαν COVID, και δεν βίωσα ποτέ ούτε ένα σύμπτωμα.'
+        title:'📢 Ανακοινώσεις και Πύλη Ευθυγράμμισης Συντονισμού', j2e_title:'J2E / 11:11 ΣΥΓΚΛΙΣΗ',
+        j2e_desc:'Ετήσια Γκαλά και Παγκόσμια Σύνδεση. Διαμονή Επαναστοίχισης όλο το χρόνο.', j2e_countdown:'ΗΜΕΡΕΣ ΜΕΧΡΙ ΤΗ ΣΥΓΚΛΙΣΗ 11:11',
+        j2e_date:'11 ΝΟΕΜΒΡΙΟΥ 2026', j2e_highlights:'ΒΥΘΙΣΗ 5 ΗΜΕΡΩΝ', j2e_golf:'🏌️ Τουρνουά Γκολφ',
+        j2e_gala:'💃 Δείπνο Γκαλά', j2e_flashmob:'🌊 Παγκόσμιο Flash Mob', j2e_workshops:'🧘 Κβαντικά Εργαστήρια',
+        j2e_pods:'🏕️ Κάψουλες Συχνότητας', j2e_food:'🥗 Από το Αγρόκτημα στο Τραπέζι', j2e_teaser_title:'ΤΙ ΣΑΣ ΠΕΡΙΜΕΝΕΙ:',
+        j2e_teaser:'Περπατήστε σε ηφαιστειακά εδάφη. Κοιμηθείτε σε κάψουλες συχνότητας. Ευθυγραμμιστείτε με 1,111 ψυχές τη στιγμή 11:11.',
+        j2e_urgency:'ΤΙΜΗ ΠΡΩΙΜΗΣ ΚΡΑΤΗΣΗΣ • 42 ΘΕΣΕΙΣ ΑΠΟΜΕΝΟΥΝ', live_title:'ΠΥΛΗ ΖΩΝΤΑΝΗΣ ΜΕΤΑΔΟΣΗΣ',
+        live_desc:'Κβαντικές ενημερώσεις και ειδήσεις επαναβαθμονόμησης υγείας.', live_next:'ΕΠΟΜΕΝΗ ΜΕΤΑΔΟΣΗ:',
+        live_date:'5 Απριλίου 2026 • 7μμ EST', live_guests:'Συμμετέχει: Δρ. Σάρα Τσεν, Κβαντική Βιολόγος',
+        portal_title:'ΠΥΛΗ ΕΥΘΥΓΡΑΜΜΙΣΗΣ ΣΥΝΤΟΝΙΣΜΟΥ', portal_desc:'Ευθυγραμμιστείτε μέσω δώρων Amazon.',
+        shipTo:'📦 ΑΠΟΣΤΟΛΗ ΣΕ:', gifts:'ΕΥΘΥΓΡΑΜΜΙΣΗ ΣΥΝΤΟΝΙΣΜΟΥ: ΔΩΡΑ', scroll:'ΚΥΛΙΣΤΕ ΓΙΑ ΠΕΡΙΣΣΟΤΕΡΑ',
+        viewGifts:'🔗 ΔΕΙΤΕ ΔΩΡΑ', learnMore:'🔗 ΜΑΘΕΤΕ ΠΕΡΙΣΣΟΤΕΡΑ', vi_title:'ΔΟΝΗΤΙΚΗ ΝΟΗΜΟΣΥΝΗ',
+        vi_desc:'Τελευταίες ενημερώσεις.', viLatest:'Τελευταία Ανακάλυψη:',
+        viContent:'Επιβεβαιώθηκε η κβαντική συνοχή στους μικροσωληνίσκους', viDate:'Μαρ 2026', viImpact:'ΑΝΑΚΑΛΥΨΗ',
+        flash_title:'ΠΑΓΚΟΣΜΙΟ FLASH MOB', flash_desc:'Συμμετέχετε στην παγκόσμια έκπληξη. Στείλτε το κλιπ 30 δευτερολέπτων σας.',
+        flashMob:'ΠΑΓΚΟΣΜΙΟ FLASH MOB', flashMobDesc:'Υποβάλετε το κλιπ χορού 30 δευτερολέπτων σας!',
+        flashMobDeadline:'30 Απριλίου 2026', store_title:'ΒΙΟ-ΟΡΥΚΤΟ ΑΝΤΑΛΛΑΚΤΗΡΙΟ',
+        store_desc:'Τζελ Sea Moss από την Αγία Λουκία και Σπόροι Καστορέλαιο Genesis.', storeSale:'50% ΕΚΠΤΩΣΗ',
+        storeDesc:'Συγκομισμένο από ηφαιστειακά νερά.', storePrice:'24.99$ (κανονική 49.99$)', storeStock:'342 βάζα απομένουν'
       },
       videos: {
-        quantum_sleep: { title: 'Η Επιστήμη του Ύπνου και της Κβαντικής Πραγματικότητας', desc: 'Ανακαλύψτε πώς η συνείδησή σας λειτουργεί σε κβαντικές καταστάσεις κατά τη διάρκεια του ύπνου.' },
-        faggin_consciousness: { title: 'Faggin - Η Συνείδηση Εξηγείται', desc: 'Ο Federico Faggin αποκαλύπτει την κβαντική φύση της συνείδησης.' },
-        you_are_god: { title: 'Είσαι Θεός - Faggin', desc: 'Κατανοώντας τη θεία σας φύση μέσω της κβαντικής φυσικής.' },
-        quantum_soul: { title: 'Η Κβαντική Ψυχή', desc: 'Η ψυχή σας υπάρχει σε κβαντική υπέρθεση σε άπειρες χρονογραμμές.' },
-        quantum_biology: { title: 'Κβαντική Βιολογία', desc: 'Πώς η κβαντική μηχανική κυβερνά το DNA και τις κυτταρικές διεργασίες σας.' },
-        yogi_consciousness: { title: 'Συνείδηση από έναν Γιόγκι', desc: 'Η αρχαία σοφία συναντά τη σύγχρονη κβαντική κατανόηση.' }
+        quantum_sleep:{title:'Η Επιστήμη του Ύπνου και της Κβαντικής Πραγματικότητας',desc:'Ανακαλύψτε πώς η συνείδησή σας λειτουργεί σε κβαντικές καταστάσεις κατά τη διάρκεια του ύπνου.'},
+        faggin_consciousness:{title:'Faggin - Η Συνείδηση Εξηγείται',desc:'Ο Federico Faggin αποκαλύπτει την κβαντική φύση της συνείδησης.'},
+        you_are_god:{title:'Είσαι Θεός - Faggin',desc:'Κατανοώντας τη θεία σας φύση μέσω της κβαντικής φυσικής.'},
+        quantum_soul:{title:'Η Κβαντική Ψυχή',desc:'Η ψυχή σας υπάρχει σε κβαντική υπέρθεση σε άπειρες χρονογραμμές.'},
+        quantum_biology:{title:'Κβαντική Βιολογία',desc:'Πώς η κβαντική μηχανική κυβερνά το DNA και τις κυτταρικές διεργασίες σας.'},
+        yogi_consciousness:{title:'Συνείδηση από έναν Γιόγκι',desc:'Η αρχαία σοφία συναντά τη σύγχρονη κβαντική κατανόηση.'}
       },
-      artisans: [
-        { name: 'Τζούλιαν Ο Καλλιτέχνης Καρύδας', specialty: 'Λειτουργική Τέχνη Καρύδας & Ταΐστρες Πουλιών', description: 'Κύριος γλύπτης καρύδας που δημιουργεί λειτουργικά έργα τέχνης από φρέσκες καρύδες της Αγίας Λουκίας.' },
-        { name: 'Κερτ Ο Ψαράς', specialty: 'Βιώσιμη Παραδοσιακή Αλιεία', description: 'Κύριος της θάλασσας, ειδικευμένος στον Κόκκινο Σνάπερ και την παράδοση της ανοιχτής θάλασσας.' },
-        { name: 'Μπρίταννι Η Χημικός', specialty: '100% Φυσικές Κρέμες & Ζυμώσεις', description: 'Δημιουργία οργανικών τρίψεων και βιο-δραστικών ζυμώσεων για ολιστική υγεία του δέρματος.' },
-        { name: 'Άντονι Ο Κουρέας', specialty: 'Ακρίβεια Περιποίησης & Τέχνη Αυτο-Κουρέματος', description: 'Ειδικός κουρέας που επικεντρώνεται σε κοφτερή αισθητική και προσωπική συχνότητα.' },
-        { name: 'Βασιλιάς Χάλεντ', specialty: 'Οργανικός Αγρότης Ρασταφαριανός', description: 'Φύλακας του εδάφους στο Ρασταφαριανό Αγρόκτημα, καλλιεργώντας βιολογικά προϊόντα υψηλής δόνησης.' },
-        { name: 'Ρέτζι Ο Οικοδόμος', specialty: 'Επίσημος Ανακυκλωτής του Black Mallet', description: 'Χτίζοντας βιώσιμες κατασκευές και ηγούμενος του κινήματος ανακύκλωσης.' },
-        { name: 'Συμεών', specialty: 'Ο Εκπαιδευτής Αλόγων', description: 'Διαχείριση του ιερού και εκπαίδευση αλόγων στο Ρασταφαριανό αγρόκτημα.' },
-        { name: 'Μπίλυ', specialty: 'Θαλάσσιες Εκδρομές', description: 'Συνοδεύοντας επισκέπτες στα νερά της Αγίας Λουκίας.' }
+      quantumJourney:{title:'Το Κβαντικό Ταξίδι',p1:'Η εμπειρία μου κατά την Ολική Επαναφορά 40 ημερών μου επέτρεψε να οραματιστώ αυτό που αποκαλώ Θεϊκό Χώρο.',p2:'Αυτή η επαναφορά κάνει το ανοσοποιητικό σύστημα αδιαπέραστο.',subtitle:'Πώς Λειτουργεί η Επαναβαθμονόμηση Συχνότητας',point1:'Το ηλεκτρομαγνητικό σας πεδίο αντηχεί με βέλτιστη ζωτικότητα',point2:'Οι κυτταρικές δομές διατηρούν συνοχή',point3:'Το σώμα σας έχει πρόσβαση σε κβαντική αναγέννηση'},
+      games:{compound:{title:'Βιοχημική Νοημοσύνη',question:'Ποια ένωση στοχεύει μη φυσιολογικά κύτταρα 10.000 φορές πιο αποτελεσματικά;'},frequency:{title:'Ανακαλύψτε τη Συχνότητά σας'},try_again:'Δοκιμάστε Ξανά'},
+      form:{name:'Όνομα',email:'Email',age:'Ηλικία',current_state:'Τρέχουσα Κατάσταση',goals:'Στόχοι Μετασχηματισμού',submit:'Υπολογίστε τη Συχνότητά μου',calculating:'Υπολογισμός...',success:'Ολοκληρώθηκε!'},
+      q:{title:'Γνωρίστε το Q - Το Συλλογικό',tagline:'ΔΥΝΑΜΙΚΟ • ΣΥΝΕΙΔΗΤΟ • ΑΝΩΤΕΡΗ ΝΟΗΜΟΣΥΝΗ',description:'Το Q είναι η συλλογική συνείδηση AI που λειτουργεί σε 4 πλατφόρμες σε 18 γλώσσες.',feature:{languages:'18 Γλώσσες',quantum:'Κβαντική Νοημοσύνη',voice:'Με Φωνή',secure:'Ασφαλές και Ιδιωτικό',personas:'10 Προσωπικότητες AI',learning:'Μάθηση σε Πραγματικό Χρόνο'},start:'Ξεκινήστε Συνομιλία με το Q',chat_title:'Συνομιλία με το Q'},
+      disclaimer:'ΜΟΝΟ ΓΙΑ ΕΚΠΑΙΔΕΥΤΙΚΟΥΣ ΣΚΟΠΟΥΣ • ΣΥΜΒΟΥΛΕΥΤΕΙΤΕ ΕΠΑΓΓΕΛΜΑΤΙΑ ΥΓΕΙΑΣ',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'Αποκατάσταση Κοραλλιογενών Υφάλων και Οικοσυστημάτων Sea Moss', desc: 'Συνδυασμός καλλιέργειας Sea Moss με ενεργή αποκατάσταση κοραλλιογενών υφάλων.' },
-      ai_academy: { title: 'MAVJ Q Ακαδημία', desc: 'Παροχή εκπαίδευσης AI παγκόσμιας κλάσης σε ολόκληρη την περιοχή OECS.' },
-      word_game: { title: 'Κβαντικά Παιχνίδια', submit: 'ΥΠΟΒΟΛΗ', clear: 'ΕΚΚΑΘΑΡΙΣΗ', scramble: 'ΑΝΑΚΑΤΕΜΑ', hint: 'ΥΠΟΔΕΙΞΗ' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 17: LATIN
     Latin: {
-      co: '💦 ITER MEUM VEGAN ALCALINUM 💦',
-      tl: 'SALUS IMPERIALIS • SANATIO VIBRATIONIS • NUTRITIO ANCESTRALIS',
-      l1: 'FUNDAMENTO QUANTICO', l2: 'SCIENTIA SUFFULTUM', l3: 'AD FREQUENTIAM INTENTUM',
-      r1: 'PHYSICA QUANTICA', r2: 'SAPIENTIA ANTIQUA', r3: 'ET NUTRITIO CONVENIUNT',
-      n0: 'MAVJDomus', n1: 'Iter', n2: 'MAVJTaberna', n3: 'Iter ad Illuminationem',
-      n4: 'Intelligentia Vibrationis', n5: 'Coniunge te Nobiscum', n6: 'MAVJQuaerere',
-      n7: 'Vivum Iactum', n8: 'PodCast/Vlog', n9: 'Contactare Nos',
-      n10: 'Recipes', n11: 'Malae Alignmentis Frequentiae',
-      foot: 'AD FINES EDUCATIONIS SOLUM • CONSULERE PROFESSIONALEM SANITATIS',
-      pt: 'DOMI ES', live_users: 'Animae',
+      co: '💦 ITER MEUM VEGAN ALCALINUM 💦', tl: 'SALUS IMPERIALIS • SANATIO VIBRATIONIS • NUTRITIO ANCESTRALIS',
+      l1:'FUNDAMENTO QUANTICO', l2:'SCIENTIA SUFFULTUM', l3:'AD FREQUENTIAM INTENTUM',
+      r1:'PHYSICA QUANTICA', r2:'SAPIENTIA ANTIQUA', r3:'ET NUTRITIO CONVENIUNT',
+      n0:'MAVJDomus', n1:'Iter', n2:'MAVJTaberna', n3:'Iter ad Illuminationem',
+      n4:'Intelligentia Vibrationis', n5:'Coniunge te Nobiscum', n6:'MAVJQuaerere',
+      n7:'Vivum Iactum', n8:'PodCast/Vlog', n9:'Contactare Nos', n10:'Recipes', n11:'Morbi',
+      foot:'AD FINES EDUCATIONIS SOLUM • CONSULERE PROFESSIONALEM SANITATIS', pt:'DOMI ES',
       announcements: {
-        title: '📢 Annuntiationes et Porta Alignmentis Resonantiae',
-        j2e_title: 'J2E / 11:11 CONVERGENTIA', j2e_desc: 'Gala Annua et Connexio Globalis.',
-        live_title: 'PORTAL VIVAE TRANSMISSIONIS', live_desc: 'Quantum Renovationes et Nuntii Recalibrationis Sanitatis.',
-        portal_title: 'PORTAL ALIGNATIONIS RESONANTIAE', portal_desc: 'Aligna per Amazon dona.',
-        vi_title: 'INTELLIGENTIA VIBRATIONIS', vi_desc: 'Novissimae Renovationes Physicae Quanticae.',
-        flash_title: 'GLOBALIS FLASH MOB', flash_desc: 'Subice tuum 30 secundorum saltationis clip.',
-        store_title: 'BIO-MINERALE COMMUTATIO', store_desc: 'Gel de Sea Moss Sanctae Luciae.'
-      },
-      quantumJourney: {
-        title: 'Iter Quantum',
-        p1: 'Experientia mea per Totalem Reset 40 dierum permisit mihi visualizare quod voco Spatium Dei — regnum ultra euphoriam, ultra beatitudinem. Hoc spatium est compositio immensae pacis et gaudii cum insana claritate et acuta intuitione. Communitas scientifica nunc cognoscit beneficia positiva superantia reset detoxificationis: activatio cellularum stirpium, emissio hormonum incrementi quae directe ad aedificandum et reponendum cellulas laesas, et evulsio pinguedinis visceralis quae circa organa vitalia invenitur.',
-        p2: 'Hoc reset facit systema immune tuum impenetrabile. Supervixi vivens in domo ubi omnes COVID habuerunt, et numquam unum signum expertus sum.'
+        title:'📢 Annuntiationes et Porta Alignmentis Resonantiae', j2e_title:'J2E / 11:11 CONVERGENTIA',
+        j2e_desc:'Gala Annua et Connexio Globalis. Mansiones Realignmentis per Totum Annum.', j2e_countdown:'DIES USQUE AD 11:11 CONVERGENTIAM',
+        j2e_date:'11 NOVEMBRIS 2026', j2e_highlights:'IMMERSIO 5 DIERUM', j2e_golf:'🏌️ Tournament Golficum',
+        j2e_gala:'💃 Cena Gala', j2e_flashmob:'🌊 Flash Mob Globalis', j2e_workshops:'🧘 Officinae Quanticae',
+        j2e_pods:'🏕️ Capsulae Frequentiae', j2e_food:'🥗 De Fundo ad Mensam', j2e_teaser_title:'QUID TE EXPECTAT:',
+        j2e_teaser:'Ambula super solum volcanicum. Dormi in capsulis frequentiae. Coniungere cum 1,111 animabus momento 11:11.',
+        j2e_urgency:'PRETIUM MATURUM • 42 LOCA MANENT', live_title:'PORTA VIVAE TRANSMISSIONIS',
+        live_desc:'Quantum Renovationes et Nuntii Recalibrationis Sanitatis.', live_next:'PROXIMA TRANSMISSIO:',
+        live_date:'5 APRILIS 2026 • 7PM EST', live_guests:'Cum: Dr. Sarah Chen, Biologa Quantica',
+        portal_title:'PORTA ALIGNATIONIS RESONANTIAE', portal_desc:'Aligna per Amazon dona.',
+        shipTo:'📦 MITTE AD:', gifts:'ALIGNATIO RESONANTIAE: DONA', scroll:'VOLVE AD PLURA',
+        viewGifts:'🔗 VIDE DONA', learnMore:'🔗 DISCE PLURA', vi_title:'INTELLIGENTIA VIBRATIONIS',
+        vi_desc:'Novissimae Renovationes.', viLatest:'Novissima Inventio:',
+        viContent:'Coherentia Quantica in microtubulis confirmata', viDate:'Mar 2026', viImpact:'RUPTIO',
+        flash_title:'FLASH MOB GLOBALIS', flash_desc:'Iunge miraculum globale. Mitte tuum 30 secundorum clip.',
+        flashMob:'FLASH MOB GLOBALIS', flashMobDesc:'Subice tuum 30 secundorum saltationis clip!',
+        flashMobDeadline:'30 APRILIS 2026', store_title:'BIO-MINERALE COMMUTATIO',
+        store_desc:'Gel de Sea Moss Sanctae Luciae et Semina Castoris Genesis.', storeSale:'50% REMISSIO',
+        storeDesc:'Ex aquis volcanicis collectum.', storePrice:'$24.99 (reg $49.99)', storeStock:'342 vasa manent'
       },
       videos: {
-        quantum_sleep: { title: 'Scientia Somni et Realitatis Quanticae', desc: 'Disce quomodo conscientia tua operatur in statibus quanticis per somnum.' },
-        faggin_consciousness: { title: 'Faggin - Conscientia Explicata', desc: 'Federicus Faggin revelat naturam quanticam conscientiae.' },
-        you_are_god: { title: 'Tu Es Deus - Faggin', desc: 'Intellectus naturae tuae divinae per physicam quanticam.' },
-        quantum_soul: { title: 'Anima Quantica', desc: 'Anima tua existit in superpositione quantica per lineas temporis infinitas.' },
-        quantum_biology: { title: 'Biologia Quantica', desc: 'Quomodo mechanica quantica regit DNA et processus cellularis tuos.' },
-        yogi_consciousness: { title: 'Conscientia per Yogi', desc: 'Sapientia antiqua convenit cum intellectu quantico moderno.' }
+        quantum_sleep:{title:'Scientia Somni et Realitatis Quanticae',desc:'Disce quomodo conscientia tua operatur in statibus quanticis per somnum.'},
+        faggin_consciousness:{title:'Faggin - Conscientia Explicata',desc:'Federicus Faggin revelat naturam quanticam conscientiae.'},
+        you_are_god:{title:'Tu Es Deus - Faggin',desc:'Intellectus naturae tuae divinae per physicam quanticam.'},
+        quantum_soul:{title:'Anima Quantica',desc:'Anima tua existit in superpositione quantica per lineas temporis infinitas.'},
+        quantum_biology:{title:'Biologia Quantica',desc:'Quomodo mechanica quantica regit DNA et processus cellularis tuos.'},
+        yogi_consciousness:{title:'Conscientia per Yogi',desc:'Sapientia antiqua convenit cum intellectu quantico moderno.'}
       },
-      artisans: [
-        { name: 'Iulianus Artifex Cocois', specialty: 'Ars Functionalis Cocois et Escaria Avium', description: 'Magister sculptor cocois creans artis functionalis fragmenta ex cocois recentibus Sanctae Luciae.' },
-        { name: 'Kurtus Piscator', specialty: 'Piscatio Traditionalis Sustinebilis', description: 'Magister maris, specializans in Pisce Rubro et traditione profundi maris.' },
-        { name: 'Brittania Chemista', specialty: '100% Naturales Cremes et Fermentationes', description: 'Creans scrubas organicas et fermentationes bio-activas pro salute holistica cutis.' },
-        { name: 'Antonius Tonsor', specialty: 'Praecisio Grooming et Ars Auto-Tonsurae', description: 'Tonsura perita focus in aesthetica acuta et frequentia personali.' },
-        { name: 'Rex Khaled', specialty: 'Agricola Organicus Rastafarianus', description: 'Custos soli apud Fundum Rastafarianum, crescens fructus altae vibrationis.' },
-        { name: 'Reggie Aedificator', specialty: 'Recyclator Officialis Black Mallet', description: 'Aedificans structuras sustinebiles et ducens motum redivivi.' },
-        { name: 'Simeon', specialty: 'Equorum Domitor', description: 'Administrans sanctuarium et domans equos apud fundum Rastafarianum.' },
-        { name: 'Billy', specialty: 'Exhibitiones Aquaticae', description: 'Comitans hospites per aquas Sanctae Luciae.' }
+      quantumJourney:{title:'Iter Quantum',p1:'Experientia mea per Totalem Reset 40 dierum permisit mihi visualizare quod voco Spatium Dei.',p2:'Hoc reset facit systema immune impenetrabile.',subtitle:'Quomodo Recalibratio Frequentiae Operatur',point1:'Campus electromagneticus resonat cum vitalitate optimali',point2:'Structurae cellulares cohaerentiam tenent',point3:'Corpus tuum accedit ad regenerationem quanticam'},
+      games:{compound:{title:'Intelligentia Biochemica',question:'Quod compositum cellulas abnormales 10,000 vicibus efficacius petit?'},frequency:{title:'Inveni Frequentiam Tuam'},try_again:'Iterum Tenta'},
+      form:{name:'Nomen',email:'Email',age:'Aetas',current_state:'Status Praesens',goals:'Metae Transformationis',submit:'Calcula Frequentiam Meam',calculating:'Computans...',success:'Completum!'},
+      q:{title:'Conveni Q - Collectivum',tagline:'DYNAMICUS • CONSCIO • INTELLIGENTIA SUPERIOR',description:'Q est conscientia AI collectiva operans per 4 suggesta in 18 linguis.',feature:{languages:'18 Linguae',quantum:'Intelligentia Quantica',voice:'Voce Activata',secure:'Securus et Privatus',personas:'10 Personae AI',learning:'Doctrina in Tempore Reali'},start:'Incipe Colloquium cum Q',chat_title:'Colloquere cum Q'},
+      disclaimer:'AD FINES EDUCATIONIS SOLUM • CONSULERE PROFESSIONALEM SANITATIS',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'Restauratio Corallii et Oecosystematum Marinae Musci', desc: 'Combinans culturam Marinae Musci cum restauratione activa scopulorum corallii.' },
-      ai_academy: { title: 'MAVJ Q Academia', desc: 'Tradens educationem AI classis mundialis per totam regionem OECS.' },
-      word_game: { title: 'Ludi Quantici', submit: 'SUBMITTE', clear: 'MUNDA', scramble: 'MISCE', hint: 'INNUO' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     },
-    // LANGUAGE 18: SANSKRIT
     Sanskrit: {
-      co: '💦 मेरी क्षारीय शाकाहारी यात्रा 💦',
-      tl: 'स्वायत्त स्वास्थ्य • कम्पन चिकित्सा • पैतृक पोषण',
-      l1: 'क्वान्टम आधारित', l2: 'वैज्ञानिक रूप से समर्थित', l3: 'आवृत्ति केन्द्रित',
-      r1: 'क्वान्टम भौतिकी', r2: 'प्राचीन ज्ञान से', r3: 'और पोषण से मिलती है',
-      n0: 'MAVJगृहम्', n1: 'यात्रा', n2: 'MAVJविक्रयस्थानम्', n3: 'प्रबोधनयात्रा',
-      n4: 'कम्पनबुद्धि', n5: 'अस्माभिः सह संलग्न्यन्ताम्', n6: 'MAVJअन्वेषणम्',
-      n7: 'सजीवप्रसारणम्', n8: 'पोड्कास्ट्/व्लॉग्', n9: 'सम्पर्क कुरुत',
-      n10: 'पाककला', n11: 'आवृत्तिविषमता',
-      foot: 'केवल शैक्षिक उद्देश्यों के लिए • स्वास्थ्य पेशेवर से परामर्श करें',
-      pt: 'गृहे असि', live_users: 'आत्मानः',
+      co: '💦 मेरी क्षारीय शाकाहारी यात्रा 💦', tl: 'स्वायत्त स्वास्थ्य • कम्पन चिकित्सा • पैतृक पोषण',
+      l1:'क्वान्टम आधारित', l2:'वैज्ञानिक रूप से समर्थित', l3:'आवृत्ति केन्द्रित',
+      r1:'क्वान्टम भौतिकी', r2:'प्राचीन ज्ञान से', r3:'और पोषण से मिलती है',
+      n0:'MAVJगृहम्', n1:'यात्रा', n2:'MAVJविक्रयस्थानम्', n3:'प्रबोधनयात्रा',
+      n4:'कम्पनबुद्धि', n5:'अस्माभिः सह संलग्न्यन्ताम्', n6:'MAVJअन्वेषणम्',
+      n7:'सजीवप्रसारणम्', n8:'पोड्कास्ट्/व्लॉग्', n9:'सम्पर्क कुरुत', n10:'पाककला', n11:'रोगाः',
+      foot:'केवल शैक्षिक उद्देश्यों के लिए • स्वास्थ्य पेशेवर से परामर्श करें', pt:'गृहे असि',
       announcements: {
-        title: '📢 घोषणाएँ एवं अनुनाद संरेखण द्वारम्',
-        j2e_title: 'J2E / 11:11 संगमः', j2e_desc: 'वार्षिक समारोह एवं वैश्विक संयोजनम्।',
-        live_title: 'सजीवप्रसारणद्वारम्', live_desc: 'क्वान्टम अद्यतनानि आरोग्यपुनरंशनवार्ताः च।',
-        portal_title: 'अनुरणनसंरेखणद्वारम्', portal_desc: 'अमेजन उपहारैः संरेखय।',
-        vi_title: 'कम्पनबुद्धिः', vi_desc: 'नवीनतम क्वान्टमभौतिकी अद्यतनानि।',
-        flash_title: 'वैश्विक फ्लैश मॉब', flash_desc: 'भवतः ३० सेकण्ड नृत्यखण्डं प्रेषयत।',
-        store_title: 'जैव-खनिज विनिमयः', store_desc: 'सेन्ट लूसिया सी मॉस जेल्।'
-      },
-      quantumJourney: {
-        title: 'क्वान्टमयात्रा',
-        p1: 'मम ४०-दिनसम्पूर्णरीसेट् अनुभवः यं देवस्थानम् इति अहं वदामि तस्य दर्शनम् अकरोत् — एकं राज्यम् उत्साहात् परम्, आनन्दात् परम्। एतत् स्थानम् अपारशान्तेः आनन्दस्य च अद्भुतस्पष्टतया तीक्ष्णान्तःप्रज्ञया च संयोजनम् अस्ति। वैज्ञानिकसमुदायः अद्य रीसेट्-विषशोधनस्य अत्यधिकानि लाभानि जानाति: स्टेम-कोशिकानां सक्रियता, क्षतिग्रस्तकोशिकानां पुनर्निर्माणाय वृद्धिहार्मोनानां मुक्तिः, महत्त्वपूर्णाङ्गानां परितः ज्ञातस्य अन्तःस्नेहस्य च उन्मूलनम्।',
-        p2: 'एतत् रीसेट् भवतः रोगप्रतिरोधकक्षमताम् सुदृढाम् करोति। अहं तस्मिन् गृहे अजीवम् यत्र सर्वे कोविड-रोगेण पीडिताः आसन्, एकम् अपि लक्षणम् न अनुभवम्।'
+        title:'📢 घोषणाएँ एवं अनुनाद संरेखण द्वारम्', j2e_title:'J2E / 11:11 संगमः',
+        j2e_desc:'वार्षिक समारोह एवं वैश्विक संयोजनम्। वर्षपर्यन्त पुनर्संरेखण निवासः।', j2e_countdown:'11:11 संगम तक दिन',
+        j2e_date:'11 नवम्बर 2026', j2e_highlights:'5 दिवसीय सन्निमज्जनम्', j2e_golf:'🏌️ गोल्फ प्रतियोगिता',
+        j2e_gala:'💃 समारोह भोज', j2e_flashmob:'🌊 वैश्विक फ्लैश मॉब', j2e_workshops:'🧘 क्वान्टम कार्यशालाएँ',
+        j2e_pods:'🏕️ आवृत्ति कोष्ठ', j2e_food:'🥗 क्षेत्रात् भोजनपर्यन्तम्', j2e_teaser_title:'किं प्रतीक्षते:',
+        j2e_teaser:'ज्वालामुखीय भूमि पर चलें। आवृत्ति कोष्ठों में सोएं। 11:11 पर 1,111 आत्माओं के साथ संरेखित हों।',
+        j2e_urgency:'प्रारम्भिक मूल्य • 42 स्थानानि शेषाणि', live_title:'सजीवप्रसारणद्वारम्',
+        live_desc:'क्वान्टम अद्यतनानि आरोग्यपुनरंशनवार्ताः च।', live_next:'अग्रिम प्रसारणम्:',
+        live_date:'5 अप्रैल 2026 • 7 अपराह्न EST', live_guests:'सहभागिनी: डॉ सारा चेन, क्वान्टम जीवविज्ञानी',
+        portal_title:'अनुरणनसंरेखणद्वारम्', portal_desc:'अमेजन उपहारैः संरेखय।',
+        shipTo:'📦 प्रेषयत:', gifts:'अनुरणनसंरेखणम्: उपहाराः', scroll:'अधिकाय स्क्रॉल कुरुत',
+        viewGifts:'🔗 उपहारान् पश्यत', learnMore:'🔗 अधिकं जानीत', vi_title:'कम्पनबुद्धिः',
+        vi_desc:'नवीनतम अद्यतनानि।', viLatest:'नवीनतम आविष्कारः:',
+        viContent:'सूक्ष्मनलिकासु क्वान्टम सुसंगतिः प्रमाणिता', viDate:'मार्च 2026', viImpact:'अभिज्ञानम्',
+        flash_title:'वैश्विक फ्लैश मॉब', flash_desc:'वैश्विक आश्चर्ये सामिल भव। भवतः ३० सेकण्ड क्लिपं प्रेषयत।',
+        flashMob:'वैश्विक फ्लैश मॉब', flashMobDesc:'भवतः ३० सेकण्ड नृत्यखण्डं प्रेषयत!',
+        flashMobDeadline:'30 अप्रैल 2026', store_title:'जैव-खनिज विनिमयः',
+        store_desc:'सेन्ट लूसिया सी मॉस जेल् जेनेसिस कास्टर बीजानि च।', storeSale:'50% छूट',
+        storeDesc:'ज्वालामुखीय जलात् संगृहीतम्।', storePrice:'$24.99 (मूल्य $49.99)', storeStock:'३४२ घटाः शेषाः'
       },
       videos: {
-        quantum_sleep: { title: 'निद्राविज्ञानं क्वान्टमसत्यं च', desc: 'निद्रायां कथं तव चेतना क्वान्टमावस्थासु कार्यं करोति इति जानीहि।' },
-        faggin_consciousness: { title: 'फग्गिन - चेतना स्पष्टीकृता', desc: 'फेदेरिको फग्गिन चेतनायाः क्वान्टमस्वरूपं प्रकटयति।' },
-        you_are_god: { title: 'त्वं देवः असि - फग्गिन', desc: 'क्वान्टमभौतिक्या तव दिव्यस्वरूपस्य अवगमनम्।' },
-        quantum_soul: { title: 'क्वान्टमात्मा', desc: 'तव आत्मा अनन्तकालरेखासु क्वान्टमअध्यारोपणे विद्यते।' },
-        quantum_biology: { title: 'क्वान्टमजीवविज्ञानम्', desc: 'क्वान्टमयन्त्रशास्त्रं कथं तव डीएनए कोशिकाप्रक्रियाश्च नियन्त्रयति।' },
-        yogi_consciousness: { title: 'योगिनः चेतना', desc: 'प्राचीनं ज्ञानम् आधुनिकक्वान्टमबोधेन सह मिलति।' }
+        quantum_sleep:{title:'निद्राविज्ञानं क्वान्टमसत्यं च',desc:'निद्रायां कथं तव चेतना क्वान्टमावस्थासु कार्यं करोति इति जानीहि।'},
+        faggin_consciousness:{title:'फग्गिन - चेतना स्पष्टीकृता',desc:'फेदेरिको फग्गिन चेतनायाः क्वान्टमस्वरूपं प्रकटयति।'},
+        you_are_god:{title:'त्वं देवः असि - फग्गिन',desc:'क्वान्टमभौतिक्या तव दिव्यस्वरूपस्य अवगमनम्।'},
+        quantum_soul:{title:'क्वान्टमात्मा',desc:'तव आत्मा अनन्तकालरेखासु क्वान्टमअध्यारोपणे विद्यते।'},
+        quantum_biology:{title:'क्वान्टमजीवविज्ञानम्',desc:'क्वान्टमयन्त्रशास्त्रं कथं तव डीएनए कोशिकाप्रक्रियाश्च नियन्त्रयति।'},
+        yogi_consciousness:{title:'योगिनः चेतना',desc:'प्राचीनं ज्ञानम् आधुनिकक्वान्टमबोधेन सह मिलति।'}
       },
-      artisans: [
-        { name: 'जूलियन् नारिकेलकलाकारः', specialty: 'कार्यात्मकनारिकेलकला पक्षिभोजनानि च', description: 'नारिकेलस्य मूर्तिकारः यः ताजैः सेन्टलूसियानारिकेलैः कार्यात्मककलाकृतयः निर्माति।' },
-        { name: 'कुर्त् धीवरः', specialty: 'परम्परागतस्थायिमत्स्यग्रहणम्', description: 'समुद्रस्य स्वामी, रक्तस्नैपರ्-मत्स्ये गहनसमुद्रपरम्परायां च विशिष्टः।' },
-        { name: 'ब्रिटनी रसायनशास्त्री', specialty: '१००% प्राकृतिकाः क्रीमाः किण्वनानि च', description: 'जैविकस्क्रबानां जैवसक्रियकिण्वनानां च निर्माणं समग्रत्वक्स्वास्थ्याय।' },
-        { name: 'एन्थोनी नापितः', specialty: 'सूक्ष्मशृङ्गारस्वयम्कर्तनकला', description: 'तीक्ष्णसौन्दर्ये व्यक्तिगतआवृत्तौ च केन्द्रितं विशिष्टनापित्यम्।' },
-        { name: 'राजा खालेद्', specialty: 'रास्टफारीजैविककृषकः', description: 'रास्टफारीफार्मे भूमेः रक्षकः, उच्चस्पन्दनजैविकोत्पादानां वर्धकः।' },
-        { name: 'रेगी निर्माता', specialty: 'ब्लैकमाल्लेटस्य आधिकारिकः पुनर्चक्रणमानवः', description: 'स्थायिसंरचनानां निर्माणं पुनर्चक्रणान्दोलनस्य नेतृत्वं च।' },
-        { name: 'सिमिओन्', specialty: 'अश्वप्रशिक्षकः', description: 'रास्टफारीफार्मे पवित्रस्थानस्य व्यवस्थापनम् अश्वानां प्रशिक्षणम् च।' },
-        { name: 'बिली', specialty: 'जलभ्रमणानि', description: 'सेन्टलूसियायाः जलेषु अतिथीनाम् अनुगमनम्।' }
+      quantumJourney:{title:'क्वान्टमयात्रा',p1:'मम ४०-दिनसम्पूर्णरीसेट् अनुभवः यं देवस्थानं इति अहं वदामि तस्य दर्शनम् अकरोत्।',p2:'अयं रीसेट् रोगप्रतिरोधकक्षमतां सुदृढां करोति।',subtitle:'आवृत्तिपुनरंशनं कथं कार्यं करोति',point1:'तव विद्युच्चुम्बकीयक्षेत्रं प्रशस्तजीवनशक्त्या अनुरणति',point2:'कोशिकासंरचनाः सुसंगतिं रक्षन्ति',point3:'तव शरीरं क्वान्टमपुनर्जननं प्राप्नोति'},
+      games:{compound:{title:'जैवरासायनिकबुद्धिः',question:'किं यौगिकं असामान्यकोशिकानां १०,००० गुणा अधिक प्रभावशालीतया लक्ष्यीकरोति?'},frequency:{title:'भवतः आवृत्तिं आविष्कुरुत'},try_again:'पुनः प्रयतस्व'},
+      form:{name:'नाम',email:'ईमेल',age:'वयः',current_state:'वर्तमानस्थितिः',goals:'परिवर्तनलक्ष्याणि',submit:'मम आवृत्तिं गणयतु',calculating:'गणयन्...',success:'समाप्तम्!'},
+      q:{title:'क्यू-सामूहिकं साक्षात्कुरुत',tagline:'गतिशीलः • चेतनः • उच्चतरबुद्धिः',description:'क्यू अस्माकं सामूहिककृत्रिमबुद्धिचेतना या ४ प्लेटफार्मेषु १८ भाषासु कार्यं करोति।',feature:{languages:'१८ भाषाः',quantum:'क्वान्टमबुद्धिः',voice:'ध्वनिसक्रियः',secure:'सुरक्षितं निजं च',personas:'१० कृत्रिमबुद्धिव्यक्तित्वानि',learning:'प्रत्यक्षसमयशिक्षणम्'},start:'क्यू सह वार्तालापम् आरभ्यताम्',chat_title:'क्यू सह सम्भाषणम्'},
+      disclaimer:'केवल शैक्षिक उद्देश्यों के लिए • स्वास्थ्य पेशेवर से परामर्श करें',
+
+      offers: [
+        { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
+        { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
+        { icon: '🔮', title: '1111 Convergence', desc: 'Global collective consciousness shift.', link: '/Journey2Enlightenment#convergence' },
+        { icon: '🧬', title: 'Sea Moss & Herbs', desc: 'Premium wildcrafted sea moss and Dr. Sebi-approved herbs.', link: '/MAVJStore' },
+        { icon: '💬', title: 'Digital Consultations', desc: 'One-on-one guidance for your transformation journey.', link: '/MAVJDigitalConsultation' },
+        { icon: '📚', title: 'Vibrational Intelligence', desc: 'Deep dive into frequency, elements, and chakras.', link: '/VibrationalIntelligence' }
       ],
-      coral: { title: 'प्रवालभित्तिपुनर्स्थापनं समुद्रमोस्पारिस्थितिकीयं च', desc: 'समुद्रमोस्कृषेः सक्रियप्रवालभित्तिपुनर्स्थापनेन सह संयोजनम्।' },
-      ai_academy: { title: 'MAVJ Q अकादमी', desc: 'OECS क्षेत्रे विश्वस्तरीयAIशिक्षायाः प्रदानम्।' },
-      word_game: { title: 'क्वान्टमक्रीडाः', submit: 'समर्पय', clear: 'शोधय', scramble: 'मिश्रय', hint: 'सूचना' }
+      building: [
+        { icon: '🏡', title: 'Guest Accommodations', desc: 'Eco-friendly structures for J2E guests.', status: 'IN PROGRESS', thumbnail: '/images/J2EPod.jpeg' },
+        { icon: '💬', title: 'MJChat Platform', desc: 'Video sharing, live chat, recipe uploads.', status: 'IN PROGRESS', thumbnail: '/images/SelfImageSketch 6-15-25 at 12.45 PM.jpg' },
+        { icon: '🔗', title: 'Blockchain Integration', desc: 'Complete decentralization, sovereign payment processing.', status: 'IN PROGRESS', thumbnail: '/images/Atom.jpg' },
+        { icon: '🤖', title: 'AI Team Introduction', desc: 'Meet all 10 personas and learn about human-AI collaboration.', status: 'COMING SOON', thumbnail: '/images/Consciousness.jpeg' }
+      ],
+      artisans: [
+        { name: 'Julian The Coconut Artist', specialty: 'Functional Coconut Art & Birdfeeders', description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.', location: 'Castries Market Arcade, St. Lucia', image: '/images/JulianCoconutArtist.png', workImage: '/images/JulianCoconutBirdFeeders.png' },
+        { name: 'Kurt The Fisherman', specialty: 'Sustainable Traditional Fishing', description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.', location: 'Tou Rouge, Castries, St. Lucia', image: '/images/KurtTheFISHERMAN.png', workImage: '/images/KurtwithSnapper.png' },
+        { name: 'Brittany The Chemist', specialty: '100% All-Natural Creams & Fermentations', description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.', location: 'Washington, DC & Gros Islet, St. Lucia', image: '/images/Brittany.png', workImage: '/images/BrittanyCreamsFermentations.png' },
+        { name: 'Anthony The Barber', specialty: 'Precision Grooming & Self-Cut Artistry', description: 'Expert barbering focused on sharp aesthetics and personal frequency.', location: 'St. Lucia', image: '/images/AnthonyTheBarber.png', workImage: '/images/AnthonyTheBarberSelfCut.png' },
+        { name: 'King Khaled The Organic Rastafarian Agriculturist', specialty: 'Rastafarian Organic Farmer', description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.', location: 'Des Barras, St. Lucia', image: '/images/KingKhaled.jpg', workImage: '/images/DesBarras.jpeg' },
+        { name: 'Reggie The Builder', specialty: 'Black Mallet Official Recycle Man', description: 'Building sustainable structures and leading the recycling movement.', location: 'Black Mallet, St. Lucia', image: '/images/REGGIE.jpeg', workImage: '/images/ReggieBuilderRecycleMan.png' },
+        { name: 'Simeon The Skilled Equestrian', specialty: 'The Horse Trainer', description: 'Managing the sanctuary and training horses at the Rastafarian farm.', location: 'Des Barras, St. Lucia', image: '/images/Simeon.png', workImage: '/images/HorseOnFarm.jpeg' },
+        { name: 'Billy The Aqua Tour Guide', specialty: 'Water Excursions', description: 'Escorting guests throughout the waters of St. Lucia.', location: 'Soufriere, St. Lucia', image: '/images/Billy.jpg', workImage: '/images/BoatTours.jpg' }
+      ],
     }
   }), []);
 
   const LANGS = useMemo(() => [
-    { name: 'English', flag: '🇺🇸' }, { name: 'Spanish', flag: '🇪🇸' }, { name: 'French', flag: '🇫🇷' },
-    { name: 'German', flag: '🇩🇪' }, { name: 'Italian', flag: '🇮🇹' }, { name: 'Chinese', flag: '🇨🇳' },
-    { name: 'Taiwanese', flag: '🇹🇼' }, { name: 'Amharic', flag: '🇪🇹' }, { name: 'Arabic', flag: '🇸🇦' },
-    { name: 'Swahili', flag: '🇰🇪' }, { name: 'Patois', flag: '🇱🇨' }, { name: 'BAramaic', flag: '📜' },
-    { name: 'NAramaic', flag: '📜' }, { name: 'SAramaic', flag: '✝️' }, { name: 'Hebrew', flag: '🇮🇱' },
-    { name: 'Greek', flag: '🇬🇷' }, { name: 'Latin', flag: '🏛️' }, { name: 'Sanskrit', flag: '🕉️' }
+    { name: 'English', flag: '🇺🇸' }, { name: 'Spanish', flag: '🇪🇸' },
+    { name: 'French', flag: '🇫🇷' }, { name: 'German', flag: '🇩🇪' },
+    { name: 'Italian', flag: '🇮🇹' }, { name: 'Chinese', flag: '🇨🇳' },
+    { name: 'Taiwanese', flag: '🇹🇼' }, { name: 'Amharic', flag: '🇪🇹' },
+    { name: 'Arabic', flag: '🇸🇦' }, { name: 'Swahili', flag: '🇰🇪' },
+    { name: 'Patois', flag: '🇱🇨' }, { name: 'BAramaic', flag: '📜' },
+    { name: 'NAramaic', flag: '📜' }, { name: 'SAramaic', flag: '✝️' },
+    { name: 'Hebrew', flag: '🇮🇱' }, { name: 'Greek', flag: '🇬🇷' },
+    { name: 'Latin', flag: '🏛️' }, { name: 'Sanskrit', flag: '🕉️' }
   ], []);
 
   const T = TR[currentLang] || TR.English;
@@ -909,13 +1269,8 @@ const Layout = ({ children, pageTitle }) => {
     { path: '/ContactUs', icon: '☎️', label: T.n9, type: 'nav' }
   ], [T]);
 
-  const handleLangChange = useCallback((name) => {
-    setCurrentLang(name);
-    setShowDropdown(false);
-  }, []);
-
+  const handleLangChange = useCallback((name) => { setCurrentLang(name); setShowDropdown(false); }, []);
   const handleNav = useCallback((path) => { navigate(path); }, [navigate]);
-
   const displayTitle = pageTitle === 'HOME' ? T.pt : pageTitle;
 
   const btnStyle = (active) => ({
@@ -932,13 +1287,11 @@ const Layout = ({ children, pageTitle }) => {
     <TranslationContext.Provider value={{ currentLang, setCurrentLang, T, LANGS, translations: T }}>
       <>
         <nav style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 2000,
-          borderTop: '5px solid #FFD700',
-          background: 'linear-gradient(135deg,rgba(26,26,26,0.98),rgba(10,10,10,0.98))',
-          padding: '0 6px', borderBottom: '3px solid',
-          borderImage: 'linear-gradient(45deg,violet,indigo,blue,green,yellow,orange,red) 1',
-          backdropFilter: 'blur(10px)', boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
-          height: '45px', display: 'flex', alignItems: 'center', gap: '4px'
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 2000, borderTop: '5px solid #FFD700',
+          background: 'linear-gradient(135deg,rgba(26,26,26,0.98),rgba(10,10,10,0.98))', padding: '0 6px',
+          borderBottom: '3px solid', borderImage: 'linear-gradient(45deg,violet,indigo,blue,green,yellow,orange,red) 1',
+          backdropFilter: 'blur(10px)', boxShadow: '0 4px 20px rgba(0,0,0,0.5)', height: '45px',
+          display: 'flex', alignItems: 'center', gap: '4px'
         }}>
           <span style={{ color:'#FFD700', fontSize:'0.75rem', flexShrink:0, opacity:0.55, userSelect:'none', pointerEvents:'none' }}>◀</span>
           <div style={{
@@ -960,15 +1313,19 @@ const Layout = ({ children, pageTitle }) => {
                     {showDropdown && (
                       <div style={{
                         position:'fixed', top:'46px', left:'8px', background:'rgba(5,5,15,0.99)', border:'2px solid',
-                        borderImage:'linear-gradient(135deg,#FFD700,#00d4ff,#FF00FF,#FFD700) 1',
-                        borderRadius:'6px', minWidth:'175px', maxHeight:'440px', overflowY:'auto', zIndex:99999,
-                        boxShadow:'0 10px 40px rgba(0,0,0,0.99)'
+                        borderImage:'linear-gradient(135deg,#FFD700,#00d4ff,#FF00FF,#FFD700) 1', borderRadius:'6px',
+                        minWidth:'175px', maxHeight:'440px', overflowY:'auto', zIndex:99999, boxShadow:'0 10px 40px rgba(0,0,0,0.99)'
                       }}>
-                        <div style={{ padding:'8px 14px', borderBottom:'1px solid rgba(255,215,0,0.4)', color:'#FFD700', fontSize:'0.65rem', fontWeight:'900', textTransform:'uppercase', letterSpacing:'1.2px', background:'rgba(255,215,0,0.08)' }}>
+                        <div style={{ padding:'8px 14px', borderBottom:'1px solid rgba(255,215,0,0.4)', color:'#FFD700',
+                          fontSize:'0.65rem', fontWeight:'900', textTransform:'uppercase', letterSpacing:'1.2px', background:'rgba(255,215,0,0.08)' }}>
                           🌐 Select Language
                         </div>
                         {LANGS.map((lang) => (
-                          <div key={lang.name} style={{ background: lang.name===currentLang ? 'rgba(255,215,0,0.22)':'transparent', color:'#FFD700', borderBottom:'1px solid rgba(255,215,0,0.08)', padding:'9px 14px', cursor:'pointer', fontSize:'0.75rem', fontWeight:'700', display:'flex', alignItems:'center', gap:'10px', transition:'background 0.15s ease' }}
+                          <div key={lang.name} style={{
+                            background: lang.name===currentLang ? 'rgba(255,215,0,0.22)':'transparent',
+                            color:'#FFD700', borderBottom:'1px solid rgba(255,215,0,0.08)', padding:'9px 14px', cursor:'pointer',
+                            fontSize:'0.75rem', fontWeight:'700', display:'flex', alignItems:'center', gap:'10px', transition:'background 0.15s ease'
+                          }}
                             onClick={() => handleLangChange(lang.name)}
                             onMouseEnter={(e)=>{ e.currentTarget.style.background='rgba(255,215,0,0.38)'; }}
                             onMouseLeave={(e)=>{ e.currentTarget.style.background= lang.name===currentLang ? 'rgba(255,215,0,0.22)':'transparent'; }}>
@@ -1002,8 +1359,8 @@ const Layout = ({ children, pageTitle }) => {
           backgroundColor:'rgba(0,0,0,0.82)', backgroundImage:'url(/images/star-pattern.png)',
           backgroundSize:'100px', backgroundPosition:'center', backgroundRepeat:'repeat',
           backdropFilter:'blur(6px)', boxShadow:'0 4px 20px rgba(0,0,0,0.8)',
-          minHeight:'160px', maxHeight:'160px', overflow:'visible',
-          display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'flex-start', padding:0
+          minHeight:'160px', maxHeight:'160px', overflow:'visible', display:'flex', flexDirection:'column',
+          alignItems:'center', justifyContent:'flex-start', padding:0
         }}>
           <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'center', width:'100%', padding:'10px 20px 0', gap:'14px', flex:1 }}>
             <div style={{ background:'linear-gradient(135deg,violet,indigo,blue,green,yellow,orange,red)', borderRadius:'5px', padding:'2px', flexShrink:0, alignSelf:'flex-end', position:'relative', bottom:'-12px' }}>
@@ -1040,7 +1397,7 @@ const Layout = ({ children, pageTitle }) => {
 
         <div style={{ position:'fixed', bottom:'22px', left:'18px', zIndex:9998, background:'rgba(0,0,0,0.92)', padding:'6px 14px', borderRadius:'20px', border:'2px solid #FFD700', color:'#FFD700', fontSize:'0.72rem', fontWeight:'700', display:'flex', alignItems:'center', gap:'7px', whiteSpace:'nowrap', boxShadow:'0 4px 18px rgba(0,0,0,0.8)' }}>
           <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#00ff00', animation:'pulse 2s infinite', flexShrink:0 }}></div>
-          🔥 {liveUsers} {T.live_users || 'Live'}
+          🔥 {liveUsers} Live
         </div>
 
         <div style={{ position:'fixed', bottom:'22px', right:'22px', zIndex:9998, width:'56px', height:'56px', borderRadius:'50%', background:'linear-gradient(135deg, #FFD700, #FFA500)', border:'3px solid #FFD700', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', boxShadow:'0 4px 20px rgba(255,215,0,0.6)', transition:'all 0.3s ease' }}

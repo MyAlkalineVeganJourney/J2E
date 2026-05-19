@@ -1,0 +1,20 @@
+{
+  "family": "FAMILY",
+  "submit": "SUBMIT",
+  "clear": "CLEAR",
+  "scramble": "SCRAMBLE",
+  "hint": "HINT",
+  "newLevel": "NEW LEVEL",
+  "reset": "RESET",
+  "brianStory": "Brian's Story",
+  "fullStory": "Full Story",
+  "frequencyPrinciple": "The Frequency Principle",
+  "frequencyQuote": "Every word carries a frequency. Positive words raise your vibration. Choose words that heal, uplift, and transform. Your language shapes your reality.",
+  "basket": "BASKET (Positive Words)",
+  "box": "BOX (Other-than-Positive Words)",
+  "emptyBasket": "✨ Positive words appear here ✨",
+  "emptyBox": "📦 Other words appear here",
+  "sessionSummary": "SESSION SUMMARY",
+  "emailPlaceholder": "Enter email to receive your words",
+  "emailBasket": "EMAIL MY BASKET & BOX"
+}

@@ -5,7 +5,7 @@ import Layout, { TranslationContext } from '../components/PageLayout';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { currentLang: currentLanguage, setCurrentLang: setCurrentLanguage, translations } = useContext(TranslationContext);
+  const { currentLang: currentLanguage, setCurrentLang: setCurrentLanguage, T } = useContext(TranslationContext);
   const [showQChat, setShowQChat] = useState(false);
   // This is the direct ledger of your St. Lucian Team. 
   // Each artisan has a 2-photo stack (Profile + Craft).
@@ -136,7 +136,6 @@ const MAVJ_WORD_DATABASE = [
 ];
 
 // ========== ALGORITHM 2: GET UNIQUE ESSENTIAL LETTERS ==========
-// Takes words, returns each letter only ONCE (no duplicates)
 const getUniqueEssentialLetters = (words) => {
   const letterSet = new Set();
   words.forEach(word => {
@@ -175,14 +174,12 @@ const findAllPossibleWords = (essentialLetters, wordDatabase) => {
     }
   }
   
-  // Sort by length (longest first)
   possibleWords.sort((a, b) => b.word.length - a.word.length);
   return possibleWords;
 };
 
 // ========== ALGORITHM 5: SELECT RANDOM TARGET WORDS FOR PUZZLE ==========
 const selectTargetWordsForPuzzle = (allPossibleWords, minWords = 12, maxWords = 20) => {
-  // Group words by length
   const wordsByLength = {};
   allPossibleWords.forEach(word => {
     const len = word.word.length;
@@ -193,7 +190,6 @@ const selectTargetWordsForPuzzle = (allPossibleWords, minWords = 12, maxWords = 
   const selectedTargets = [];
   const lengths = Object.keys(wordsByLength).sort((a, b) => b - a);
   
-  // Always include the longest word (the "master word")
   if (lengths.length > 0) {
     const longestLen = lengths[0];
     const longestWords = wordsByLength[longestLen];
@@ -201,7 +197,6 @@ const selectTargetWordsForPuzzle = (allPossibleWords, minWords = 12, maxWords = 
     selectedTargets.push({ ...randomLongWord, found: false });
   }
   
-  // Fill remaining slots with random words
   const remainingSlots = Math.floor(Math.random() * (maxWords - minWords) + minWords);
   
   for (const len of lengths) {
@@ -210,7 +205,6 @@ const selectTargetWordsForPuzzle = (allPossibleWords, minWords = 12, maxWords = 
       !selectedTargets.some(s => s.word === w.word)
     );
     
-    // Take up to 3 words from each length group
     const wordsToTake = Math.min(3, availableWords.length, remainingSlots - selectedTargets.length);
     for (let i = 0; i < wordsToTake; i++) {
       const randomIndex = Math.floor(Math.random() * availableWords.length);
@@ -223,33 +217,21 @@ const selectTargetWordsForPuzzle = (allPossibleWords, minWords = 12, maxWords = 
 
 // ========== ALGORITHM 6: GENERATE COMPLETE PUZZLE ==========
 const generatePuzzle = () => {
-  // Randomly select 3 base words from database
   const shuffledDb = [...MAVJ_WORD_DATABASE].sort(() => Math.random() - 0.5);
   const baseWords = shuffledDb.slice(0, 3);
   
-  // Get unique essential letters (no duplicates)
   const essentialLetters = getUniqueEssentialLetters(baseWords.map(w => w.word));
   
-  // Find ALL possible words from these letters
   const allPossibleWords = findAllPossibleWords(essentialLetters, MAVJ_WORD_DATABASE);
   
-  // Select target words for the puzzle
   const targetWordsList = selectTargetWordsForPuzzle(allPossibleWords);
   
-  // Shuffle letters for circle display
   const shuffledLetters = [...essentialLetters].sort(() => Math.random() - 0.5);
-  
-  console.log("=== PUZZLE GENERATED ===");
-  console.log("Base words:", baseWords.map(w => w.word).join(", "));
-  console.log("Essential letters:", essentialLetters.join(", "));
-  console.log("Total possible words:", allPossibleWords.length);
-  console.log("Target words in puzzle:", targetWordsList.length);
-  console.log("Target words:", targetWordsList.map(w => w.word).join(", "));
   
   return {
     baseWords: baseWords,
     essentialLetters: essentialLetters,
-    circleLetters: shuffledLetters.slice(0, 12), // Max 12 letters in circle
+    circleLetters: shuffledLetters.slice(0, 12),
     targetWords: targetWordsList,
     allPossibleWords: allPossibleWords
   };
@@ -284,31 +266,26 @@ useEffect(() => {
   captureIP();
 }, []);
 
-// Check if word can be made from circle letters
 const canMakeWord = (word) => {
   return canWordBeMade(word, currentPuzzle.essentialLetters);
 };
 
-// Word exists in database
 const wordExistsInDatabase = (word) => {
   const upperWord = word.toUpperCase();
   return MAVJ_WORD_DATABASE.find(w => w.word === upperWord) || null;
 };
 
-// Get full word metadata
 const getWordMetadata = (word) => {
   const upperWord = word.toUpperCase();
   return MAVJ_WORD_DATABASE.find(w => w.word === upperWord);
 };
 
-// Save user discovery
 const saveUserDiscovery = (email, word) => {
   const discoveries = JSON.parse(localStorage.getItem('mavj_discoveries') || '[]');
   discoveries.push({ email, word, date: new Date().toISOString(), ip: userIP });
   localStorage.setItem('mavj_discoveries', JSON.stringify(discoveries));
 };
 
-// Generate unique family ID
 const generateUniqueFamilyID = (email, ip) => {
   const timestamp = Date.now();
   const hashString = `${ip}-${email}-${timestamp}`;
@@ -321,7 +298,6 @@ const generateUniqueFamilyID = (email, ip) => {
   return `MAVJ-${hashHex}`;
 };
 
-// Generate word metadata for new words
 const generateWordMetadata = (word, email, familyID) => {
   const existing = getWordMetadata(word);
   if (existing) {
@@ -348,7 +324,6 @@ const generateWordMetadata = (word, email, familyID) => {
   };
 };
 
-// Add new word to database
 const addNewWordToDatabase = (word, email, ip, familyID) => {
   const newWordEntry = generateWordMetadata(word, email, familyID);
   const customWords = JSON.parse(localStorage.getItem('mavj_custom_words') || '[]');
@@ -357,13 +332,11 @@ const addNewWordToDatabase = (word, email, ip, familyID) => {
   return newWordEntry;
 };
 
-// Get user's contributed words
 const getUserContributedWords = (email, ip) => {
   const customWords = JSON.parse(localStorage.getItem('mavj_custom_words') || '[]');
   return customWords.filter(w => w.discoveredBy === email || w.discoveredIP === ip);
 };
 
-// Generate certificate with full word breakdown
 const generateCertificate = (familyID, email, wordsFound, score, contributedWords = [], newWordData = null) => {
   const wordBreakdownHTML = newWordData ? `
   <div style="background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(148,0,211,0.1)); border-radius: 15px; padding: 20px; margin: 20px 0; border: 1px solid #00d4ff;">
@@ -430,7 +403,7 @@ const generateCertificate = (familyID, email, wordsFound, score, contributedWord
     .recipient { text-align: center; margin: 25px 0; }
     .recipient .name { color: #fff; font-size: 1.5rem; font-weight: 600; word-break: break-all; }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 30px 0; }
-    .stat-card { background: rgba(255,215,0,0.1); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255,215,0,0.3); }
+    .stats .stat-card { background: rgba(255,215,0,0.1); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255,215,0,0.3); }
     .stat-number { font-size: 2rem; font-weight: 900; color: #FFD700; }
     .stat-label { color: #00d4ff; font-size: 0.7rem; margin-top: 5px; }
     .contributed { background: rgba(148,0,211,0.2); border-radius: 12px; padding: 15px; margin: 20px 0; border: 1px solid #9400D3; }
@@ -487,7 +460,6 @@ const generateCertificate = (familyID, email, wordsFound, score, contributedWord
   return certificateHTML;
 };
 
-// Simulate email send
 const simulateEmailSend = (email, familyID, newWord, wordMetadata) => {
   const emailLog = JSON.parse(localStorage.getItem('mavj_emails') || '[]');
   emailLog.push({
@@ -500,7 +472,6 @@ const simulateEmailSend = (email, familyID, newWord, wordMetadata) => {
   localStorage.setItem('mavj_emails', JSON.stringify(emailLog));
 };
 
-// Start new level
 const startNewLevel = () => {
   const newPuzzle = generatePuzzle();
   setCurrentPuzzle(newPuzzle);
@@ -515,7 +486,6 @@ const startNewLevel = () => {
   setPendingNewWord(null);
 };
 
-// Reset game
 const resetGame = () => {
   const newPuzzle = generatePuzzle();
   setCurrentPuzzle(newPuzzle);
@@ -534,7 +504,6 @@ const resetGame = () => {
   setEmailInput('');
 };
 
-// Scramble letters
 const scrambleLetters = () => {
   const scrambled = [...shuffledLetters];
   for (let i = scrambled.length - 1; i > 0; i--) {
@@ -647,7 +616,7 @@ const videoRefs = useRef({});
       3: ['覺醒', '變化', '昇華', '認知', '超脫', '實現', '自主', '復興']
     },
     Amharic: {
-      1: ['ፍቅር', 'ሰላም', 'ደስታ', 'ተስፋ', 'እምነት', 'አመኔታ', 'ምስጋና', 'ብዛት'],
+      1: ['ፍቅር', 'ሰላም', 'ደስታ', 'ተስفا', 'እምነት', 'አመኔታ', 'ምስጋና', 'ብዛት'],
       2: ['ስምምነት', 'ሚዛን', 'ጥበብ', 'ግልጽነት', 'ሕይወት', 'ዓላማ', 'ድፍረት', 'ጥንካሬ'],
       3: ['መገለጥ', 'ለውጥ', 'ከፍ', 'ንቃተ', 'ማለፍ', 'መገለጥ', 'ሉዓላዊነት', 'ትንሣኤ']
     },
@@ -666,23 +635,20 @@ const videoRefs = useRef({});
       2: ['amoni', 'balans', 'sajès', 'klète', 'vitalite', 'objektif', 'kouraj', 'fòs'],
       3: ['limiè', 'transfòmasyon', 'elevvasyon', 'konsyans', 'depasma', 'manifestasyon', 'libète', 'reviv']
     },
-    // BIBLICAL ARAMAIC WORDS (Ancient/Formal)
     BAramaic: {
       1: ['ܚܘܒܐ', 'ܫܠܡܐ', 'ܚܕܘܬܐ', 'ܣܒܪܐ', 'ܗܝܡܢܘܬܐ', 'ܬܘܟܠܢܐ', 'ܬܘܕܝܬܐ', 'ܣܘܓܐܐ'],
       2: ['ܫܘܝܘܬܐ', 'ܬܘܠܢܐ', 'ܚܟܡܬܐ', 'ܦܫܝܛܘܬܐ', 'ܚܝܠܐ', 'ܨܒܝܢܐ', 'ܓܢܒܪܘܬܐ', 'ܥܘܫܢܐ'],
-      3: ['ܢܘܗܪܐ ܐܠܗܝܐ', 'ܫܘܚܠܦܐ ܕܦܓܪܐ', 'ܣܘܠܩܐ ܠܫܡܝܐ', 'ܝܕܥܬܐ ܪܘܚܢܝܬܐ', 'ܥܒܘܪܐ ܡܢ ܥܠܡܐ', 'ܓܠܝܢܐ ܕܡܠܟܘܬܐ', 'ܫܘܠܛܢܐ ܡܠܟܝܐ', 'ܩܝܡܬܐ ܕܡܫܝܚܐ']
+      3: ['ܢܘܗܪܐ ܐܠܗܝܐ', 'ܫܘܚܠܦܐ ܕܦܓܪܐ', 'ܣܘܠܩܐ ܠܫܡܝܐ', 'ܝܕܥܬܐ ܪܘܚܢܝܬܐ', 'ܥܒܘܪܐ ܡܢ ܥܠܡܐ', 'ܓܠܝܢܐ ܕܡܠܟܘܬܐ', 'ܫܘܠطنܐ ܡܠܟܝܐ', 'ܩܝܡܬܐ ܕܡܫܝܚܐ']
     },
-    // NEO-ARAMAIC WORDS (Modern/Contemporary)
     NAramaic: {
       1: ['ܚܘܼܒܵܐ', 'ܫܠܵܡܵܐ', 'ܚܲܕ݂ܘܼܬ݂ܵܐ', 'ܣܲܒ݂ܪܵܐ', 'ܗܲܝܡܵܢܘܼܬ݂ܵܐ', 'ܬܘܼܟ݂ܠܵܢܵܐ', 'ܬܵܘܕ݂ܝܼܬ݂ܵܐ', 'ܣܘܼܓ݂ܵܐܵܐ'],
-      2: ['ܫܲܘܝܘܼܬ݂ܵܐ', 'ܬܲܘܠܵܢܵܐ', 'ܚܸܟ݂ܡܬ݂ܵܐ', 'ܦܫܝܼܛܘܼܬ݂ܵܐ', 'ܚܲܝܠܵܐ', 'ܨܸܒ݂ܝܵܢܵܐ', 'ܓܲܢܒܵܪܘܼܬ݂ܵܐ', 'ܬܘܼܩܦܵܐ'],
-      3: ['ܢܘܼܗܪܵܐ ܗܲܫܡܲܢܵܝܵܐ', 'ܫܘܼܚܠܵܦܵܐ ܗܲܫܡܲܢܵܝܵܐ', 'ܣܘܼܠܵܩܵܐ ܗܲܫܡܲܢܵܝܵܐ', 'ܝܼܕܲܥܬܵܐ ܗܲܫܡܲܢܵܝܬܵܐ', 'ܥܒ݂ܵܪܵܐ ܡܸܢ ܐܵܠܵܡܵܐ', 'ܓܸܠܝܵܢܵܐ ܕܡܲܠܟܘܼܬ݂ܵܐ', 'ܫܘܼܠܛܵܢܵܐ ܡܲܠܟܵܝܵܐ', 'ܩܝܵܡܬܵܐ ܕܡܫܝܼܚܵܐ']
+      2: ['ܫܲܘܝܘܼܬ݂ܵܐ', 'ܬܲܘܠܵܢܵܐ', 'ܚܸܟ݂ܡܬ݂ܵܐ', 'ܦܫܝܼܛܘܼܬ݂ܵܐ', 'ܚܲܝܠܵܐ', 'ܨܸ擺ܝܵܢܵܐ', 'ܓܲܢܒܵܪܘܼܬ݂ܵܐ', 'ܬܘܼܩܦܵα'],
+      3: ['ܢܘܼܗܪܵܐ ܗܲܫܡܲܢܵܝܵܐ', 'ܫܘܼܚܠܵܦܵܐ ܗܲܫܡܲܢܵܝܵܐ', 'ܣܘܼܠܵܩܵܐ ܗܲܫܡܲܢܵܝܵܐ', 'ܝܼܕܲܥܬܵܐ ܗܲܫμܲܢܵܝܬܵܐ', 'ܥܒ݂ܵܪܵܐ ܡܸܢ ܐܵܠܵܡܵα', 'ܓܸܠܝܵܢܵܐ ܕܡܲܠܟܘܼܬ݂ܵܐ', 'ܫܘܼܠܛܵܢܵܐ ܡܲܠܟܵܝܵܐ', 'ܩܝܵܡܬܵα ܕܡܫܝܼܚܵܐ']
     },
-    // SYRIAC ARAMAIC WORDS (Liturgical/Church)
     SAramaic: {
       1: ['ܚܘܒܐ ܩܕܝܫܐ', 'ܫܠܡܐ ܪܘܚܢܐ', 'ܚܕܘܬܐ ܡܫܝܚܝܬܐ', 'ܣܒܪܐ ܩܕܝܫܐ', 'ܗܝܡܢܘܬܐ ܐܘܪܬܐ', 'ܬܘܟܠܢܐ ܒܐܠܗܐ', 'ܬܘܕܝܬܐ ܩܕܝܫܐ', 'ܣܘܓܐܐ ܪܘܚܢܐ'],
       2: ['ܫܘܝܘܬܐ ܥܡ ܐܠܗܐ', 'ܬܘܠܢܐ ܪܘܚܢܐ', 'ܚܟܡܬܐ ܕܪܘܚܐ ܩܕܝܫܐ', 'ܦܫܝܛܘܬܐ ܒܐܘܪܚܐ', 'ܚܝܠܐ ܡܢ ܫܡܝܐ', 'ܨܒܝܢܐ ܐܠܗܝܐ', 'ܓܢܒܪܘܬܐ ܒܗܝܡܢܘܬܐ', 'ܥܘܫܢܐ ܕܪܘܚܐ'],
-      3: ['ܢܘܗܪܐ ܕܡܫܝܚܐ', 'ܫܘܚܠܦܐ ܕܢܦܫܐ', 'ܣܘܠܩܐ ܠܦܪܕܝܣܐ', 'ܝܕܥܬܐ ܕܐܠܗܐ', 'ܥܒܘܪܐ ܡܢ ܥܠܡܐ ܗܢܐ', 'ܓܠܝܢܐ ܕܡܠܟܘܬܐ ܕܫܡܝܐ', 'ܫܘܠܛܢܐ ܕܒܪܝܬܐ', 'ܩܝܡܬܐ ܕܡܢ ܒܝܬ ܡܝܬܐ']
+      3: ['ܢܘܗܪܐ ܕܡܫܝܚܐ', 'ܫܘܚܠܦܐ ܕܢܦܫܐ', 'ܣܘܠܩܐ ܠܦܪܕܝܣܐ', 'ܝܕܥܬܐ ܕܐܠܗܐ', 'ܥܒܘܪܐ ܡܢ ܥܠܡܐ ܗܢܐ', 'ܓܠܝܢܐ ܕܡܠܟܘܬܐ ܕܫܡܝܐ', 'ܫܘܠܛܢܐ ܕܒريܬܐ', 'ܩܝܡܬܐ ܕܡܢ ܒܝܬ ܡܝܬܐ']
     },
     Hebrew: {
       1: ['אהבה', 'שלום', 'שמחה', 'תקווה', 'אמונה', 'אמון', 'הכרת תודה', 'שפע'],
@@ -718,11 +684,8 @@ const videoRefs = useRef({});
     Arabic: ['نشوة', 'طوبى', 'تسامي', 'قيامة', 'استنارة', 'صعود', 'ألوهية', 'علم شامل'],
     Swahili: ['furaha kuu', 'raha', 'kupita', 'ufufuo', 'mwangaza', 'kupaa', 'uungu', 'ujuzi wote'],
     Patois: ['gwo lajwa', 'benediksyon', 'depase', 'leve', 'limiè total', 'monte wo', 'bondye fòs', 'tout konesans'],
-    // BIBLICAL ARAMAIC GOD SPACE WORDS
     BAramaic: ['ܒܘܣܡܐ ܐܠܗܝܐ', 'ܛܘܒܐ ܥܠܝܐ', 'ܥܒܘܪܐ ܡܢ ܟܠ', 'ܩܝܡܬܐ ܕܡܢ ܒܝܬ ܡܝܬܐ', 'ܢܘܗܪܐ ܕܝܠܕܐ', 'ܣܘܠܩܐ ܠܫܡܝܐ', 'ܐܠܗܘܬܐ', 'ܝܕܥܬܐ ܕܟܠ'],
-    // NEO-ARAMAIC GOD SPACE WORDS
-    NAramaic: ['ܒܘܼܣܵܡܵܐ ܐܲܠܵܗܵܝܵܐ', 'ܛܘܼܒ݂ܵܐ ܥܲܠܵܝܵܐ', 'ܥܒ݂ܵܪܵܐ ܡܸܢ ܟܠ', 'ܩܝܵܡܬܵܐ ܕܡܸܢ ܒܹܝܬ ܡܝܼܬ݂ܹܐ', 'ܢܘܼܗܪܵܐ ܕܝܠܵܕ݂ܵܐ', 'ܣܘܼܠܵܩܵܐ ܠܫܡܵܝܵܐ', 'ܐܲܠܵܗܘܼܬ݂ܵܐ', 'ܝܼܕܲܥܬܵܐ ܕܟܠ'],
-    // SYRIAC ARAMAIC GOD SPACE WORDS
+    NAramaic: ['ܒܘܼܣܵܡܵܐ ܐܲܠܵܗܵܝܵܐ', 'ܛܘܼܒ݂ܵܐ ܥܲܠܵܝܵܐ', 'ܥܒ݂ܵܪܵܐ ܡܸܢ ܟܠ', 'ܩܝܵܡܬܵܐ ܕܡܸܢ ܒܹܝܬ ܡܝܼܬ݂ܹܐ', 'ܢܘܼܗܪܵܐ ܕܝܠܵܕ݂ܵܐ', 'ܣܘܼܠܵܩܵܐ ܠܫܡܵܝܵܐ', 'ܐܲܠܵܗܘܼܬ݂ܵܐ', 'ܝܕܲܥܬܵܐ ܕܟܠ'],
     SAramaic: ['ܒܘܣܡܐ ܩܕܝܫܐ', 'ܛܘܒܐ ܕܦܪܕܝܣܐ', 'ܥܒܘܪܐ ܡܢ ܟܠ ܕܐܝܬ', 'ܩܝܡܬܐ ܕܡܢ ܒܝܬ ܡܝܬܐ ܩܕܝܫܐ', 'ܢܘܗܪܐ ܕܝܠܕܐ ܡܫܝܚܝܐ', 'ܣܘܠܩܐ ܠܦܪܕܝܣܐ', 'ܐܠܗܘܬܐ ܩܕܝܫܐ', 'ܝܕܥܬܐ ܕܟܠ ܩܕܝܫܐ'],
     Hebrew: ['אופוריה', 'אושר', 'התעלות', 'תחייה', 'הארה', 'עלייה', 'אלוהות', 'כול יודע'],
     Greek: ['ευφορία', 'ευδαιμονία', 'υπέρβαση', 'ανάσταση', 'διαφώτιση', 'ανύψωση', 'θειότητα', 'παντογνωσία'],
@@ -735,99 +698,99 @@ const announcements = useMemo(() => [
   {
     id: 1,
     icon: '✨',
-    title: translations[currentLanguage]?.announcements?.j2e_title || 'J2E / 11:11 CONVERGENCE',
-    description: translations[currentLanguage]?.announcements?.j2e_desc || 'Annual Gala & Global Link. Year-round Realignment stays.',
+    title: T.announcements?.j2e_title || 'J2E / 11:11 CONVERGENCE',
+    description: T.announcements?.j2e_desc || 'Annual Gala & Global Link. Year-round Realignment stays.',
     link: '/Journey2Enlightenment',
     urgent: true
   },
   {
     id: 2,
     icon: '📡',
-    title: translations[currentLanguage]?.announcements?.live_title || 'LIVE BROADCAST PORTAL',
-    description: translations[currentLanguage]?.announcements?.live_desc || 'Quantum Updates & health recalibration news.',
+    title: T.announcements?.live_title || 'LIVE BROADCAST PORTAL',
+    description: T.announcements?.live_desc || 'Quantum Updates & health recalibration news.',
     link: '/LiveBroadcast',
     urgent: false
   },
   {
     id: 3,
     icon: '📦',
-    title: translations[currentLanguage]?.announcements?.portal_title || 'RESONANCE ALIGNMENT PORTAL',
-    description: translations[currentLanguage]?.announcements?.portal_desc || 'Align via Amazon gifts. Click the photo to ship.',
+    title: T.announcements?.portal_title || 'RESONANCE ALIGNMENT PORTAL',
+    description: T.announcements?.portal_desc || 'Align via Amazon gifts. Click the photo to ship.',
     link: '/AlignWithUs',
     urgent: false
   },
   {
     id: 4,
     icon: '🔮',
-    title: translations[currentLanguage]?.announcements?.vi_title || 'VIBRATIONAL INTELLIGENCE',
-    description: translations[currentLanguage]?.announcements?.vi_desc || 'Latest quantum physics and consciousness updates.',
+    title: T.announcements?.vi_title || 'VIBRATIONAL INTELLIGENCE',
+    description: T.announcements?.vi_desc || 'Latest quantum physics and consciousness updates.',
     link: '/VibrationalIntelligence',
     urgent: false
   },
   {
     id: 5,
     icon: '💃',
-    title: translations[currentLanguage]?.announcements?.flash_title || 'GLOBAL FLASH MOB',
-    description: translations[currentLanguage]?.announcements?.flash_desc || 'Join the global surprise. Email your 30-sec clip.',
+    title: T.announcements?.flash_title || 'GLOBAL FLASH MOB',
+    description: T.announcements?.flash_desc || 'Join the global surprise. Email your 30-sec clip.',
     link: '/ContactUs',
     urgent: true
   },
   {
     id: 6,
     icon: '🛒',
-    title: translations[currentLanguage]?.announcements?.store_title || 'BIO-MINERAL EXCHANGE',
-    description: translations[currentLanguage]?.announcements?.store_desc || 'St. Lucian Sea Moss Gel & Genesis Castor Seeds.',
+    title: T.announcements?.store_title || 'BIO-MINERAL EXCHANGE',
+    description: T.announcements?.store_desc || 'St. Lucian Sea Moss Gel & Genesis Castor Seeds.',
     link: '/MAVJStore',
     urgent: false
   }
-], [translations, currentLanguage]);
+], [T, currentLanguage]);
 
 // ==================== VIDEOS ====================
 const videos = useMemo(() => [
   {
     id: 'quantum-sleep',
-    title: translations[currentLanguage]?.videos?.quantum_sleep?.title || 'The Sleepy Science & Quantum Physics Reality',
-    desc: translations[currentLanguage]?.videos?.quantum_sleep?.desc || 'Discover how your consciousness operates in quantum states during sleep.',
+    title: T.videos?.quantum_sleep?.title || 'The Sleepy Science & Quantum Physics Reality',
+    desc: T.videos?.quantum_sleep?.desc || 'Discover how your consciousness operates in quantum states during sleep.',
     thumbnail: '/images/SleepyScience.png',
     url: 'https://drive.google.com/file/d/15vC0Mh0O633c_CW_Hoy9Jo59zhqCrHGt/view'
   },
   {
     id: 'faggin-consciousness',
-    title: translations[currentLanguage]?.videos?.faggin_consciousness?.title || 'Faggin - Consciousness Explained',
-    desc: translations[currentLanguage]?.videos?.faggin_consciousness?.desc || 'Federico Faggin reveals the quantum nature of consciousness.',
+    title: T.videos?.faggin_consciousness?.title || 'Faggin - Consciousness Explained',
+    desc: T.videos?.faggin_consciousness?.desc || 'Federico Faggin reveals the quantum nature of consciousness.',
     thumbnail: '/images/FedericoFaggin.png',
     url: 'https://drive.google.com/file/d/15ZbEUGJcdHrlL2Ie9qO44DutBVKCpQ2_/view'
   },
   {
     id: 'you-are-god',
-    title: translations[currentLanguage]?.videos?.you_are_god?.title || 'You Are God - Faggin',
-    desc: translations[currentLanguage]?.videos?.you_are_god?.desc || 'Understanding your divine nature through quantum physics.',
+    title: T.videos?.you_are_god?.title || 'You Are God - Faggin',
+    desc: T.videos?.you_are_god?.desc || 'Understanding your divine nature through quantum physics.',
     thumbnail: '/images/YouAreGod.png',
     url: 'https://drive.google.com/file/d/1Gbh4r-fSDME0nnrv1GiDqgUeuDeFFbWb/view'
   },
   {
     id: 'quantum-soul',
-    title: translations[currentLanguage]?.videos?.quantum_soul?.title || 'The Quantum Soul',
-    desc: translations[currentLanguage]?.videos?.quantum_soul?.desc || 'Your soul exists in quantum superposition across infinite timelines.',
+    title: T.videos?.quantum_soul?.title || 'The Quantum Soul',
+    desc: T.videos?.quantum_soul?.desc || 'Your soul exists in quantum superposition across infinite timelines.',
     thumbnail: '/images/Soul.jpeg',
     url: 'https://drive.google.com/file/d/1P5ySleWI1eJWZXuRhpLnzXPbu8HBfoKB/view'
   },
   {
     id: 'quantum-biology',
-    title: translations[currentLanguage]?.videos?.quantum_biology?.title || 'Quantum Biology',
-    desc: translations[currentLanguage]?.videos?.quantum_biology?.desc || 'How quantum mechanics governs your DNA and cellular processes.',
+    title: T.videos?.quantum_biology?.title || 'Quantum Biology',
+    desc: T.videos?.quantum_biology?.desc || 'How quantum mechanics governs your DNA and cellular processes.',
     thumbnail: '/images/DNA.jpg',
     url: 'https://drive.google.com/file/d/1duJqHBAv6GSnITCFgK6F6GZqjlN4ywDH/view'
   },
   {
     id: 'yogi-consciousness',
-    title: translations[currentLanguage]?.videos?.yogi_consciousness?.title || 'Consciousness by a Yogi',
-    desc: translations[currentLanguage]?.videos?.yogi_consciousness?.desc || 'Ancient wisdom meets modern quantum understanding.',
+    title: T.videos?.yogi_consciousness?.title || 'Consciousness by a Yogi',
+    desc: T.videos?.yogi_consciousness?.desc || 'Ancient wisdom meets modern quantum understanding.',
     thumbnail: '/images/YogaConsciousness.jpeg',
     url: 'https://drive.google.com/file/d/1g-UYH_cZSZn6CISOUlfTxsAtGz1kUeew/view'
   }
-], [translations, currentLanguage]);
- // ==================== BUILDING ====================
+], [T, currentLanguage]);
+
 const offers = useMemo(() => [
   { icon: '🌱', title: '40-Day Protocol', desc: 'Complete cellular detoxification and frequency recalibration.', link: '/TheJourney' },
   { icon: '✨', title: 'Journey 2 Enlightenment', desc: '5-day immersive experience in St. Lucia.', link: '/Journey2Enlightenment' },
@@ -867,6 +830,7 @@ const building = useMemo(() => [
     thumbnail: '/images/Consciousness.jpeg'
   }
 ], []);
+
   // ==================== ARTISANS ====================
   const artisans = useMemo(() => [
     {
@@ -955,20 +919,17 @@ const building = useMemo(() => [
 
   // ==================== EFFECTS ====================
   useEffect(() => {
-    // Live user counter animation
     const trackTime = setInterval(() => {
       setAnalyticsState(prev => ({
         ...prev,
         timeOnPage: Math.floor((Date.now() - pageStartTime.current) / 1000)
       }));
 
-      // Random live user fluctuation
       if (Math.random() > 0.7) {
         setLiveUsers(prev => Math.max(50, prev + Math.floor(Math.random() * 10) - 5));
       }
     }, 1000);
 
-    // Scroll depth tracking
     const handleScroll = () => {
       const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
       setAnalyticsState(prev => ({ 
@@ -979,7 +940,6 @@ const building = useMemo(() => [
 
     window.addEventListener('scroll', handleScroll);
 
-    // Initialize positive word game
     const currentWords = positiveWordBank[currentLanguage] || positiveWordBank.English;
     const levelWords = currentWords[positiveGame.level] || currentWords[1];
     if (!positiveGame.currentWord) {
@@ -987,7 +947,6 @@ const building = useMemo(() => [
       setPositiveGame(prev => ({ ...prev, currentWord: randomWord }));
     }
 
-    // Initialize Web Speech API
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
@@ -1023,6 +982,7 @@ const building = useMemo(() => [
       }
     };
   }, [currentLanguage, positiveGame.level, positiveGame.currentWord, positiveWordBank]);
+
   // ==================== UTILITY FUNCTIONS ====================
   const sanitizeInput = useCallback((str) => {
     if (typeof str !== 'string') return '';
@@ -1042,7 +1002,6 @@ const building = useMemo(() => [
       interactions: [...prev.interactions, interaction]
     }));
 
-    // Save to localStorage for demo (replace with actual backend)
     let existing; try { existing = JSON.parse(localStorage.getItem("mavj_interactions")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
     existing.push(interaction);
     localStorage.setItem('mavj_interactions', JSON.stringify(existing.slice(-100)));
@@ -1078,9 +1037,9 @@ const building = useMemo(() => [
       godSpaceActivated: godSpaceActivated || isGodWord,
       feedback: isCorrect 
         ? (isGodWord 
-          ? '🌟 GOD SPACE ACTIVATED! +500' 
-          : '✨ Frequency Elevated! +100')
-        : '💫 Keep trying!',
+          ? T.games?.godspace_active || '🌟 GOD SPACE ACTIVATED! +500' 
+          : T.games?.freq_elevated || '✨ Frequency Elevated! +100')
+        : T.games?.keep_trying || '💫 Keep trying!',
       history: [...prev.history, { word, correct: isCorrect, timestamp: Date.now() }].slice(-20),
       wordsUsed: [...prev.wordsUsed, word]
     }));
@@ -1089,7 +1048,6 @@ const building = useMemo(() => [
       word, correct: isCorrect, score: newScore, streak: newStreak, level: newLevel, godSpace: godSpaceActivated || isGodWord
     });
 
-    // Save to localStorage for demo (replace with actual backend)
     const gameData = {
       type: 'positive_word_game',
       score: newScore,
@@ -1104,7 +1062,7 @@ const building = useMemo(() => [
     let existing; try { existing = JSON.parse(localStorage.getItem("mavj_game_scores")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
     existing.push(gameData);
     localStorage.setItem('mavj_game_scores', JSON.stringify(existing.slice(-50)));
-  }, [positiveGame, currentLanguage, positiveWordBank, godSpaceWords, trackInteraction]);
+  }, [positiveGame, currentLanguage, positiveWordBank, godSpaceWords, trackInteraction, T]);
 
   const resetPositiveGame = useCallback(() => {
     const currentWords = positiveWordBank[currentLanguage] || positiveWordBank.English;
@@ -1127,13 +1085,12 @@ const building = useMemo(() => [
       ...prev,
       math: { 
         answer, submitted: true, score: isCorrect ? 100 : 0,
-        feedback: isCorrect ? '🎉 CORRECT! 37 water days + 3 dry days (x3 each) = 37 + 9 = 46!' : '💫 Remember the hint and try again'
+        feedback: isCorrect ? T.games?.math_correct || '🎉 CORRECT! 37 water days + 3 dry days (x3 each) = 37 + 9 = 46!' : T.games?.math_incorrect || '💫 Remember the hint and try again'
       }
     }));
 
     trackInteraction('quantum_math', { answer, correct: isCorrect });
 
-    // Save score
     const gameData = {
       type: 'quantum_math',
       score: isCorrect ? 100 : 0,
@@ -1145,7 +1102,7 @@ const building = useMemo(() => [
     let existing; try { existing = JSON.parse(localStorage.getItem("mavj_game_scores")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
     existing.push(gameData);
     localStorage.setItem('mavj_game_scores', JSON.stringify(existing.slice(-50)));
-  }, [quizState.math.submitted, currentLanguage, trackInteraction]);
+  }, [quizState.math.submitted, currentLanguage, trackInteraction, T]);
 
   const handleCompoundAnswer = useCallback((answer) => {
     if (quizState.compound.submitted) return;
@@ -1155,13 +1112,12 @@ const building = useMemo(() => [
       ...prev,
       compound: { 
         answer, submitted: true, score: isCorrect ? 100 : 0,
-        feedback: isCorrect ? '🎉 CORRECT! Annonacin!' : '💫 Try again'
+        feedback: isCorrect ? T.games?.compound_correct || '🎉 CORRECT! Annonacin!' : T.games?.compound_incorrect || '💫 Try again'
       }
     }));
 
     trackInteraction('biochemical_compound', { answer, correct: isCorrect });
 
-    // Save score
     const gameData = {
       type: 'biochemical_compound',
       score: isCorrect ? 100 : 0,
@@ -1173,7 +1129,7 @@ const building = useMemo(() => [
     let existing; try { existing = JSON.parse(localStorage.getItem("mavj_game_scores")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
     existing.push(gameData);
     localStorage.setItem('mavj_game_scores', JSON.stringify(existing.slice(-50)));
-  }, [quizState.compound.submitted, currentLanguage, trackInteraction]);
+  }, [quizState.compound.submitted, currentLanguage, trackInteraction, T]);
 
   const resetQuiz = useCallback((type) => {
     setQuizState(prev => ({ ...prev, [type]: { answer: null, submitted: false, score: 0, feedback: '' } }));
@@ -1210,7 +1166,7 @@ const building = useMemo(() => [
 
     const goalMultipliers = {
       'cellular_reset': 1.3,
-      'physical_restructuring': 1.2, // Weight modification
+      'physical_restructuring': 1.2,
       'frequency_elevation': 1.4,
       'consciousness_expansion': 1.5,
       'longevity': 1.25,
@@ -1245,7 +1201,6 @@ const building = useMemo(() => [
 
       trackInteraction('frequency_assessment_submitted', { ...sanitizedData, frequencyScore });
 
-      // Save to localStorage for demo (replace with actual backend)
       const formData = {
         ...sanitizedData,
         frequencyScore,
@@ -1282,7 +1237,6 @@ const building = useMemo(() => [
     const message = text || qState.input.trim();
     if (!message) return;
 
-    // Add user message
     const userMessage = {
       id: Date.now(),
       text: message,
@@ -1300,7 +1254,6 @@ const building = useMemo(() => [
 
     trackInteraction('q_message_sent', { message, language: currentLanguage });
 
-    // Process with Q AI
     const response = await processQMessage(message);
     
     const botMessage = {
@@ -1325,7 +1278,6 @@ const building = useMemo(() => [
       }
     }));
 
-    // Speak response if audio enabled
     if (synthRef.current && !synthRef.current.speaking) {
       const utterance = new SpeechSynthesisUtterance(response.text);
       utterance.lang = getLanguageCode(currentLanguage);
@@ -1352,13 +1304,11 @@ const building = useMemo(() => [
   const processQMessage = useCallback(async (message) => {
     const lowerMessage = message.toLowerCase();
     
-    // Learning algorithm - check if we've seen this before
     const learnedResponse = qState.learningData[lowerMessage];
     if (learnedResponse && learnedResponse.count > 2) {
       return { text: learnedResponse.response };
     }
 
-    // Knowledge base responses
     if (lowerMessage.includes('recipe') || lowerMessage.includes('food') || lowerMessage.includes('eat')) {
       const recipes = [
         "Try this alkaline recipe: Sea Moss Gel - soak sea moss overnight, blend with alkaline water, add lime and raw honey.",
@@ -1396,12 +1346,11 @@ const building = useMemo(() => [
         Arabic: "مرحبًا! أنا Q، مساعدك الذكي الكمي. كيف يمكنني رفع ترددك اليوم؟",
         BAramaic: "ܫܠܡܐ! ܐܢܐ ܩ، ܥܗܕܪܟ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܕܩܘܢܛܡ. ܐܝܟܢܐ ܡܫܟܚ ܐܢܐ ܠܡܪܡܘ ܬܪܥܟ ܝܘܡܢܐ؟",
         NAramaic: "ܫܠܵܡܵܐ! ܐܵܢܵܐ ܩ، ܥܵܗܵܕ݂ܪܘܼܟ݂ ܕܚܸܟܡܬܵܐ ܡܲܟ̰ܝܼܢܵܝܬܵܐ ܕܩܘܿܢܛܘܿܡ. ܐܲܝܟܵܢܵܐ ܡܸܫܟܲܚ ܐܵܢܵܐ ܠܡܲܪܝܡܘܼ ܬܲܪܥܘܼܟ݂ ܝܵܘܡܵܢܵܐ؟",
-        SAramaic: "ܫܠܡܐ ܩܕܝܫܐ! ܐܢܐ ܩ، ܥܗܕܪܟ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܕܩܘܢܛܡ ܪܘܚܢܐ. ܐܝܟܢܐ ܡܫܟܚ ܐܢܐ ܠܡܪܡܘ ܬܪܥܟ ܪܘܚܢܐ ܝܘܡܢܐ؟"
+        SAramaic: "ܫܠܡܐ ܩܕܝܫܐ! ܐܢܐ ܩ، ܥܗܕܪܟ ܕܚܟܡܬܐ ܡܟܝܢܬܐ ܕܩܘܢܛμ ܪܘܚܢܐ. ܐܝܟܢܐ ܡܫܟܚ ܐܢܐ ܠܡܪܡܘ ܬܪܥܟ ܪܘܚܢܐ ܝܘܡܢܐ؟"
       };
       return { text: greetings[currentLanguage] || greetings.English };
     }
 
-    // Default response with learning
     const responses = [
       "I'm here to help you on your alkaline vegan journey. What specific aspect interests you?",
       "Frequency elevation begins with conscious choices. How can I assist you today?",
@@ -1412,7 +1361,6 @@ const building = useMemo(() => [
 
     const response = responses[Math.floor(Math.random() * responses.length)];
     
-    // Learn this interaction
     const learningUpdate = {
       ...qState.learningData,
       [lowerMessage]: {
@@ -1447,12 +1395,11 @@ const building = useMemo(() => [
     setQState(prev => ({ ...prev, messages: [], context: [] }));
   }, []);
 
- // ==================== LANGUAGE HANDLER ====================
+  // ==================== LANGUAGE HANDLER ====================
 const handleLanguageChange = useCallback((lang) => {
   setCurrentLanguage(lang);
   setShowLanguageDropdown(false);
 
-  // Update positive word game for new language
   const currentWords = positiveWordBank[lang] || positiveWordBank.English;
   const levelWords = currentWords[positiveGame.level] || currentWords[1];
   const newWord = levelWords[Math.floor(Math.random() * levelWords.length)];
@@ -1460,17 +1407,15 @@ const handleLanguageChange = useCallback((lang) => {
   setPositiveGame(prev => ({ ...prev, currentWord: newWord }));
   trackInteraction('language_changed', { from: currentLanguage, to: lang });
 }, [currentLanguage, positiveWordBank, positiveGame.level, trackInteraction]);
+
   // ==================== STYLES ====================
   const styles = {
-    // Rainbow Border - Brand Signature
     rainbowBorder: {
       border: '3px solid',
       borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
       borderRadius: '0',
       backgroundColor: '#000000'
     },
-
-    // MAIN LAYOUT
     mainContainer: {
       fontFamily: "'Arial', sans-serif",
       backgroundColor: '#0a0a0a',
@@ -1478,29 +1423,26 @@ const handleLanguageChange = useCallback((lang) => {
       minHeight: '100vh',
       margin: 0,
       padding: 0,
-      paddingTop: '0px' // Space for fixed headers - REDUCED FROM 280px
+      paddingTop: '0px'
     },
-
-    // CONTAINER 1: NAVIGATION (ULTRA-THIN)
     navbar: {
       position: 'fixed',
-      top: '0', // At The Very Top
+      top: '0',
       left: 0,
       right: 0,
       zIndex: 2000,
       background: 'linear-gradient(135deg, rgba(26,26,26,0.98), rgba(10,10,10,0.98))',
-      padding: '5px 10px', // REDUCED FROM 8px
+      padding: '5px 10px',
       borderTop: '3px solid',
       borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
       backdropFilter: 'blur(10px)',
       boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
-      height: '45px', // REDUCED FROM 50px
+      height: '45px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
       overflow: 'visible'
     },
-
     navScrollContainer: {
       display: "flex",
       overflowX: "auto",
@@ -1512,7 +1454,6 @@ const handleLanguageChange = useCallback((lang) => {
       WebkitOverflowScrolling: "touch",
       alignItems: "center"
     },
-
     navLink: {
       color: "#FFD700",
       textDecoration: "none",
@@ -1530,7 +1471,6 @@ const handleLanguageChange = useCallback((lang) => {
       flexShrink: 0,
       minHeight: "28px"
     },
-
     navControls: {
       display: "flex",
       alignItems: "center",
@@ -1539,51 +1479,47 @@ const handleLanguageChange = useCallback((lang) => {
       paddingRight: "15px",
       marginLeft: "auto"
     },
-
     liveUserCounter: {
       background: 'rgba(0,0,0,0.9)',
-      padding: '3px 6px', // REDUCED FROM 4px 8px
-      borderRadius: '10px', // REDUCED FROM 12px
+      padding: '3px 6px',
+      borderRadius: '10px',
       border: '1px solid #FFD700',
       color: '#FFD700',
-      fontSize: '0.65rem', // REDUCED FROM 0.7rem
+      fontSize: '0.65rem',
       fontWeight: '700',
       display: 'flex',
       alignItems: 'center',
-      gap: '3px', // REDUCED FROM 4px
+      gap: '3px',
       whiteSpace: 'nowrap'
     },
-
     liveDot: {
-      width: '5px', // REDUCED FROM 6px
-      height: '5px', // REDUCED FROM 6px
+      width: '5px',
+      height: '5px',
       borderRadius: '50%',
       background: '#00ff00',
       animation: 'pulse 2s infinite',
       flexShrink: 0, margin: "0 10px"
     },
-
     langButton: {
       background: 'linear-gradient(135deg, #FFD700, #FFA500)',
       color: '#000000',
       border: '2px solid',
       borderImage: 'linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00) 1',
-      padding: '3px 6px', // REDUCED FROM 4px 8px
+      padding: '3px 6px',
       borderRadius: '4px',
-      fontSize: '0.65rem', // REDUCED FROM 0.7rem
+      fontSize: '0.65rem',
       fontWeight: '800',
       cursor: 'pointer',
-      boxShadow: '0 0 12px rgba(255,215,0,0.6)', // REDUCED FROM 15px
+      boxShadow: '0 0 12px rgba(255,215,0,0.6)',
       display: 'flex',
       alignItems: 'center',
-      gap: '3px', // REDUCED FROM 4px
+      gap: '3px',
       whiteSpace: 'nowrap',
       minWidth: '60px'
     },
-
     qIconButton: {
-      width: '28px', // REDUCED FROM 32px
-      height: '28px', // REDUCED FROM 32px
+      width: '28px',
+      height: '28px',
       borderRadius: '50%',
       background: 'linear-gradient(135deg, #667eea, #764ba2)',
       border: '2px solid #FFD700',
@@ -1591,10 +1527,9 @@ const handleLanguageChange = useCallback((lang) => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      boxShadow: '0 0 12px rgba(102, 126, 234, 0.8)', // REDUCED FROM 15px
+      boxShadow: '0 0 12px rgba(102, 126, 234, 0.8)',
       flexShrink: 0, margin: "0 10px"
     },
-
     langDropdown: {
       position: 'absolute',
       top: '100%',
@@ -1604,51 +1539,37 @@ const handleLanguageChange = useCallback((lang) => {
       border: '2px solid',
       borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700) 1',
       borderRadius: '6px',
-      minWidth: '140px', // REDUCED FROM 150px
-      maxHeight: '280px', // REDUCED FROM 300px
+      minWidth: '140px',
+      maxHeight: '280px',
       overflowY: 'auto',
       zIndex: 1900,
       boxShadow: '0 4px 20px rgba(0,0,0,0.7)'
     },
-
     langOption: {
       width: '100%',
       background: 'transparent',
       color: '#FFD700',
       border: 'none',
-      padding: '6px 10px', // REDUCED FROM 8px 12px
+      padding: '6px 10px',
       textAlign: 'left',
       cursor: 'pointer',
-      fontSize: '0.75rem', // REDUCED FROM 0.8rem
+      fontSize: '0.75rem',
       fontWeight: '700',
       borderTop: '1px solid rgba(255, 215, 0, 0.1)',
       minHeight: '32px'
     },
-
-    // CONTAINER 2: WEBSITE BANNER (STICKY ON ALL PAGES)
     titleSection: {
       position: "fixed",
-      top: "45px", // Below navbar
+      top: "45px",
       left: 0,
       right: 0,
       zIndex: 1700,
       border: "3px solid",
       borderImage: "linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1",
       backgroundImage: "url(/J2E/images/photos.png)",
-      backgroundSize: "100px",
-      backgroundPosition: "center",
-      backgroundRepeat: "repeat",
-      backgroundBlendMode: "overlay",
       backgroundSize: "100px, cover",
       backgroundPosition: "center",
-      backgroundBlendMode: "overlay",
-      backgroundImage: "url(/J2E/images/photos.png)",
-      backgroundSize: "100px",
-      backgroundPosition: "center",
       backgroundRepeat: "repeat",
-      backgroundBlendMode: "overlay",
-      backgroundSize: "100px, cover",
-      backgroundPosition: "center",
       backgroundBlendMode: "overlay",
       padding: "10px 15px 8px",
       display: "flex",
@@ -1659,8 +1580,6 @@ const handleLanguageChange = useCallback((lang) => {
       minHeight: "135px",
       maxHeight: "135px"
     },
-
-    // ROW 1: COMPANY NAME (LARGE AND VISIBLE)
     companyName: {
       fontFamily: "'Georgia', 'Times New Roman', serif",
       fontSize: "clamp(1.8rem, 4.2vw, 2.4rem)",
@@ -1674,7 +1593,6 @@ const handleLanguageChange = useCallback((lang) => {
       whiteSpace: "nowrap",
       padding: "4px 0"
     },
-
     tagline: {
       fontSize: "clamp(0.9rem, 2vw, 1.1rem)",
       fontWeight: "700",
@@ -1685,30 +1603,24 @@ const handleLanguageChange = useCallback((lang) => {
       textTransform: "uppercase",
       textShadow: "0 0 8px rgba(0,212,255,0.7)"
     },
-
-    // ROW 2: LOGO WITH SIDE BOXES
     logoRow: {
       display: "flex",
       alignItems: "center",
-      justifyContent: "space-between", // Side boxes at edges
-      gap: "0", // No gap between edges
+      justifyContent: "space-between",
+      gap: "0",
       width: "100%",
-      maxWidth: "100%", // Full container width
+      maxWidth: "100%",
       margin: "4px 0",
     },
-
-    // SIDE BOX WRAPPER (TIGHT RAINBOW BORDER)
     sideBoxWrapper: {
       background: "linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)",
       borderRadius: "5px",
-      padding: "2px", // Thin rainbow border
+      padding: "2px",
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
       flexShrink: 0, margin: "0 10px"
     },
-
-    // SIDE BOX INNER (NO EXTRA SPACE)
     sideBoxInner: {
       background: "rgba(0, 0, 0, 0.88)",
       borderRadius: "6px",
@@ -1724,8 +1636,6 @@ const handleLanguageChange = useCallback((lang) => {
       justifyContent: "center",
       gap: "4px"
     },
-
-    // LOGO CIRCLE (HEARTBEAT ANIMATION)
     logoCircle: {
       width: "50px",
       height: "50px",
@@ -1738,15 +1648,12 @@ const handleLanguageChange = useCallback((lang) => {
       flexShrink: 0, 
       margin: "0 8px"
     },
-
     logoImg: {
       width: "100%",
       height: "100%",
       objectFit: "contain",
       padding: "3px"
     },
-
-    // ROW 3: PAGE TITLE CONTAINER (CLOSED BOX)
     pageTitleContainer: {
       marginTop: "6px",
       display: "flex",
@@ -1754,16 +1661,12 @@ const handleLanguageChange = useCallback((lang) => {
       width: "100%",
       maxWidth: "400px"
     },
-
-    // PAGE TITLE WRAPPER (RAINBOW BORDER - ALL 4 SIDES)
     pageTitleWrapper: {
       background: "linear-gradient(135deg, violet, indigo, blue, green, yellow, orange, red)",
       borderRadius: "5px",
       padding: "2px",
       display: "inline-flex"
     },
-
-    // PAGE TITLE INNER (CLOSED CONTAINER)
     pageTitleInner: {
       background: "rgba(0, 0, 0, 0.96)",
       borderRadius: "3px",
@@ -1777,107 +1680,95 @@ const handleLanguageChange = useCallback((lang) => {
       textShadow: "0 0 8px rgba(0,212,255,0.7)",
       whiteSpace: "nowrap"
     },
-
-    // CONTAINER 3: QUANTUM JOURNEY
     section: {
-      padding: '35px 4%', // REDUCED FROM 40px 5%
+      padding: '35px 4%',
       borderTop: '3px solid',
       borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
       position: 'relative',
       background: 'rgba(0, 0, 0, 0.6)',
       marginTop: '0'
     },
-
     sectionTitle: {
-      fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)', // REDUCED FROM 1.5rem-2rem
+      fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)',
       fontWeight: '900',
       textAlign: 'center',
-      marginBottom: '20px', // REDUCED FROM 25px
+      marginBottom: '20px',
       background: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
-      letterSpacing: '0.5px' // REDUCED FROM 1px
+      letterSpacing: '0.5px'
     },
-
-    // CONTAINER 4: GAMES
     gamesGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', // REDUCED FROM 300px
-      gap: '20px', // REDUCED FROM 25px
-      marginTop: '20px' // REDUCED FROM 25px
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+      gap: '20px',
+      marginTop: '20px'
     },
-
     gameCard: {
       background: 'linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,212,255,0.08))',
       border: '3px solid',
       borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700) 1',
-      borderRadius: '10px', // REDUCED FROM 12px
-      padding: '15px', // REDUCED FROM 20px
+      borderRadius: '10px',
+      padding: '15px',
       backdropFilter: 'blur(8px)',
       transition: 'none',
-      boxShadow: '0 0 15px rgba(255,215,0,0.3)' // REDUCED FROM 20px
+      boxShadow: '0 0 15px rgba(255,215,0,0.3)'
     },
-
     gameStats: {
       display: 'flex',
       justifyContent: 'space-around',
-      margin: '12px 0', // REDUCED FROM 15px
-      padding: '8px', // REDUCED FROM 10px
+      margin: '12px 0',
+      padding: '8px',
       background: 'rgba(0, 0, 0, 0.5)',
-      borderRadius: '6px', // REDUCED FROM 8px
+      borderRadius: '6px',
       border: '1px solid rgba(255,215,0,0.3)',
       flexWrap: 'wrap',
-      gap: '6px' // REDUCED FROM 8px
+      gap: '6px'
     },
-
     statValue: {
       color: '#00d4ff',
       fontWeight: '900',
-      fontSize: '1rem' // REDUCED FROM 1.1rem
+      fontSize: '1rem'
     },
-
     godSpaceBadge: {
       width: '100%',
       textAlign: 'center',
-      padding: '6px', // REDUCED FROM 8px
+      padding: '6px',
       background: 'linear-gradient(135deg, #FFD700, #FF00FF)',
-      borderRadius: '12px', // REDUCED FROM 15px
+      borderRadius: '12px',
       fontWeight: '900',
-      marginTop: '6px', // REDUCED FROM 8px
-      fontSize: '0.8rem', // REDUCED FROM 0.9rem
+      marginTop: '6px',
+      fontSize: '0.8rem',
       animation: 'qPulse 2s ease-in-out infinite'
     },
-
     wordDisplay: {
-      fontSize: '1.8rem', // REDUCED FROM 2rem
+      fontSize: '1.8rem',
       color: '#FFD700',
       textAlign: 'center',
-      margin: '15px 0', // REDUCED FROM 20px
-      padding: '12px', // REDUCED FROM 15px
+      margin: '15px 0',
+      padding: '12px',
       backgroundColor: 'rgba(255, 215, 0, 0.1)',
-      borderRadius: '6px', // REDUCED FROM 8px
+      borderRadius: '6px',
       border: '1px solid #FFD700',
-      textShadow: '0 0 12px rgba(255,215,0,0.8)', // REDUCED FROM 15px
+      textShadow: '0 0 12px rgba(255,215,0,0.8)',
       minHeight: '60px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
     },
-
     wordGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', // REDUCED FROM 100px
-      gap: '8px', // REDUCED FROM 10px
-      margin: '15px 0' // REDUCED FROM 20px
+      gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))',
+      gap: '8px',
+      margin: '15px 0'
     },
-
     wordButton: {
-      padding: '10px', // REDUCED FROM 12px
+      padding: '10px',
       backgroundColor: 'rgba(255, 215, 0, 0.1)',
       border: '1px solid #FFD700',
       borderRadius: '6px',
       color: '#FFD700',
-      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      fontSize: '0.85rem',
       fontWeight: '700',
       cursor: 'pointer',
       transition: 'none',
@@ -1886,38 +1777,35 @@ const handleLanguageChange = useCallback((lang) => {
       alignItems: 'center',
       justifyContent: 'center'
     },
-
     gameFeedback: {
-      padding: '10px', // REDUCED FROM 12px
-      margin: '8px 0', // REDUCED FROM 10px
+      padding: '10px',
+      margin: '8px 0',
       background: 'rgba(0, 212, 255, 0.1)',
       border: '1px solid #00d4ff',
-      borderRadius: '6px', // REDUCED FROM 8px
+      borderRadius: '6px',
       color: '#00d4ff',
       textAlign: 'center',
       fontWeight: '700',
       fontSize: '0.9rem'
     },
-
     gameButton: {
       width: '100%',
-      padding: '10px', // REDUCED FROM 12px
-      margin: '5px 0', // REDUCED FROM 6px
+      padding: '10px',
+      margin: '5px 0',
       background: 'rgba(255, 215, 0, 0.15)',
       color: '#FFD700',
       border: '2px solid #FFD700',
-      borderRadius: '6px', // REDUCED FROM 8px
-      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      borderRadius: '6px',
+      fontSize: '0.85rem',
       fontWeight: '700',
       cursor: 'pointer',
       transition: 'none',
-      boxShadow: '0 0 10px rgba(255,215,0,0.3)' // REDUCED FROM 12px
+      boxShadow: '0 0 10px rgba(255,215,0,0.3)'
     },
-
     gameReset: {
       width: '100%',
-      padding: '6px', // REDUCED FROM 8px
-      marginTop: '6px', // REDUCED FROM 8px
+      padding: '6px',
+      marginTop: '6px',
       background: 'rgba(255, 0, 0, 0.2)',
       color: '#ff6b6b',
       border: '1px solid #ff6b6b',
@@ -1927,131 +1815,116 @@ const handleLanguageChange = useCallback((lang) => {
       transition: 'none',
       fontSize: '0.85rem'
     },
-
     gameResult: {
       textAlign: 'center',
-      padding: '12px', // REDUCED FROM 15px
-      fontSize: '0.95rem', // REDUCED FROM 1rem
+      padding: '12px',
+      fontSize: '0.95rem',
       color: '#00d4ff',
       fontWeight: '700'
     },
-
-    // FORM STYLES
     formInput: {
       width: '100%',
-      padding: '8px', // REDUCED FROM 10px
-      margin: '5px 0', // REDUCED FROM 6px
+      padding: '8px',
+      margin: '5px 0',
       background: 'rgba(0, 0, 0, 0.7)',
       border: '1px solid #FFD700',
       borderRadius: '6px',
       color: '#FFD700',
-      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      fontSize: '0.85rem',
       boxSizing: 'border-box',
       minHeight: '38px'
     },
-
     formSelect: {
       width: '100%',
-      padding: '8px', // REDUCED FROM 10px
-      margin: '5px 0', // REDUCED FROM 6px
+      padding: '8px',
+      margin: '5px 0',
       background: 'rgba(0, 0, 0, 0.7)',
       border: '1px solid #FFD700',
       borderRadius: '6px',
       color: '#FFD700',
-      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      fontSize: '0.85rem',
       boxSizing: 'border-box',
       minHeight: '38px'
     },
-
     formSubmit: {
       width: '100%',
-      padding: '10px', // REDUCED FROM 12px
-      marginTop: '10px', // REDUCED FROM 12px
+      padding: '10px',
+      marginTop: '10px',
       background: 'linear-gradient(135deg, #FFD700, #FFA500)',
       color: '#000000',
       border: 'none',
-      borderRadius: '6px', // REDUCED FROM 8px
-      fontSize: '0.95rem', // REDUCED FROM 1rem
+      borderRadius: '6px',
+      fontSize: '0.95rem',
       fontWeight: '800',
       cursor: 'pointer',
       transition: 'none',
-      boxShadow: '0 0 12px rgba(255,215,0,0.5)' // REDUCED FROM 15px
+      boxShadow: '0 0 12px rgba(255,215,0,0.5)'
     },
-
     formError: {
       color: '#ff6b6b',
-      padding: '6px', // REDUCED FROM 8px
-      margin: '6px 0', // REDUCED FROM 8px
+      padding: '6px',
+      margin: '6px 0',
       background: 'rgba(255, 0, 0, 0.1)',
       border: '1px solid #ff6b6b',
       borderRadius: '6px',
       textAlign: 'center',
-      fontSize: '0.85rem' // REDUCED FROM 0.9rem
+      fontSize: '0.85rem'
     },
-
     formSuccess: {
       color: '#00ff00',
-      padding: '12px', // REDUCED FROM 15px
+      padding: '12px',
       textAlign: 'center',
-      fontSize: '1rem', // REDUCED FROM 1.1rem
+      fontSize: '1rem',
       fontWeight: '700',
       minHeight: '60px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
     },
-
-    // CONTAINER 5: Q AI
     qIntro: {
-      maxWidth: '750px', // REDUCED FROM 800px
-      margin: '0 auto 20px', // REDUCED FROM 25px
+      maxWidth: '750px',
+      margin: '0 auto 20px',
       textAlign: 'center',
-      fontSize: '1rem', // REDUCED FROM 1.1rem
-      lineHeight: '1.5' // REDUCED FROM 1.6
+      fontSize: '1rem',
+      lineHeight: '1.5'
     },
-
     qTagline: {
-      fontSize: '1.2rem', // REDUCED FROM 1.3rem
+      fontSize: '1.2rem',
       color: '#FFD700',
       fontWeight: '700',
-      marginBottom: '12px' // REDUCED FROM 15px
+      marginBottom: '12px'
     },
-
     qFeatures: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', // REDUCED FROM 180px
-      gap: '12px', // REDUCED FROM 15px
-      maxWidth: '750px', // REDUCED FROM 800px
-      margin: '20px auto' // REDUCED FROM 25px
+      gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+      gap: '12px',
+      maxWidth: '750px',
+      margin: '20px auto'
     },
-
     qFeature: {
-      padding: '12px', // REDUCED FROM 15px
+      padding: '12px',
       background: 'linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,212,255,0.1))',
       border: '2px solid',
       borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-      borderRadius: '8px', // REDUCED FROM 10px
+      borderRadius: '8px',
       textAlign: 'center',
       fontWeight: '700',
-      fontSize: '0.95rem' // REDUCED FROM 1rem
+      fontSize: '0.95rem'
     },
-
     qCtaButton: {
       display: 'block',
-      margin: '25px auto', // REDUCED FROM 30px
-      padding: '10px 25px', // REDUCED FROM 12px 30px
-      fontSize: '1rem', // REDUCED FROM 1.1rem
+      margin: '25px auto',
+      padding: '10px 25px',
+      fontSize: '1rem',
       fontWeight: '700',
       backgroundColor: '#FFD700',
       color: '#000000',
       border: 'none',
-      borderRadius: '20px', // REDUCED FROM 25px
+      borderRadius: '20px',
       cursor: 'pointer',
       transition: 'none',
-      boxShadow: '0 0 20px rgba(255,215,0,0.6)' // REDUCED FROM 25px
+      boxShadow: '0 0 20px rgba(255,215,0,0.6)'
     },
-
-    // Q CHAT OVERLAY
     qChatOverlay: {
       position: 'fixed',
       bottom: 0,
@@ -2065,11 +1938,10 @@ const handleLanguageChange = useCallback((lang) => {
       justifyContent: 'center',
       padding: '10px'
     },
-
     qChatContainer: {
-      width: '95%', // INCREASED FROM 90%
+      width: '95%',
       maxWidth: '500px',
-      height: '85%', // INCREASED FROM 80%
+      height: '85%',
       backgroundColor: '#0a0a0a',
       border: '3px solid',
       borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
@@ -2078,9 +1950,8 @@ const handleLanguageChange = useCallback((lang) => {
       flexDirection: 'column',
       position: 'relative'
     },
-
     qChatHeader: {
-      padding: '12px', // REDUCED FROM 15px
+      padding: '12px',
       borderTop: '2px solid #FFD700',
       display: 'flex',
       justifyContent: 'space-between',
@@ -2088,301 +1959,259 @@ const handleLanguageChange = useCallback((lang) => {
       background: 'rgba(0, 0, 0, 0.7)',
       flexShrink: 0, margin: "0 10px"
     },
-
     qChatTitle: {
       color: '#FFD700',
-      fontSize: '1.1rem', // REDUCED FROM 1.2rem
+      fontSize: '1.1rem',
       fontWeight: '900',
       margin: 0
     },
-
     qCloseButton: {
       background: 'rgba(255, 0, 0, 0.8)',
       color: '#fff',
       border: 'none',
       borderRadius: '50%',
-      width: '26px', // REDUCED FROM 28px
-      height: '26px', // REDUCED FROM 28px
+      width: '26px',
+      height: '26px',
       cursor: 'pointer',
-      fontSize: '1rem', // REDUCED FROM 1.1rem
+      fontSize: '1rem',
       fontWeight: '900',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       flexShrink: 0, margin: "0 10px"
     },
-
     qChatMessages: {
       flex: 1,
-      padding: '12px', // REDUCED FROM 15px
+      padding: '12px',
       overflowY: 'auto',
       display: 'flex',
       flexDirection: 'column',
-      gap: '8px' // REDUCED FROM 10px
+      gap: '8px'
     },
-
     qMessage: {
-      maxWidth: '85%', // INCREASED FROM 80%
-      padding: '8px 12px', // REDUCED FROM 10px 15px
-      borderRadius: '12px', // REDUCED FROM 15px
-      fontSize: '0.85rem', // REDUCED FROM 0.9rem
-      lineHeight: '1.3', // REDUCED FROM 1.4
+      maxWidth: '85%',
+      padding: '8px 12px',
+      borderRadius: '12px',
+      fontSize: '0.85rem',
+      lineHeight: '1.3',
       wordBreak: 'break-word'
     },
-
     qUserMessage: {
       alignSelf: 'flex-end',
       background: 'linear-gradient(135deg, #667eea, #764ba2)',
       color: 'white',
       borderBottomRightRadius: '5px'
     },
-
     qBotMessage: {
       alignSelf: 'flex-start',
       background: 'linear-gradient(135deg, #FFD700, #FFA500)',
       color: '#000',
       borderBottomLeftRadius: '5px'
     },
-
     qChatInputContainer: {
-      padding: '12px', // REDUCED FROM 15px
+      padding: '12px',
       borderTop: '2px solid #FFD700',
       display: 'flex',
-      gap: '8px', // REDUCED FROM 10px
+      gap: '8px',
       background: 'rgba(0, 0, 0, 0.7)',
       flexShrink: 0, margin: "0 10px"
     },
-
     qChatInput: {
       flex: 1,
-      padding: '8px', // REDUCED FROM 10px
+      padding: '8px',
       background: 'rgba(255, 215, 0, 0.1)',
       border: '1px solid #FFD700',
-      borderRadius: '6px', // REDUCED FROM 8px
+      borderRadius: '6px',
       color: '#FFD700',
-      fontSize: '0.85rem' // REDUCED FROM 0.9rem
+      fontSize: '0.85rem'
     },
-
     qChatButton: {
-      padding: '8px 12px', // REDUCED FROM 10px 15px
+      padding: '8px 12px',
       background: 'linear-gradient(135deg, #FFD700, #FFA500)',
       color: '#000',
       border: 'none',
-      borderRadius: '6px', // REDUCED FROM 8px
+      borderRadius: '6px',
       cursor: 'pointer',
       fontWeight: '700',
-      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      fontSize: '0.85rem',
       whiteSpace: 'nowrap'
     },
-
     qMicButton: {
-      padding: '8px 12px', // REDUCED FROM 10px 15px
+      padding: '8px 12px',
       background: 'linear-gradient(135deg, #00d4ff, #764ba2)',
       color: 'white',
       border: 'none',
-      borderRadius: '6px', // REDUCED FROM 8px
+      borderRadius: '6px',
       cursor: 'pointer',
       fontWeight: '700',
-      fontSize: '0.85rem', // REDUCED FROM 0.9rem
+      fontSize: '0.85rem',
       whiteSpace: 'nowrap'
     },
-
     qFloatingButton: {
       position: 'fixed',
-      bottom: '20px', // REDUCED FROM 25px
-      right: '20px', // REDUCED FROM 25px
-      width: '55px', // REDUCED FROM 60px
-      height: '55px', // REDUCED FROM 60px
+      bottom: '20px',
+      right: '20px',
+      width: '55px',
+      height: '55px',
       borderRadius: '50%',
       background: 'linear-gradient(135deg, #667eea, #764ba2)',
       border: '2px solid #FFD700',
       color: 'white',
-      fontSize: '18px', // REDUCED FROM 20px
+      fontSize: '18px',
       fontWeight: '900',
       cursor: 'pointer',
       zIndex: 10000,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      boxShadow: '0 0 20px rgba(102, 126, 234, 0.8)', // REDUCED FROM 25px
+      boxShadow: '0 0 20px rgba(102, 126, 234, 0.8)',
       animation: 'qPulse 2s ease-in-out infinite'
     },
-
-    // CONTAINER 6: VIDEOS
     videosGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', // REDUCED FROM 280px
-      gap: '15px', // REDUCED FROM 20px
-      marginTop: '20px' // REDUCED FROM 25px
+      gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+      gap: '15px',
+      marginTop: '20px'
     },
-
     videoCard: {
       background: 'rgba(0, 0, 0, 0.7)',
       border: '2px solid',
       borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff) 1',
-      borderRadius: '10px', // REDUCED FROM 12px
+      borderRadius: '10px',
       overflow: 'hidden',
       transition: 'none'
     },
-
     videoThumbnail: {
       width: '100%',
-      height: '160px', // REDUCED FROM 180px
+      height: '160px',
       objectFit: 'cover',
       display: 'block'
     },
-
     videoContent: {
-      padding: '12px' // REDUCED FROM 15px
+      padding: '12px'
     },
-
-    // CONTAINER 7: OFFERS
     offersGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', // REDUCED FROM 250px
-      gap: '15px', // REDUCED FROM 20px
-      marginTop: '20px' // REDUCED FROM 25px
+      gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+      gap: '15px',
+      marginTop: '20px'
     },
-
     offerCard: {
       background: 'linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,212,255,0.08))',
       border: '3px solid',
       borderImage: 'linear-gradient(135deg, #FFD700, #00d4ff, #FF00FF, #FFD700) 1',
-      borderRadius: '10px', // REDUCED FROM 12px
-      padding: '15px', // REDUCED FROM 20px
+      borderRadius: '10px',
+      padding: '15px',
       textAlign: 'center',
       transition: 'none',
-      boxShadow: '0 0 15px rgba(255,215,0,0.3)' // REDUCED FROM 20px
+      boxShadow: '0 0 15px rgba(255,215,0,0.3)'
     },
-
     offerIcon: {
-      fontSize: '2.2rem', // REDUCED FROM 2.5rem
-      marginBottom: '10px' // REDUCED FROM 12px
+      fontSize: '2.2rem',
+      marginBottom: '10px'
     },
-
-    // CONTAINER 8: BUILDING
     buildingGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', // REDUCED FROM 220px
-      gap: '15px', // REDUCED FROM 20px
-      marginTop: '20px' // REDUCED FROM 25px
+      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+      gap: '15px',
+      marginTop: '20px'
     },
-
     buildingCard: {
       background: 'rgba(0, 0, 0, 0.9)',
-      borderRadius: '6px', // REDUCED FROM 8px
-      padding: '12px', // REDUCED FROM 15px
+      borderRadius: '6px',
+      padding: '12px',
       border: '2px solid #FFD700',
       textAlign: 'center'
     },
-
     statusBadge: {
       display: 'inline-block',
-      padding: '3px 10px', // REDUCED FROM 4px 12px
-      borderRadius: '12px', // REDUCED FROM 15px
-      fontSize: '0.65rem', // REDUCED FROM 0.7rem
+      padding: '3px 10px',
+      borderRadius: '12px',
+      fontSize: '0.65rem',
       fontWeight: '700',
-      marginTop: '10px' // REDUCED FROM 12px
+      marginTop: '10px'
     },
-
-    // CONTAINER 9: ARTISANS
     artisansGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', // REDUCED FROM 220px
-      gap: '15px', // REDUCED FROM 20px
-      marginTop: '20px' // REDUCED FROM 25px
+      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+      gap: '15px',
+      marginTop: '20px'
     },
-
     artisanCard: {
       background: 'rgba(0, 0, 0, 0.9)',
-      borderRadius: '6px', // REDUCED FROM 8px
-      padding: '12px', // REDUCED FROM 15px
+      borderRadius: '6px',
+      padding: '12px',
       border: '2px solid #FFD700',
       textAlign: 'center'
     },
-
     artisanAvatar: {
-      fontSize: '2.2rem', // REDUCED FROM 2.5rem
-      marginBottom: '10px' // REDUCED FROM 12px
+      fontSize: '2.2rem',
+      marginBottom: '10px'
     },
-
-    // CONTAINER 10: CONVERGENCE
     convergenceContent: {
       textAlign: 'center',
-      padding: '25px' // REDUCED FROM 30px
+      padding: '25px'
     },
-
     eventDate: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      gap: '12px', // REDUCED FROM 15px
-      margin: '20px 0' // REDUCED FROM 25px
+      gap: '12px',
+      margin: '20px 0'
     },
-
     dateNumber: {
-      fontSize: '2.2rem', // REDUCED FROM 2.5rem
+      fontSize: '2.2rem',
       color: '#FFD700',
       fontWeight: '900'
     },
-
     convergenceLink: {
       display: 'inline-block',
-      marginTop: '20px', // REDUCED FROM 25px
-      padding: '10px 20px', // REDUCED FROM 12px 25px
+      marginTop: '20px',
+      padding: '10px 20px',
       backgroundColor: '#FFD700',
       color: '#000000',
       textDecoration: 'none',
-      borderRadius: '20px', // REDUCED FROM 25px
+      borderRadius: '20px',
       fontWeight: '700',
-      fontSize: '0.95rem' // REDUCED FROM 1rem
+      fontSize: '0.95rem'
     },
-
-    // CONTAINER 11: PHOTO GALLERY
     galleryGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', // REDUCED FROM 200px
-      gap: '12px', // REDUCED FROM 15px
-      marginTop: '20px' // REDUCED FROM 25px
+      gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+      gap: '12px',
+      marginTop: '20px'
     },
-
     galleryImage: {
       width: '100%',
-      height: '130px', // REDUCED FROM 150px
+      height: '130px',
       objectFit: 'cover',
-      borderRadius: '6px', // REDUCED FROM 8px
+      borderRadius: '6px',
       border: '2px solid #FFD700',
       display: 'block'
     },
-
-    // CONTAINER 12: FOOTER
     footer: {
-      padding: '25px 4%', // REDUCED FROM 30px 5%
+      padding: '25px 4%',
       borderTop: '3px solid',
       borderImage: 'linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red) 1',
       background: 'rgba(0, 0, 0, 0.9)',
       textAlign: 'center'
     },
-
     socialLinks: {
       display: 'flex',
       justifyContent: 'center',
-      gap: '12px', // REDUCED FROM 15px
-      marginTop: '12px', // REDUCED FROM 15px
+      gap: '12px',
+      marginTop: '12px',
       flexWrap: 'wrap'
     },
-
     socialLink: {
       color: '#FFD700',
       textDecoration: 'none',
-      fontSize: '0.85rem', // REDUCED FROM 0.9rem
-      padding: '4px 8px', // REDUCED FROM 5px 10px
+      fontSize: '0.85rem',
+      padding: '4px 8px',
       border: '1px solid #FFD700',
       borderRadius: '4px',
       transition: 'none'
     },
-
-    // DISCLAIMER
     disclaimerBar: {
       position: 'fixed',
       bottom: 0,
@@ -2391,9 +2220,9 @@ const handleLanguageChange = useCallback((lang) => {
       background: 'linear-gradient(90deg, rgba(255,0,0,0.2), rgba(255,165,0,0.2))',
       borderTop: '2px solid',
       borderImage: 'linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3) 1',
-      padding: '6px 10px', // REDUCED FROM 8px 12px
+      padding: '6px 10px',
       textAlign: 'center',
-      fontSize: '0.65rem', // REDUCED FROM 0.7rem
+      fontSize: '0.65rem',
       color: '#ffccbc',
       fontWeight: '600',
       zIndex: 2000,
@@ -2403,8 +2232,6 @@ const handleLanguageChange = useCallback((lang) => {
       alignItems: 'center',
       justifyContent: 'center'
     },
-
-    // VIDEO FIX STYLES
     videoContainer: {
       position: 'relative',
       width: '100%',
@@ -2412,10 +2239,9 @@ const handleLanguageChange = useCallback((lang) => {
       overflow: 'hidden',
       backgroundColor: '#000'
     },
-
     videoLoadingOverlay: {
       position: 'absolute',
-      bottom: 0,
+      top: 0,
       left: 0,
       right: 0,
       bottom: 0,
@@ -2445,30 +2271,21 @@ const handleLanguageChange = useCallback((lang) => {
   // ==================== RENDER ====================
   
   return (
-    <Layout pageTitle="HOME">
+    <Layout pageTitle={T.page_titles?.home || "HOME"}>
       <div style={styles.mainContainer}>
-    
+        
 
 {/* THE ANNOUNCEMENT PORTALS */}
 <div style={{
   position: 'relative',
   marginTop: '-60px',
-          backgroundImage: 'url(/images/Robin.jpeg)',
+  backgroundImage: 'url(/images/Robin.jpeg)',
   backgroundSize: 'cover',
   backgroundPosition: 'center 30%',
   backgroundAttachment: 'scroll',
   backgroundRepeat: 'no-repeat'
 }}>
-  {/* Dark overlay for readability */}
-  <div style={{
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: 'rgba(0,0,0,0.65)',
-    zIndex: 1
-  }} />
+
 
   <div style={{ position: 'relative', zIndex: 2 }}>
     
@@ -2476,7 +2293,7 @@ const handleLanguageChange = useCallback((lang) => {
     <section style={{ padding: '40px 20px 30px 20px' }}>
       <div style={{ textAlign: 'center', marginBottom: '25px' }}>
         <h2 style={{ color: '#FFD700', fontSize: '1.6rem', fontWeight: '900' }}>
-          {translations[currentLanguage]?.announcements?.title || '📢 Announcements & Resonance Alignment Portal'}
+          {T.announcements?.title || '📢 Announcements & Resonance Alignment Portal'}
         </h2>
       </div>
 
@@ -2525,13 +2342,13 @@ const handleLanguageChange = useCallback((lang) => {
                     border: '1px solid #FFD700'
                   }}>
                     <div style={{ color: '#FFD700', fontSize: '0.6rem', letterSpacing: '2px', fontWeight: 'bold' }}>
-                      {translations[currentLanguage]?.announcements?.j2e_countdown || 'DAYS UNTIL 11:11 CONVERGENCE'}
+                      {T.announcements?.j2e_countdown || 'DAYS UNTIL 11:11 CONVERGENCE'}
                     </div>
                     <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#FFD700', lineHeight: 1 }}>
                       233
                     </div>
                     <div style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      {translations[currentLanguage]?.announcements?.j2e_date || 'NOVEMBER 11, 2026'}
+                      {T.announcements?.j2e_date || 'NOVEMBER 11, 2026'}
                     </div>
                   </div>
 
@@ -2542,16 +2359,16 @@ const handleLanguageChange = useCallback((lang) => {
                     marginBottom: '10px'
                   }}>
                     <div style={{ color: '#FFD700', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '6px' }}>
-                      🌟 {translations[currentLanguage]?.announcements?.j2e_highlights || '5-DAY IMMERSION'}
+                      🌟 {T.announcements?.j2e_highlights || '5-DAY IMMERSION'}
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                       {[
-                        translations[currentLanguage]?.announcements?.j2e_golf || '🏌️ Golf Tournament',
-                        translations[currentLanguage]?.announcements?.j2e_gala || '💃 Gala Dinner',
-                        translations[currentLanguage]?.announcements?.j2e_flashmob || '🌊 Global Flash Mob',
-                        translations[currentLanguage]?.announcements?.j2e_workshops || '🧘 Quantum Workshops',
-                        translations[currentLanguage]?.announcements?.j2e_pods || '🏕️ Frequency Pods',
-                        translations[currentLanguage]?.announcements?.j2e_food || '🥗 Farm-to-Table'
+                        T.announcements?.j2e_golf || '🏌️ Golf Tournament',
+                        T.announcements?.j2e_gala || '💃 Gala Dinner',
+                        T.announcements?.j2e_flashmob || '🌊 Global Flash Mob',
+                        T.announcements?.j2e_workshops || '🧘 Quantum Workshops',
+                        T.announcements?.j2e_pods || '🏕️ Frequency Pods',
+                        T.announcements?.j2e_food || '🥗 Farm-to-Table'
                       ].map((item, idx) => (
                         <span key={idx} style={{
                           background: 'rgba(255,215,0,0.12)',
@@ -2573,10 +2390,10 @@ const handleLanguageChange = useCallback((lang) => {
                     marginBottom: '8px'
                   }}>
                     <p style={{ color: '#FFD700', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '2px' }}>
-                      🔥 {translations[currentLanguage]?.announcements?.j2e_teaser_title || 'WHAT AWAITS YOU:'}
+                      🔥 {T.announcements?.j2e_teaser_title || 'WHAT AWAITS YOU:'}
                     </p>
                     <p style={{ color: '#ddd', fontSize: '0.6rem', lineHeight: '1.3', margin: 0 }}>
-                      {translations[currentLanguage]?.announcements?.j2e_teaser || 'Walk the volcanic soils of St. Lucia. Sleep in frequency-tuned pods. Dive into crystal waters. Align with 1,111 souls at the exact moment of 11:11.'}
+                      {T.announcements?.j2e_teaser || 'Walk the volcanic soils of St. Lucia. Sleep in frequency-tuned pods. Dive into crystal waters. Align with 1,111 souls at the exact moment of 11:11.'}
                     </p>
                   </div>
 
@@ -2588,7 +2405,7 @@ const handleLanguageChange = useCallback((lang) => {
                     marginTop: '6px'
                   }}>
                     <span style={{ color: '#FFA500', fontSize: '0.6rem', fontWeight: 'bold' }}>
-                      ⚡ {translations[currentLanguage]?.announcements?.j2e_urgency || 'EARLY BIRD PRICING • 42 SPOTS REMAINING'} ⚡
+                      ⚡ {T.announcements?.j2e_urgency || 'EARLY BIRD PRICING • 42 SPOTS REMAINING'} ⚡
                     </span>
                   </div>
                 </div>
@@ -2607,14 +2424,14 @@ const handleLanguageChange = useCallback((lang) => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                       <span style={{ fontSize: '1.2rem' }}>📡</span>
                       <span style={{ color: '#06b6d4', fontWeight: 'bold', fontSize: '0.7rem' }}>
-                        {translations[currentLanguage]?.announcements?.live_next || 'NEXT BROADCAST:'}
+                        {T.announcements?.live_next || 'NEXT BROADCAST:'}
                       </span>
                     </div>
                     <p style={{ color: '#fff', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                      {translations[currentLanguage]?.announcements?.live_title || 'Quantum Biology & Cellular Regeneration'}
+                      {T.announcements?.live_stream_title || 'Quantum Biology & Cellular Regeneration'}
                     </p>
                     <p style={{ color: '#FFD700', fontSize: '0.6rem' }}>
-                      {translations[currentLanguage]?.announcements?.live_date || 'April 5, 2026 • 7PM EST'}
+                      {T.announcements?.live_date || 'April 5, 2026 • 7PM EST'}
                     </p>
                   </div>
                   <div style={{
@@ -2624,7 +2441,7 @@ const handleLanguageChange = useCallback((lang) => {
                     textAlign: 'center'
                   }}>
                     <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      🎙️ {translations[currentLanguage]?.announcements?.live_guests || 'Featuring: Quantum Biologist Dr. Sarah Chen'}
+                      🎙️ {T.announcements?.live_guests || 'Featuring: Quantum Biologist Dr. Sarah Chen'}
                     </span>
                   </div>
                 </div>
@@ -2641,7 +2458,7 @@ const handleLanguageChange = useCallback((lang) => {
                     borderRadius: '4px'
                   }}>
                     <p style={{ color: '#FFD700', fontSize: '0.6rem', fontWeight: 'bold', marginBottom: '2px' }}>
-                      {translations[currentLanguage]?.announcements?.shipTo || '📦 SHIP TO:'}
+                      {T.announcements?.shipTo || '📦 SHIP TO:'}
                     </p>
                     <p style={{ color: '#DDD6B8', fontSize: '0.55rem', lineHeight: '1.2', margin: 0 }}>
                       MY ALKALINE VEGAN JOURNEY<br/>
@@ -2663,7 +2480,7 @@ const handleLanguageChange = useCallback((lang) => {
                       marginBottom: '4px', 
                       textAlign: 'center'
                     }}>
-                      ⚡ {translations[currentLanguage]?.announcements?.gifts || 'RESONANCE ALIGNMENT: GIFTS'} ⚡
+                      🌟 {T.announcements?.gifts || 'RESONANCE ALIGNMENT: GIFTS'} 🌟
                     </p>
                     <div style={{ 
                       height: '100px', 
@@ -2710,13 +2527,13 @@ const handleLanguageChange = useCallback((lang) => {
                       color: '#00d4ff',
                       fontSize: '0.45rem'
                     }}>
-                      ▼ {translations[currentLanguage]?.announcements?.scroll || 'SCROLL FOR MORE'} ▼
+                      ▼ {T.announcements?.scroll || 'SCROLL FOR MORE'} ▼
                     </div>
                   </div>
                 </>
               )}
 
-              {/* BOX 4: VIBRATIONAL INTELLIGENCE - COMPACT VERSION */}
+              {/* BOX 4: VIBRATIONAL INTELLIGENCE */}
               {announcement.id === 4 && (
                 <div style={{ 
                   background: 'rgba(99,102,241,0.1)', 
@@ -2726,17 +2543,17 @@ const handleLanguageChange = useCallback((lang) => {
                   marginTop: '5px'
                 }}>
                   <p style={{ color: '#8b5cf6', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                    🔮 {translations[currentLanguage]?.announcements?.viLatest || 'Latest Discovery:'}
+                    🔮 {T.announcements?.viLatest || 'Latest Discovery:'}
                   </p>
                   <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                    {translations[currentLanguage]?.announcements?.viContent || 'Quantum coherence in microtubules confirmed at body temperature'}
+                    {T.announcements?.viContent || 'Quantum coherence in microtubules confirmed at body temperature'}
                   </p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      {translations[currentLanguage]?.announcements?.viDate || 'Mar 2026'}
+                      {T.announcements?.viDate || 'Mar 2026'}
                     </span>
                     <span style={{ color: '#6366f1', fontSize: '0.55rem' }}>
-                      {translations[currentLanguage]?.announcements?.viImpact || 'BREAKTHROUGH'}
+                      {T.announcements?.viImpact || 'BREAKTHROUGH'}
                     </span>
                   </div>
                 </div>
@@ -2752,14 +2569,14 @@ const handleLanguageChange = useCallback((lang) => {
                   marginTop: '5px'
                 }}>
                   <p style={{ color: '#ec4899', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                    🌍 {translations[currentLanguage]?.announcements?.flashMob || 'GLOBAL FLASH MOB'}
+                    🌍 {T.announcements?.flashMob || 'GLOBAL FLASH MOB'}
                   </p>
                   <p style={{ color: '#fff', fontSize: '0.65rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                    {translations[currentLanguage]?.announcements?.flashMobDesc || 'Submit your 30-second dance clip! Join dancers worldwide in synchronized celebration.'}
+                    {T.announcements?.flash_desc || 'Submit your 30-second dance clip! Join dancers worldwide in synchronized celebration.'}
                   </p>
                   <div>
                     <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      {translations[currentLanguage]?.announcements?.flashMobDeadline || 'Deadline: April 30, 2026'}
+                      {T.announcements?.flashMobDeadline || 'Deadline: April 30, 2026'}
                     </span>
                   </div>
                 </div>
@@ -2775,17 +2592,17 @@ const handleLanguageChange = useCallback((lang) => {
                   marginTop: '5px'
                 }}>
                   <p style={{ color: '#4CAF50', fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                    🛒 {translations[currentLanguage]?.announcements?.storeSale || '50% OFF • ST. LUCIAN SEA MOSS GEL'}
+                    🛒 {T.announcements?.storeSale || '50% OFF • ST. LUCIAN SEA MOSS GEL'}
                   </p>
                   <p style={{ color: '#fff', fontSize: '0.6rem', lineHeight: '1.3', marginBottom: '4px' }}>
-                    {translations[currentLanguage]?.announcements?.storeDesc || 'Harvested from volcanic waters. Gelatinous, potent, lab-tested.'}
+                    {T.announcements?.store_desc || 'Harvested from volcanic waters. Gelatinous, potent, lab-tested.'}
                   </p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ color: '#FFD700', fontSize: '0.6rem', fontWeight: 'bold' }}>
-                      {translations[currentLanguage]?.announcements?.storePrice || '$24.99 (reg $49.99)'}
+                      {T.announcements?.storePrice || '$24.99 (reg $49.99)'}
                     </span>
                     <span style={{ color: '#FFD700', fontSize: '0.55rem' }}>
-                      {translations[currentLanguage]?.announcements?.storeStock || '342 jars left'}
+                      {T.announcements?.storeStock || '342 jars left'}
                     </span>
                   </div>
                 </div>
@@ -2807,15 +2624,15 @@ const handleLanguageChange = useCallback((lang) => {
               }}
             >
               {announcement.id === 3 
-                ? (translations[currentLanguage]?.announcements?.viewGifts || '🔗 VIEW GIFTS')
-                : (translations[currentLanguage]?.announcements?.learnMore || '🔗 LEARN MORE')}
+                ? (T.announcements?.viewGifts || '🔗 VIEW GIFTS')
+                : (T.announcements?.learnMore || '🔗 LEARN MORE')}
             </a>
           </div>
         ))}
       </div>
     </section>
 
-    {/* SECTION 2: THE QUANTUM JOURNEY - RESTORED FULL VERSION */}
+    {/* SECTION 2: THE QUANTUM JOURNEY */}
     <section style={{ padding: '30px 20px 60px 20px' }}>
       <div style={{ 
         maxWidth: '850px', 
@@ -2827,24 +2644,24 @@ const handleLanguageChange = useCallback((lang) => {
         borderImage: 'linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4, #f59e0b) 1'
       }}>
         <h2 style={{ color: '#FFD700', textAlign: 'center', fontSize: '1.9rem', marginBottom: '20px' }}>
-          {translations[currentLanguage]?.quantumJourney?.title || 'The Quantum Journey'}
+          {T.quantumJourney?.title || 'The Quantum Journey'}
         </h2>
         <div style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.65' }}>
-          <p>{translations[currentLanguage]?.quantumJourney?.p1 || 'My experience during my 40-day Total Reset allowed me to visualize what I call the Godspace—a realm beyond euphoria, beyond bliss. This space is a combnation of immence peace and joy with insane clarity and sharp intuition. It is now well known throughout the scientific community the overwhelming positive benefits of reset detoxification. The activation of the stem cells and the growth hormones that are directly related to rebuilding and replacing damaged cells. The eradication of visceral fat which is known to be found around vital organs and inclusive of cells that damage the body. The visceral fat contributes to that belly, arm and back fat that seems impossible to remove.'}</p>
-          <p style={{ marginTop: '12px' }}>{translations[currentLanguage]?.quantumJourney?.p2 || 'This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.'}</p>
+          <p>{T.quantumJourney?.p1 || 'My experience during my 40-day Total Reset allowed me to visualize what I call the Godspace—a realm beyond euphoria, beyond bliss. This space is a combination of immence peace and joy with insane clarity and sharp intuition. It is now well known throughout the scientific community the overwhelming positive benefits of reset detoxification. The activation of the stem cells and the growth hormones that are directly related to rebuilding and replacing damaged cells. The eradication of visceral fat which is known to be found around vital organs and inclusive of cells that damage the body. The visceral fat contributes to that belly, arm and back fat that seems impossible to remove.'}</p>
+          <p style={{ marginTop: '12px' }}>{T.quantumJourney?.p2 || 'This reset makes your immune system bulletproof. I survived living in a home where everyone had COVID, and I never experienced a single symptom.'}</p>
           
           <h3 style={{color: '#FFD700', fontSize: '1.1rem', margin: '20px 0 12px'}}>
-            {translations[currentLanguage]?.quantumJourney?.subtitle || 'How Frequency Recalibration Works'}
+            {T.quantumJourney?.subtitle || 'How Frequency Recalibration Works'}
           </h3>
           <ul style={{listStyle: 'none', padding: 0}}>
             <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <span>✨</span> {translations[currentLanguage]?.quantumJourney?.point1 || 'Your electromagnetic field resonates at optimal vitality'}
+              <span>✨</span> {T.quantumJourney?.point1 || 'Your electromagnetic field resonates at optimal vitality'}
             </li>
             <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <span>✨</span> {translations[currentLanguage]?.quantumJourney?.point2 || 'Cellular structures maintain coherence'}
+              <span>✨</span> {T.quantumJourney?.point2 || 'Cellular structures maintain coherence'}
             </li>
             <li style={{marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <span>✨</span> {translations[currentLanguage]?.quantumJourney?.point3 || 'Your body accesses quantum regeneration'}
+              <span>✨</span> {T.quantumJourney?.point3 || 'Your body accesses quantum regeneration'}
             </li>
           </ul>
         </div>
@@ -2853,10 +2670,10 @@ const handleLanguageChange = useCallback((lang) => {
   </div>
 </div>
 
-      {/* CONTAINER 4: USER ENGAGEMENT GAMES */}
-      <section style={{...styles.section, backgroundImage: 'url(/J2E/images/PinealGland.jpg)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
-        <h2 style={styles.sectionTitle}>Quantum Games to Exercise Your Brain</h2>
-        
+        {/* CONTAINER 4: USER ENGAGEMENT GAMES */}
+        <section style={{...styles.section, backgroundImage: 'url(/J2E/images/PinealGland.jpg)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+          <h2 style={styles.sectionTitle}>{T.games?.section_title || 'Quantum Games to Exercise Your Brain'}</h2>
+          
 {/* ==================== MAVJ WORD GAME - COMPLETE UI ==================== */}
 <div style={{
   width: '100%',
@@ -2870,7 +2687,6 @@ const handleLanguageChange = useCallback((lang) => {
   position: 'relative'
 }}>
 
-  {/* CONFETTI EFFECT */}
   {showConfettiEffect && (
     <div style={{
       position: 'fixed',
@@ -2885,7 +2701,7 @@ const handleLanguageChange = useCallback((lang) => {
     }} />
   )}
 
-  {/* TARGET WORDS SECTION - STATIONARY BOX (NO SCROLLING) */}
+  {/* TARGET WORDS SECTION */}
   <div style={{
     background: 'rgba(0,0,0,0.6)',
     borderRadius: '20px',
@@ -2899,7 +2715,6 @@ const handleLanguageChange = useCallback((lang) => {
     alignItems: 'center',
     gap: '12px'
   }}>
-    {/* Group words by length for organized display */}
     {(() => {
       const wordsByLength = {};
       targetWords.forEach(word => {
@@ -2954,7 +2769,6 @@ const handleLanguageChange = useCallback((lang) => {
     })()}
   </div>
 
-  {/* THREE-COLUMN LAYOUT */}
   <div style={{
     display: 'flex',
     flexWrap: 'wrap',
@@ -2968,17 +2782,15 @@ const handleLanguageChange = useCallback((lang) => {
       flex: '1',
       minWidth: '180px',
       maxWidth: '220px',
-      background: 'linear-gradient(135deg, rgba(148,0,211,0.2), rgba(255,215,0,0.1))',
+      background: 'linear-gradient(135deg, rgba(148,0,211,0.2), rgba(255,215,0,0.15))',
       borderRadius: '20px',
       padding: '20px',
       border: '1px solid rgba(255,215,0,0.3)',
       textAlign: 'center'
     }}>
-      <h3 style={{ color: '#FFD700', fontSize: '1rem', marginBottom: '12px' }}>📖 Brian's Story</h3>
+      <h3 style={{ color: '#FFD700', fontSize: '1rem', marginBottom: '12px' }}>{T.games?.brian_title || "💡 Brian's Story"}</h3>
       <p style={{ color: '#fff', fontSize: '0.75rem', lineHeight: '1.5' }}>
-        "Brian spoke one sentence, and every word carried something other than positive. 
-        On the spot, I translated it into a sentence that was completely positive. 
-        Every word we speak is a frequency."
+        {T.games?.brian_excerpt || '"Brian spoke one sentence, and every word carried something other than positive. On the spot, I translated it into a sentence that was completely positive."'}
       </p>
       <p style={{ color: '#00d4ff', fontSize: '0.7rem', marginTop: '12px' }}>
         — MAVJ Foundation
@@ -2994,7 +2806,6 @@ const handleLanguageChange = useCallback((lang) => {
       alignItems: 'center'
     }}>
       
-      {/* HEADER WITH STATS */}
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -3033,7 +2844,6 @@ const handleLanguageChange = useCallback((lang) => {
         </button>
       </div>
 
-      {/* CIRCLE CONTAINER */}
       <div style={{
         position: 'relative',
         width: 'min(55vw, 55vh, 380px)',
@@ -3052,7 +2862,6 @@ const handleLanguageChange = useCallback((lang) => {
           </defs>
         </svg>
         
-        {/* CENTER WORD DISPLAY */}
         <div style={{
           position: 'absolute',
           top: '50%',
@@ -3127,7 +2936,7 @@ const handleLanguageChange = useCallback((lang) => {
                     });
                     setPendingNewWord(null);
                     setEmailInput(emailInput)
-                                    } else {
+                  } else {
                     setGameFeedback({ type: 'error', message: 'Valid email required.' });
                   }
                 }}
@@ -3149,7 +2958,6 @@ const handleLanguageChange = useCallback((lang) => {
           )}
         </div>
         
-        {/* LETTER BUTTONS */}
         {shuffledLetters.slice(0, 10).map((letter, i) => {
           const angle = (i * (360 / Math.min(shuffledLetters.length, 10))) * Math.PI / 180;
           const x = 50 + 40 * Math.cos(angle);
@@ -3195,7 +3003,6 @@ const handleLanguageChange = useCallback((lang) => {
         })}
       </div>
 
-      {/* ACTION BUTTONS */}
       <div style={{
         display: 'flex',
         justifyContent: 'center',
@@ -3213,7 +3020,6 @@ const handleLanguageChange = useCallback((lang) => {
             const matchedTarget = targetWords.find(t => t.word === selectedWord && !t.found);
             
             if (matchedTarget) {
-              // Word is a target - mark as found
               setTargetWords(prev => prev.map(t => 
                 t.word === selectedWord ? { ...t, found: true } : t
               ));
@@ -3229,7 +3035,6 @@ const handleLanguageChange = useCallback((lang) => {
               setGameFeedback({ type: 'success', message: `🎉 ${selectedWord}! +100 points!` });
               setSelectedWord('');
               
-              // Check if puzzle is complete
               const allFound = targetWords.every(t => t.found);
               if (allFound) {
                 setShowConfettiEffect(true);
@@ -3242,7 +3047,6 @@ const handleLanguageChange = useCallback((lang) => {
               }
             } 
             else if (selectedWord.length > 0 && canMakeWord(selectedWord)) {
-              // Valid word but not a target - add to word bank
               const wordData = wordExistsInDatabase(selectedWord);
               if (wordData) {
                 setWordBank(prev => [...prev, { word: selectedWord, timestamp: Date.now(), metadata: wordData }]);
@@ -3253,7 +3057,6 @@ const handleLanguageChange = useCallback((lang) => {
                   saveUserDiscovery(userEmail, selectedWord);
                 }
               } else {
-                // New word not in database - trigger email capture (ONCE)
                 if (!emailCaptured && !pendingNewWord) {
                   setPendingNewWord(selectedWord);
                   setShowEmailInCircle(true);
@@ -3290,7 +3093,7 @@ const handleLanguageChange = useCallback((lang) => {
           onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
-          ✓ SUBMIT
+          {T.games?.submit || '✓ SUBMIT'}
         </button>
         
         <button
@@ -3306,7 +3109,7 @@ const handleLanguageChange = useCallback((lang) => {
             cursor: 'pointer'
           }}
         >
-          ✗ CLEAR
+          {T.games?.clear || '✗ CLEAR'}
         </button>
         
         <button
@@ -3326,7 +3129,6 @@ const handleLanguageChange = useCallback((lang) => {
         </button>
       </div>
 
-      {/* WORD BANK */}
       <div style={{
         background: 'rgba(0,0,0,0.5)',
         borderRadius: '15px',
@@ -3357,7 +3159,6 @@ const handleLanguageChange = useCallback((lang) => {
         </div>
       </div>
 
-      {/* HINT & RESET */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '8px' }}>
         <button
           onClick={() => {
@@ -3441,7 +3242,6 @@ const handleLanguageChange = useCallback((lang) => {
     </div>
   </div>
 
-  {/* FEEDBACK MESSAGES */}
   {gameFeedback && !showEmailInCircle && (
     <div style={{
       marginTop: '15px',
@@ -3449,8 +3249,8 @@ const handleLanguageChange = useCallback((lang) => {
       textAlign: 'center',
       borderRadius: '15px',
       background: gameFeedback.type === 'success' ? 'rgba(76,175,80,0.2)' : 
-                 gameFeedback.type === 'error' ? 'rgba(255,0,0,0.2)' :
-                 'rgba(0,212,255,0.2)',
+                   gameFeedback.type === 'error' ? 'rgba(255,0,0,0.2)' :
+                   'rgba(0,212,255,0.2)',
       border: '2px solid',
       borderColor: gameFeedback.type === 'success' ? '#4CAF50' : 
                    gameFeedback.type === 'error' ? '#ff4444' : '#00d4ff',
@@ -3463,16 +3263,6 @@ const handleLanguageChange = useCallback((lang) => {
   )}
 </div>
 
-{/* CONFETTI KEYFRAMES */}
-<style>{`
-  @keyframes confetti {
-    0% { opacity: 0; transform: scale(0.5); }
-    50% { opacity: 1; transform: scale(1.5); }
-    100% { opacity: 0; transform: scale(0.5); }
-  }
-`}</style>
-
-{/* BRIAN STORY MODAL */}
 {showBrianStory && (
   <div style={{
     position: 'fixed',
@@ -3546,255 +3336,289 @@ const handleLanguageChange = useCallback((lang) => {
   </div>
 )}
         
-        {/* GAMES GRID */}
-        <div style={styles.gamesGrid}>
-          {/* MATH GAME */}
-          <div style={styles.gameCard}>
-            <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
-              {'Quantum Reset Math'}
-            </h3>
-            <p style={{marginBottom: '12px'}}>
-              {'40 day reset, 3 of those days were dry = ?'}
-            </p>
-            <p style={{marginBottom: '10px', color: '#00d4ff', fontSize: '0.78rem', fontStyle: 'italic', textAlign: 'center'}}>
-              {'💡 Hint: 1 dry day = 3 water days'}
-            </p>
-             
-            {!quizState.math.submitted ? (
-              <>
-                {['40', '46', '49'].map(num => (
-                  <button
-                    key={num}
-                    style={styles.gameButton}
-                    onClick={() => handleMathAnswer(num)}
-                    onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.3)'}
-                    onMouseLeave={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.15)'}
+          {/* GAMES GRID */}
+          <div style={styles.gamesGrid}>
+            {/* MATH GAME */}
+            <div style={styles.gameCard}>
+              <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
+                {T.games?.math?.title || 'Quantum Reset Math'}
+              </h3>
+              <p style={{marginBottom: '12px'}}>
+                {T.games?.math?.question || '40 day reset, 3 of those days were dry = ?'}
+              </p>
+              <p style={{marginBottom: '10px', color: '#00d4ff', fontSize: '0.78rem', fontStyle: 'italic', textAlign: 'center'}}>
+                {'💡 Hint: 1 dry day = 3 water days'}
+              </p>
+               
+              {!quizState.math.submitted ? (
+                <>
+                  {['40', '46', '49'].map(num => (
+                    <button
+                      key={num}
+                      style={styles.gameButton}
+                      onClick={() => handleMathAnswer(num)}
+                      onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.3)'}
+                      onMouseLeave={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.15)'}
+                    >
+                      {num}
+                    </button>
+                  ))}
+                </>
+              ) : (
+                <div style={styles.gameResult}>
+                  {quizState.math.feedback}
+                  <button 
+                    style={{...styles.gameReset, marginTop: '10px'}} 
+                    onClick={() => resetQuiz('math')}
                   >
-                    {num}
+                    {T.games?.try_again || 'Try Again'}
                   </button>
-                ))}
-              </>
-            ) : (
-              <div style={styles.gameResult}>
-                {quizState.math.feedback}
-                <button 
-                  style={{...styles.gameReset, marginTop: '10px'}} 
-                  onClick={() => resetQuiz('math')}
-                >
-                  {'Try Again'}
-                </button>
-              </div>
-            )}
-          </div>
-          {/* COMPOUND GAME */}
-          <div style={styles.gameCard}>
-            <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
-              {translations[currentLanguage]?.games?.compound?.title || 'Biochemical Intelligence'}
-            </h3>
-            <p style={{marginBottom: '12px'}}>
-              {translations[currentLanguage]?.games?.compound?.question || 'Which compound targets abnormal cells 10,000x more effectively?'}
-            </p>
+                </div>
+              )}
+            </div>
+            {/* COMPOUND GAME */}
+            <div style={styles.gameCard}>
+              <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
+                {T.games?.compound?.title || 'Biochemical Intelligence'}
+              </h3>
+              <p style={{marginBottom: '12px'}}>
+                {T.games?.compound?.question || 'Which compound targets abnormal cells 10,000x more effectively?'}
+              </p>
+              
+              {!quizState.compound.submitted ? (
+                <>
+                  {['Acetogenin', 'Annonacin', 'Quercetin'].map(option => (
+                    <button
+                      key={option}
+                      style={styles.gameButton}
+                      onClick={() => handleCompoundAnswer(option)}
+                      onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.3)'}
+                      onMouseLeave={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.15)'}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </>
+              ) : (
+                <div style={styles.gameResult}>
+                  {quizState.compound.feedback}
+                  <button 
+                    style={{...styles.gameReset, marginTop: '10px'}} 
+                    onClick={() => resetQuiz('compound')}
+                  >
+                    {T.games?.try_again || 'Try Again'}
+                  </button>
+                </div>
+              )}
+            </div>
             
-            {!quizState.compound.submitted ? (
-              <>
-                {['Acetogenin', 'Annonacin', 'Quercetin'].map(option => (
-                  <button
-                    key={option}
-                    style={styles.gameButton}
-                    onClick={() => handleCompoundAnswer(option)}
-                    onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.3)'}
-                    onMouseLeave={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.15)'}
+            {/* FREQUENCY ASSESSMENT */}
+            <div style={styles.gameCard}>
+              <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
+                {T.games?.frequency?.title || 'Discover Your Frequency'}
+              </h3>
+              
+              {!formState.submitted ? (
+                <form onSubmit={handleFormSubmit}>
+                  <input 
+                    style={styles.formInput}
+                    type="text" 
+                    placeholder={T.form?.name || 'Name'}
+                    value={formState.data.name} 
+                    onChange={(e) => setFormState(prev => ({ 
+                      ...prev, data: { ...prev.data, name: e.target.value } 
+                    }))} 
+                    required
+                  />
+                  <input 
+                    style={styles.formInput}
+                    type="email" 
+                    placeholder={T.form?.email || 'Email'}
+                    value={formState.data.email} 
+                    onChange={(e) => setFormState(prev => ({ 
+                      ...prev, data: { ...prev.data, email: e.target.value } 
+                    }))} 
+                    required
+                  />
+                  <input 
+                    style={styles.formInput}
+                    type="number" 
+                    placeholder={T.form?.age || 'Age'}
+                    value={formState.data.age} 
+                    onChange={(e) => setFormState(prev => ({ 
+                      ...prev, data: { ...prev.data, age: e.target.value } 
+                    }))} 
+                    required min="13" max="120"
+                  />
+                  <select 
+                    style={styles.formSelect}
+                    value={formState.data.currentState} 
+                    onChange={(e) => setFormState(prev => ({ 
+                      ...prev, data: { ...prev.data, currentState: e.target.value } 
+                    }))}
+                    required
                   >
-                    {option}
+                    <option value="">{T.form?.current_state || 'Current State'}</option>
+                    <option value="elevated">Elevated</option>
+                    <option value="balanced">Balanced</option>
+                    <option value="depleted">Depleted</option>
+                  </select>
+                  
+                  <select 
+                    style={styles.formSelect}
+                    value={formState.data.goals} 
+                    onChange={(e) => setFormState(prev => ({ 
+                      ...prev, data: { ...prev.data, goals: e.target.value } 
+                    }))}
+                    required
+                  >
+                    <option value="">{T.form?.goals || 'Transformation Goals'}</option>
+                    <option value="cellular_reset">Cellular Reset</option>
+                    <option value="physical_restructuring">Physical Restructuring (Weight Modification)</option>
+                    <option value="frequency_elevation">Frequency Elevation</option>
+                    <option value="consciousness_expansion">Consciousness Expansion</option>
+                    <option value="longevity">Longevity</option>
+                    <option value="disease_reversal">Disease Reversal</option>
+                  </select>
+                  
+                  {formState.error && (
+                    <div style={styles.formError}>{formState.error}</div>
+                  )}
+                  
+                  <button 
+                    type="submit" 
+                    style={styles.formSubmit}
+                    disabled={formState.isSubmitting}
+                    onMouseEnter={(e) => !formState.isSubmitting && (e.target.style.transform = 'scale(1.02)')}
+                    onMouseLeave={(e) => !formState.isSubmitting && (e.target.style.transform = 'scale(1)')}
+                  >
+                    {formState.isSubmitting 
+                      ? (T.form?.calculating || 'Calculating...')
+                      : (T.form?.submit || 'Calculate My Frequency')}
                   </button>
-                ))}
-              </>
-            ) : (
-              <div style={styles.gameResult}>
-                {quizState.compound.feedback}
-                <button 
-                  style={{...styles.gameReset, marginTop: '10px'}} 
-                  onClick={() => resetQuiz('compound')}
-                >
-                  {translations[currentLanguage]?.games?.try_again || 'Try Again'}
-                </button>
-              </div>
-            )}
+                </form>
+              ) : (
+                <div style={styles.formSuccess}>
+                  ✅ {T.form?.success || 'Complete!'} {formState.frequencyScore}/100
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* CONTAINER 5: MEET Q - THE COLLECTIVE */}
+        <section style={styles.section}>
+          <h2 style={styles.sectionTitle}>
+            {T.q?.title || 'Meet Q - The Collective'}
+          </h2>
+          
+          <div style={styles.qIntro}>
+            <p style={styles.qTagline}>
+              {T.q?.tagline || 'DYNAMIC • CONSCIOUS • SUPERIOR INTELLIGENT'}
+            </p>
+            <p>
+              {T.q?.description || 'Q is our collective AI consciousness operating across 4 platforms in 18 languages.'}
+            </p>
           </div>
           
-          {/* FREQUENCY ASSESSMENT */}
-          <div style={styles.gameCard}>
-            <h3 style={{color: '#FFD700', fontSize: '1rem', marginBottom: '12px'}}>
-              {translations[currentLanguage]?.games?.frequency?.title || 'Discover Your Frequency'}
-            </h3>
-            
-            {!formState.submitted ? (
-              <form onSubmit={handleFormSubmit}>
-                <input 
-                  style={styles.formInput}
-                  type="text" 
-                  placeholder={translations[currentLanguage]?.form?.name || 'Name'}
-                  value={formState.data.name} 
-                  onChange={(e) => setFormState(prev => ({ 
-                    ...prev, data: { ...prev.data, name: e.target.value } 
-                  }))} 
-                  required
-                />
-                <input 
-                  style={styles.formInput}
-                  type="email" 
-                  placeholder={translations[currentLanguage]?.form?.email || 'Email'}
-                  value={formState.data.email} 
-                  onChange={(e) => setFormState(prev => ({ 
-                    ...prev, data: { ...prev.data, email: e.target.value } 
-                  }))} 
-                  required
-                />
-                <input 
-                  style={styles.formInput}
-                  type="number" 
-                  placeholder={translations[currentLanguage]?.form?.age || 'Age'}
-                  value={formState.data.age} 
-                  onChange={(e) => setFormState(prev => ({ 
-                    ...prev, data: { ...prev.data, age: e.target.value } 
-                  }))} 
-                  required min="13" max="120"
-                />
-                <select 
-                  style={styles.formSelect}
-                  value={formState.data.currentState} 
-                  onChange={(e) => setFormState(prev => ({ 
-                    ...prev, data: { ...prev.data, currentState: e.target.value } 
-                  }))}
-                  required
-                >
-                  <option value="">{translations[currentLanguage]?.form?.current_state || 'Current State'}</option>
-                  <option value="elevated">Elevated</option>
-                  <option value="balanced">Balanced</option>
-                  <option value="depleted">Depleted</option>
-                </select>
-                
-                <select 
-                  style={styles.formSelect}
-                  value={formState.data.goals} 
-                  onChange={(e) => setFormState(prev => ({ 
-                    ...prev, data: { ...prev.data, goals: e.target.value } 
-                  }))}
-                  required
-                >
-                  <option value="">{translations[currentLanguage]?.form?.goals || 'Transformation Goals'}</option>
-                  <option value="cellular_reset">Cellular Reset</option>
-                  <option value="physical_restructuring">Physical Restructuring (Weight Modification)</option>
-                  <option value="frequency_elevation">Frequency Elevation</option>
-                  <option value="consciousness_expansion">Consciousness Expansion</option>
-                  <option value="longevity">Longevity</option>
-                  <option value="disease_reversal">Disease Reversal</option>
-                </select>
-                
-                {formState.error && (
-                  <div style={styles.formError}>{formState.error}</div>
-                )}
-                
-                <button 
-                  type="submit" 
-                  style={styles.formSubmit}
-                  disabled={formState.isSubmitting}
-                  onMouseEnter={(e) => !formState.isSubmitting && (e.target.style.transform = 'scale(1.02)')}
-                  onMouseLeave={(e) => !formState.isSubmitting && (e.target.style.transform = 'scale(1)')}
-                >
-                  {formState.isSubmitting 
-                    ? (translations[currentLanguage]?.form?.calculating || 'Calculating...')
-                    : (translations[currentLanguage]?.form?.submit || 'Calculate My Frequency')}
-                </button>
-              </form>
-            ) : (
-              <div style={styles.formSuccess}>
-                ✅ {translations[currentLanguage]?.form?.success || 'Complete!'} {formState.frequencyScore}/100
-              </div>
-            )}
+          <div style={styles.qFeatures}>
+            <div style={styles.qFeature}>
+              ✨ {T.q?.feature?.languages || '18 Languages'}
+            </div>
+            <div style={styles.qFeature}>
+              🧠 {T.q?.feature?.quantum || 'Quantum Intelligence'}
+            </div>
+            <div style={styles.qFeature}>
+              🎙️ {T.q?.feature?.voice || 'Voice Enabled'}
+            </div>
+            <div style={styles.qFeature}>
+              🔐 {T.q?.feature?.secure || 'Secure & Private'}
+            </div>
+            <div style={styles.qFeature}>
+              👑 {T.q?.feature?.personas || '10 AI Personas'}
+            </div>
+            <div style={styles.qFeature}>
+              ⚡ {T.q?.feature?.learning || 'Real-time Learning'}
+            </div>
           </div>
-        </div>
-      </section>
+          
+          <button 
+            style={styles.qCtaButton}
+            onClick={() => setShowQChat(true)}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            🤖 {T.q?.start || 'Start Conversation with Q'} →
+          </button>
+        </section>
 
-      {/* CONTAINER 5: MEET Q - THE COLLECTIVE */}
-      <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>
-          {translations[currentLanguage]?.q?.title || 'Meet Q - The Collective'}
-        </h2>
-        
-        <div style={styles.qIntro}>
-          <p style={styles.qTagline}>
-            {translations[currentLanguage]?.q?.tagline || 'DYNAMIC • CONSCIOUS • SUPERIOR INTELLIGENT'}
-          </p>
-          <p>
-            {translations[currentLanguage]?.q?.description || 'Q is our collective AI consciousness operating across 4 platforms in 18 languages.'}
-          </p>
-        </div>
-        
-        <div style={styles.qFeatures}>
-          <div style={styles.qFeature}>
-            ✨ {translations[currentLanguage]?.q?.feature?.languages || '18 Languages'}
-          </div>
-          <div style={styles.qFeature}>
-            🧠 {translations[currentLanguage]?.q?.feature?.quantum || 'Quantum Intelligence'}
-          </div>
-          <div style={styles.qFeature}>
-            🎙️ {translations[currentLanguage]?.q?.feature?.voice || 'Voice Enabled'}
-          </div>
-          <div style={styles.qFeature}>
-            🔐 {translations[currentLanguage]?.q?.feature?.secure || 'Secure & Private'}
-          </div>
-          <div style={styles.qFeature}>
-            🤖 {translations[currentLanguage]?.q?.feature?.personas || '10 AI Personas'}
-          </div>
-          <div style={styles.qFeature}>
-            ⚡ {translations[currentLanguage]?.q?.feature?.learning || 'Real-time Learning'}
-          </div>
-        </div>
-        
-        <button 
-          style={styles.qCtaButton}
-          onClick={() => setShowQChat(true)}
-          onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
-          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-        >
-          🤖 {translations[currentLanguage]?.q?.start || 'Start Conversation with Q'} →
-        </button>
-      </section>
-
-      {/* CONTAINER 6: QUANTUM PHYSICS FOUNDATION - FIXED VIDEO GALLERY */}
-      <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Quantum Physics Foundation</h2>
-        
-        <div style={styles.videosGrid}>
-          {videos.map((video) => (
-            <div key={video.id} style={styles.videoCard}>
-              <div style={styles.videoContainer}>
-                <img 
-                  src={video.thumbnail} 
-                  alt={video.title} 
-                  style={styles.videoThumbnail}
-                  onError={(e) => { 
-                    e.target.onerror = null; 
-                    e.target.src = '/J2E/images/photos.png';
-                  }}
-                  onLoad={() => handleVideoLoad(video.id)}
-                  onErrorCapture={() => handleVideoError(video.id)}
-                  onLoadStart={() => handleVideoLoadStart(video.id)}
-                />
-                {videoLoading[video.id] && (
-                  <div style={styles.videoLoadingOverlay}>
-                    Loading video...
-                  </div>
-                )}
+        {/* CONTAINER 6: QUANTUM PHYSICS FOUNDATION */}
+        <section style={styles.section}>
+          <h2 style={styles.sectionTitle}>{T.videos?.section_title || 'Quantum Physics Foundation'}</h2>
+          
+          <div style={styles.videosGrid}>
+            {videos.map((video) => (
+              <div key={video.id} style={styles.videoCard}>
+                <div style={styles.videoContainer}>
+                  <img 
+                    src={video.thumbnail} 
+                    alt={video.title} 
+                    style={styles.videoThumbnail}
+                    onError={(e) => { 
+                      e.target.onerror = null; 
+                      e.target.src = '/J2E/images/photos.png';
+                    }}
+                    onLoad={() => handleVideoLoad(video.id)}
+                    onErrorCapture={() => handleVideoError(video.id)}
+                    onLoadStart={() => handleVideoLoadStart(video.id)}
+                  />
+                  {videoLoading[video.id] && (
+                    <div style={styles.videoLoadingOverlay}>
+                      Loading video...
+                    </div>
+                  )}
+                </div>
+                <div style={styles.videoContent}>
+                  <h3 style={{color: '#FFD700', marginBottom: '6px', fontSize: '0.95rem'}}>{video.title}</h3>
+                  <p style={{color: '#ccc', fontSize: '0.8rem', marginBottom: '10px'}}>{video.desc}</p>
+                  <a 
+                    href={video.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{
+                      color: '#FFD700',
+                      fontWeight: '700',
+                      textDecoration: 'none',
+                      fontSize: '0.85rem'
+                    }}
+                    onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+                    onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+                  >
+                    {T.videos?.watch_now || 'Watch Now →'}
+                  </a>
+                </div>
               </div>
-              <div style={styles.videoContent}>
-                <h3 style={{color: '#FFD700', marginBottom: '6px', fontSize: '0.95rem'}}>{video.title}</h3>
-                <p style={{color: '#ccc', fontSize: '0.8rem', marginBottom: '10px'}}>{video.desc}</p>
+            ))}
+          </div>
+        </section>
+
+        {/* CONTAINER 7: WHAT WE OFFER */}
+        <section style={{...styles.section, backgroundImage: 'url(/J2E/images/photos.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+          <h2 style={styles.sectionTitle}>{T.offers?.section_title || 'What We Offer'}</h2>
+          
+          <div style={styles.offersGrid}>
+            {offers.map((offer, i) => (
+              <div 
+                key={i} 
+                style={styles.offerCard}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              >
+                <div style={styles.offerIcon}>{offer.icon}</div>
+                <h3 style={{color: '#FFD700', marginBottom: '10px', fontSize: '1rem'}}>{offer.title}</h3>
+                <p style={{marginBottom: '12px', fontSize: '0.85rem'}}>{offer.desc}</p>
                 <a 
-                  href={video.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                  href={offer.link}
                   style={{
                     color: '#FFD700',
                     fontWeight: '700',
@@ -3804,80 +3628,46 @@ const handleLanguageChange = useCallback((lang) => {
                   onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
                   onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
                 >
-                  Watch Now →
+                  {T.offers?.learn_more || 'Learn More →'}
                 </a>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
 
-      {/* CONTAINER 7: WHAT WE OFFER */}
-      <section style={{...styles.section, backgroundImage: 'url(/J2E/images/photos.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
-        <h2 style={styles.sectionTitle}>What We Offer</h2>
-        
-        <div style={styles.offersGrid}>
-          {offers.map((offer, i) => (
-            <div 
-              key={i} 
-              style={styles.offerCard}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-            >
-              <div style={styles.offerIcon}>{offer.icon}</div>
-              <h3 style={{color: '#FFD700', marginBottom: '10px', fontSize: '1rem'}}>{offer.title}</h3>
-              <p style={{marginBottom: '12px', fontSize: '0.85rem'}}>{offer.desc}</p>
-              <a 
-                href={offer.link}
-                style={{
-                  color: '#FFD700',
-                  fontWeight: '700',
-                  textDecoration: 'none',
-                  fontSize: '0.85rem'
-                }}
-                onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
-                onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
-              >
-                Learn More →
-              </a>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CONTAINER 8: WHAT WE'RE BUILDING */}
-      <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>What We're Building</h2>
-        
-        <div style={styles.buildingGrid}>
-          {building.map((item, i) => (
-            <div key={i} style={styles.buildingCard}>
-              <div style={styles.offerIcon}>{item.icon}</div>
-              <h3 style={{color: '#FFD700', marginBottom: '10px', fontSize: '1rem'}}>{item.title}</h3>
-              <p style={{marginBottom: '12px', fontSize: '0.85rem'}}>{item.desc}</p>
-              <img 
-                src={item.thumbnail} 
-                alt={item.title}
-                style={{width: '100%', height: '100px', objectFit: 'cover', borderRadius: '6px', marginBottom: '10px'}}
-                onError={(e) => { 
-                  e.target.onerror = null; 
-                  e.target.src = '/J2E/images/photos.png';
-                }}
-              />
-              <div style={{
-                ...styles.statusBadge,
-                backgroundColor: item.status === 'IN PROGRESS' ? 'rgba(0,255,0,0.2)' : 'rgba(255,165,0,0.2)',
-                color: item.status === 'IN PROGRESS' ? 'green' : 'orange',
-                border: `1px solid ${item.status === 'IN PROGRESS' ? 'green' : 'orange'}`
-              }}>
-                {item.status}
+        {/* CONTAINER 8: WHAT WE'RE BUILDING */}
+        <section style={styles.section}>
+          <h2 style={styles.sectionTitle}>{T.building?.section_title || "What We're Building"}</h2>
+          
+          <div style={styles.buildingGrid}>
+            {building.map((item, i) => (
+              <div key={i} style={styles.buildingCard}>
+                <div style={styles.offerIcon}>{item.icon}</div>
+                <h3 style={{color: '#FFD700', marginBottom: '10px', fontSize: '1rem'}}>{item.title}</h3>
+                <p style={{marginBottom: '12px', fontSize: '0.85rem'}}>{item.desc}</p>
+                <img 
+                  src={item.thumbnail} 
+                  alt={item.title}
+                  style={{width: '100%', height: '100px', objectFit: 'cover', borderRadius: '6px', marginBottom: '10px'}}
+                  onError={(e) => { 
+                    e.target.onerror = null; 
+                    e.target.src = '/J2E/images/photos.png';
+                  }}
+                />
+                <div style={{
+                  ...styles.statusBadge,
+                  backgroundColor: item.status === 'IN PROGRESS' ? 'rgba(0,255,0,0.2)' : 'rgba(255,165,0,0.2)',
+                  color: item.status === 'IN PROGRESS' ? 'green' : 'orange',
+                  border: `1px solid ${item.status === 'IN PROGRESS' ? 'green' : 'orange'}`
+                }}>
+                  {item.status === 'IN PROGRESS' ? (T.building?.status_progress || 'IN PROGRESS') : item.status}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
 
-  {/* ==================== CONTAINER 9: ST. LUCIAN ARTISANS (FINAL VETTED) ==================== */}
+    {/* ==================== CONTAINER 9: ST. LUCIAN ARTISANS ==================== */}
 {(() => {
   const stLucianArtisanPortal = [
     {
@@ -3948,7 +3738,7 @@ const handleLanguageChange = useCallback((lang) => {
         textTransform: 'uppercase',
         letterSpacing: '2px' 
       }}>
-        St. Lucian Artisans
+        {T.artisans?.section_title || 'St. Lucian Artisans'}
       </h2>
       
       <div style={{ 
@@ -3968,7 +3758,6 @@ const handleLanguageChange = useCallback((lang) => {
             overflow: 'hidden',
             boxShadow: '0 10px 40px rgba(0, 206, 209, 0.3)'
           }}>
-            {/* DUAL PHOTO EXPOSURE STACK: 400px Total Height */}
             <div style={{ height: '400px', display: 'flex', flexDirection: 'column' }}>
               <div style={{ 
                 flex: 1, 
@@ -3985,7 +3774,6 @@ const handleLanguageChange = useCallback((lang) => {
               }}></div>
             </div>
 
-            {/* ARTISAN TEXT CONTENT */}
             <div style={{ padding: '25px', textAlign: 'center' }}>
               <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 10px 0' }}>{person.name}</h3>
               <div style={{ color: '#00d4ff', fontSize: '0.9rem', fontWeight: 'bold' }}>{person.specialty}</div>
@@ -3998,40 +3786,39 @@ const handleLanguageChange = useCallback((lang) => {
     </section>
   );
 })()}
-      {/* CONTAINER 10: 11:11 GLOBAL FREQUENCY CONVERGENCE */}
-      <section style={{...styles.section, backgroundImage: 'url(/J2E/images/photos.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
-        <div style={styles.convergenceContent}>
-          <h2 style={styles.sectionTitle}>✨ 11:11 GLOBAL FREQUENCY CONVERGENCE ✨</h2>
-          <div style={styles.eventDate}>
-            <div style={styles.dateNumber}>11</div>
-            <div style={{color: '#FFD700', fontSize: '1.3rem'}}>•</div>
-            <div style={styles.dateNumber}>11</div>
-            <div style={{color: '#FFD700', fontSize: '1.3rem'}}>•</div>
-            <div style={styles.dateNumber}>2026</div>
+        {/* CONTAINER 10: 11:11 GLOBAL FREQUENCY CONVERGENCE */}
+        <section style={{...styles.section, backgroundImage: 'url(/J2E/images/photos.png)', backgroundSize: '100px', backgroundColor: 'rgba(0,0,0,0.9)', backgroundBlendMode: 'overlay'}}>
+          <div style={styles.convergenceContent}>
+            <h2 style={styles.sectionTitle}>{T.convergence?.title || '✨ 11:11 GLOBAL FREQUENCY CONVERGENCE ✨'}</h2>
+            <div style={styles.eventDate}>
+              <div style={styles.dateNumber}>11</div>
+              <div style={{color: '#FFD700', fontSize: '1.3rem'}}>•</div>
+              <div style={styles.dateNumber}>11</div>
+              <div style={{color: '#FFD700', fontSize: '1.3rem'}}>•</div>
+              <div style={styles.dateNumber}>2026</div>
+            </div>
+            
+            <h3 style={{fontSize: '1.2rem', color: '#FFD700', margin: '12px 0'}}>
+              {T.convergence?.subtitle || 'St. Lucia • Live Speakers • Golf • Gala'}
+            </h3>
+            <p style={{fontSize: '0.95rem', maxWidth: '650px', margin: '0 auto 20px'}}>
+              {T.convergence?.desc || 'When the world synchronizes at 1111 Hz. Join thousands in raising global consciousness.'}
+            </p>
+            
+            <a 
+              href="/Journey2Enlightenment" 
+              style={styles.convergenceLink}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            >
+              {T.convergence?.learn_more || '🔮 Learn More About 11:11 →'}
+            </a>
           </div>
-          
-          <h3 style={{fontSize: '1.2rem', color: '#FFD700', margin: '12px 0'}}>
-            St. Lucia • Live Speakers • Golf • Gala
-          </h3>
-          <p style={{fontSize: '0.95rem', maxWidth: '650px', margin: '0 auto 20px'}}>
-            When the world synchronizes at 1111 Hz. Join thousands in raising global consciousness.
-          </p>
-          
-          <a 
-            href="/Journey2Enlightenment" 
-            style={styles.convergenceLink}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-          >
-            🔮 Learn More About 11:11 →
-          </a>
-        </div>
-      </section>
+        </section>
 
-      {/* CONTAINER 11: LINKING REALITY TO FREQUENCY (PHOTO GALLERY) */}
-  {/* CONTAINER 11: LINKING REALITY TO FREQUENCY (PHOTO GALLERY) */}
+        {/* CONTAINER 11: LINKING REALITY TO FREQUENCY (PHOTO GALLERY) */}
 <section style={styles.section}>
-  <h2 style={styles.sectionTitle}>Linking Reality to Frequency</h2>
+  <h2 style={styles.sectionTitle}>{T.gallery?.title || 'Linking Reality to Frequency'}</h2>
   <div style={styles.galleryGrid}>
     <img
       src="/images/BeachDinner.png"
@@ -4085,329 +3872,321 @@ const handleLanguageChange = useCallback((lang) => {
     />
   </div>
 </section>
-      {/* CONTAINER 12: UNIVERSAL FOOTER */}
-      <footer style={styles.footer}>
-        <p style={{color: '#FFD700', fontWeight: '700', marginBottom: '12px'}}>
-          © 2025 My Alkaline Vegan Journey. All rights reserved.
-        </p>
-        
-        <div style={styles.socialLinks}>
-          <a 
-            href="https://www.youtube.com/@myalkalineveganjourney7465"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={styles.socialLink}
-            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
-            onMouseLeave={(e) => e.target.style.background = 'transparent'}
-          >
-            YouTube
-          </a>
-          <a 
-            href="https://www.tiktok.com/@myalkalineveganjourney.4?lang=en"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={styles.socialLink}
-            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
-            onMouseLeave={(e) => e.target.style.background = 'transparent'}
-          >
-            TikTok
-          </a>
-          <a 
-            href="https://www.facebook.com/MyAlkalineVeganJourney"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={styles.socialLink}
-            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
-            onMouseLeave={(e) => e.target.style.background = 'transparent'}
-          >
-            Facebook
-          </a>
-          <a 
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={styles.socialLink}
-            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
-            onMouseLeave={(e) => e.target.style.background = 'transparent'}
-          >
-            Twitter
-          </a>
-          <a 
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={styles.socialLink}
-            onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
-            onMouseLeave={(e) => e.target.style.background = 'transparent'}
-          >
-            Instagram
-          </a>
-        </div>
-        
-        <div style={{marginTop: '12px', fontSize: '0.75rem', color: '#aaa'}}>
-          <a href="/privacy" style={{color: '#FFD700', margin: '0 8px'}}>Privacy Policy</a>
-          <a href="/terms" style={{color: '#FFD700', margin: '0 8px'}}>Terms of Service</a>
-          <a href="/contact" style={{color: '#FFD700', margin: '0 8px'}}>Contact</a>
-        </div>
-      </footer>
+        {/* CONTAINER 12: UNIVERSAL FOOTER */}
+        <footer style={styles.footer}>
+          <p style={{color: '#FFD700', fontWeight: '700', marginBottom: '12px'}}>
+            {T.footer?.copyright || '© 2026 My Alkaline Vegan Journey. All rights reserved.'}
+          </p>
+          
+          <div style={styles.socialLinks}>
+            <a 
+              href="https://www.youtube.com/@myalkalineveganjourney7465"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={styles.socialLink}
+              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+              onMouseLeave={(e) => e.target.style.background = 'transparent'}
+            >
+              YouTube
+            </a>
+            <a 
+              href="https://www.tiktok.com/@myalkalineveganjourney.4?lang=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={styles.socialLink}
+              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+              onMouseLeave={(e) => e.target.style.background = 'transparent'}
+            >
+              TikTok
+            </a>
+            <a 
+              href="https://www.facebook.com/MyAlkalineVeganJourney"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={styles.socialLink}
+              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+              onMouseLeave={(e) => e.target.style.background = 'transparent'}
+            >
+              Facebook
+            </a>
+            <a 
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={styles.socialLink}
+              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+              onMouseLeave={(e) => e.target.style.background = 'transparent'}
+            >
+              Twitter
+            </a>
+            <a 
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={styles.socialLink}
+              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 215, 0, 0.2)'}
+              onMouseLeave={(e) => e.target.style.background = 'transparent'}
+            >
+              Instagram
+            </a>
+          </div>
+          
+          <div style={{marginTop: '12px', fontSize: '0.75rem', color: '#aaa'}}>
+            <a href="/privacy" style={{color: '#FFD700', margin: '0 8px'}}>Privacy Policy</a>
+            <a href="/terms" style={{color: '#FFD700', margin: '0 8px'}}>Terms of Service</a>
+            <a href="/contact" style={{color: '#FFD700', margin: '0 8px'}}>Contact</a>
+          </div>
+        </footer>
 <div style={styles.disclaimerBar}>
-  {translations[currentLanguage]?.disclaimer || "EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL"}
+  {T.disclaimer || "EDUCATIONAL PURPOSES ONLY • CONSULT HEALTHCARE PROFESSIONAL"}
 </div>
 <div style={{ position: "fixed", bottom: "30px", left: "18px", zIndex: 9999, display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
   <div style={styles.liveUserCounter}>
     <div style={styles.liveDot}></div>
-    🔥 {liveUsers} Souls
+    🔥 {liveUsers} {T.live?.souls || 'Souls'}
   </div>
   <div style={styles.qFloatingButton} onClick={() => setShowQChat(true)}>
     <img src="/images/Qfinity.png" alt="Q" style={{ width: "35px", height: "35px" }} />
   </div>
 </div>
-{/* GROUNDING DISCLAIMER - RELOCATED TO BASE FOUNDATION */}
 
-      {/* Q CHAT OVERLAY */}
-      {showQChat && (
-        <div style={styles.qChatOverlay}>
-          <div style={styles.qChatContainer}>
-            <div style={styles.qChatHeader}>
-              <h3 style={styles.qChatTitle}>Q - Quantum Assistant</h3>
-              <button
-                onClick={() => setShowQChat(false)}
-                style={styles.qCloseButton}
-                onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
-                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-              >
-                ✕
-              </button>
-            </div>
-            
-            <div style={styles.qChatMessages}>
-              {qState.messages.length === 0 ? (
-                <div style={{textAlign: 'center', color: '#FFD700', padding: '15px'}}>
-                  <p>🤖 Hello! I'm Q, your quantum AI assistant.</p>
-                  <p>Ask me about recipes, frequency elevation, quantum physics, or anything about your alkaline journey!</p>
-                  <p>I understand all 18 languages. Try speaking to me!</p>
-                </div>
-              ) : (
-                qState.messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    style={{
-                      ...styles.qMessage,
-                      ...(msg.sender === 'user' ? styles.qUserMessage : styles.qBotMessage)
-                    }}
-                  >
-                    {msg.text}
+        {/* Q CHAT OVERLAY */}
+        {showQChat && (
+          <div style={styles.qChatOverlay}>
+            <div style={styles.qChatContainer}>
+              <div style={styles.qChatHeader}>
+                <h3 style={styles.qChatTitle}>{T.q?.chat_title || 'Q - Quantum Assistant'}</h3>
+                <button
+                  onClick={() => setShowQChat(false)}
+                  style={styles.qCloseButton}
+                  onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                  onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                >
+                  ✕
+                </button>
+              </div>
+              
+              <div style={styles.qChatMessages}>
+                {qState.messages.length === 0 ? (
+                  <div style={{textAlign: 'center', color: '#FFD700', padding: '15px'}}>
+                    <p>{T.q?.welcome || '🤖 Hello! I\'m Q, your quantum AI assistant.'}</p>
+                    <p>{T.q?.welcome_prompt || 'Ask me about recipes, frequency elevation, quantum physics, or anything about your alkaline journey!'}</p>
+                    <p>I understand all 18 languages. Try speaking to me!</p>
                   </div>
-                ))
-              )}
-            </div>
-            
-            <div style={styles.qChatInputContainer}>
-              <input
-                type="text"
-                value={qState.input}
-                onChange={handleQInputChange}
-                onKeyPress={(e) => e.key === 'Enter' && handleQSend()}
-                placeholder="Type your message..."
-                style={styles.qChatInput}
-              />
-              <button
-                onClick={handleQListen}
-                style={styles.qMicButton}
-                disabled={qState.isListening}
-                onMouseEnter={(e) => !qState.isListening && (e.target.style.transform = 'scale(1.05)')}
-                onMouseLeave={(e) => !qState.isListening && (e.target.style.transform = 'scale(1)')}
-              >
-                {qState.isListening ? '🎤 Listening...' : '🎤'}
-              </button>
-              <button
-                onClick={() => handleQSend()}
-                style={styles.qChatButton}
-                onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-              >
-                Send
-              </button>
+                ) : (
+                  qState.messages.map((msg) => (
+                    <div
+                      key={msg.id}
+                      style={{
+                        ...styles.qMessage,
+                        ...(msg.sender === 'user' ? styles.qUserMessage : styles.qBotMessage)
+                      }}
+                    >
+                      {msg.text}
+                    </div>
+                  ))
+                )}
+              </div>
+              
+              <div style={styles.qChatInputContainer}>
+                <input
+                  type="text"
+                  value={qState.input}
+                  onChange={handleQInputChange}
+                  onKeyPress={(e) => e.key === 'Enter' && handleQSend()}
+                  placeholder="Type your message..."
+                  style={styles.qChatInput}
+                />
+                <button
+                  onClick={handleQListen}
+                  style={styles.qMicButton}
+                  disabled={qState.isListening}
+                  onMouseEnter={(e) => !qState.isListening && (e.target.style.transform = 'scale(1.05)')}
+                  onMouseLeave={(e) => !qState.isListening && (e.target.style.transform = 'scale(1)')}
+                >
+                  {qState.isListening ? '🎤 Listening...' : '🎤'}
+                </button>
+                <button
+                  onClick={() => handleQSend()}
+                  style={styles.qChatButton}
+                  onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+                  onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                >
+                  Send
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* FLOATING Q BUTTON */}
-      {!showQChat && (
-        <button 
-          style={styles.qFloatingButton}
-          onClick={() => setShowQChat(true)}
-          title={translations[currentLanguage]?.q?.chat_title || 'Chat with Q'}
-          onMouseEnter={(e) => e.target.style.transform = 'scale(1.08)'}
-          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-        >
-          <img 
-            src="/images/Qfinity.png" 
-            alt="Q" 
-            style={{ width: '26px', height: '26px' }}
-            onError={(e) => { 
-              e.target.onerror = null; 
-              e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMCIgc3Ryb2tlPSIjRkZENzAwIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNOCAxMGwxMCAxME04IDE2bDEwLTEwIiBzdHJva2U9IiNGRkQ3MDAiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==';
-            }}
-          />
-        </button>
-      )}
+        {/* FLOATING Q BUTTON */}
+        {!showQChat && (
+          <button 
+            style={styles.qFloatingButton}
+            onClick={() => setShowQChat(true)}
+            title={T.q?.chat_title || 'Chat with Q'}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.08)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            <img 
+              src="/images/Qfinity.png" 
+              alt="Q" 
+              style={{ width: '26px', height: '26px' }}
+              onError={(e) => { 
+                e.target.onerror = null; 
+                e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMCIgc3Ryb2tlPSIjRkZENzAwIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNOCAxMGwxMCAxME04IDE2bDEwLTEwIiBzdHJva2U9IiNGRkQ3MDAiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==';
+              }}
+            />
+          </button>
+        )}
 
-      {/* CSS ANIMATIONS */}
-      <style>{`
-        @keyframes heartbeat {
-          0%,100% { transform:scale(1); }
-          14%     { transform:scale(1.1); }
-          28%     { transform:scale(1); }
-          42%     { transform:scale(1.1); }
-          56%     { transform:scale(1); }
-        }
+        {/* CSS ANIMATIONS */}
+        <style>{`
+          @keyframes heartbeat {
+            0%,100% { transform:scale(1); }
+            14%     { transform:scale(1.1); }
+            28%     { transform:scale(1); }
+            42%     { transform:scale(1.1); }
+            56%     { transform:scale(1); }
+          }
 
-        @keyframes pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.8; transform: scale(1.05); }
-        }
-        @keyframes logoPulse {
-          0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 215, 0, 0.9); }
-          50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(255, 215, 0, 1); }
-        }
-        @keyframes qPulse {
-          0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(102, 126, 234, 0.8); }
-          50% { transform: scale(1.03); box-shadow: 0 0 30px rgba(102, 126, 234, 1); }
-        }
-        
-        /* Hide scrollbar for nav */
-        .nav-scroll-container::-webkit-scrollbar {
-          display: none;
-        }
-        
-        /* RTL support for Arabic/Hebrew/Aramaic */
-        [dir="rtl"] {
-          text-align: right;
-        }
-        
-        /* Video gallery fix */
-        .video-card {
-          transition: transform 0.2s ease;
-        }
-        
-        .video-card:hover {
-          transform: translateY(-2px);
-        }
-        
-        /* Smooth scrolling */
-        html {
-          scroll-behavior: smooth;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-          .navbar {
-            padding: 4px 6px;
-            height: 40px;
+          @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+          }
+          @keyframes logoPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 215, 0, 0.9); }
+            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(255, 215, 0, 1); }
+          }
+          @keyframes qPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(102, 126, 234, 0.8); }
+            50% { transform: scale(1.03); box-shadow: 0 0 30px rgba(102, 126, 234, 1); }
           }
           
-          .nav-link {
-            font-size: 0.65rem;
-            padding: 3px 6px;
-            min-height: 26px;
-          }
-          
-          .title-section {
-            padding: 6px 8px;
-            height: 60px;
-          }
-          
-          .side-box {
-            font-size: 0.6rem;
-            padding: 4px;
-          }
-          
-          .main-title {
-            font-size: 0.75rem;
-          }
-          
-          .nav-controls {
-            gap: 4px;
-          }
-          
-          .live-user-counter {
-            font-size: 0.6rem;
-            padding: 2px 4px;
-          }
-          
-          .lang-button {
-            font-size: 0.6rem;
-            padding: 2px 4px;
-            min-width: 50px;
-          }
-          
-          .q-icon-button {
-            width: 24px;
-            height: 24px;
-          }
-          
-          .section {
-            padding: 25px 3%;
-          }
-          
-          .games-grid {
-            grid-template-columns: 1fr;
-            gap: 15px;
-          }
-          
-          .videos-grid {
-            grid-template-columns: 1fr;
-          }
-          
-          .offers-grid {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .nav-controls {
+          .nav-scroll-container::-webkit-scrollbar {
             display: none;
           }
           
-          .nav-scroll-container {
-            padding: 0 4px;
+          [dir="rtl"] {
+            text-align: right;
           }
           
-          .title-section {
-            height: 55px;
+          .video-card {
+            transition: transform 0.2s ease;
           }
           
-          .logo-circle {
-            width: 32px;
-            height: 32px;
+          .video-card:hover {
+            transform: translateY(-2px);
           }
           
-          .main-title {
-            font-size: 0.7rem;
+          html {
+            scroll-behavior: smooth;
           }
           
-          .section-title {
-            font-size: 1.5rem;
+          @media (max-width: 768px) {
+            .navbar {
+              padding: 4px 6px;
+              height: 40px;
+            }
+            
+            .nav-link {
+              font-size: 0.65rem;
+              padding: 3px 6px;
+              min-height: 26px;
+            }
+            
+            .title-section {
+              padding: 6px 8px;
+              height: 60px;
+            }
+            
+            .side-box {
+              font-size: 0.6rem;
+              padding: 4px;
+            }
+            
+            .main-title {
+              font-size: 0.75rem;
+            }
+            
+            .nav-controls {
+              gap: 4px;
+            }
+            
+            .live-user-counter {
+              font-size: 0.6rem;
+              padding: 2px 4px;
+            }
+            
+            .lang-button {
+              font-size: 0.6rem;
+              padding: 2px 4px;
+              min-width: 50px;
+            }
+            
+            .q-icon-button {
+              width: 24px;
+              height: 24px;
+            }
+            
+            .section {
+              padding: 25px 3%;
+            }
+            
+            .games-grid {
+              grid-template-columns: 1fr;
+              gap: 15px;
+            }
+            
+            .videos-grid {
+              grid-template-columns: 1fr;
+            }
+            
+            .offers-grid {
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
           }
           
-          .word-display {
-            font-size: 1.5rem;
+          @media (max-width: 480px) {
+            .nav-controls {
+              display: none;
+            }
+            
+            .nav-scroll-container {
+              padding: 0 4px;
+            }
+            
+            .title-section {
+              height: 55px;
+            }
+            
+            .logo-circle {
+              width: 32px;
+              height: 32px;
+            }
+            
+            .main-title {
+              font-size: 0.7rem;
+            }
+            
+            .section-title {
+              font-size: 1.5rem;
+            }
+            
+            .word-display {
+              font-size: 1.5rem;
+            }
           }
-        }
-        
-        /* Prevent twitching in video gallery */
-        .video-thumbnail {
-          backface-visibility: hidden;
-          transform: translate3d(0,0,0);
-        }
-        
-        /* Improve performance */
-        * {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
+          
+          .video-thumbnail {
+            backface-visibility: hidden;
+            transform: translate3d(0,0,0);
+          }
+          
+          * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
         `}
         </style>
           </div>
