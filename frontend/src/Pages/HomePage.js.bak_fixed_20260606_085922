@@ -4,16 +4,85 @@ import DOMPurify from 'dompurify';
 import Layout, { TranslationContext } from '../components/PageLayout';
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const { currentLang: currentLanguage, setCurrentLang: setCurrentLanguage, T } = useContext(TranslationContext);
   const [showQChat, setShowQChat] = useState(false);
   // This is the direct ledger of your St. Lucian Team. 
   // Each artisan has a 2-photo stack (Profile + Craft).
-  
+  const artisan = [
+    {
+      name: 'Julian The Coconut Artist',
+      specialty: 'Functional Coconut Art & Birdfeeders',
+      description: 'Master coconut sculptor creating functional art pieces out of fresh St. Lucian coconuts.',
+      location: 'Castries Market Arcade, St. Lucia',
+      image: '/images/JulianCoconutArtist.png',
+      workImage: "/images/JulianCoconutBirdFeeders.png"
+    },
+    {
+      name: 'Kurt The Fisherman',
+      specialty: 'Sustainable Traditional Fishing',
+      description: 'Master of the sea, specializing in Red Snapper and deep-sea tradition.',
+      location: 'Tou Rouge, Castries, St. Lucia',
+      image: '/images/KurtTheFISHERMAN.png',
+      workImage: '/images/KurtwithSnapper.png'
+    },
+    {
+      name: 'Brittany The Chemist',
+      specialty: '100% All-Natural Creams & Fermentations',
+      description: 'Crafting organic scrubs and bio-active fermentations for holistic skin health.',
+      location: 'Washington, DC & Gros Islet, St. Lucia',
+      image: '/images/Brittany.png',
+      workImage: "/images/BrittanyCreamsFermentations.png"
+    },
+    {
+      name: 'Anthony The Barber',
+      specialty: 'Precision Grooming & Self-Cut Artistry',
+      description: 'Expert barbering focused on sharp aesthetics and personal frequency.',
+      location: 'St. Lucia',
+      image: '/images/AnthonyTheBarber.png',
+      workImage: '/images/AnthonyTheBarberSelfCut.png'
+    },
+    {
+      name: 'King Khaled The Organic Rastafarian Agriculturist',
+      specialty: 'Rastafarian Organic Farmer',
+      description: 'Guardian of the soil at the Rastafarian Farm, growing high-vibration organic produce.',
+      location: 'Des Barras, St. Lucia',
+      image: '/images/KingKhaled.jpg',
+      workImage: '/images/DesBarras.jpeg'
+    },
+    {
+      name: 'Reggie The Builder',
+      specialty: 'Black Mallet Official Recycle Man',
+      description: 'Building sustainable structures and leading the recycling movement.',
+      location: 'Black Mallet, St. Lucia',
+      image: '/images/REGGIE.jpeg',
+      workImage: '/images/ReggieBuilderRecycleMan.png'
+    },
+    {
+      name: 'Simeon The Skilled Equestrian',
+      specialty: 'The Horse Trainer',
+      description: 'Managing the sanctuary and training horses at the Rastafarian farm.',
+      location: 'Des Barras, St. Lucia',
+      image: '/images/Simeon.png',
+      workImage: '/images/HorseOnFarm.jpeg'
+    },
+    {
+      name: 'Billy The Aqua Tour Guide',
+      specialty: 'Water Excursions',
+      description: 'Escorting guests throughout the waters of St. Lucia.',
+      location: 'Soufriere, St. Lucia',
+      image: '/images/Billy.jpg',
+      workImage: '/images/BoatTours.jpg'
+    }
+  ];
 
   // ==================== STATE MANAGEMENT ====================
 // Get language from PageLayout context
-      const [liveUsers, setLiveUsers] = useState(127);
-    const [showBrianStory, setShowBrianStory] = useState(false);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [showAnnouncements, setShowAnnouncements] = useState(true);
+  const [liveUsers, setLiveUsers] = useState(127);
+  const [particlesEnabled, setParticlesEnabled] = useState(true);
+  const [showBrianStory, setShowBrianStory] = useState(false);
   const [videoLoading, setVideoLoading] = useState({});
   const [emailCaptured, setEmailCaptured] = useState(false);
   const [userEmail, setUserEmail] = useState('');
@@ -30,6 +99,7 @@ const HomePage = () => {
 // Game State
 const [showEmailInCircle, setShowEmailInCircle] = useState(false);
 const [pendingNewWord, setPendingNewWord] = useState(null);
+const [showConfetti, setShowConfetti] = useState(false);
 
 // ========== ALGORITHM 1: WORD DATABASE WITH FULL METADATA ==========
 const MAVJ_WORD_DATABASE = [
@@ -860,7 +930,28 @@ const building = useMemo(() => [
   ], []);
 
   // ==================== PHOTO GALLERY ====================
-  
+  const galleryImages = useMemo(() => [
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/MAVJLogo.png',
+      alt: 'J2E Logo'
+    },
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/DBRoad.jpg',
+      alt: 'Des Barres Road'
+    },
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/BigTent.jpeg',
+      alt: 'Big Tent'
+    },
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/ResTents.jpeg',
+      alt: 'Res Tents'
+    },
+    {
+      src: 'https://raw.githubusercontent.com/MyAlkalineVeganJourney/J2E/main/Diving%20in%20St.%20Thomas.jpg',
+      alt: 'Dive'
+    }
+  ], []);
 
   // ==================== EFFECTS ====================
   useEffect(() => {
@@ -958,8 +1049,76 @@ const building = useMemo(() => [
   }, [currentLanguage]);
 
   // ==================== GAME HANDLERS (CONTAINER 4) ====================
-  
-  
+  const handleWordClick = useCallback((word) => {
+    if (!positiveGame.gameActive) return;
+
+    const isCorrect = word === positiveGame.currentWord;
+    const newScore = positiveGame.score + (isCorrect ? 100 : -50);
+    const newStreak = isCorrect ? positiveGame.streak + 1 : 0;
+    const godSpaceActivated = newStreak >= 5 || positiveGame.godSpaceActivated;
+
+    let newLevel = positiveGame.level;
+    if (newScore >= newLevel * 500 && newLevel < 3) {
+      newLevel = newLevel + 1;
+    }
+
+    const currentWords = positiveWordBank[currentLanguage] || positiveWordBank.English;
+    const levelWords = currentWords[newLevel] || currentWords[1];
+    const newWord = levelWords[Math.floor(Math.random() * levelWords.length)];
+
+    const currentGodWords = godSpaceWords[currentLanguage] || godSpaceWords.English;
+    const isGodWord = currentGodWords.includes(word);
+
+    setPositiveGame(prev => ({
+      ...prev,
+      score: Math.max(0, newScore),
+      streak: newStreak,
+      level: newLevel,
+      currentWord: newWord,
+      godSpaceActivated: godSpaceActivated || isGodWord,
+      feedback: isCorrect 
+        ? (isGodWord 
+          ? '🌟 GOD SPACE ACTIVATED! +500' 
+          : '✨ Frequency Elevated! +100')
+        : '💫 Keep trying!',
+      history: [...prev.history, { word, correct: isCorrect, timestamp: Date.now() }].slice(-20),
+      wordsUsed: [...prev.wordsUsed, word]
+    }));
+
+    trackInteraction('positive_word_game', {
+      word, correct: isCorrect, score: newScore, streak: newStreak, level: newLevel, godSpace: godSpaceActivated || isGodWord
+    });
+
+    // Save to localStorage for demo (replace with actual backend)
+    const gameData = {
+      type: 'positive_word_game',
+      score: newScore,
+      streak: newStreak,
+      level: newLevel,
+      word,
+      correct: isCorrect,
+      godSpace: godSpaceActivated || isGodWord,
+      language: currentLanguage,
+      timestamp: new Date().toISOString()
+    };
+    let existing; try { existing = JSON.parse(localStorage.getItem("mavj_game_scores")) || []; } catch (e) { existing = []; } if (!Array.isArray(existing)) existing = [];
+    existing.push(gameData);
+    localStorage.setItem('mavj_game_scores', JSON.stringify(existing.slice(-50)));
+  }, [positiveGame, currentLanguage, positiveWordBank, godSpaceWords, trackInteraction]);
+
+  const resetPositiveGame = useCallback(() => {
+    const currentWords = positiveWordBank[currentLanguage] || positiveWordBank.English;
+    const levelWords = currentWords[1];
+    const randomWord = levelWords[Math.floor(Math.random() * levelWords.length)];
+
+    setPositiveGame({
+      score: 0, streak: 0, level: 1, currentWord: randomWord,
+      gameActive: true, godSpaceActivated: false, feedback: '', history: [], wordsUsed: []
+    });
+
+    trackInteraction('game_reset', { game: 'positive_word' });
+  }, [trackInteraction, currentLanguage, positiveWordBank]);
+
   const handleMathAnswer = useCallback((answer) => {
     if (quizState.math.submitted) return;
 
@@ -1291,6 +1450,7 @@ const building = useMemo(() => [
  // ==================== LANGUAGE HANDLER ====================
 const handleLanguageChange = useCallback((lang) => {
   setCurrentLanguage(lang);
+  setShowLanguageDropdown(false);
 
   // Update positive word game for new language
   const currentWords = positiveWordBank[lang] || positiveWordBank.English;

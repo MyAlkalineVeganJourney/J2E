@@ -1,0 +1,261 @@
+src/App.js:2:import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+src/App.js:69:        <Router basename={window.location.pathname.startsWith("/J2E") ? "/J2E" : ""}>
+src/App.js:72:              <Routes>
+src/App.js:73:                <Route path="/" element={<HomePage />} />
+src/App.js:74:                <Route path="/home" element={<Navigate to="/" replace />} />
+src/App.js:75:                <Route path="/HomePage" element={<Navigate to="/" replace />} />
+src/App.js:76:                <Route path="/index" element={<Navigate to="/" replace />} />
+src/App.js:77:                <Route path="/index.html" element={<Navigate to="/" replace />} />
+src/App.js:78:                <Route path="/TheJourney" element={<TheJourney />} />
+src/App.js:79:                <Route path="/VibrationalIntelligence" element={<VibrationalIntelligence />} />
+src/App.js:80:                <Route path="/AlignWithUs" element={<AlignWithUs />} />
+src/App.js:81:                <Route path="/MAVJSearch" element={<MAVJSearch />} />
+src/App.js:82:                <Route path="/LiveBroadcast" element={<LiveBroadcast />} />
+src/App.js:83:                <Route path="/MAVJStore" element={<MAVJStore />} />
+src/App.js:84:                <Route path="/ProductCatalog" element={<ProductCatalog />} />
+src/App.js:85:                <Route path="/PodcastVlog" element={<PodcastVlog />} />
+src/App.js:86:                <Route path="/ContactUs" element={<ContactUs />} />
+src/App.js:87:                <Route path="/Checkout" element={<Checkout />} />
+src/App.js:88:                <Route path="/Recipes" element={<Recipes />} />
+src/App.js:89:                <Route path="/Herbs" element={<Herbs />} />
+src/App.js:90:                <Route path="/FrequencyMisalignments" element={<FrequencyMisalignments />} />
+src/App.js:91:                <Route path="/Oils" element={<Oils />} />
+src/App.js:92:                <Route path="/MAVJDetox" element={<MAVJDetox />} />
+src/App.js:93:                <Route path="/Journey2Enlightenment" element={<Journey2Enlightenment />} />
+src/App.js:94:                <Route path="/J2EConvergence" element={<J2EConvergence />} />
+src/App.js:95:                <Route path="/AVSnacks" element={<AVSnacks />} />
+src/App.js:96:                <Route path="/Seeds" element={<Seeds />} />
+src/App.js:97:                <Route path="/MAVJSeaMoss" element={<MAVJSeaMoss />} />
+src/App.js:98:                <Route path="/Consultations" element={<Consultations />} />
+src/App.js:99:                <Route path="/Merchandise" element={<Merchandise />} />
+src/App.js:100:                <Route path="/AboutUs" element={<AboutUs />} />
+src/App.js:101:                <Route path="/AVDrinks" element={<AVDrinks />} />
+src/App.js:102:                <Route path="/J2EAccommodations" element={<J2EAccommodations />} />
+src/App.js:103:                <Route path="/J2EExcursions" element={<J2EExcursions />} />
+src/App.js:104:                <Route path="/J2EAgro" element={<J2EAgro />} />
+src/App.js:105:                <Route path="/J2EAqua" element={<J2EAqua />} />
+src/App.js:106:                <Route path="/J2EWorkshops" element={<J2EWorkshops />} />
+src/App.js:107:                <Route path="/J2EFood" element={<J2EFood />} />
+src/App.js:108:                <Route path="/VibrationalIntelligence/ElementsEnergy" element={<ElementsEnergy />} />
+src/App.js:109:                <Route path="/VibrationalIntelligence/FrequencyRecalibration" element={<FrequencyRecalibration />} />
+src/App.js:110:                <Route path="/VibrationalIntelligence/J2EProtocol" element={<J2EProtocol />} />
+src/App.js:111:                <Route path="/VibrationalIntelligence/ProductCompendium" element={<ProductCompendium />} />
+src/App.js:112:                <Route path="/VibrationalIntelligence/PackagingLabels" element={<PackagingLabels />} />
+src/App.js:113:                <Route path="/VibrationalIntelligence/PackagingLabels/Chakras" element={<Chakras />} />
+src/App.js:114:                <Route path="/VibrationalIntelligence/PackagingLabels/Fibonacci" element={<Fibonacci />} />
+src/App.js:115:                <Route path="/VibrationalIntelligence/PackagingLabels/FrequencyChart" element={<FrequencyChart />} />
+src/App.js:116:                <Route path="/VibrationalIntelligence/PackagingLabels/Numerology" element={<Numerology />} />
+src/App.js:117:                <Route path="/VibrationalIntelligence/PackagingLabels/PinealGland" element={<PinealGland />} />
+src/App.js:118:                <Route path="/VibrationalIntelligence/PackagingLabels/SacredGeometry" element={<SacredGeometry />} />
+src/App.js:119:                <Route path="/VibrationalIntelligence/MasterElements" element={<MasterElements />} />
+src/App.js:120:                <Route path="/VibrationalIntelligence/ScienceOfConsciousness" element={<ScienceOfConsciousness />} />
+src/App.js:121:                <Route path="/VibrationalIntelligence/ScienceOfConsciousness/QuantumConsciousness" element={<QuantumConsciousness />} />
+src/App.js:122:                <Route path="/VibrationalIntelligence/ScienceOfConsciousness/NeuroQuantics" element={<NeuroQuantics />} />
+src/App.js:123:                <Route path="/VibrationalIntelligence/ScienceOfConsciousness/BiofieldResearch" element={<BiofieldResearch />} />
+src/App.js:124:                <Route path="/VibrationalIntelligence/FrequencyPractices" element={<FrequencyPractices />} />
+src/App.js:125:                <Route path="/VibrationalIntelligence/FrequencyPractices/CymaticsLab" element={<CymaticsLab />} />
+src/App.js:126:                <Route path="/VibrationalIntelligence/QuantumResearch" element={<QuantumResearch />} />
+src/App.js:127:                <Route path="/VibrationalIntelligence/QuantumResearch/QuantumBiologyNews" element={<QuantumBiologyNews />} />
+src/App.js:128:                <Route path="/VibrationalIntelligence/CommunityField" element={<CommunityField />} />
+src/App.js:129:                <Route path="*" element={
+src/App.js:135:              </Routes>
+src/App.js:138:        </Router>
+src/App.js.backup:7:import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+src/App.js.backup:62:      <Router basename="/J2E">
+src/App.js.backup:64:          <Routes>
+src/App.js.backup:65:            <Route path="/" element={<HomePage />} />
+src/App.js.backup:66:            <Route path="/TheJourney" element={<TheJourney />} />
+src/App.js.backup:67:            <Route path="/VibrationalIntelligence" element={<VibrationalIntelligence />} />
+src/App.js.backup:68:            <Route path="/AlignWithUs" element={<AlignWithUs />} />
+src/App.js.backup:69:            <Route path="/Search" element={<MAVJSearch />} />
+src/App.js.backup:70:            <Route path="/LiveBroadcast" element={<LiveBroadcast />} />
+src/App.js.backup:71:            <Route path="/MAVJStore" element={<MAVJStore />} />
+src/App.js.backup:72:            <Route path="/PodcastVlog" element={<PodcastVlog />} />
+src/App.js.backup:73:            <Route path="/ContactUs" element={<ContactUs />} />
+src/App.js.backup:74:            <Route path="/Checkout" element={<Checkout />} />
+src/App.js.backup:75:            <Route path="/Recipes" element={<Recipes />} />
+src/App.js.backup:76:            <Route path="/Herbs" element={<Herbs />} />
+src/App.js.backup:77:            <Route path="/Illnesses" element={<Illnesses />} />
+src/App.js.backup:78:            <Route path="/Oils" element={<Oils />} />
+src/App.js.backup:79:            <Route path="/MAVJDetox" element={<MAVJDetox />} />
+src/App.js.backup:80:            <Route path="/Journey2Enlightenment" element={<Journey2Enlightenment />} />
+src/App.js.backup:81:            <Route path="/AVSnacks" element={<AVSnacks />} />
+src/App.js.backup:82:            <Route path="/Seeds" element={<Seeds />} />
+src/App.js.backup:83:            <Route path="/MAVJSeaMoss" element={<MAVJSeaMoss />} />
+src/App.js.backup:84:            <Route path="/Consultations" element={<Consultations />} />
+src/App.js.backup:85:            <Route path="/Merchandise" element={<Merchandise />} />
+src/App.js.backup:86:            <Route path="/AboutUs" element={<AboutUs />} />
+src/App.js.backup:87:            <Route path="/AVDrinks" element={<AVDrinks />} />
+src/App.js.backup:88:            <Route path="/J2EAccommodations" element={<J2EAccommodations />} />
+src/App.js.backup:89:            <Route path="/J2EExcursions" element={<J2EExcursions />} />
+src/App.js.backup:90:            <Route path="/J2EAgro" element={<J2EAgro />} />
+src/App.js.backup:91:            <Route path="/J2EAqua" element={<J2EAqua />} />
+src/App.js.backup:92:            <Route path="/J2EWorkshops" element={<J2EWorkshops />} />
+src/App.js.backup:93:            <Route path="/J2EFood" element={<J2EFood />} />
+src/App.js.backup:95:            <Route path="/VibrationalIntelligence/ElementsEnergy" element={<ElementsEnergy />} />
+src/App.js.backup:96:            <Route path="/VibrationalIntelligence/FrequencyRecalibration" element={<FrequencyRecalibration />} />
+src/App.js.backup:97:            <Route path="/VibrationalIntelligence/J2EProtocol" element={<J2EProtocol />} />
+src/App.js.backup:98:            <Route path="/VibrationalIntelligence/ProductCompendium" element={<ProductCompendium />} />
+src/App.js.backup:99:            <Route path="/VibrationalIntelligence/PackagingLabels" element={<PackagingLabels />} />
+src/App.js.backup:100:            <Route path="/VibrationalIntelligence/PackagingLabels/Chakras" element={<Chakras />} />
+src/App.js.backup:101:            <Route path="/VibrationalIntelligence/PackagingLabels/Fibonacci" element={<Fibonacci />} />
+src/App.js.backup:102:            <Route path="/VibrationalIntelligence/PackagingLabels/FrequencyChart" element={<FrequencyChart />} />
+src/App.js.backup:103:            <Route path="/VibrationalIntelligence/PackagingLabels/Numerology" element={<Numerology />} />
+src/App.js.backup:104:            <Route path="/VibrationalIntelligence/PackagingLabels/PinealGland" element={<PinealGland />} />
+src/App.js.backup:105:            <Route path="/VibrationalIntelligence/PackagingLabels/SacredGeometry" element={<SacredGeometry />} />
+src/App.js.backup:106:            <Route path="/VibrationalIntelligence/MasterElements" element={<MasterElements />} />
+src/App.js.backup:107:          </Routes>
+src/App.js.backup:109:      </Router>
+src/App.js.backup-20260217-210054:9:import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+src/App.js.backup-20260217-210054:66:            <Router basename={window.location.pathname.startsWith("/J2E") ? "/J2E" : ""}>
+src/App.js.backup-20260217-210054:69:                  <Routes>
+src/App.js.backup-20260217-210054:70:                    <Route path="/" element={<HomePage />} />
+src/App.js.backup-20260217-210054:71:                    <Route path="/home" element={<Navigate to="/" replace />} />
+src/App.js.backup-20260217-210054:72:                    <Route path="/HomePage" element={<Navigate to="/" replace />} />
+src/App.js.backup-20260217-210054:73:                    <Route path="/index" element={<Navigate to="/" replace />} />
+src/App.js.backup-20260217-210054:74:                    <Route path="/index.html" element={<Navigate to="/" replace />} />
+src/App.js.backup-20260217-210054:75:                    <Route path="/TheJourney" element={<TheJourney />} />
+src/App.js.backup-20260217-210054:76:                    <Route path="/VibrationalIntelligence" element={<VibrationalIntelligence />} />
+src/App.js.backup-20260217-210054:77:                    <Route path="/AlignWithUs" element={<AlignWithUs />} />
+src/App.js.backup-20260217-210054:78:                    <Route path="/Search" element={<MAVJSearch />} />
+src/App.js.backup-20260217-210054:79:                    <Route path="/LiveBroadcast" element={<LiveBroadcast />} />
+src/App.js.backup-20260217-210054:80:                    <Route path="/MAVJStore" element={<MAVJStore />} />
+src/App.js.backup-20260217-210054:81:                    <Route path="/PodcastVlog" element={<PodcastVlog />} />
+src/App.js.backup-20260217-210054:82:                    <Route path="/ContactUs" element={<ContactUs />} />
+src/App.js.backup-20260217-210054:83:                    <Route path="/Checkout" element={<Checkout />} />
+src/App.js.backup-20260217-210054:84:                    <Route path="/Recipes" element={<Recipes />} />
+src/App.js.backup-20260217-210054:85:                    <Route path="/Herbs" element={<Herbs />} />
+src/App.js.backup-20260217-210054:86:                    <Route path="/Illnesses" element={<Illnesses />} />
+src/App.js.backup-20260217-210054:87:                    <Route path="/Oils" element={<Oils />} />
+src/App.js.backup-20260217-210054:88:                    <Route path="/MAVJDetox" element={<MAVJDetox />} />
+src/App.js.backup-20260217-210054:89:                    <Route path="/Journey2Enlightenment" element={<Journey2Enlightenment />} />
+src/App.js.backup-20260217-210054:90:                    <Route path="/AVSnacks" element={<AVSnacks />} />
+src/App.js.backup-20260217-210054:91:                    <Route path="/Seeds" element={<Seeds />} />
+src/App.js.backup-20260217-210054:92:                    <Route path="/MAVJSeaMoss" element={<MAVJSeaMoss />} />
+src/App.js.backup-20260217-210054:93:                    <Route path="/Consultations" element={<Consultations />} />
+src/App.js.backup-20260217-210054:94:                    <Route path="/Merchandise" element={<Merchandise />} />
+src/App.js.backup-20260217-210054:95:                    <Route path="/AboutUs" element={<AboutUs />} />
+src/App.js.backup-20260217-210054:96:                    <Route path="/AVDrinks" element={<AVDrinks />} />
+src/App.js.backup-20260217-210054:97:                    <Route path="/J2EAccommodations" element={<J2EAccommodations />} />
+src/App.js.backup-20260217-210054:98:                    <Route path="/J2EExcursions" element={<J2EExcursions />} />
+src/App.js.backup-20260217-210054:99:                    <Route path="/J2EAgro" element={<J2EAgro />} />
+src/App.js.backup-20260217-210054:100:                    <Route path="/J2EAqua" element={<J2EAqua />} />
+src/App.js.backup-20260217-210054:101:                    <Route path="/J2EWorkshops" element={<J2EWorkshops />} />
+src/App.js.backup-20260217-210054:102:                    <Route path="/J2EFood" element={<J2EFood />} />
+src/App.js.backup-20260217-210054:103:                    <Route path="/VibrationalIntelligence/ElementsEnergy" element={<ElementsEnergy />} />
+src/App.js.backup-20260217-210054:104:                    <Route path="/VibrationalIntelligence/FrequencyRecalibration" element={<FrequencyRecalibration />} />
+src/App.js.backup-20260217-210054:105:                    <Route path="/VibrationalIntelligence/J2EProtocol" element={<J2EProtocol />} />
+src/App.js.backup-20260217-210054:106:                    <Route path="/VibrationalIntelligence/ProductCompendium" element={<ProductCompendium />} />
+src/App.js.backup-20260217-210054:107:                    <Route path="/VibrationalIntelligence/PackagingLabels" element={<PackagingLabels />} />
+src/App.js.backup-20260217-210054:108:                    <Route path="/VibrationalIntelligence/PackagingLabels/Chakras" element={<Chakras />} />
+src/App.js.backup-20260217-210054:109:                    <Route path="/VibrationalIntelligence/PackagingLabels/Fibonacci" element={<Fibonacci />} />
+src/App.js.backup-20260217-210054:110:                    <Route path="/VibrationalIntelligence/PackagingLabels/FrequencyChart" element={<FrequencyChart />} />
+src/App.js.backup-20260217-210054:111:                    <Route path="/VibrationalIntelligence/PackagingLabels/Numerology" element={<Numerology />} />
+src/App.js.backup-20260217-210054:112:                    <Route path="/VibrationalIntelligence/PackagingLabels/PinealGland" element={<PinealGland />} />
+src/App.js.backup-20260217-210054:113:                    <Route path="/VibrationalIntelligence/PackagingLabels/SacredGeometry" element={<SacredGeometry />} />
+src/App.js.backup-20260217-210054:114:                    <Route path="/VibrationalIntelligence/MasterElements" element={<MasterElements />} />
+src/App.js.backup-20260217-210054:115:                    <Route path="*" element={
+src/App.js.backup-20260217-210054:121:                  </Routes>
+src/App.js.backup-20260217-210054:124:            </Router>
+src/App.js.backup-final-20260217-210834:9:import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+src/App.js.backup-final-20260217-210834:66:            <Router basename={window.location.pathname.startsWith("/J2E") ? "/J2E" : ""}>
+src/App.js.backup-final-20260217-210834:69:                  <Routes>
+src/App.js.backup-final-20260217-210834:70:                    <Route path="/" element={<HomePage />} />
+src/App.js.backup-final-20260217-210834:71:                    <Route path="/home" element={<Navigate to="/" replace />} />
+src/App.js.backup-final-20260217-210834:72:                    <Route path="/HomePage" element={<Navigate to="/" replace />} />
+src/App.js.backup-final-20260217-210834:73:                    <Route path="/index" element={<Navigate to="/" replace />} />
+src/App.js.backup-final-20260217-210834:74:                    <Route path="/index.html" element={<Navigate to="/" replace />} />
+src/App.js.backup-final-20260217-210834:75:                    <Route path="/TheJourney" element={<TheJourney />} />
+src/App.js.backup-final-20260217-210834:76:                    <Route path="/VibrationalIntelligence" element={<VibrationalIntelligence />} />
+src/App.js.backup-final-20260217-210834:77:                    <Route path="/AlignWithUs" element={<AlignWithUs />} />
+src/App.js.backup-final-20260217-210834:78:                    <Route path="/Search" element={<MAVJSearch />} />
+src/App.js.backup-final-20260217-210834:79:                    <Route path="/LiveBroadcast" element={<LiveBroadcast />} />
+src/App.js.backup-final-20260217-210834:80:                    <Route path="/MAVJStore" element={<MAVJStore />} />
+src/App.js.backup-final-20260217-210834:81:                    <Route path="/PodcastVlog" element={<PodcastVlog />} />
+src/App.js.backup-final-20260217-210834:82:                    <Route path="/ContactUs" element={<ContactUs />} />
+src/App.js.backup-final-20260217-210834:83:                    <Route path="/Checkout" element={<Checkout />} />
+src/App.js.backup-final-20260217-210834:84:                    <Route path="/Recipes" element={<Recipes />} />
+src/App.js.backup-final-20260217-210834:85:                    <Route path="/Herbs" element={<Herbs />} />
+src/App.js.backup-final-20260217-210834:86:                    <Route path="/Illnesses" element={<Illnesses />} />
+src/App.js.backup-final-20260217-210834:87:                    <Route path="/Oils" element={<Oils />} />
+src/App.js.backup-final-20260217-210834:88:                    <Route path="/MAVJDetox" element={<MAVJDetox />} />
+src/App.js.backup-final-20260217-210834:89:                    <Route path="/Journey2Enlightenment" element={<Journey2Enlightenment />} />
+src/App.js.backup-final-20260217-210834:90:                    <Route path="/AVSnacks" element={<AVSnacks />} />
+src/App.js.backup-final-20260217-210834:91:                    <Route path="/Seeds" element={<Seeds />} />
+src/App.js.backup-final-20260217-210834:92:                    <Route path="/MAVJSeaMoss" element={<MAVJSeaMoss />} />
+src/App.js.backup-final-20260217-210834:93:                    <Route path="/Consultations" element={<Consultations />} />
+src/App.js.backup-final-20260217-210834:94:                    <Route path="/Merchandise" element={<Merchandise />} />
+src/App.js.backup-final-20260217-210834:95:                    <Route path="/AboutUs" element={<AboutUs />} />
+src/App.js.backup-final-20260217-210834:96:                    <Route path="/AVDrinks" element={<AVDrinks />} />
+src/App.js.backup-final-20260217-210834:97:                    <Route path="/J2EAccommodations" element={<J2EAccommodations />} />
+src/App.js.backup-final-20260217-210834:98:                    <Route path="/J2EExcursions" element={<J2EExcursions />} />
+src/App.js.backup-final-20260217-210834:99:                    <Route path="/J2EAgro" element={<J2EAgro />} />
+src/App.js.backup-final-20260217-210834:100:                    <Route path="/J2EAqua" element={<J2EAqua />} />
+src/App.js.backup-final-20260217-210834:101:                    <Route path="/J2EWorkshops" element={<J2EWorkshops />} />
+src/App.js.backup-final-20260217-210834:102:                    <Route path="/J2EFood" element={<J2EFood />} />
+src/App.js.backup-final-20260217-210834:103:                    <Route path="/VibrationalIntelligence/ElementsEnergy" element={<ElementsEnergy />} />
+src/App.js.backup-final-20260217-210834:104:                    <Route path="/VibrationalIntelligence/FrequencyRecalibration" element={<FrequencyRecalibration />} />
+src/App.js.backup-final-20260217-210834:105:                    <Route path="/VibrationalIntelligence/J2EProtocol" element={<J2EProtocol />} />
+src/App.js.backup-final-20260217-210834:106:                    <Route path="/VibrationalIntelligence/ProductCompendium" element={<ProductCompendium />} />
+src/App.js.backup-final-20260217-210834:107:                    <Route path="/VibrationalIntelligence/PackagingLabels" element={<PackagingLabels />} />
+src/App.js.backup-final-20260217-210834:108:                    <Route path="/VibrationalIntelligence/PackagingLabels/Chakras" element={<Chakras />} />
+src/App.js.backup-final-20260217-210834:109:                    <Route path="/VibrationalIntelligence/PackagingLabels/Fibonacci" element={<Fibonacci />} />
+src/App.js.backup-final-20260217-210834:110:                    <Route path="/VibrationalIntelligence/PackagingLabels/FrequencyChart" element={<FrequencyChart />} />
+src/App.js.backup-final-20260217-210834:111:                    <Route path="/VibrationalIntelligence/PackagingLabels/Numerology" element={<Numerology />} />
+src/App.js.backup-final-20260217-210834:112:                    <Route path="/VibrationalIntelligence/PackagingLabels/PinealGland" element={<PinealGland />} />
+src/App.js.backup-final-20260217-210834:113:                    <Route path="/VibrationalIntelligence/PackagingLabels/SacredGeometry" element={<SacredGeometry />} />
+src/App.js.backup-final-20260217-210834:114:                    <Route path="/VibrationalIntelligence/MasterElements" element={<MasterElements />} />
+src/App.js.backup-final-20260217-210834:115:                    <Route path="*" element={
+src/App.js.backup-final-20260217-210834:121:                  </Routes>
+src/App.js.backup-final-20260217-210834:124:            </Router>
+src/Pages/AlignWithUs.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/AlignWithUs.jsx.broken:2:import { Link } from 'react-router-dom';
+src/Pages/Checkout.js:3:import { Link, useNavigate } from 'react-router-dom';
+src/Pages/FrequencyMisalignments.js:2:import { Link } from 'react-router-dom';
+src/Pages/HPBackups/HomePage.js.backup:1:import { useNavigate } from 'react-router-dom';
+src/Pages/HPBackups/HomePage.js.bak.20260317_163816:2:import { useNavigate } from 'react-router-dom';
+src/Pages/HPBackups/HomePage.js.bak.20260317_164220:2:import { useNavigate } from 'react-router-dom';
+src/Pages/HPBackups/HomePage.js.before.layout:1:import { useNavigate } from 'react-router-dom';
+src/Pages/HPBackups/HomePage.js.pre-final-fix:2:import { useNavigate } from 'react-router-dom';
+src/Pages/HomePage.js:1:import { useNavigate } from 'react-router-dom';
+src/Pages/HomePage.js.backup:1:import { useNavigate } from 'react-router-dom';
+src/Pages/HomePage.js.backup.20260514_162422:1:import { useNavigate } from 'react-router-dom';
+src/Pages/HomePage.jsx.backup:1:import { useNavigate } from 'react-router-dom';
+src/Pages/J2EAccommodations.jsx:3:import { useNavigate } from 'react-router-dom';
+src/Pages/J2EAgro.jsx:3:import { useNavigate } from 'react-router-dom';
+src/Pages/J2EAqua.jsx:3:import { useNavigate } from 'react-router-dom';
+src/Pages/Journey2Enlightenment.js:3:import { useNavigate } from 'react-router-dom';
+src/Pages/Journey2Enlightenment.js.bak:4:import { useNavigate } from 'react-router-dom';
+src/Pages/Journey2Enlightenment.js.bak.20260311_014752:4:import { useNavigate } from 'react-router-dom';
+src/Pages/Journey2Enlightenment.jsx:3:import { useNavigate } from 'react-router-dom';
+src/Pages/MAVJSeaMoss.js:2:import { Link } from 'react-router-dom';
+src/Pages/MAVJSearch.jsx:7: * ROUTE: /MAVJSearch
+src/Pages/MAVJSearch.jsx:20:import { Link } from 'react-router-dom';
+src/Pages/MAVJStore.jsx:3:import { Link } from 'react-router-dom';
+src/Pages/MAVJStore.jsx.backup.20260326_095351:2:import { Link } from 'react-router-dom';
+src/Pages/MAVJStore.jsx.backup.complete.20260330_170516:3:import { Link } from 'react-router-dom';
+src/Pages/MAVJStore.jsx.backup.final.20260328_195907:2:import { Link } from 'react-router-dom';
+src/Pages/MAVJStore.jsx.backup.final2.20260330_113400:2:import { Link } from 'react-router-dom';
+src/Pages/ProductCatalog.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/ProductCatalog.jsx.backup:2:import { Link } from 'react-router-dom';
+src/Pages/ProductCatalogue.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/ProductPage.jsx:3:import { useParams, Link } from 'react-router-dom';
+src/Pages/TheJourney.js:3:import { Link } from "react-router-dom";
+src/Pages/TheJourney.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/VibrationalIntelligence/CommunityField/index.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/VibrationalIntelligence/FrequencyPractices/index.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/VibrationalIntelligence/PackagingLabels.jsx:7:import { Link } from 'react-router-dom';
+src/Pages/VibrationalIntelligence/QuantumResearch/index.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/VibrationalIntelligence/ScienceOfConsciousness/QuantumConsciousness.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/VibrationalIntelligence/ScienceOfConsciousness/index.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/VibrationalIntelligence/index.jsx:2:import { Link } from 'react-router-dom';
+src/Pages/VibrationalIntelligence/index.jsx.backup:5:import { Link } from 'react-router-dom';
+src/Pages/HomePage.js.bak_fixed_20260606_085922:1:import { useNavigate } from 'react-router-dom';
+src/Q/Q.js:6:import { useNavigate } from 'react-router-dom';
+src/components/FloatingCartHomePage.jsx:2:import { useNavigate } from 'react-router-dom';
+src/components/Navbar.js:3:import { NavLink } from 'react-router-dom';
+src/components/PageLayout.jsx:2:import { useNavigate, useLocation } from 'react-router-dom';
+src/components/PageLayout.jsx.backup:2:import { useNavigate, useLocation } from 'react-router-dom';
+src/components/ShoppingCart.jsx:3:import { Link } from 'react-router-dom';
+src/components/VIBreadcrumbs.jsx:3:import { Link } from 'react-router-dom';
+src/components/PageLayout.jsx.bak:2:import { useNavigate, useLocation } from 'react-router-dom';

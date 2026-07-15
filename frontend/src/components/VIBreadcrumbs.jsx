@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { TranslationContext } from './PageLayout';
 import { Link } from 'react-router-dom';
 
 const VIBreadcrumbs = ({ currentPage, currentPageKey, parentPage, parentPageKey }) => {
+  const { T: t } = useContext(TranslationContext);
   // Translation handled by PageLayout
 
   const breadcrumbs = [

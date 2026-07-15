@@ -1,3 +1,4 @@
+import { TranslationContext } from '../components/PageLayout';
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/PageLayout';
@@ -5,8 +6,9 @@ import products from '../data/products';
 import { CartContext } from '../context/CartContext';
 
 const MAVJStore = () => {
+  const { T } = useContext(TranslationContext);
   const { cartItems } = useContext(CartContext);
-  const { t } = useLanguage();
+  
   const [showAnnouncement, setShowAnnouncement] = useState(true);
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [userInfo, setUserInfo] = useState({ name: '', email: '' });

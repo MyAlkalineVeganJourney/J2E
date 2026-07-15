@@ -1,0 +1,28 @@
+{
+  "project_name": "J2E Government Registration",
+  "last_updated": "2026-06-16",
+  "registration_status": {
+    "attorney_general_approval": "pending",
+    "rocip_registration": "pending",
+    "tax_id": "pending"
+  },
+  "documents": [],
+  "correspondence_log": [
+    {
+      "id": 1,
+      "date": "2026-06-16",
+      "type": "submission",
+      "to": "Attorney General of St. Lucia",
+      "attachments": "Registration Package (Receipt #RC00925010900015)",
+      "actor": "Robin"
+    }
+  ],
+  "hard_copies": {
+    "attorney_general_submission": {
+      "copies_made": true,
+      "copies_notarized": true,
+      "date_submitted": "2026-06-16",
+      "receipt_confirmation": "RC00925010900015"
+    }
+  }
+}

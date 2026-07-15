@@ -1,22 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import PageLayout from '../components/PageLayout';
-import VIBreadcrumbs from '../components/VIBreadcrumbs';
+import React, { useState, useContext } from "react";
+import { TranslationContext } from "../components/PageLayout.jsx";
+import { Link } from "react-router-dom";
+import VIBreadcrumbs from "../components/VIBreadcrumbs.jsx";
+import PageLayout from "../components/PageLayout.jsx";
 
 const TheJourney = () => {
-  // Translation handled by PageLayout
-  const [activeYear, setActiveYear] = useState(2020);
+  const { t } = useContext(TranslationContext);
 
-  // Timeline data
   const timelineData = {
-    2019: {
-      title: t('journey.timeline.2019.title', 'The Beginning'),
-      events: [
-        { title: t('journey.timeline.2019.event1.title', 'Living in Australia'), description: t('journey.timeline.2019.event1.desc', 'Before the world changed, I was living abroad, building a life down under.'), icon: '🦘' },
-        { title: t('journey.timeline.2019.event2.title', 'The Pandemic Hits'), description: t('journey.timeline.2019.event2.desc', 'COVID-19 spread globally. I had a return ticket to Australia for April 2020.'), icon: '😷' },
-        { title: t('journey.timeline.2019.event3.title', 'The Mandate'), description: t('journey.timeline.2019.event3.desc', 'February 2020: The US government began mandating the inoculation. I knew I needed to take control of my own health.'), icon: '📜' }
-      ]
-    },
     2020: {
       title: t('journey.timeline.2020.title', 'The First Reset'),
       events: [
@@ -48,417 +39,155 @@ const TheJourney = () => {
         { title: t('journey.timeline.2023.event2.title', 'The MAVJ Family Grows'), description: t('journey.timeline.2023.event2.desc', '100,000+ members on social media. We did resets together. We transformed together.'), icon: '👨‍👩‍👧‍👦' },
         { title: t('journey.timeline.2023.event3.title', 'The Annual Convergence'), description: t('journey.timeline.2023.event3.desc', '3,000+ people across the planet resetting their systems in unison. The buddy system. Before and after photos.'), icon: '🌍' }
       ]
-    },
-    2024: {
-      title: t('journey.timeline.2024.title', 'The Social Experiment'),
-      events: [
-        { title: t('journey.timeline.2024.event1.title', 'It Started With a Smile'), description: t('journey.timeline.2024.event1.desc', 'Wherever you were in the world, smile. Capture the reactions. This simple experiment changed lives.'), icon: '😊' },
-        { title: t('journey.timeline.2024.event2.title', 'Frequency Resonance'), description: t('journey.timeline.2024.event2.desc', 'Because of the frequency we created, it resonated with over 100,000 people joining our family.'), icon: '📡' },
-        { title: t('journey.timeline.2024.event3.title', 'The Censorship'), description: t('journey.timeline.2024.event3.desc', 'Many videos were flagged as "dangerous." We realized we were affecting complete financial ecosystems.'), icon: '⚠️' }
-      ]
-    },
-    2025: {
-      title: t('journey.timeline.2025.title', 'Building the Future'),
-      events: [
-        { title: t('journey.timeline.2025.event1.title', 'The Website Launch'), description: t('journey.timeline.2025.event1.desc', 'Everything we learned, everything we discovered—now available to the world.'), icon: '💻' },
-        { title: t('journey.timeline.2025.event2.title', 'The Artisan Network'), description: t('journey.timeline.2025.event2.desc', 'Julian, Kurt, Brittany, Anthony, King Khaled, Reggie, Simeon—each one a master of their craft.'), icon: '🎨' },
-        { title: t('journey.timeline.2025.event3.title', 'The Vision Expands'), description: t('journey.timeline.2025.event3.desc', 'Curaçao. Kenya. Global hubs. The J2E model expanding worldwide.'), icon: '🌐' }
-      ]
     }
   };
 
+  const [activeYear, setActiveYear] = useState("2020");
+
   const scienceCitations = [
-    { title: "Autophagy and stem cells: self-eating for self-renewal", authors: "Guan JL, Simon AK, Prescott M", journal: "Cell Stem Cell", year: 2020, link: "https://doi.org/10.1016/j.stem.2020.03.009", summary: "Autophagy is essential for maintaining stem cell function and regeneration." },
-    { title: "Fasting activates stem cell regeneration", authors: "Mihaylova MM, Cheng CW, et al.", journal: "Cell Stem Cell", year: 2019, link: "https://doi.org/10.1016/j.stem.2018.11.004", summary: "Prolonged fasting activates stem cell regeneration and reverses immunosuppression." },
-    { title: "Growth hormone and stem cell regulation", authors: "Stout MB, Justice JN, et al.", journal: "Nature Reviews Endocrinology", year: 2019, link: "https://doi.org/10.1038/s41574-019-0162-8", summary: "Growth hormone plays a critical role in stem cell maintenance and tissue regeneration." },
-    { title: "The food industry's role in addiction", authors: "Gearhardt AN, Brownell KD", journal: "Current Drug Abuse Reviews", year: 2011, link: "https://doi.org/10.2174/1874473711104010146", summary: "Hyper-palatable foods trigger addictive-like eating behaviors." }
+    { title: t('journey.science.citation1.title', 'Autophagy and Fasting'), description: t('journey.science.citation1.desc', 'Fasting triggers autophagy — the body\'s cellular cleanup process. Damaged cells are recycled into new, healthy ones.'), source: 'Journal of Cell Biology' },
+    { title: t('journey.science.citation2.title', 'Frequency and Water Memory'), description: t('journey.science.citation2.desc', 'Water responds to vibrational input. Positive words form coherent crystalline structures. Negative words form chaotic patterns.'), source: 'Masaru Emoto Studies' },
+    { title: t('journey.science.citation3.title', 'Quantum Biology'), description: t('journey.science.citation3.desc', 'The human body operates on quantum principles. Our cells communicate through biophotons — light particles that carry frequency information.'), source: 'Fritz-Albert Popp Research' }
   ];
 
   const godspaceMoment = {
-    title: t('journey.godspace.title', 'GODSPACE'),
-    description: t('journey.godspace.desc', 'There is a space beyond euphoria, beyond bliss. I call it GODSPACE. No hyphen. No separation. It arrives when the body is completely cleared, when every channel is open, when frequency flows without obstruction.'),
-    scripture: t('journey.godspace.scripture', 'The kingdom of God is within you. — Luke 17:21')
+    title: t('journey.godspace.title', 'The Godspace Moment'),
+    description: t('journey.godspace.desc', 'There comes a point in every reset where the body transcends hunger. The mind transcends doubt. You enter a space where everything is possible. I call this Godspace. It is the frequency of creation itself.'),
+    quote: t('journey.godspace.quote', '"When the body stops eating, the spirit starts speaking."')
   };
 
   return (
-    <PageLayout pageTitle={t('journey.pageTitle', '🌴 THE JOURNEY - MY STORY')}>
+    <PageLayout>
+      <VIBreadcrumbs />
       
-      {/* Breadcrumb Navigation */}
-      <VIBreadcrumbs 
-        currentPage={t('journey.title', 'The Journey')} 
-        currentPageKey="journey.title" 
-      />
-
-      {/* Hero Section with Golden Sunlight */}
-      <div style={{
-        position: 'relative',
-        background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 25%, #FFD700 50%, #FF8C00 75%, #FFD700 100%)',
-        backgroundSize: '200% 200%',
-        animation: 'sunlight 8s ease infinite',
-        padding: '80px 40px',
-        margin: '0 20px 40px',
-        borderRadius: '20px',
-        border: '3px solid #FFD700',
-        overflow: 'hidden',
-        boxShadow: '0 0 40px rgba(255,215,0,0.3)'
-      }}>
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: 'url(/images/VibrationalIntelligenceBanner.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.08,
-          zIndex: 1
-        }}></div>
-        <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
-          <h1 style={{
-            fontSize: 'clamp(2.5rem, 6vw, 4rem)',
-            color: '#fff',
-            textShadow: '0 0 20px rgba(0,0,0,0.5)',
-            marginBottom: '20px'
-          }}>
-            {t('journey.hero.title', '🌴 The Journey')}
-          </h1>
-          <p style={{
-            fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)',
-            color: '#fff',
-            maxWidth: '900px',
-            margin: '0 auto',
-            lineHeight: '1.6',
-            textShadow: '0 1px 2px rgba(0,0,0,0.3)'
-          }}>
-            {t('journey.hero.subtitle', 'From Reset to Regeneration — A Global Transformation')}
-          </p>
-        </div>
-      </div>
-
-      {/* Timeline Section */}
-      <div style={{ maxWidth: '1400px', margin: '0 auto 60px', padding: '0 20px' }}>
-        <h2 style={{ color: '#FFD700', fontSize: '2rem', textAlign: 'center', marginBottom: '40px' }}>
-          {t('journey.timeline.title', 'The Timeline of Transformation')}
-        </h2>
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem' }}>
         
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', marginBottom: '40px' }}>
-          {[2019, 2020, 2021, 2022, 2023, 2024, 2025].map(year => (
-            <button key={year} onClick={() => setActiveYear(year)} style={{
-              padding: '12px 24px',
-              background: activeYear === year ? '#FFD700' : 'rgba(255,215,0,0.15)',
-              border: '2px solid #FFD700',
-              color: activeYear === year ? '#000' : '#FFD700',
-              borderRadius: '40px',
-              fontSize: '1.1rem',
+        <section style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', color: '#FFD700', marginBottom: '0.5rem' }}>
+            {t('journey.hero.title', 'The Journey')}
+          </h1>
+          <p style={{ fontSize: '1.2rem', color: '#ccc', fontStyle: 'italic' }}>
+            {t('journey.hero.subtitle', 'From a 46-day fast to a global movement.')}
+          </p>
+        </section>
+
+        <section style={{ marginBottom: '3rem', lineHeight: '1.8' }}>
+          <p>{t('journey.intro.p1', 'This is not a diet story. This is a frequency story. In 2020, during a global pause, I made a decision that would change everything. I stopped eating — not to lose weight, but to find myself. What followed was a journey through the deepest layers of human potential.')}</p>
+          <p>{t('journey.intro.p2', 'What you\'re about to read is my personal testimony. The resets. The travels. The discoveries. The moments that proved to me that the human body is capable of far more than we\'ve been told. This is My Alkaline Vegan Journey.')}</p>
+        </section>
+
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ color: '#FFD700', textAlign: 'center', marginBottom: '2rem' }}>
+            {t('journey.timeline.heading', 'The Timeline')}
+          </h2>
+          
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+            {Object.keys(timelineData).map((year) => (
+              <button
+                key={year}
+                onClick={() => setActiveYear(year)}
+                style={{
+                  padding: '0.5rem 1.5rem',
+                  background: activeYear === year ? '#FFD700' : 'transparent',
+                  color: activeYear === year ? '#000' : '#FFD700',
+                  border: '1px solid #FFD700',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: activeYear === year ? 'bold' : 'normal',
+                  transition: 'all 0.3s'
+                }}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
+
+          {timelineData[activeYear] && (
+            <div style={{ background: 'rgba(255,215,0,0.05)', padding: '2rem', borderRadius: '8px', border: '1px solid rgba(255,215,0,0.2)' }}>
+              <h3 style={{ color: '#FFD700', marginBottom: '1.5rem' }}>{timelineData[activeYear].title}</h3>
+              {timelineData[activeYear].events.map((event, idx) => (
+                <div key={idx} style={{ marginBottom: '1.5rem', paddingLeft: '1rem', borderLeft: '2px solid #FFD700' }}>
+                  <h4 style={{ color: '#fff', marginBottom: '0.3rem' }}>
+                    {event.icon} {event.title}
+                  </h4>
+                  <p style={{ color: '#ccc', lineHeight: '1.6' }}>{event.description}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section style={{ marginBottom: '3rem', background: 'rgba(255,215,0,0.08)', padding: '2rem', borderRadius: '8px', textAlign: 'center' }}>
+          <h3 style={{ color: '#FFD700', marginBottom: '1rem' }}>{godspaceMoment.title}</h3>
+          <p style={{ lineHeight: '1.8', color: '#ccc', marginBottom: '1rem' }}>{godspaceMoment.description}</p>
+          <blockquote style={{ fontStyle: 'italic', color: '#FFD700', fontSize: '1.2rem', borderLeft: '3px solid #FFD700', paddingLeft: '1rem', margin: '0 auto', maxWidth: '600px' }}>
+            {godspaceMoment.quote}
+          </blockquote>
+        </section>
+
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ color: '#FFD700', textAlign: 'center', marginBottom: '2rem' }}>
+            {t('journey.science.heading', 'The Science Behind the Journey')}
+          </h2>
+          {scienceCitations.map((citation, idx) => (
+            <div key={idx} style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
+              <h4 style={{ color: '#FFD700', marginBottom: '0.3rem' }}>{citation.title}</h4>
+              <p style={{ color: '#ccc', lineHeight: '1.6', marginBottom: '0.3rem' }}>{citation.description}</p>
+              <small style={{ color: '#888' }}>{t('journey.science.source', 'Source:')} {citation.source}</small>
+            </div>
+          ))}
+        </section>
+
+        <section style={{ textAlign: 'center', padding: '2rem', background: 'linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05))', borderRadius: '8px' }}>
+          <h3 style={{ color: '#FFD700', marginBottom: '1rem' }}>
+            {t('journey.cta.title', 'Begin Your Own Journey')}
+          </h3>
+          <p style={{ color: '#ccc', marginBottom: '2rem', lineHeight: '1.6' }}>
+            {t('journey.cta.desc', 'The reset is personal. No one can do it for you. But you don\'t have to do it alone. Join the MAVJ family and start your transformation today.')}
+          </p>
+          <Link
+            to="/book"
+            style={{
+              display: 'inline-block',
+              padding: '0.8rem 2rem',
+              background: '#FFD700',
+              color: '#000',
+              textDecoration: 'none',
+              borderRadius: '4px',
               fontWeight: 'bold',
+              transition: 'all 0.3s'
+            }}
+          >
+            {t('journey.cta.button', 'Book Your Immersion')}
+          </Link>
+        </section>
+
+        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            style={{
+              background: 'transparent',
+              color: '#FFD700',
+              border: '1px solid #FFD700',
+              padding: '0.5rem 1.5rem',
+              borderRadius: '4px',
               cursor: 'pointer',
               transition: 'all 0.3s'
-            }}>{year}</button>
-          ))}
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '30px' }}>
-          {timelineData[activeYear]?.events.map((event, idx) => (
-            <div key={idx} style={{
-              background: 'linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,215,0,0.02))',
-              borderRadius: '20px',
-              padding: '25px',
-              border: '2px solid rgba(255,215,0,0.3)',
-              transition: 'all 0.3s',
-              backdropFilter: 'blur(10px)'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.borderColor = '#FFD700';
-              e.currentTarget.style.boxShadow = '0 15px 30px rgba(255,215,0,0.15)';
+              e.target.style.background = '#FFD700';
+              e.target.style.color = '#000';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.borderColor = 'rgba(255,215,0,0.3)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}>
-              <div style={{ fontSize: '3rem', marginBottom: '15px' }}>{event.icon}</div>
-              <h3 style={{ color: '#FFD700', fontSize: '1.3rem', marginBottom: '10px' }}>{event.title}</h3>
-              <p style={{ color: '#DDD6B8', lineHeight: '1.7', fontSize: '0.95rem' }}>{event.description}</p>
-            </div>
-          ))}
+              e.target.style.background = 'transparent';
+              e.target.style.color = '#FFD700';
+            }}
+          >
+            ↑ {t('journey.backToTop', 'Back to Top')}
+          </button>
         </div>
-      </div>
 
-      {/* GODSPACE Section */}
-      <div style={{
-        maxWidth: '1000px',
-        margin: '0 auto 60px',
-        padding: '40px',
-        background: 'linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.02))',
-        borderRadius: '20px',
-        border: '3px solid #FFD700',
-        textAlign: 'center',
-        backdropFilter: 'blur(10px)'
-      }}>
-        <div style={{
-          fontSize: '3rem',
-          marginBottom: '20px',
-          letterSpacing: '4px',
-          fontWeight: 'bold',
-          background: 'linear-gradient(135deg, #FFD700, #f59e0b)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
-        }}>{godspaceMoment.title}</div>
-        <p style={{ color: '#DDD6B8', lineHeight: '1.9', fontSize: '1.05rem', marginBottom: '20px' }}>{godspaceMoment.description}</p>
-        <p style={{ color: '#FFD700', fontStyle: 'italic', fontSize: '0.95rem' }}>{godspaceMoment.scripture}</p>
       </div>
-
-      {/* The Reset Section */}
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto 60px',
-        padding: '40px',
-        background: 'linear-gradient(135deg, rgba(255,215,0,0.06), rgba(0,0,0,0.3))',
-        borderRadius: '20px',
-        border: '2px solid rgba(255,215,0,0.4)',
-        backdropFilter: 'blur(10px)'
-      }}>
-        <h2 style={{ color: '#FFD700', fontSize: '2rem', marginBottom: '20px', textAlign: 'center' }}>
-          {t('journey.reset.title', 'The Reset: How It Works')}
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '25px', marginTop: '30px' }}>
-          <div style={{ textAlign: 'center', padding: '20px' }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '15px' }}>🧬</div>
-            <h3 style={{ color: '#FFD700' }}>{t('journey.reset.stem', 'Stem Cell Activation')}</h3>
-            <p style={{ color: '#DDD6B8' }}>{t('journey.reset.stem.desc', 'During reset, autophagy triggers massive stem cell production. This is the rebirth—cells responsible for birth and regeneration of any damaged cells in your body.')}</p>
-          </div>
-          <div style={{ textAlign: 'center', padding: '20px' }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '15px' }}>🔄</div>
-            <h3 style={{ color: '#FFD700' }}>{t('journey.reset.cellular', 'Cellular Regeneration')}</h3>
-            <p style={{ color: '#DDD6B8' }}>{t('journey.reset.cellular.desc', 'Targeted damaged cells—those causing disease, pain, and illness—are corrected and perfected. Once corrected, the disease is no more.')}</p>
-          </div>
-          <div style={{ textAlign: 'center', padding: '20px' }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '15px' }}>⚡</div>
-            <h3 style={{ color: '#FFD700' }}>{t('journey.reset.frequency', 'Frequency Flow')}</h3>
-            <p style={{ color: '#DDD6B8' }}>{t('journey.reset.frequency.desc', 'When your system is cleared, energy and frequency flow freely. Ideas, imagination, creativity—they explode.')}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Science Citations Section with Return Links */}
-      <div style={{
-        maxWidth: '1000px',
-        margin: '0 auto 60px',
-        padding: '30px',
-        background: 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(0,0,0,0.2))',
-        borderRadius: '20px',
-        border: '2px solid rgba(99,102,241,0.4)',
-        backdropFilter: 'blur(10px)'
-      }}>
-        <h2 style={{ color: '#FFD700', fontSize: '1.8rem', marginBottom: '20px', textAlign: 'center' }}>
-          🔬 {t('journey.science.title', 'Scientific Validation')}
-        </h2>
-        <p style={{ color: '#DDD6B8', textAlign: 'center', marginBottom: '30px' }}>
-          {t('journey.science.subtitle', 'Peer-reviewed research supporting the mechanisms behind the reset:')}
-        </p>
-        <div style={{ display: 'grid', gap: '20px' }}>
-          {scienceCitations.map((citation, idx) => (
-            <div key={idx} style={{
-              padding: '15px',
-              background: 'rgba(99,102,241,0.05)',
-              borderRadius: '10px',
-              borderLeft: '4px solid #6366f1'
-            }}>
-              <p style={{ color: '#FFF', fontWeight: 'bold', marginBottom: '5px' }}>{citation.title}</p>
-              <p style={{ color: '#DDD6B8', fontSize: '0.85rem', marginBottom: '5px' }}>{citation.authors}</p>
-              <p style={{ color: '#FFD700', fontSize: '0.8rem', marginBottom: '10px' }}>{citation.journal} • {citation.year}</p>
-              <p style={{ color: '#DDD6B8', fontSize: '0.85rem', marginBottom: '10px' }}>{citation.summary}</p>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', flexWrap: 'wrap', gap: '10px' }}>
-                <a href={citation.link} target="_blank" rel="noopener noreferrer" style={{ color: '#8b5cf6', fontSize: '0.8rem' }}>
-                  {t('journey.science.view', 'View Original Study →')}
-                </a>
-                <Link to="/TheJourney" style={{ color: '#FFD700', fontSize: '0.75rem', textDecoration: 'none' }}>
-                  ← {t('journey.science.return', 'Return to Journey')}
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Key Milestones */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto 60px', padding: '0 20px' }}>
-        <h2 style={{ color: '#FFD700', fontSize: '2rem', textAlign: 'center', marginBottom: '40px' }}>
-          {t('journey.milestones.title', 'Key Milestones')}
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
-          <div style={{ textAlign: 'center', padding: '20px', background: 'rgba(255,215,0,0.05)', borderRadius: '15px', backdropFilter: 'blur(10px)' }}>
-            <div style={{ fontSize: '2rem', color: '#FFD700' }}>60</div>
-            <div style={{ color: '#DDD6B8' }}>{t('journey.milestones.lbs', 'Pounds Lost (First 21 Days)')}</div>
-          </div>
-          <div style={{ textAlign: 'center', padding: '20px', background: 'rgba(255,215,0,0.05)', borderRadius: '15px', backdropFilter: 'blur(10px)' }}>
-            <div style={{ fontSize: '2rem', color: '#FFD700' }}>4</div>
-            <div style={{ color: '#DDD6B8' }}>{t('journey.milestones.resets', 'Resets Completed in One Year')}</div>
-          </div>
-          <div style={{ textAlign: 'center', padding: '20px', background: 'rgba(255,215,0,0.05)', borderRadius: '15px', backdropFilter: 'blur(10px)' }}>
-            <div style={{ fontSize: '2rem', color: '#FFD700' }}>40</div>
-            <div style={{ color: '#DDD6B8' }}>{t('journey.milestones.days', 'Days - The Life-Changing Reset')}</div>
-          </div>
-          <div style={{ textAlign: 'center', padding: '20px', background: 'rgba(255,215,0,0.05)', borderRadius: '15px', backdropFilter: 'blur(10px)' }}>
-            <div style={{ fontSize: '2rem', color: '#FFD700' }}>100K+</div>
-            <div style={{ color: '#DDD6B8' }}>{t('journey.milestones.community', 'Community Members')}</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Image Gallery */}
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto 60px',
-        padding: '0 20px'
-      }}>
-        <h2 style={{ color: '#FFD700', fontSize: '2rem', textAlign: 'center', marginBottom: '40px' }}>
-          {t('journey.gallery.title', 'Visual Journey')}
-        </h2>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '20px'
-        }}>
-          <div style={{
-            borderRadius: '15px',
-            overflow: 'hidden',
-            border: '3px solid #FFD700',
-            height: '220px'
-          }}>
-            <img src="/images/Diving-in-St-Thomas.jpg" alt="Diving in St. Thomas" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </div>
-          <div style={{
-            borderRadius: '15px',
-            overflow: 'hidden',
-            border: '3px solid #FFD700',
-            height: '220px'
-          }}>
-            <img src="/images/Image 5-31-25 at 10.31 AM.jpg" alt="MAVJ Moment" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </div>
-          <div style={{
-            borderRadius: '15px',
-            overflow: 'hidden',
-            border: '3px solid #FFD700',
-            height: '220px'
-          }}>
-            <img src="/images/Image 5-31-25 at 12.48 PM.jpg" alt="MAVJ Moment" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </div>
-          <div style={{
-            borderRadius: '15px',
-            overflow: 'hidden',
-            border: '3px solid #FFD700',
-            height: '220px'
-          }}>
-            <img src="/images/Image 6-15-25 at 8.54 AM.jpg" alt="MAVJ Moment" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </div>
-        </div>
-      </div>
-
-      {/* Internal Navigation */}
-      <div style={{
-        maxWidth: '800px',
-        margin: '0 auto 40px',
-        padding: '30px',
-        background: 'rgba(255,215,0,0.05)',
-        borderRadius: '20px',
-        textAlign: 'center',
-        border: '2px solid rgba(255,215,0,0.2)'
-      }}>
-        <h3 style={{ color: '#FFD700', marginBottom: '20px' }}>{t('journey.navigation.title', 'Explore More')}</h3>
-        <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link to="/VibrationalIntelligence" style={{
-            padding: '10px 20px',
-            background: 'transparent',
-            border: '2px solid #6366f1',
-            color: '#6366f1',
-            textDecoration: 'none',
-            borderRadius: '30px',
-            fontSize: '0.9rem'
-          }}>🔮 {t('journey.navigation.vi', 'Vibrational Intelligence')}</Link>
-          <Link to="/MAVJDetox" style={{
-            padding: '10px 20px',
-            background: 'transparent',
-            border: '2px solid #10b981',
-            color: '#10b981',
-            textDecoration: 'none',
-            borderRadius: '30px',
-            fontSize: '0.9rem'
-          }}>💧 {t('journey.navigation.reset', 'Reset Protocol')}</Link>
-          <Link to="/AlignWithUs" style={{
-            padding: '10px 20px',
-            background: 'transparent',
-            border: '2px solid #f59e0b',
-            color: '#f59e0b',
-            textDecoration: 'none',
-            borderRadius: '30px',
-            fontSize: '0.9rem'
-          }}>🤝 {t('journey.navigation.align', 'Align With Us')}</Link>
-        </div>
-      </div>
-
-      {/* Call to Action */}
-      <div style={{
-        maxWidth: '800px',
-        margin: '0 auto 60px',
-        padding: '40px',
-        background: 'linear-gradient(135deg, #FFD700, #f59e0b)',
-        borderRadius: '20px',
-        textAlign: 'center'
-      }}>
-        <h2 style={{ color: '#000', fontSize: '2rem', marginBottom: '20px' }}>{t('journey.cta.title', 'Ready to Begin Your Reset?')}</h2>
-        <p style={{ color: '#000', fontSize: '1.1rem', marginBottom: '30px' }}>{t('journey.cta.desc', 'Your journey starts here. Join the MAVJ family and discover what your body can do when you reset, recalibrate, and regenerate.')}</p>
-        <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link to="/MAVJDetox" style={{
-            padding: '15px 35px',
-            background: '#000',
-            color: '#FFD700',
-            textDecoration: 'none',
-            borderRadius: '50px',
-            fontWeight: 'bold'
-          }}>{t('journey.cta.start', 'Start Your Reset →')}</Link>
-          <Link to="/AlignWithUs" style={{
-            padding: '15px 35px',
-            background: 'transparent',
-            border: '2px solid #000',
-            color: '#000',
-            textDecoration: 'none',
-            borderRadius: '50px',
-            fontWeight: 'bold'
-          }}>{t('journey.cta.join', 'Join the Community →')}</Link>
-        </div>
-      </div>
-
-      {/* Back to Top Button */}
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          style={{
-            padding: '12px 30px',
-            background: 'transparent',
-            border: '2px solid #FFD700',
-            color: '#FFD700',
-            borderRadius: '40px',
-            cursor: 'pointer',
-            fontSize: '0.9rem',
-            fontWeight: 'bold',
-            transition: 'all 0.3s'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = '#FFD700';
-            e.target.style.color = '#000';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = 'transparent';
-            e.target.style.color = '#FFD700';
-          }}
-        >
-          ↑ {t('journey.backToTop', 'Back to Top')}
-        </button>
-      </div>
-
     </PageLayout>
   );
 };

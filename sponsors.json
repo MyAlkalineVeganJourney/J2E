@@ -1,0 +1,52 @@
+{
+  "last_updated": "2026-06-17",
+  "sectors": {
+    "scientific_coalition": [
+      {
+        "company": "Dr. Peter Etnoyer",
+        "intelligence_gathering": {
+          "primary_contact_name": "NOAA/NCCOS",
+          "primary_contact_email": "peter.etnoyer@noaa.gov"
+        },
+        "status": "Invitation Sent"
+      },
+      {
+        "company": "Dr. Ben Williams",
+        "intelligence_gathering": {
+          "primary_contact_name": "Google DeepMind",
+          "primary_contact_email": "ben.williams@research.google.com"
+        },
+        "status": "Follow-up Required"
+      },
+      {
+        "company": "Dr. Stuart Sandin",
+        "intelligence_gathering": {
+          "primary_contact_name": "UCSD/Scripps",
+          "primary_contact_email": "ssandin@ucsd.edu"
+        },
+        "status": "Invitation Sent"
+      },
+      {
+        "company": "Prof. Steve Simpson",
+        "intelligence_gathering": {
+          "primary_contact_name": "Univ. of Bristol",
+          "primary_contact_email": "s.simpson@bristol.ac.uk"
+        },
+        "status": "Follow-up Required"
+      },
+      {
+        "company": "Dr. Sally Holbrook",
+        "intelligence_gathering": {
+          "primary_contact_name": "UCSB",
+          "primary_contact_email": "holbrook@lifesci.ucsb.edu"
+        },
+        "status": "Invitation Sent"
+      }
+    ],
+    "heavy_infrastructure": [],
+    "tech_and_digital": []
+  },
+  "reporting_dashboard": {
+    "total_sponsors_tracked": 5
+  }
+}
